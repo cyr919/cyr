@@ -1,0 +1,8 @@
+[2020-02-13 14:44:21.186] [DESKTOP-58HACMN] [main] Log4jTestMain [INFO] +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
+[2020-02-13 14:44:21.214] [DESKTOP-58HACMN] [main] Log4jTestMain [INFO] i :: 0 
+[2020-02-13 14:44:21.215] [DESKTOP-58HACMN] [main] Log4jTestMain [TRACE] 로그 찍기 : trace 
+[2020-02-13 14:44:21.216] [DESKTOP-58HACMN] [main] Log4jTestMain [DEBUG] 로그 찍기 : debug 
+[2020-02-13 14:44:21.216] [DESKTOP-58HACMN] [main] Log4jTestMain [INFO] 로그 찍기 : info 
+[2020-02-13 14:44:21.217] [DESKTOP-58HACMN] [main] Log4jTestMain [WARN] 로그 찍기 : warn 
+[2020-02-13 14:44:21.218] [DESKTOP-58HACMN] [main] Log4jTestMain [ERROR] 로그 찍기 : error 
+[2020-02-13 14:44:21.219] [DESKTOP-58HACMN] [main] Log4jTestMain [FATAL] 로그 찍기 : fatal 

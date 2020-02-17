@@ -1,0 +1,11 @@
+[2020-02-14 14:13:52.493] [DESKTOP-58HACMN] [main] RabbitmqSimplestSending [ERROR] com.rabbitmq.client.AuthenticationFailureException: ACCESS_REFUSED - Login was refused using authentication mechanism PLAIN. For details see the broker logfile. 
+[2020-02-14 17:13:56.640] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqSimplestReceiving [INFO] Hello World! 
+[2020-02-14 17:13:56.660] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqSimplestReceiving [INFO] Hello World! 
+[2020-02-14 17:32:55.794] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqSimplestReceiving [INFO] Hello World! 
+[2020-02-14 17:32:58.988] [DESKTOP-58HACMN] [pool-1-thread-6] RabbitmqSimplestReceiving [INFO] Hello World! 
+[2020-02-14 17:33:06.104] [DESKTOP-58HACMN] [pool-1-thread-7] RabbitmqSimplestReceiving [INFO] Hello World! 
+[2020-02-17 09:55:30.007] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqSimplestReceiving [INFO] Hello World! 
+[2020-02-17 09:58:01.575] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqSimplestReceiving [INFO] Hello World! 
+[2020-02-17 09:58:18.001] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqSimplestReceiving [INFO] Hello World! 
+[2020-02-17 09:59:17.968] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqSimplestReceiving [INFO] Hello World! 
+[2020-02-17 10:01:06.590] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqSimplestReceiving [INFO] Hello World! 
