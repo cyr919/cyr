@@ -4,6 +4,20 @@ ibus-hangul 설치 후 설정 추가
 
 yum -y install ibus-hangul
 
+
+--------------------------------------------------------------------------------
+
+https://centos.pkgs.org/8/centos-appstream-x86_64/libhangul-0.1.0-16.el8.x86_64.rpm.html
+https://centos.pkgs.org/8/centos-appstream-x86_64/ibus-hangul-1.5.1-4.el8.x86_64.rpm.html
+
+- root 계정으로 실행
+
+아래 순서로 설치
+rpm -ivh libhangul-0.1.0-16.el8.x86_64.rpm
+rpm -ivh ibus-hangul-1.5.1-4.el8.x86_64.rpm
+
+설치 후 reboot
+
 --------------------------------------------------------------------------------
 https://wnw1005.tistory.com/279
 
