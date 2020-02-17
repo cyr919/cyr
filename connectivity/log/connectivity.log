@@ -9,3 +9,27 @@
 [2020-02-17 09:58:18.001] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqSimplestReceiving [INFO] Hello World! 
 [2020-02-17 09:59:17.968] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqSimplestReceiving [INFO] Hello World! 
 [2020-02-17 10:01:06.590] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqSimplestReceiving [INFO] Hello World! 
+[2020-02-17 17:40:37.038] [DESKTOP-58HACMN] [main] RabbitmqSimplestSending [INFO]  [x] Sent 'Hello World!' 
+[2020-02-17 17:41:30.409] [DESKTOP-58HACMN] [main] RabbitmqSimplestReceiving [INFO]  [*] Waiting for messages. To exit press CTRL+C 
+[2020-02-17 17:41:30.440] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqSimplestReceiving [INFO]  [x] Received 'Hello World!' 
+[2020-02-17 17:41:51.167] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqSimplestReceiving [INFO]  [x] Received 'Hello World!' 
+[2020-02-17 17:41:51.166] [DESKTOP-58HACMN] [main] RabbitmqSimplestSending [INFO]  [x] Sent 'Hello World!' 
+[2020-02-17 17:44:48.096] [DESKTOP-58HACMN] [main] RabbitmqSimplestSending [INFO]  [x] Sent 'Hello World!' 
+[2020-02-17 17:44:55.409] [DESKTOP-58HACMN] [main] RabbitmqSimplestReceiving [INFO]  [*] Waiting for messages. To exit press CTRL+C 
+[2020-02-17 17:44:55.441] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqSimplestReceiving [INFO]  [x] Received 'Hello World!' 
+[2020-02-17 17:51:10.026] [DESKTOP-58HACMN] [main] RabbitmqWorkQueuesNewTask1_2 [INFO]  [x] Sent 'Hello World!' 
+[2020-02-17 17:51:16.775] [DESKTOP-58HACMN] [main] RabbitmqWorkQueuesWorker1 [INFO]  [*] Waiting for messages. To exit press CTRL+C 
+[2020-02-17 17:51:16.814] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqWorkQueuesWorker1 [INFO]  [x] Received 'Hello World!' 
+[2020-02-17 17:51:16.815] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqWorkQueuesWorker1 [INFO] Hello World! 
+[2020-02-17 17:51:16.816] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqWorkQueuesWorker1 [INFO]  [x] Done 
+[2020-02-17 17:53:10.272] [DESKTOP-58HACMN] [main] RabbitmqWorkQueuesNewTask1_2 [INFO]  [x] Sent 'Hello World!' 
+[2020-02-17 17:53:15.863] [DESKTOP-58HACMN] [main] RabbitmqWorkQueuesWorker1 [INFO]  [*] Waiting for messages. To exit press CTRL+C 
+[2020-02-17 17:53:15.892] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqWorkQueuesWorker1 [INFO]  [x] Received 'Hello World!' 
+[2020-02-17 17:53:15.893] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqWorkQueuesWorker1 [INFO] doWork :: Hello World! 
+[2020-02-17 17:53:15.894] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqWorkQueuesWorker1 [INFO]  [x] Done 
+[2020-02-17 17:53:29.872] [DESKTOP-58HACMN] [main] RabbitmqWorkQueuesWorker1 [INFO]  [*] Waiting for messages. To exit press CTRL+C 
+[2020-02-17 17:53:58.886] [DESKTOP-58HACMN] [main] RabbitmqWorkQueuesWorker1 [INFO]  [*] Waiting for messages. To exit press CTRL+C 
+[2020-02-17 17:54:18.503] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqWorkQueuesWorker1 [INFO]  [x] Received 'Hello World!' 
+[2020-02-17 17:54:18.505] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqWorkQueuesWorker1 [INFO] doWork :: Hello World! 
+[2020-02-17 17:54:18.506] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqWorkQueuesWorker1 [INFO]  [x] Done 
+[2020-02-17 17:54:18.503] [DESKTOP-58HACMN] [main] RabbitmqWorkQueuesNewTask1_2 [INFO]  [x] Sent 'Hello World!' 

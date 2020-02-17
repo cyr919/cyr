@@ -1,6 +1,8 @@
 
 package com.demo.rabbitmq ;
 
+import java.io.IOException ;
+
 import org.apache.log4j.Logger ;
 
 import com.rabbitmq.client.Channel ;
@@ -34,6 +36,10 @@ public class RabbitmqSimplestSending
 			channel.basicPublish( "" , QUEUE_NAME , null , message.getBytes( ) ) ;
 			logger.info( " [x] Sent '" + message + "'" ) ;
 
+		}
+		catch ( IOException e )
+		{
+			logger.error( e ) ;
 		}
 		catch ( Exception e )
 		{

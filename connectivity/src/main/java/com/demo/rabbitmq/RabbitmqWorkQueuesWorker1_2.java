@@ -13,10 +13,10 @@ import com.rabbitmq.client.Consumer ;
 import com.rabbitmq.client.DefaultConsumer ;
 import com.rabbitmq.client.Envelope ;
 
-public class RabbitmqWorkQueuesWorker2
+public class RabbitmqWorkQueuesWorker1_2
 {
 
-	static Logger logger = Logger.getLogger( RabbitmqWorkQueuesWorker2.class ) ;
+	static Logger logger = Logger.getLogger( RabbitmqWorkQueuesWorker1_2.class ) ;
 
 	private final static String QUEUE_NAME = "hello" ;
 

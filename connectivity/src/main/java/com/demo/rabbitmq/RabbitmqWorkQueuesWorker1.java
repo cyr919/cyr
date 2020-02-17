@@ -72,10 +72,9 @@ public class RabbitmqWorkQueuesWorker1
 
 	}
 
-	@SuppressWarnings( "unused" )
 	private static void doWork( String task ) throws InterruptedException
 	{
-		logger.info( task ) ;
+		logger.info( "doWork :: " + task ) ;
 
 		for ( char ch : task.toCharArray( ) )
 		{

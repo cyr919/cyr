@@ -20,7 +20,7 @@ public class RabbitmqSimplestReceiving
 
 	private final static String QUEUE_NAME = "hello" ;
 
-	public static void main( String[ ] args )
+	public static void main( String[ ] args ) throws InterruptedException
 	{
 		// TODO Auto-generated method stub
 
@@ -51,6 +51,10 @@ public class RabbitmqSimplestReceiving
 				}
 			} ;
 			channel.basicConsume( QUEUE_NAME , true , consumer ) ;
+		}
+		catch ( IOException e )
+		{
+			logger.error( e ) ;
 		}
 		catch ( Exception e )
 		{

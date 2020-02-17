@@ -7,6 +7,14 @@ import com.rabbitmq.client.Channel ;
 import com.rabbitmq.client.Connection ;
 import com.rabbitmq.client.ConnectionFactory ;
 
+/**
+ * com.demo.rabbitmq.RabbitmqWorkQueuesNewTask1_2.java
+ * <pre>
+ * http://previous.rabbitmq.com/v3_5_7/tutorials/tutorial-two-java.html
+ * </pre>
+ * @author cyr
+ * @Date 2020. 2. 17.
+ */
 public class RabbitmqWorkQueuesNewTask1_2
 {
 
