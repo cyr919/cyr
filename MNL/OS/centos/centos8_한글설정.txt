@@ -1,0 +1,69 @@
+https://wnw1005.tistory.com/279
+
+ibus-hangul 설치 후 설정 추가
+
+yum -y install ibus-hangul
+
+--------------------------------------------------------------------------------
+https://wnw1005.tistory.com/279
+
+https://sunyzero.tistory.com/253
+http://interwoventheories.blogspot.com/2019/10/centos8.html
+https://blog.naver.com/PostView.nhn?blogId=teja&logNo=221668277416&categoryNo=0&parentCategoryNo=0&viewDate=&currentPage=1&postListTopCurrentPage=1&from=postView
+
+
+
+--------------------------------------------------------------------------------
+
+
+
+
+yum -y install ibus-hangul
+
+
+[root@centos8-1-dev00 ~]# yum -y install ibus-hangul
+CentOS-8 - AppStream                                                            2.7 kB/s | 4.3 kB     00:01
+CentOS-8 - Base                                                                 4.4 kB/s | 3.8 kB     00:00
+CentOS-8 - Extras                                                               1.7 kB/s | 1.5 kB     00:00
+Extra Packages for Enterprise Linux Modular 8 - x86_64                          6.8 kB/s | 9.4 kB     00:01
+Extra Packages for Enterprise Linux 8 - x86_64                                  8.2 kB/s | 7.7 kB     00:00
+Extra Packages for Enterprise Linux 8 - x86_64                                  565 kB/s | 5.8 MB     00:10
+MongoDB Repository                                                              1.9 kB/s | 2.5 kB     00:01
+Dependencies resolved.
+================================================================================================================
+ Package                    Architecture          Version                        Repository                Size
+================================================================================================================
+Installing:
+ ibus-hangul                x86_64                1.5.1-4.el8                    AppStream                 75 k
+Installing dependencies:
+ libhangul                  x86_64                0.1.0-16.el8                   AppStream                2.1 M
+
+Transaction Summary
+================================================================================================================
+설치  2 Packages
+
+Total download size: 2.2 M
+Installed size: 6.5 M
+패키지 다운로드중:
+(1/2): ibus-hangul-1.5.1-4.el8.x86_64.rpm                                        77 kB/s |  75 kB     00:00
+(2/2): libhangul-0.1.0-16.el8.x86_64.rpm                                        115 kB/s | 2.1 MB     00:18
+----------------------------------------------------------------------------------------------------------------
+합계                                                                            110 kB/s | 2.2 MB     00:20
+트랜잭션 점검 실행 중
+트랜잭션 검사가 성공했습니다.
+트랜잭션 테스트 실행 중
+트랜잭션 테스트가 완료되었습니다.
+거래 실행 중
+  준비 중입니다  :                                                                                          1/1
+  Installing     : libhangul-0.1.0-16.el8.x86_64                                                            1/2
+  스크립틀릿 실행: libhangul-0.1.0-16.el8.x86_64                                                            1/2
+  Installing     : ibus-hangul-1.5.1-4.el8.x86_64                                                           2/2
+  스크립틀릿 실행: ibus-hangul-1.5.1-4.el8.x86_64                                                           2/2
+  확인 중        : ibus-hangul-1.5.1-4.el8.x86_64                                                           1/2
+  확인 중        : libhangul-0.1.0-16.el8.x86_64                                                            2/2
+
+설치됨:
+  ibus-hangul-1.5.1-4.el8.x86_64                          libhangul-0.1.0-16.el8.x86_64
+
+완료되었습니다!
+[root@centos8-1-dev00 ~]#
