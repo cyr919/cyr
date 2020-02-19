@@ -33,3 +33,248 @@
 [2020-02-17 17:54:18.505] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqWorkQueuesWorker1 [INFO] doWork :: Hello World! 
 [2020-02-17 17:54:18.506] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqWorkQueuesWorker1 [INFO]  [x] Done 
 [2020-02-17 17:54:18.503] [DESKTOP-58HACMN] [main] RabbitmqWorkQueuesNewTask1_2 [INFO]  [x] Sent 'Hello World!' 
+[2020-02-17 18:05:15.641] [DESKTOP-58HACMN] [main] RabbitmqWorkQueuesWorker1_2 [INFO]  [*] Waiting for messages. To exit press CTRL+C 
+[2020-02-17 18:05:38.265] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqWorkQueuesWorker1_2 [INFO]  [x] Received 'Hello World!' 
+[2020-02-17 18:05:38.267] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqWorkQueuesWorker1_2 [INFO] Hello World! 
+[2020-02-17 18:05:38.274] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqWorkQueuesWorker1_2 [INFO]  [x] Done 
+[2020-02-17 18:05:38.226] [DESKTOP-58HACMN] [main] RabbitmqWorkQueuesNewTask1_2 [INFO]  [x] Sent 'Hello World!' 
+[2020-02-17 18:05:41.469] [DESKTOP-58HACMN] [main] RabbitmqWorkQueuesNewTask1_2 [INFO]  [x] Sent 'Hello World!' 
+[2020-02-17 18:05:44.293] [DESKTOP-58HACMN] [main] RabbitmqWorkQueuesNewTask1_2 [INFO]  [x] Sent 'Hello World!' 
+[2020-02-17 18:05:47.202] [DESKTOP-58HACMN] [main] RabbitmqWorkQueuesNewTask1_2 [INFO]  [x] Sent 'Hello World!' 
+[2020-02-17 18:05:50.343] [DESKTOP-58HACMN] [main] RabbitmqWorkQueuesNewTask1_2 [INFO]  [x] Sent 'Hello World!' 
+[2020-02-17 18:09:53.560] [DESKTOP-58HACMN] [main] RabbitmqWorkQueuesWorker1 [INFO]  [*] Waiting for messages. To exit press CTRL+C 
+[2020-02-17 18:09:53.591] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqWorkQueuesWorker1 [INFO]  [x] Received 'Hello World!' 
+[2020-02-17 18:09:53.592] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqWorkQueuesWorker1 [INFO] doWork :: Hello World! 
+[2020-02-17 18:09:53.592] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqWorkQueuesWorker1 [INFO]  [x] Done 
+[2020-02-17 18:09:53.593] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqWorkQueuesWorker1 [INFO]  [x] Received 'Hello World!' 
+[2020-02-17 18:09:53.593] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqWorkQueuesWorker1 [INFO] doWork :: Hello World! 
+[2020-02-17 18:09:53.594] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqWorkQueuesWorker1 [INFO]  [x] Done 
+[2020-02-17 18:09:53.595] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqWorkQueuesWorker1 [INFO]  [x] Received 'Hello World!' 
+[2020-02-17 18:09:53.595] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqWorkQueuesWorker1 [INFO] doWork :: Hello World! 
+[2020-02-17 18:09:53.596] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqWorkQueuesWorker1 [INFO]  [x] Done 
+[2020-02-17 18:09:53.596] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqWorkQueuesWorker1 [INFO]  [x] Received 'Hello World!' 
+[2020-02-17 18:09:53.597] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqWorkQueuesWorker1 [INFO] doWork :: Hello World! 
+[2020-02-17 18:09:53.597] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqWorkQueuesWorker1 [INFO]  [x] Done 
+[2020-02-17 18:10:18.545] [DESKTOP-58HACMN] [main] RabbitmqWorkQueuesWorker1 [INFO]  [*] Waiting for messages. To exit press CTRL+C 
+[2020-02-17 18:10:25.080] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqWorkQueuesWorker1 [INFO]  [x] Received 'Hello World!' 
+[2020-02-17 18:10:25.083] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqWorkQueuesWorker1 [INFO] doWork :: Hello World! 
+[2020-02-17 18:10:25.084] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqWorkQueuesWorker1 [INFO]  [x] Done 
+[2020-02-17 18:10:25.078] [DESKTOP-58HACMN] [main] RabbitmqWorkQueuesNewTask1_2 [INFO]  [x] Sent 'Hello World!' 
+[2020-02-17 18:10:27.295] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqWorkQueuesWorker1 [INFO]  [x] Received 'Hello World!' 
+[2020-02-17 18:10:27.295] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqWorkQueuesWorker1 [INFO] doWork :: Hello World! 
+[2020-02-17 18:10:27.296] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqWorkQueuesWorker1 [INFO]  [x] Done 
+[2020-02-17 18:10:27.294] [DESKTOP-58HACMN] [main] RabbitmqWorkQueuesNewTask1_2 [INFO]  [x] Sent 'Hello World!' 
+[2020-02-17 18:10:30.675] [DESKTOP-58HACMN] [pool-1-thread-6] RabbitmqWorkQueuesWorker1 [INFO]  [x] Received 'Hello World!' 
+[2020-02-17 18:10:30.677] [DESKTOP-58HACMN] [pool-1-thread-6] RabbitmqWorkQueuesWorker1 [INFO] doWork :: Hello World! 
+[2020-02-17 18:10:30.678] [DESKTOP-58HACMN] [pool-1-thread-6] RabbitmqWorkQueuesWorker1 [INFO]  [x] Done 
+[2020-02-17 18:10:30.675] [DESKTOP-58HACMN] [main] RabbitmqWorkQueuesNewTask1_2 [INFO]  [x] Sent 'Hello World!' 
+[2020-02-17 18:10:33.666] [DESKTOP-58HACMN] [pool-1-thread-7] RabbitmqWorkQueuesWorker1 [INFO]  [x] Received 'Hello World!' 
+[2020-02-17 18:10:33.667] [DESKTOP-58HACMN] [pool-1-thread-7] RabbitmqWorkQueuesWorker1 [INFO] doWork :: Hello World! 
+[2020-02-17 18:10:33.667] [DESKTOP-58HACMN] [pool-1-thread-7] RabbitmqWorkQueuesWorker1 [INFO]  [x] Done 
+[2020-02-17 18:10:33.665] [DESKTOP-58HACMN] [main] RabbitmqWorkQueuesNewTask1_2 [INFO]  [x] Sent 'Hello World!' 
+[2020-02-17 18:10:37.147] [DESKTOP-58HACMN] [pool-1-thread-8] RabbitmqWorkQueuesWorker1 [INFO]  [x] Received 'Hello World!' 
+[2020-02-17 18:10:37.149] [DESKTOP-58HACMN] [pool-1-thread-8] RabbitmqWorkQueuesWorker1 [INFO] doWork :: Hello World! 
+[2020-02-17 18:10:37.150] [DESKTOP-58HACMN] [pool-1-thread-8] RabbitmqWorkQueuesWorker1 [INFO]  [x] Done 
+[2020-02-17 18:10:37.146] [DESKTOP-58HACMN] [main] RabbitmqWorkQueuesNewTask1_2 [INFO]  [x] Sent 'Hello World!' 
+[2020-02-17 18:35:54.559] [DESKTOP-58HACMN] [main] RabbitmqWorkQueuesWorker2 [INFO]  [*] Waiting for messages. To exit press CTRL+C 
+[2020-02-17 18:36:01.239] [DESKTOP-58HACMN] [main] RabbitmqWorkQueuesWorker2 [INFO]  [*] Waiting for messages. To exit press CTRL+C 
+[2020-02-17 18:36:36.517] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqWorkQueuesWorker2 [INFO]  [x] Received 'Hello World!' 
+[2020-02-17 18:36:36.524] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqWorkQueuesWorker2 [INFO] Hello World! 
+[2020-02-17 18:36:36.524] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqWorkQueuesWorker2 [INFO]  [x] Done 
+[2020-02-17 18:36:36.507] [DESKTOP-58HACMN] [main] RabbitmqWorkQueuesNewTask2 [INFO]  [x] Sent 'Hello World!' 
+[2020-02-17 18:36:38.597] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqWorkQueuesWorker2 [INFO]  [x] Received 'Hello World!' 
+[2020-02-17 18:36:38.599] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqWorkQueuesWorker2 [INFO] Hello World! 
+[2020-02-17 18:36:38.600] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqWorkQueuesWorker2 [INFO]  [x] Done 
+[2020-02-17 18:36:38.593] [DESKTOP-58HACMN] [main] RabbitmqWorkQueuesNewTask2 [INFO]  [x] Sent 'Hello World!' 
+[2020-02-17 18:36:41.031] [DESKTOP-58HACMN] [main] RabbitmqWorkQueuesNewTask2 [INFO]  [x] Sent 'Hello World!' 
+[2020-02-17 18:36:46.260] [DESKTOP-58HACMN] [main] RabbitmqWorkQueuesNewTask2 [INFO]  [x] Sent 'Hello World!' 
+[2020-02-17 18:36:49.190] [DESKTOP-58HACMN] [main] RabbitmqWorkQueuesNewTask2 [INFO]  [x] Sent 'Hello World!' 
+[2020-02-17 18:36:52.187] [DESKTOP-58HACMN] [main] RabbitmqWorkQueuesNewTask2 [INFO]  [x] Sent 'Hello World!' 
+[2020-02-17 18:36:54.949] [DESKTOP-58HACMN] [main] RabbitmqWorkQueuesNewTask2 [INFO]  [x] Sent 'Hello World!' 
+[2020-02-17 18:44:50.794] [DESKTOP-58HACMN] [main] RabbitmqWorkQueuesWorker2 [INFO]  [*] Waiting for messages. To exit press CTRL+C 
+[2020-02-17 18:44:50.825] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqWorkQueuesWorker2 [INFO]  [x] Received 'Hello World!' 
+[2020-02-17 18:44:50.826] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqWorkQueuesWorker2 [INFO] Hello World! 
+[2020-02-17 18:44:50.826] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqWorkQueuesWorker2 [INFO]  [x] Done 
+[2020-02-17 18:44:50.827] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqWorkQueuesWorker2 [INFO]  [x] Received 'Hello World!' 
+[2020-02-17 18:44:50.828] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqWorkQueuesWorker2 [INFO] Hello World! 
+[2020-02-17 18:44:50.829] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqWorkQueuesWorker2 [INFO]  [x] Done 
+[2020-02-17 18:44:50.831] [DESKTOP-58HACMN] [pool-1-thread-6] RabbitmqWorkQueuesWorker2 [INFO]  [x] Received 'Hello World!' 
+[2020-02-17 18:44:50.831] [DESKTOP-58HACMN] [pool-1-thread-6] RabbitmqWorkQueuesWorker2 [INFO] Hello World! 
+[2020-02-17 18:44:50.832] [DESKTOP-58HACMN] [pool-1-thread-6] RabbitmqWorkQueuesWorker2 [INFO]  [x] Done 
+[2020-02-17 18:44:50.834] [DESKTOP-58HACMN] [pool-1-thread-7] RabbitmqWorkQueuesWorker2 [INFO]  [x] Received 'Hello World!' 
+[2020-02-17 18:44:50.835] [DESKTOP-58HACMN] [pool-1-thread-7] RabbitmqWorkQueuesWorker2 [INFO] Hello World! 
+[2020-02-17 18:44:50.835] [DESKTOP-58HACMN] [pool-1-thread-7] RabbitmqWorkQueuesWorker2 [INFO]  [x] Done 
+[2020-02-17 18:44:50.837] [DESKTOP-58HACMN] [pool-1-thread-8] RabbitmqWorkQueuesWorker2 [INFO]  [x] Received 'Hello World!' 
+[2020-02-17 18:44:50.838] [DESKTOP-58HACMN] [pool-1-thread-8] RabbitmqWorkQueuesWorker2 [INFO] Hello World! 
+[2020-02-17 18:44:50.839] [DESKTOP-58HACMN] [pool-1-thread-8] RabbitmqWorkQueuesWorker2 [INFO]  [x] Done 
+[2020-02-17 18:45:01.856] [DESKTOP-58HACMN] [main] RabbitmqWorkQueuesWorker2 [INFO]  [*] Waiting for messages. To exit press CTRL+C 
+[2020-02-17 18:45:05.575] [DESKTOP-58HACMN] [main] RabbitmqWorkQueuesWorker2 [INFO]  [*] Waiting for messages. To exit press CTRL+C 
+[2020-02-17 18:45:10.602] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqWorkQueuesWorker2 [INFO]  [x] Received 'Hello World!' 
+[2020-02-17 18:45:10.604] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqWorkQueuesWorker2 [INFO] Hello World! 
+[2020-02-17 18:45:10.606] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqWorkQueuesWorker2 [INFO]  [x] Done 
+[2020-02-17 18:45:10.596] [DESKTOP-58HACMN] [main] RabbitmqWorkQueuesNewTask2 [INFO]  [x] Sent 'Hello World!' 
+[2020-02-17 18:45:13.382] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqWorkQueuesWorker2 [INFO]  [x] Received 'Hello World!' 
+[2020-02-17 18:45:13.384] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqWorkQueuesWorker2 [INFO] Hello World! 
+[2020-02-17 18:45:13.384] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqWorkQueuesWorker2 [INFO]  [x] Done 
+[2020-02-17 18:45:13.378] [DESKTOP-58HACMN] [main] RabbitmqWorkQueuesNewTask2 [INFO]  [x] Sent 'Hello World!' 
+[2020-02-17 18:45:16.241] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqWorkQueuesWorker2 [INFO]  [x] Received 'Hello World!' 
+[2020-02-17 18:45:16.242] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqWorkQueuesWorker2 [INFO] Hello World! 
+[2020-02-17 18:45:16.243] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqWorkQueuesWorker2 [INFO]  [x] Done 
+[2020-02-17 18:45:16.241] [DESKTOP-58HACMN] [main] RabbitmqWorkQueuesNewTask2 [INFO]  [x] Sent 'Hello World!' 
+[2020-02-17 18:45:18.305] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqWorkQueuesWorker2 [INFO]  [x] Received 'Hello World!' 
+[2020-02-17 18:45:18.306] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqWorkQueuesWorker2 [INFO] Hello World! 
+[2020-02-17 18:45:18.307] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqWorkQueuesWorker2 [INFO]  [x] Done 
+[2020-02-17 18:45:18.305] [DESKTOP-58HACMN] [main] RabbitmqWorkQueuesNewTask2 [INFO]  [x] Sent 'Hello World!' 
+[2020-02-17 18:45:20.241] [DESKTOP-58HACMN] [pool-1-thread-6] RabbitmqWorkQueuesWorker2 [INFO]  [x] Received 'Hello World!' 
+[2020-02-17 18:45:20.242] [DESKTOP-58HACMN] [pool-1-thread-6] RabbitmqWorkQueuesWorker2 [INFO] Hello World! 
+[2020-02-17 18:45:20.243] [DESKTOP-58HACMN] [pool-1-thread-6] RabbitmqWorkQueuesWorker2 [INFO]  [x] Done 
+[2020-02-17 18:45:20.240] [DESKTOP-58HACMN] [main] RabbitmqWorkQueuesNewTask2 [INFO]  [x] Sent 'Hello World!' 
+[2020-02-17 18:45:22.796] [DESKTOP-58HACMN] [pool-1-thread-6] RabbitmqWorkQueuesWorker2 [INFO]  [x] Received 'Hello World!' 
+[2020-02-17 18:45:22.797] [DESKTOP-58HACMN] [pool-1-thread-6] RabbitmqWorkQueuesWorker2 [INFO] Hello World! 
+[2020-02-17 18:45:22.798] [DESKTOP-58HACMN] [pool-1-thread-6] RabbitmqWorkQueuesWorker2 [INFO]  [x] Done 
+[2020-02-17 18:45:22.796] [DESKTOP-58HACMN] [main] RabbitmqWorkQueuesNewTask2 [INFO]  [x] Sent 'Hello World!' 
+[2020-02-17 18:45:54.679] [DESKTOP-58HACMN] [main] RabbitmqWorkQueuesWorker2 [INFO]  [*] Waiting for messages. To exit press CTRL+C 
+[2020-02-17 18:46:04.051] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqWorkQueuesWorker2 [INFO]  [x] Received 'Hello World!' 
+[2020-02-17 18:46:04.052] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqWorkQueuesWorker2 [INFO] Hello World! 
+[2020-02-17 18:46:04.053] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqWorkQueuesWorker2 [INFO]  [x] Done 
+[2020-02-17 18:46:04.047] [DESKTOP-58HACMN] [main] RabbitmqWorkQueuesNewTask2 [INFO]  [x] Sent 'Hello World!' 
+[2020-02-17 18:46:06.957] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqWorkQueuesWorker2 [INFO]  [x] Received 'Hello World!' 
+[2020-02-17 18:46:06.958] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqWorkQueuesWorker2 [INFO] Hello World! 
+[2020-02-17 18:46:06.960] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqWorkQueuesWorker2 [INFO]  [x] Done 
+[2020-02-17 18:46:06.956] [DESKTOP-58HACMN] [main] RabbitmqWorkQueuesNewTask2 [INFO]  [x] Sent 'Hello World!' 
+[2020-02-17 18:46:10.209] [DESKTOP-58HACMN] [pool-1-thread-6] RabbitmqWorkQueuesWorker2 [INFO]  [x] Received 'Hello World!' 
+[2020-02-17 18:46:10.211] [DESKTOP-58HACMN] [pool-1-thread-6] RabbitmqWorkQueuesWorker2 [INFO] Hello World! 
+[2020-02-17 18:46:10.212] [DESKTOP-58HACMN] [pool-1-thread-6] RabbitmqWorkQueuesWorker2 [INFO]  [x] Done 
+[2020-02-17 18:46:10.209] [DESKTOP-58HACMN] [main] RabbitmqWorkQueuesNewTask2 [INFO]  [x] Sent 'Hello World!' 
+[2020-02-19 13:40:15.167] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] MainThread01 :: i :: 1 
+[2020-02-19 13:40:16.201] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] MainThread01 :: i :: 1 
+[2020-02-19 13:40:17.204] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] MainThread01 :: i :: 1 
+[2020-02-19 13:40:18.209] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] MainThread01 :: i :: 1 
+[2020-02-19 13:40:19.213] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] MainThread01 :: i :: 1 
+[2020-02-19 13:40:20.218] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] MainThread01 :: i :: 1 
+[2020-02-19 13:40:21.224] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] MainThread01 :: i :: 1 
+[2020-02-19 13:40:22.224] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] MainThread01 :: i :: 1 
+[2020-02-19 13:40:23.226] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] MainThread01 :: i :: 1 
+[2020-02-19 13:40:24.231] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] MainThread01 :: i :: 1 
+[2020-02-19 13:44:19.721] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] MainThread01 :: i :: 0 
+[2020-02-19 13:44:19.749] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] CheckParam01 :: MainThread01 실행 
+[2020-02-19 13:44:20.750] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] MainThread01 :: i :: 1 
+[2020-02-19 13:44:20.753] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] CheckParam01 :: MainThread01 실행 
+[2020-02-19 13:44:21.756] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] MainThread01 :: i :: 2 
+[2020-02-19 13:44:21.759] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] CheckParam01 :: MainThread01 실행 
+[2020-02-19 13:44:22.763] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] MainThread01 :: i :: 3 
+[2020-02-19 13:44:22.767] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] CheckParam01 :: MainThread01 실행 
+[2020-02-19 13:44:23.772] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] MainThread01 :: i :: 4 
+[2020-02-19 13:44:23.774] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] CheckParam01 :: MainThread01 실행 
+[2020-02-19 13:44:24.776] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] MainThread01 :: i :: 5 
+[2020-02-19 13:44:24.782] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] CheckParam01 :: MainThread01 실행 
+[2020-02-19 13:44:25.785] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] MainThread01 :: i :: 6 
+[2020-02-19 13:44:25.788] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] CheckParam01 :: MainThread01 실행 
+[2020-02-19 13:44:26.793] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] MainThread01 :: i :: 7 
+[2020-02-19 13:44:26.798] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] CheckParam01 :: MainThread01 실행 
+[2020-02-19 13:44:27.801] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] MainThread01 :: i :: 8 
+[2020-02-19 13:44:27.804] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] CheckParam01 :: MainThread01 실행 
+[2020-02-19 13:44:28.809] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] MainThread01 :: i :: 9 
+[2020-02-19 13:44:28.813] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] CheckParam01 :: MainThread01 실행 
+[2020-02-19 13:47:43.914] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] MainThread01 :: i :: 0 
+[2020-02-19 13:47:44.009] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] CheckParam01 :: MainThread01 실행 
+[2020-02-19 13:47:45.011] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] MainThread01 :: i :: 1 
+[2020-02-19 13:47:45.013] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] CheckParam01 :: MainThread01 실행 
+[2020-02-19 13:47:46.019] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] MainThread01 :: i :: 2 
+[2020-02-19 13:47:46.022] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] CheckParam01 :: MainThread01 실행 
+[2020-02-19 13:47:47.024] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] MainThread01 :: i :: 3 
+[2020-02-19 13:47:47.027] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] CheckParam01 :: MainThread01 실행 
+[2020-02-19 13:47:48.031] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] 새로운 thread 실행 
+[2020-02-19 13:47:48.034] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] MainThread01 :: i :: 4 
+[2020-02-19 13:47:48.038] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] CheckParam01 :: MainThread01 실행 
+[2020-02-19 13:47:49.041] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] MainThread01 :: i :: 5 
+[2020-02-19 13:47:49.049] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] CheckParam01 :: MainThread01 실행 
+[2020-02-19 13:47:50.053] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] MainThread01 :: i :: 6 
+[2020-02-19 13:47:50.057] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] CheckParam01 :: MainThread01 실행 
+[2020-02-19 13:47:51.063] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] MainThread01 :: i :: 7 
+[2020-02-19 13:47:51.067] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] CheckParam01 :: MainThread01 실행 
+[2020-02-19 13:47:52.070] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] MainThread01 :: i :: 8 
+[2020-02-19 13:47:52.073] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] CheckParam01 :: MainThread01 실행 
+[2020-02-19 13:47:53.078] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] MainThread01 :: i :: 9 
+[2020-02-19 13:47:53.080] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] CheckParam01 :: MainThread01 실행 
+[2020-02-19 13:53:27.122] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] MainThread01 :: i :: 0 
+[2020-02-19 13:53:27.152] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] CheckParam01 :: MainThread01 실행 
+[2020-02-19 13:53:28.153] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] MainThread01 :: i :: 1 
+[2020-02-19 13:53:28.157] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] CheckParam01 :: MainThread01 실행 
+[2020-02-19 13:53:29.162] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] MainThread01 :: i :: 2 
+[2020-02-19 13:53:29.165] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] CheckParam01 :: MainThread01 실행 
+[2020-02-19 13:53:30.169] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] MainThread01 :: i :: 3 
+[2020-02-19 13:53:30.171] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] CheckParam01 :: MainThread01 실행 
+[2020-02-19 13:53:31.174] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] 새로운 thread 실행 
+[2020-02-19 13:53:31.178] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] MainThread01 :: i :: 4 
+[2020-02-19 13:53:31.182] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] CheckParam01 :: MainThread01 실행 
+[2020-02-19 13:53:31.180] [DESKTOP-58HACMN] [Thread-1] SubThread01 [DEBUG] SubThread01 :: i :: 0 
+[2020-02-19 13:53:31.192] [DESKTOP-58HACMN] [Thread-1] SubThread01 [DEBUG] subCheckParam01 :: SubThread01 실행 
+[2020-02-19 13:53:32.187] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] MainThread01 :: i :: 5 
+[2020-02-19 13:53:32.193] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] CheckParam01 :: MainThread01 실행 
+[2020-02-19 13:53:32.197] [DESKTOP-58HACMN] [Thread-1] SubThread01 [DEBUG] SubThread01 :: i :: 1 
+[2020-02-19 13:53:32.202] [DESKTOP-58HACMN] [Thread-1] SubThread01 [DEBUG] subCheckParam01 :: SubThread01 실행 
+[2020-02-19 13:53:33.200] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] MainThread01 :: i :: 6 
+[2020-02-19 13:53:33.201] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] CheckParam01 :: MainThread01 실행 
+[2020-02-19 13:53:33.205] [DESKTOP-58HACMN] [Thread-1] SubThread01 [DEBUG] SubThread01 :: i :: 2 
+[2020-02-19 13:53:33.207] [DESKTOP-58HACMN] [Thread-1] SubThread01 [DEBUG] subCheckParam01 :: SubThread01 실행 
+[2020-02-19 13:53:34.204] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] MainThread01 :: i :: 7 
+[2020-02-19 13:53:34.211] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] CheckParam01 :: MainThread01 실행 
+[2020-02-19 13:53:34.211] [DESKTOP-58HACMN] [Thread-1] SubThread01 [DEBUG] SubThread01 :: i :: 3 
+[2020-02-19 13:53:34.224] [DESKTOP-58HACMN] [Thread-1] SubThread01 [DEBUG] subCheckParam01 :: SubThread01 실행 
+[2020-02-19 13:53:35.222] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] MainThread01 :: i :: 8 
+[2020-02-19 13:53:35.225] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] CheckParam01 :: MainThread01 실행 
+[2020-02-19 13:53:35.227] [DESKTOP-58HACMN] [Thread-1] SubThread01 [DEBUG] SubThread01 :: i :: 4 
+[2020-02-19 13:53:35.232] [DESKTOP-58HACMN] [Thread-1] SubThread01 [DEBUG] subCheckParam01 :: SubThread01 실행 
+[2020-02-19 13:53:36.230] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] MainThread01 :: i :: 9 
+[2020-02-19 13:53:36.232] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] CheckParam01 :: MainThread01 실행 
+[2020-02-19 13:53:36.237] [DESKTOP-58HACMN] [Thread-1] SubThread01 [DEBUG] SubThread01 :: i :: 5 
+[2020-02-19 13:53:36.240] [DESKTOP-58HACMN] [Thread-1] SubThread01 [DEBUG] subCheckParam01 :: SubThread01 실행 
+[2020-02-19 13:53:37.244] [DESKTOP-58HACMN] [Thread-1] SubThread01 [DEBUG] SubThread01 :: i :: 6 
+[2020-02-19 13:53:37.249] [DESKTOP-58HACMN] [Thread-1] SubThread01 [DEBUG] subCheckParam01 :: SubThread01 실행 
+[2020-02-19 13:53:38.253] [DESKTOP-58HACMN] [Thread-1] SubThread01 [DEBUG] SubThread01 :: i :: 7 
+[2020-02-19 13:53:38.255] [DESKTOP-58HACMN] [Thread-1] SubThread01 [DEBUG] subCheckParam01 :: SubThread01 실행 
+[2020-02-19 13:53:39.257] [DESKTOP-58HACMN] [Thread-1] SubThread01 [DEBUG] SubThread01 :: i :: 8 
+[2020-02-19 13:53:39.261] [DESKTOP-58HACMN] [Thread-1] SubThread01 [DEBUG] subCheckParam01 :: SubThread01 실행 
+[2020-02-19 13:55:19.198] [DESKTOP-58HACMN] [main] ThreadTestMain [DEBUG] MainThread01 :: 끝!! ::  
+[2020-02-19 13:55:19.199] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] MainThread01 :: i :: 0 
+[2020-02-19 13:55:19.226] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] CheckParam01 :: MainThread01 실행 
+[2020-02-19 13:55:20.226] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] MainThread01 :: i :: 1 
+[2020-02-19 13:55:20.231] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] CheckParam01 :: MainThread01 실행 
+[2020-02-19 13:55:21.234] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] MainThread01 :: i :: 2 
+[2020-02-19 13:55:21.238] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] CheckParam01 :: MainThread01 실행 
+[2020-02-19 13:55:22.242] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] MainThread01 :: i :: 3 
+[2020-02-19 13:55:22.243] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] CheckParam01 :: MainThread01 실행 
+[2020-02-19 13:55:23.244] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] 새로운 thread 실행 
+[2020-02-19 13:55:23.248] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] MainThread01 :: i :: 4 
+[2020-02-19 13:55:23.249] [DESKTOP-58HACMN] [Thread-1] SubThread01 [DEBUG] SubThread01 :: i :: 0 
+[2020-02-19 13:55:23.252] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] CheckParam01 :: MainThread01 실행 
+[2020-02-19 13:55:23.256] [DESKTOP-58HACMN] [Thread-1] SubThread01 [DEBUG] subCheckParam01 :: SubThread01 실행 
+[2020-02-19 13:55:24.260] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] MainThread01 :: i :: 5 
+[2020-02-19 13:55:24.269] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] CheckParam01 :: MainThread01 실행 
+[2020-02-19 13:55:25.274] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] MainThread01 :: i :: 6 
+[2020-02-19 13:55:25.275] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] CheckParam01 :: MainThread01 실행 
+[2020-02-19 13:55:26.263] [DESKTOP-58HACMN] [Thread-1] SubThread01 [DEBUG] SubThread01 :: i :: 1 
+[2020-02-19 13:55:26.266] [DESKTOP-58HACMN] [Thread-1] SubThread01 [DEBUG] subCheckParam01 :: SubThread01 실행 
+[2020-02-19 13:55:26.276] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] MainThread01 :: i :: 7 
+[2020-02-19 13:55:26.278] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] CheckParam01 :: MainThread01 실행 
+[2020-02-19 13:55:27.281] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] MainThread01 :: i :: 8 
+[2020-02-19 13:55:27.285] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] CheckParam01 :: MainThread01 실행 
+[2020-02-19 13:55:28.290] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] MainThread01 :: i :: 9 
+[2020-02-19 13:55:28.294] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] CheckParam01 :: MainThread01 실행 
+[2020-02-19 13:55:29.268] [DESKTOP-58HACMN] [Thread-1] SubThread01 [DEBUG] SubThread01 :: i :: 2 
+[2020-02-19 13:55:29.274] [DESKTOP-58HACMN] [Thread-1] SubThread01 [DEBUG] subCheckParam01 :: SubThread01 실행 
+[2020-02-19 13:55:29.297] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] MainThread01 :: 끝!! ::  
+[2020-02-19 13:55:32.280] [DESKTOP-58HACMN] [Thread-1] SubThread01 [DEBUG] SubThread01 :: i :: 3 
+[2020-02-19 13:55:32.285] [DESKTOP-58HACMN] [Thread-1] SubThread01 [DEBUG] subCheckParam01 :: SubThread01 실행 
+[2020-02-19 13:55:35.290] [DESKTOP-58HACMN] [Thread-1] SubThread01 [DEBUG] SubThread01 :: i :: 4 
+[2020-02-19 13:55:35.291] [DESKTOP-58HACMN] [Thread-1] SubThread01 [DEBUG] subCheckParam01 :: SubThread01 실행 
+[2020-02-19 13:55:38.292] [DESKTOP-58HACMN] [Thread-1] SubThread01 [DEBUG] SubThread01 :: i :: 5 
+[2020-02-19 13:55:38.293] [DESKTOP-58HACMN] [Thread-1] SubThread01 [DEBUG] subCheckParam01 :: SubThread01 실행 
+[2020-02-19 13:55:41.295] [DESKTOP-58HACMN] [Thread-1] SubThread01 [DEBUG] SubThread01 :: i :: 6 
+[2020-02-19 13:55:41.298] [DESKTOP-58HACMN] [Thread-1] SubThread01 [DEBUG] subCheckParam01 :: SubThread01 실행 
+[2020-02-19 13:55:44.301] [DESKTOP-58HACMN] [Thread-1] SubThread01 [DEBUG] SubThread01 :: i :: 7 
+[2020-02-19 13:55:44.303] [DESKTOP-58HACMN] [Thread-1] SubThread01 [DEBUG] subCheckParam01 :: SubThread01 실행 
+[2020-02-19 13:55:47.306] [DESKTOP-58HACMN] [Thread-1] SubThread01 [DEBUG] SubThread01 :: i :: 8 
+[2020-02-19 13:55:47.311] [DESKTOP-58HACMN] [Thread-1] SubThread01 [DEBUG] subCheckParam01 :: SubThread01 실행 
+[2020-02-19 13:55:50.349] [DESKTOP-58HACMN] [Thread-1] SubThread01 [DEBUG] SubThread01 :: 끝!! ::  
