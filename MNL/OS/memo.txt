@@ -1,1 +1,6 @@
 OS 설치 USB 만들기
+
+
+chrom 메모리 누수 해결
+http://blog.naver.com/PostView.nhn?blogId=2ppune&logNo=221413624344
+https://forbes.tistory.com/435
