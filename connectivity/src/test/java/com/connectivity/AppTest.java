@@ -1,4 +1,4 @@
-package com.hs.mgp.connectivity;
+package com.connectivity;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
