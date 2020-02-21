@@ -278,3 +278,607 @@
 [2020-02-19 13:55:47.306] [DESKTOP-58HACMN] [Thread-1] SubThread01 [DEBUG] SubThread01 :: i :: 8 
 [2020-02-19 13:55:47.311] [DESKTOP-58HACMN] [Thread-1] SubThread01 [DEBUG] subCheckParam01 :: SubThread01 실행 
 [2020-02-19 13:55:50.349] [DESKTOP-58HACMN] [Thread-1] SubThread01 [DEBUG] SubThread01 :: 끝!! ::  
+[2020-02-20 15:07:06.017] [DESKTOP-58HACMN] [main] ThreadTestMain [DEBUG] MainThread01 :: 끝!! ::  
+[2020-02-20 15:07:06.022] [DESKTOP-58HACMN] [Thread-1] MainThread01 [DEBUG] MainThread01 :: i :: 0 
+[2020-02-20 15:07:06.022] [DESKTOP-58HACMN] [Thread-2] MainThread01 [DEBUG] MainThread01 :: i :: 0 
+[2020-02-20 15:07:06.054] [DESKTOP-58HACMN] [Thread-2] MainThread01 [DEBUG] CheckParam01 :: MainThread01  Multi 실행 
+[2020-02-20 15:07:06.022] [DESKTOP-58HACMN] [Thread-3] MainThread01 [DEBUG] MainThread01 :: i :: 0 
+[2020-02-20 15:07:06.022] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] MainThread01 :: i :: 0 
+[2020-02-20 15:07:06.056] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] CheckParam01 :: MainThread01 실행 
+[2020-02-20 15:07:06.056] [DESKTOP-58HACMN] [Thread-3] MainThread01 [DEBUG] CheckParam01 :: MainThread01  Multi 실행 
+[2020-02-20 15:07:06.054] [DESKTOP-58HACMN] [Thread-1] MainThread01 [DEBUG] CheckParam01 :: MainThread01  Multi 실행 
+[2020-02-20 15:07:07.055] [DESKTOP-58HACMN] [Thread-2] MainThread01 [DEBUG] MainThread01 :: i :: 1 
+[2020-02-20 15:07:07.055] [DESKTOP-58HACMN] [Thread-2] MainThread01 [DEBUG] CheckParam01 :: MainThread01  Multi 실행 
+[2020-02-20 15:07:07.057] [DESKTOP-58HACMN] [Thread-3] MainThread01 [DEBUG] MainThread01 :: i :: 1 
+[2020-02-20 15:07:07.058] [DESKTOP-58HACMN] [Thread-1] MainThread01 [DEBUG] MainThread01 :: i :: 1 
+[2020-02-20 15:07:07.057] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] MainThread01 :: i :: 1 
+[2020-02-20 15:07:07.060] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] CheckParam01 :: MainThread01 실행 
+[2020-02-20 15:07:07.059] [DESKTOP-58HACMN] [Thread-1] MainThread01 [DEBUG] CheckParam01 :: MainThread01  Multi 실행 
+[2020-02-20 15:07:07.058] [DESKTOP-58HACMN] [Thread-3] MainThread01 [DEBUG] CheckParam01 :: MainThread01  Multi 실행 
+[2020-02-20 15:07:08.058] [DESKTOP-58HACMN] [Thread-2] MainThread01 [DEBUG] MainThread01 :: i :: 2 
+[2020-02-20 15:07:08.058] [DESKTOP-58HACMN] [Thread-2] MainThread01 [DEBUG] CheckParam01 :: MainThread01  Multi 실행 
+[2020-02-20 15:07:08.061] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] MainThread01 :: i :: 2 
+[2020-02-20 15:07:08.062] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] CheckParam01 :: MainThread01 실행 
+[2020-02-20 15:07:08.063] [DESKTOP-58HACMN] [Thread-1] MainThread01 [DEBUG] MainThread01 :: i :: 2 
+[2020-02-20 15:07:08.064] [DESKTOP-58HACMN] [Thread-1] MainThread01 [DEBUG] CheckParam01 :: MainThread01  Multi 실행 
+[2020-02-20 15:07:08.065] [DESKTOP-58HACMN] [Thread-3] MainThread01 [DEBUG] MainThread01 :: i :: 2 
+[2020-02-20 15:07:08.066] [DESKTOP-58HACMN] [Thread-3] MainThread01 [DEBUG] CheckParam01 :: MainThread01  Multi 실행 
+[2020-02-20 15:07:09.060] [DESKTOP-58HACMN] [Thread-2] MainThread01 [DEBUG] MainThread01 :: i :: 3 
+[2020-02-20 15:07:09.066] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] MainThread01 :: i :: 3 
+[2020-02-20 15:07:09.066] [DESKTOP-58HACMN] [Thread-2] MainThread01 [DEBUG] CheckParam01 :: MainThread01  Multi 실행 
+[2020-02-20 15:07:09.072] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] CheckParam01 :: MainThread01 실행 
+[2020-02-20 15:07:09.068] [DESKTOP-58HACMN] [Thread-3] MainThread01 [DEBUG] MainThread01 :: i :: 3 
+[2020-02-20 15:07:09.087] [DESKTOP-58HACMN] [Thread-3] MainThread01 [DEBUG] CheckParam01 :: MainThread01  Multi 실행 
+[2020-02-20 15:07:09.068] [DESKTOP-58HACMN] [Thread-1] MainThread01 [DEBUG] MainThread01 :: i :: 3 
+[2020-02-20 15:07:09.102] [DESKTOP-58HACMN] [Thread-1] MainThread01 [DEBUG] CheckParam01 :: MainThread01  Multi 실행 
+[2020-02-20 15:07:10.075] [DESKTOP-58HACMN] [Thread-2] MainThread01 [DEBUG] 새로운 thread 실행 
+[2020-02-20 15:07:10.076] [DESKTOP-58HACMN] [Thread-2] MainThread01 [DEBUG] MainThread01 :: i :: 4 
+[2020-02-20 15:07:10.076] [DESKTOP-58HACMN] [Thread-6] SubThread01 [DEBUG] SubThread01 :: i :: 0 
+[2020-02-20 15:07:10.078] [DESKTOP-58HACMN] [Thread-6] SubThread01 [DEBUG] subCheckParam01 :: SubThread01 실행 
+[2020-02-20 15:07:10.079] [DESKTOP-58HACMN] [Thread-2] MainThread01 [DEBUG] CheckParam01 :: MainThread01  Multi 실행 
+[2020-02-20 15:07:10.083] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] 새로운 thread 실행 
+[2020-02-20 15:07:10.084] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] MainThread01 :: i :: 4 
+[2020-02-20 15:07:10.085] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] CheckParam01 :: MainThread01 실행 
+[2020-02-20 15:07:10.086] [DESKTOP-58HACMN] [Thread-4] SubThread01 [DEBUG] SubThread01 :: i :: 0 
+[2020-02-20 15:07:10.087] [DESKTOP-58HACMN] [Thread-4] SubThread01 [DEBUG] subCheckParam01 :: SubThread01 실행 
+[2020-02-20 15:07:10.093] [DESKTOP-58HACMN] [Thread-3] MainThread01 [DEBUG] 새로운 thread 실행 
+[2020-02-20 15:07:10.094] [DESKTOP-58HACMN] [Thread-3] MainThread01 [DEBUG] MainThread01 :: i :: 4 
+[2020-02-20 15:07:10.095] [DESKTOP-58HACMN] [Thread-5] SubThread01 [DEBUG] SubThread01 :: i :: 0 
+[2020-02-20 15:07:10.102] [DESKTOP-58HACMN] [Thread-3] MainThread01 [DEBUG] CheckParam01 :: MainThread01  Multi 실행 
+[2020-02-20 15:07:10.102] [DESKTOP-58HACMN] [Thread-5] SubThread01 [DEBUG] subCheckParam01 :: SubThread01 실행 
+[2020-02-20 15:07:10.108] [DESKTOP-58HACMN] [Thread-1] MainThread01 [DEBUG] 새로운 thread 실행 
+[2020-02-20 15:07:10.109] [DESKTOP-58HACMN] [Thread-1] MainThread01 [DEBUG] MainThread01 :: i :: 4 
+[2020-02-20 15:07:10.110] [DESKTOP-58HACMN] [Thread-1] MainThread01 [DEBUG] CheckParam01 :: MainThread01  Multi 실행 
+[2020-02-20 15:07:10.110] [DESKTOP-58HACMN] [Thread-7] SubThread01 [DEBUG] SubThread01 :: i :: 0 
+[2020-02-20 15:07:10.111] [DESKTOP-58HACMN] [Thread-7] SubThread01 [DEBUG] subCheckParam01 :: SubThread01 실행 
+[2020-02-20 15:07:11.082] [DESKTOP-58HACMN] [Thread-2] MainThread01 [DEBUG] MainThread01 :: i :: 5 
+[2020-02-20 15:07:11.085] [DESKTOP-58HACMN] [Thread-2] MainThread01 [DEBUG] CheckParam01 :: MainThread01  Multi 실행 
+[2020-02-20 15:07:11.086] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] MainThread01 :: i :: 5 
+[2020-02-20 15:07:11.090] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] CheckParam01 :: MainThread01 실행 
+[2020-02-20 15:07:11.104] [DESKTOP-58HACMN] [Thread-3] MainThread01 [DEBUG] MainThread01 :: i :: 5 
+[2020-02-20 15:07:11.106] [DESKTOP-58HACMN] [Thread-3] MainThread01 [DEBUG] CheckParam01 :: MainThread01  Multi 실행 
+[2020-02-20 15:07:11.111] [DESKTOP-58HACMN] [Thread-1] MainThread01 [DEBUG] MainThread01 :: i :: 5 
+[2020-02-20 15:07:11.114] [DESKTOP-58HACMN] [Thread-1] MainThread01 [DEBUG] CheckParam01 :: MainThread01  Multi 실행 
+[2020-02-20 15:07:12.088] [DESKTOP-58HACMN] [Thread-2] MainThread01 [DEBUG] MainThread01 :: i :: 6 
+[2020-02-20 15:07:12.089] [DESKTOP-58HACMN] [Thread-2] MainThread01 [DEBUG] CheckParam01 :: MainThread01  Multi 실행 
+[2020-02-20 15:07:12.093] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] MainThread01 :: i :: 6 
+[2020-02-20 15:07:12.095] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] CheckParam01 :: MainThread01 실행 
+[2020-02-20 15:07:12.111] [DESKTOP-58HACMN] [Thread-3] MainThread01 [DEBUG] MainThread01 :: i :: 6 
+[2020-02-20 15:07:12.112] [DESKTOP-58HACMN] [Thread-3] MainThread01 [DEBUG] CheckParam01 :: MainThread01  Multi 실행 
+[2020-02-20 15:07:12.118] [DESKTOP-58HACMN] [Thread-1] MainThread01 [DEBUG] MainThread01 :: i :: 6 
+[2020-02-20 15:07:12.119] [DESKTOP-58HACMN] [Thread-1] MainThread01 [DEBUG] CheckParam01 :: MainThread01  Multi 실행 
+[2020-02-20 15:07:13.079] [DESKTOP-58HACMN] [Thread-6] SubThread01 [DEBUG] SubThread01 :: i :: 1 
+[2020-02-20 15:07:13.080] [DESKTOP-58HACMN] [Thread-6] SubThread01 [DEBUG] subCheckParam01 :: SubThread01 실행 
+[2020-02-20 15:07:13.091] [DESKTOP-58HACMN] [Thread-4] SubThread01 [DEBUG] SubThread01 :: i :: 1 
+[2020-02-20 15:07:13.092] [DESKTOP-58HACMN] [Thread-4] SubThread01 [DEBUG] subCheckParam01 :: SubThread01 실행 
+[2020-02-20 15:07:13.091] [DESKTOP-58HACMN] [Thread-2] MainThread01 [DEBUG] MainThread01 :: i :: 7 
+[2020-02-20 15:07:13.093] [DESKTOP-58HACMN] [Thread-2] MainThread01 [DEBUG] CheckParam01 :: MainThread01  Multi 실행 
+[2020-02-20 15:07:13.096] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] MainThread01 :: i :: 7 
+[2020-02-20 15:07:13.097] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] CheckParam01 :: MainThread01 실행 
+[2020-02-20 15:07:13.103] [DESKTOP-58HACMN] [Thread-5] SubThread01 [DEBUG] SubThread01 :: i :: 1 
+[2020-02-20 15:07:13.104] [DESKTOP-58HACMN] [Thread-5] SubThread01 [DEBUG] subCheckParam01 :: SubThread01 실행 
+[2020-02-20 15:07:13.112] [DESKTOP-58HACMN] [Thread-7] SubThread01 [DEBUG] SubThread01 :: i :: 1 
+[2020-02-20 15:07:13.113] [DESKTOP-58HACMN] [Thread-7] SubThread01 [DEBUG] subCheckParam01 :: SubThread01 실행 
+[2020-02-20 15:07:13.114] [DESKTOP-58HACMN] [Thread-3] MainThread01 [DEBUG] MainThread01 :: i :: 7 
+[2020-02-20 15:07:13.115] [DESKTOP-58HACMN] [Thread-3] MainThread01 [DEBUG] CheckParam01 :: MainThread01  Multi 실행 
+[2020-02-20 15:07:13.120] [DESKTOP-58HACMN] [Thread-1] MainThread01 [DEBUG] MainThread01 :: i :: 7 
+[2020-02-20 15:07:13.121] [DESKTOP-58HACMN] [Thread-1] MainThread01 [DEBUG] CheckParam01 :: MainThread01  Multi 실행 
+[2020-02-20 15:07:14.095] [DESKTOP-58HACMN] [Thread-2] MainThread01 [DEBUG] MainThread01 :: i :: 8 
+[2020-02-20 15:07:14.099] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] MainThread01 :: i :: 8 
+[2020-02-20 15:07:14.099] [DESKTOP-58HACMN] [Thread-2] MainThread01 [DEBUG] CheckParam01 :: MainThread01  Multi 실행 
+[2020-02-20 15:07:14.100] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] CheckParam01 :: MainThread01 실행 
+[2020-02-20 15:07:14.116] [DESKTOP-58HACMN] [Thread-3] MainThread01 [DEBUG] MainThread01 :: i :: 8 
+[2020-02-20 15:07:14.117] [DESKTOP-58HACMN] [Thread-3] MainThread01 [DEBUG] CheckParam01 :: MainThread01  Multi 실행 
+[2020-02-20 15:07:14.122] [DESKTOP-58HACMN] [Thread-1] MainThread01 [DEBUG] MainThread01 :: i :: 8 
+[2020-02-20 15:07:14.123] [DESKTOP-58HACMN] [Thread-1] MainThread01 [DEBUG] CheckParam01 :: MainThread01  Multi 실행 
+[2020-02-20 15:07:15.101] [DESKTOP-58HACMN] [Thread-2] MainThread01 [DEBUG] MainThread01 :: i :: 9 
+[2020-02-20 15:07:15.101] [DESKTOP-58HACMN] [Thread-2] MainThread01 [DEBUG] CheckParam01 :: MainThread01  Multi 실행 
+[2020-02-20 15:07:15.104] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] MainThread01 :: i :: 9 
+[2020-02-20 15:07:15.104] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] CheckParam01 :: MainThread01 실행 
+[2020-02-20 15:07:15.119] [DESKTOP-58HACMN] [Thread-3] MainThread01 [DEBUG] MainThread01 :: i :: 9 
+[2020-02-20 15:07:15.120] [DESKTOP-58HACMN] [Thread-3] MainThread01 [DEBUG] CheckParam01 :: MainThread01  Multi 실행 
+[2020-02-20 15:07:15.125] [DESKTOP-58HACMN] [Thread-1] MainThread01 [DEBUG] MainThread01 :: i :: 9 
+[2020-02-20 15:07:15.126] [DESKTOP-58HACMN] [Thread-1] MainThread01 [DEBUG] CheckParam01 :: MainThread01  Multi 실행 
+[2020-02-20 15:07:16.081] [DESKTOP-58HACMN] [Thread-6] SubThread01 [DEBUG] SubThread01 :: i :: 2 
+[2020-02-20 15:07:16.081] [DESKTOP-58HACMN] [Thread-6] SubThread01 [DEBUG] subCheckParam01 :: SubThread01 실행 
+[2020-02-20 15:07:16.094] [DESKTOP-58HACMN] [Thread-4] SubThread01 [DEBUG] SubThread01 :: i :: 2 
+[2020-02-20 15:07:16.094] [DESKTOP-58HACMN] [Thread-4] SubThread01 [DEBUG] subCheckParam01 :: SubThread01 실행 
+[2020-02-20 15:07:16.102] [DESKTOP-58HACMN] [Thread-2] MainThread01 [DEBUG] MainThread01 :: 끝!! ::  
+[2020-02-20 15:07:16.106] [DESKTOP-58HACMN] [Thread-0] MainThread01 [DEBUG] MainThread01 :: 끝!! ::  
+[2020-02-20 15:07:16.106] [DESKTOP-58HACMN] [Thread-5] SubThread01 [DEBUG] SubThread01 :: i :: 2 
+[2020-02-20 15:07:16.108] [DESKTOP-58HACMN] [Thread-5] SubThread01 [DEBUG] subCheckParam01 :: SubThread01 실행 
+[2020-02-20 15:07:16.116] [DESKTOP-58HACMN] [Thread-7] SubThread01 [DEBUG] SubThread01 :: i :: 2 
+[2020-02-20 15:07:16.117] [DESKTOP-58HACMN] [Thread-7] SubThread01 [DEBUG] subCheckParam01 :: SubThread01 실행 
+[2020-02-20 15:07:16.122] [DESKTOP-58HACMN] [Thread-3] MainThread01 [DEBUG] MainThread01 :: 끝!! ::  
+[2020-02-20 15:07:16.127] [DESKTOP-58HACMN] [Thread-1] MainThread01 [DEBUG] MainThread01 :: 끝!! ::  
+[2020-02-20 15:07:19.084] [DESKTOP-58HACMN] [Thread-6] SubThread01 [DEBUG] SubThread01 :: i :: 3 
+[2020-02-20 15:07:19.088] [DESKTOP-58HACMN] [Thread-6] SubThread01 [DEBUG] subCheckParam01 :: SubThread01 실행 
+[2020-02-20 15:07:19.097] [DESKTOP-58HACMN] [Thread-4] SubThread01 [DEBUG] SubThread01 :: i :: 3 
+[2020-02-20 15:07:19.100] [DESKTOP-58HACMN] [Thread-4] SubThread01 [DEBUG] subCheckParam01 :: SubThread01 실행 
+[2020-02-20 15:07:19.109] [DESKTOP-58HACMN] [Thread-5] SubThread01 [DEBUG] SubThread01 :: i :: 3 
+[2020-02-20 15:07:19.109] [DESKTOP-58HACMN] [Thread-5] SubThread01 [DEBUG] subCheckParam01 :: SubThread01 실행 
+[2020-02-20 15:07:19.118] [DESKTOP-58HACMN] [Thread-7] SubThread01 [DEBUG] SubThread01 :: i :: 3 
+[2020-02-20 15:07:19.119] [DESKTOP-58HACMN] [Thread-7] SubThread01 [DEBUG] subCheckParam01 :: SubThread01 실행 
+[2020-02-20 15:07:22.091] [DESKTOP-58HACMN] [Thread-6] SubThread01 [DEBUG] SubThread01 :: i :: 4 
+[2020-02-20 15:07:22.092] [DESKTOP-58HACMN] [Thread-6] SubThread01 [DEBUG] subCheckParam01 :: SubThread01 실행 
+[2020-02-20 15:07:22.102] [DESKTOP-58HACMN] [Thread-4] SubThread01 [DEBUG] SubThread01 :: i :: 4 
+[2020-02-20 15:07:22.103] [DESKTOP-58HACMN] [Thread-4] SubThread01 [DEBUG] subCheckParam01 :: SubThread01 실행 
+[2020-02-20 15:07:22.110] [DESKTOP-58HACMN] [Thread-5] SubThread01 [DEBUG] SubThread01 :: i :: 4 
+[2020-02-20 15:07:22.111] [DESKTOP-58HACMN] [Thread-5] SubThread01 [DEBUG] subCheckParam01 :: SubThread01 실행 
+[2020-02-20 15:07:22.120] [DESKTOP-58HACMN] [Thread-7] SubThread01 [DEBUG] SubThread01 :: i :: 4 
+[2020-02-20 15:07:22.121] [DESKTOP-58HACMN] [Thread-7] SubThread01 [DEBUG] subCheckParam01 :: SubThread01 실행 
+[2020-02-20 15:07:25.094] [DESKTOP-58HACMN] [Thread-6] SubThread01 [DEBUG] SubThread01 :: i :: 5 
+[2020-02-20 15:07:25.094] [DESKTOP-58HACMN] [Thread-6] SubThread01 [DEBUG] subCheckParam01 :: SubThread01 실행 
+[2020-02-20 15:07:25.104] [DESKTOP-58HACMN] [Thread-4] SubThread01 [DEBUG] SubThread01 :: i :: 5 
+[2020-02-20 15:07:25.105] [DESKTOP-58HACMN] [Thread-4] SubThread01 [DEBUG] subCheckParam01 :: SubThread01 실행 
+[2020-02-20 15:07:25.112] [DESKTOP-58HACMN] [Thread-5] SubThread01 [DEBUG] SubThread01 :: i :: 5 
+[2020-02-20 15:07:25.114] [DESKTOP-58HACMN] [Thread-5] SubThread01 [DEBUG] subCheckParam01 :: SubThread01 실행 
+[2020-02-20 15:07:25.124] [DESKTOP-58HACMN] [Thread-7] SubThread01 [DEBUG] SubThread01 :: i :: 5 
+[2020-02-20 15:07:25.124] [DESKTOP-58HACMN] [Thread-7] SubThread01 [DEBUG] subCheckParam01 :: SubThread01 실행 
+[2020-02-20 15:07:28.094] [DESKTOP-58HACMN] [Thread-6] SubThread01 [DEBUG] SubThread01 :: i :: 6 
+[2020-02-20 15:07:28.098] [DESKTOP-58HACMN] [Thread-6] SubThread01 [DEBUG] subCheckParam01 :: SubThread01 실행 
+[2020-02-20 15:07:28.107] [DESKTOP-58HACMN] [Thread-4] SubThread01 [DEBUG] SubThread01 :: i :: 6 
+[2020-02-20 15:07:28.108] [DESKTOP-58HACMN] [Thread-4] SubThread01 [DEBUG] subCheckParam01 :: SubThread01 실행 
+[2020-02-20 15:07:28.115] [DESKTOP-58HACMN] [Thread-5] SubThread01 [DEBUG] SubThread01 :: i :: 6 
+[2020-02-20 15:07:28.116] [DESKTOP-58HACMN] [Thread-5] SubThread01 [DEBUG] subCheckParam01 :: SubThread01 실행 
+[2020-02-20 15:07:28.125] [DESKTOP-58HACMN] [Thread-7] SubThread01 [DEBUG] SubThread01 :: i :: 6 
+[2020-02-20 15:07:28.126] [DESKTOP-58HACMN] [Thread-7] SubThread01 [DEBUG] subCheckParam01 :: SubThread01 실행 
+[2020-02-20 15:07:31.100] [DESKTOP-58HACMN] [Thread-6] SubThread01 [DEBUG] SubThread01 :: i :: 7 
+[2020-02-20 15:07:31.101] [DESKTOP-58HACMN] [Thread-6] SubThread01 [DEBUG] subCheckParam01 :: SubThread01 실행 
+[2020-02-20 15:07:31.109] [DESKTOP-58HACMN] [Thread-4] SubThread01 [DEBUG] SubThread01 :: i :: 7 
+[2020-02-20 15:07:31.110] [DESKTOP-58HACMN] [Thread-4] SubThread01 [DEBUG] subCheckParam01 :: SubThread01 실행 
+[2020-02-20 15:07:31.118] [DESKTOP-58HACMN] [Thread-5] SubThread01 [DEBUG] SubThread01 :: i :: 7 
+[2020-02-20 15:07:31.119] [DESKTOP-58HACMN] [Thread-5] SubThread01 [DEBUG] subCheckParam01 :: SubThread01 실행 
+[2020-02-20 15:07:31.127] [DESKTOP-58HACMN] [Thread-7] SubThread01 [DEBUG] SubThread01 :: i :: 7 
+[2020-02-20 15:07:31.128] [DESKTOP-58HACMN] [Thread-7] SubThread01 [DEBUG] subCheckParam01 :: SubThread01 실행 
+[2020-02-20 15:07:34.103] [DESKTOP-58HACMN] [Thread-6] SubThread01 [DEBUG] SubThread01 :: i :: 8 
+[2020-02-20 15:07:34.104] [DESKTOP-58HACMN] [Thread-6] SubThread01 [DEBUG] subCheckParam01 :: SubThread01 실행 
+[2020-02-20 15:07:34.112] [DESKTOP-58HACMN] [Thread-4] SubThread01 [DEBUG] SubThread01 :: i :: 8 
+[2020-02-20 15:07:34.112] [DESKTOP-58HACMN] [Thread-4] SubThread01 [DEBUG] subCheckParam01 :: SubThread01 실행 
+[2020-02-20 15:07:34.120] [DESKTOP-58HACMN] [Thread-5] SubThread01 [DEBUG] SubThread01 :: i :: 8 
+[2020-02-20 15:07:34.120] [DESKTOP-58HACMN] [Thread-5] SubThread01 [DEBUG] subCheckParam01 :: SubThread01 실행 
+[2020-02-20 15:07:34.129] [DESKTOP-58HACMN] [Thread-7] SubThread01 [DEBUG] SubThread01 :: i :: 8 
+[2020-02-20 15:07:34.130] [DESKTOP-58HACMN] [Thread-7] SubThread01 [DEBUG] subCheckParam01 :: SubThread01 실행 
+[2020-02-20 15:07:37.105] [DESKTOP-58HACMN] [Thread-6] SubThread01 [DEBUG] SubThread01 :: 끝!! ::  
+[2020-02-20 15:07:37.113] [DESKTOP-58HACMN] [Thread-4] SubThread01 [DEBUG] SubThread01 :: 끝!! ::  
+[2020-02-20 15:07:37.122] [DESKTOP-58HACMN] [Thread-5] SubThread01 [DEBUG] SubThread01 :: 끝!! ::  
+[2020-02-20 15:07:37.133] [DESKTOP-58HACMN] [Thread-7] SubThread01 [DEBUG] SubThread01 :: 끝!! ::  
+[2020-02-20 17:39:15.103] [DESKTOP-58HACMN] [main] RabbitmqPublishSubscribeReceiveLogs [INFO]  [*] Waiting for messages. To exit press CTRL+C 
+[2020-02-20 17:39:26.325] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqPublishSubscribeReceiveLogs [INFO]  [x] Received 'Hello World!' 
+[2020-02-20 17:39:26.326] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqPublishSubscribeReceiveLogs [INFO] Hello World! 
+[2020-02-20 17:39:26.327] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqPublishSubscribeReceiveLogs [INFO]  [x] Done 
+[2020-02-20 17:39:26.322] [DESKTOP-58HACMN] [main] RabbitmqPublishSubscribeEmitLog [INFO]  [x] Sent 'Hello World!' 
+[2020-02-20 17:39:29.225] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqPublishSubscribeReceiveLogs [INFO]  [x] Received 'Hello World!' 
+[2020-02-20 17:39:29.226] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqPublishSubscribeReceiveLogs [INFO] Hello World! 
+[2020-02-20 17:39:29.227] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqPublishSubscribeReceiveLogs [INFO]  [x] Done 
+[2020-02-20 17:39:29.225] [DESKTOP-58HACMN] [main] RabbitmqPublishSubscribeEmitLog [INFO]  [x] Sent 'Hello World!' 
+[2020-02-20 17:39:32.459] [DESKTOP-58HACMN] [pool-1-thread-6] RabbitmqPublishSubscribeReceiveLogs [INFO]  [x] Received 'Hello World!' 
+[2020-02-20 17:39:32.460] [DESKTOP-58HACMN] [pool-1-thread-6] RabbitmqPublishSubscribeReceiveLogs [INFO] Hello World! 
+[2020-02-20 17:39:32.461] [DESKTOP-58HACMN] [pool-1-thread-6] RabbitmqPublishSubscribeReceiveLogs [INFO]  [x] Done 
+[2020-02-20 17:39:32.458] [DESKTOP-58HACMN] [main] RabbitmqPublishSubscribeEmitLog [INFO]  [x] Sent 'Hello World!' 
+[2020-02-20 17:40:53.568] [DESKTOP-58HACMN] [main] RabbitmqPublishSubscribeReceiveLogs [INFO]  [*] Waiting for messages. To exit press CTRL+C 
+[2020-02-20 17:41:07.730] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqPublishSubscribeReceiveLogs [INFO]  [x] Received 'Hello World!' 
+[2020-02-20 17:41:07.731] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqPublishSubscribeReceiveLogs [INFO] Hello World! 
+[2020-02-20 17:41:07.732] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqPublishSubscribeReceiveLogs [INFO]  [x] Done 
+[2020-02-20 17:41:07.727] [DESKTOP-58HACMN] [main] RabbitmqPublishSubscribeEmitLog [INFO]  [x] Sent 'Hello World!' 
+[2020-02-20 17:41:10.679] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqPublishSubscribeReceiveLogs [INFO]  [x] Received 'Hello World!' 
+[2020-02-20 17:41:10.681] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqPublishSubscribeReceiveLogs [INFO] Hello World! 
+[2020-02-20 17:41:10.681] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqPublishSubscribeReceiveLogs [INFO]  [x] Done 
+[2020-02-20 17:41:10.679] [DESKTOP-58HACMN] [main] RabbitmqPublishSubscribeEmitLog [INFO]  [x] Sent 'Hello World!' 
+[2020-02-20 17:41:13.283] [DESKTOP-58HACMN] [pool-1-thread-6] RabbitmqPublishSubscribeReceiveLogs [INFO]  [x] Received 'Hello World!' 
+[2020-02-20 17:41:13.285] [DESKTOP-58HACMN] [pool-1-thread-6] RabbitmqPublishSubscribeReceiveLogs [INFO] Hello World! 
+[2020-02-20 17:41:13.286] [DESKTOP-58HACMN] [pool-1-thread-6] RabbitmqPublishSubscribeReceiveLogs [INFO]  [x] Done 
+[2020-02-20 17:41:13.283] [DESKTOP-58HACMN] [main] RabbitmqPublishSubscribeEmitLog [INFO]  [x] Sent 'Hello World!' 
+[2020-02-21 09:43:20.296] [DESKTOP-58HACMN] [main] RabbitmqPublishSubscribeReceiveLogs [INFO]  [*] Waiting for messages. To exit press CTRL+C 
+[2020-02-21 09:43:23.549] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqPublishSubscribeReceiveLogs [INFO]  [x] Received 'Hello World!' 
+[2020-02-21 09:43:23.550] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqPublishSubscribeReceiveLogs [INFO] Hello World! 
+[2020-02-21 09:43:23.552] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: H 
+[2020-02-21 09:43:23.546] [DESKTOP-58HACMN] [main] RabbitmqPublishSubscribeEmitLog [INFO]  [x] Sent 'Hello World!' 
+[2020-02-21 09:43:24.553] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: e 
+[2020-02-21 09:43:25.555] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: l 
+[2020-02-21 09:43:26.556] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: l 
+[2020-02-21 09:43:27.557] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: o 
+[2020-02-21 09:43:28.560] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqPublishSubscribeReceiveLogs [INFO] ch ::   
+[2020-02-21 09:43:29.562] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: W 
+[2020-02-21 09:43:30.563] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: o 
+[2020-02-21 09:43:31.566] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: r 
+[2020-02-21 09:43:32.568] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: l 
+[2020-02-21 09:43:33.574] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: d 
+[2020-02-21 09:43:34.576] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: ! 
+[2020-02-21 09:43:35.578] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqPublishSubscribeReceiveLogs [INFO]  [x] Done 
+[2020-02-21 09:44:36.260] [DESKTOP-58HACMN] [main] RabbitmqPublishSubscribeReceiveLogs [INFO]  [*] Waiting for messages. To exit press CTRL+C 
+[2020-02-21 09:44:42.171] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqPublishSubscribeReceiveLogs [INFO]  [x] Received 'Hello World!' 
+[2020-02-21 09:44:42.172] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqPublishSubscribeReceiveLogs [INFO] Hello World! 
+[2020-02-21 09:44:42.174] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: H 
+[2020-02-21 09:44:42.167] [DESKTOP-58HACMN] [main] RabbitmqPublishSubscribeEmitLog [INFO]  [x] Sent 'Hello World!' 
+[2020-02-21 09:44:43.175] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqPublishSubscribeReceiveLogs [INFO] Thread.sleep :: H 
+[2020-02-21 09:44:43.176] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: e 
+[2020-02-21 09:44:44.177] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqPublishSubscribeReceiveLogs [INFO] Thread.sleep :: e 
+[2020-02-21 09:44:44.178] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: l 
+[2020-02-21 09:44:45.180] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqPublishSubscribeReceiveLogs [INFO] Thread.sleep :: l 
+[2020-02-21 09:44:45.182] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: l 
+[2020-02-21 09:44:46.183] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqPublishSubscribeReceiveLogs [INFO] Thread.sleep :: l 
+[2020-02-21 09:44:46.186] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: o 
+[2020-02-21 09:44:47.189] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqPublishSubscribeReceiveLogs [INFO] Thread.sleep :: o 
+[2020-02-21 09:44:47.193] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqPublishSubscribeReceiveLogs [INFO] ch ::   
+[2020-02-21 09:44:48.196] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqPublishSubscribeReceiveLogs [INFO] Thread.sleep ::   
+[2020-02-21 09:44:48.198] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: W 
+[2020-02-21 09:44:49.202] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqPublishSubscribeReceiveLogs [INFO] Thread.sleep :: W 
+[2020-02-21 09:44:49.204] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: o 
+[2020-02-21 09:44:50.208] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqPublishSubscribeReceiveLogs [INFO] Thread.sleep :: o 
+[2020-02-21 09:44:50.210] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: r 
+[2020-02-21 09:44:51.212] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqPublishSubscribeReceiveLogs [INFO] Thread.sleep :: r 
+[2020-02-21 09:44:51.215] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: l 
+[2020-02-21 09:44:52.222] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqPublishSubscribeReceiveLogs [INFO] Thread.sleep :: l 
+[2020-02-21 09:44:52.225] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: d 
+[2020-02-21 09:44:53.230] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqPublishSubscribeReceiveLogs [INFO] Thread.sleep :: d 
+[2020-02-21 09:44:53.232] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: ! 
+[2020-02-21 09:44:54.234] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqPublishSubscribeReceiveLogs [INFO] Thread.sleep :: ! 
+[2020-02-21 09:44:54.235] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqPublishSubscribeReceiveLogs [INFO]  [x] Done 
+[2020-02-21 09:45:55.255] [DESKTOP-58HACMN] [main] RabbitmqPublishSubscribeReceiveLogs [INFO]  [*] Waiting for messages. To exit press CTRL+C 
+[2020-02-21 09:46:00.898] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqPublishSubscribeReceiveLogs [INFO]  [x] Received 'Hello World!' 
+[2020-02-21 09:46:00.900] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqPublishSubscribeReceiveLogs [INFO] Hello World! 
+[2020-02-21 09:46:00.901] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: H 
+[2020-02-21 09:46:00.895] [DESKTOP-58HACMN] [main] RabbitmqPublishSubscribeEmitLog [INFO]  [x] Sent 'Hello World!' 
+[2020-02-21 09:46:01.902] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: e 
+[2020-02-21 09:46:02.908] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: l 
+[2020-02-21 09:46:03.909] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: l 
+[2020-02-21 09:46:04.910] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: o 
+[2020-02-21 09:46:05.912] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqPublishSubscribeReceiveLogs [INFO] ch ::   
+[2020-02-21 09:46:06.914] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: W 
+[2020-02-21 09:46:07.915] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: o 
+[2020-02-21 09:46:08.918] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: r 
+[2020-02-21 09:46:09.920] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: l 
+[2020-02-21 09:46:10.921] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: d 
+[2020-02-21 09:46:11.923] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: ! 
+[2020-02-21 09:46:12.924] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqPublishSubscribeReceiveLogs [INFO]  [x] Done 
+[2020-02-21 09:47:51.890] [DESKTOP-58HACMN] [main] RabbitmqPublishSubscribeReceiveLogs [INFO]  [*] Waiting for messages. To exit press CTRL+C 
+[2020-02-21 09:47:59.549] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqPublishSubscribeReceiveLogs [INFO]  [x] Received 'Hello World!' 
+[2020-02-21 09:47:59.551] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqPublishSubscribeReceiveLogs [INFO] doWork :: [x] start 
+[2020-02-21 09:47:59.552] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqPublishSubscribeReceiveLogs [INFO] Hello World! 
+[2020-02-21 09:47:59.553] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: H 
+[2020-02-21 09:47:59.546] [DESKTOP-58HACMN] [main] RabbitmqPublishSubscribeEmitLog [INFO]  [x] Sent 'Hello World!' 
+[2020-02-21 09:48:00.555] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: e 
+[2020-02-21 09:48:01.556] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: l 
+[2020-02-21 09:48:02.562] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: l 
+[2020-02-21 09:48:03.562] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: o 
+[2020-02-21 09:48:04.574] [DESKTOP-58HACMN] [main] RabbitmqPublishSubscribeEmitLog [INFO]  [x] Sent 'Hello World!' 
+[2020-02-21 09:48:04.596] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqPublishSubscribeReceiveLogs [INFO] ch ::   
+[2020-02-21 09:48:05.604] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: W 
+[2020-02-21 09:48:06.532] [DESKTOP-58HACMN] [main] RabbitmqPublishSubscribeEmitLog [INFO]  [x] Sent 'Hello World!' 
+[2020-02-21 09:48:06.606] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: o 
+[2020-02-21 09:48:07.608] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: r 
+[2020-02-21 09:48:08.609] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: l 
+[2020-02-21 09:48:09.610] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: d 
+[2020-02-21 09:48:10.616] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: ! 
+[2020-02-21 09:48:11.619] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqPublishSubscribeReceiveLogs [INFO] doWork :: [x] Done 
+[2020-02-21 09:48:11.619] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqPublishSubscribeReceiveLogs [INFO]  [x] Done 
+[2020-02-21 09:48:11.621] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqPublishSubscribeReceiveLogs [INFO]  [x] Received 'Hello World!' 
+[2020-02-21 09:48:11.622] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqPublishSubscribeReceiveLogs [INFO] doWork :: [x] start 
+[2020-02-21 09:48:11.622] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqPublishSubscribeReceiveLogs [INFO] Hello World! 
+[2020-02-21 09:48:11.623] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: H 
+[2020-02-21 09:48:12.624] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: e 
+[2020-02-21 09:48:13.626] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: l 
+[2020-02-21 09:48:14.627] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: l 
+[2020-02-21 09:48:15.629] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: o 
+[2020-02-21 09:48:16.632] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqPublishSubscribeReceiveLogs [INFO] ch ::   
+[2020-02-21 09:48:17.632] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: W 
+[2020-02-21 09:48:18.636] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: o 
+[2020-02-21 09:48:19.638] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: r 
+[2020-02-21 09:48:20.652] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: l 
+[2020-02-21 09:48:21.654] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: d 
+[2020-02-21 09:48:22.656] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: ! 
+[2020-02-21 09:48:23.657] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqPublishSubscribeReceiveLogs [INFO] doWork :: [x] Done 
+[2020-02-21 09:48:23.657] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqPublishSubscribeReceiveLogs [INFO]  [x] Done 
+[2020-02-21 09:48:23.658] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqPublishSubscribeReceiveLogs [INFO]  [x] Received 'Hello World!' 
+[2020-02-21 09:48:23.659] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqPublishSubscribeReceiveLogs [INFO] doWork :: [x] start 
+[2020-02-21 09:48:23.660] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqPublishSubscribeReceiveLogs [INFO] Hello World! 
+[2020-02-21 09:48:23.667] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: H 
+[2020-02-21 09:48:24.668] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: e 
+[2020-02-21 09:48:25.671] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: l 
+[2020-02-21 09:48:26.673] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: l 
+[2020-02-21 09:48:27.673] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: o 
+[2020-02-21 09:48:28.675] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqPublishSubscribeReceiveLogs [INFO] ch ::   
+[2020-02-21 09:48:29.676] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: W 
+[2020-02-21 09:48:30.677] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: o 
+[2020-02-21 09:48:31.678] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: r 
+[2020-02-21 09:48:32.679] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: l 
+[2020-02-21 09:48:33.680] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: d 
+[2020-02-21 09:48:34.681] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: ! 
+[2020-02-21 09:48:35.684] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqPublishSubscribeReceiveLogs [INFO] doWork :: [x] Done 
+[2020-02-21 09:48:35.684] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqPublishSubscribeReceiveLogs [INFO]  [x] Done 
+[2020-02-21 09:48:42.259] [DESKTOP-58HACMN] [main] RabbitmqPublishSubscribeEmitLog [INFO]  [x] Sent 'Hello World!' 
+[2020-02-21 09:48:42.261] [DESKTOP-58HACMN] [pool-1-thread-6] RabbitmqPublishSubscribeReceiveLogs [INFO]  [x] Received 'Hello World!' 
+[2020-02-21 09:48:42.265] [DESKTOP-58HACMN] [pool-1-thread-6] RabbitmqPublishSubscribeReceiveLogs [INFO] doWork :: [x] start 
+[2020-02-21 09:48:42.266] [DESKTOP-58HACMN] [pool-1-thread-6] RabbitmqPublishSubscribeReceiveLogs [INFO] Hello World! 
+[2020-02-21 09:48:42.267] [DESKTOP-58HACMN] [pool-1-thread-6] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: H 
+[2020-02-21 09:48:43.273] [DESKTOP-58HACMN] [pool-1-thread-6] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: e 
+[2020-02-21 09:48:44.273] [DESKTOP-58HACMN] [pool-1-thread-6] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: l 
+[2020-02-21 09:48:45.275] [DESKTOP-58HACMN] [pool-1-thread-6] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: l 
+[2020-02-21 09:48:46.277] [DESKTOP-58HACMN] [pool-1-thread-6] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: o 
+[2020-02-21 09:48:47.277] [DESKTOP-58HACMN] [pool-1-thread-6] RabbitmqPublishSubscribeReceiveLogs [INFO] ch ::   
+[2020-02-21 09:48:48.279] [DESKTOP-58HACMN] [pool-1-thread-6] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: W 
+[2020-02-21 09:48:49.282] [DESKTOP-58HACMN] [pool-1-thread-6] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: o 
+[2020-02-21 09:48:50.283] [DESKTOP-58HACMN] [pool-1-thread-6] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: r 
+[2020-02-21 09:48:51.286] [DESKTOP-58HACMN] [pool-1-thread-6] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: l 
+[2020-02-21 09:48:52.286] [DESKTOP-58HACMN] [pool-1-thread-6] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: d 
+[2020-02-21 09:48:53.294] [DESKTOP-58HACMN] [pool-1-thread-6] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: ! 
+[2020-02-21 09:48:54.295] [DESKTOP-58HACMN] [pool-1-thread-6] RabbitmqPublishSubscribeReceiveLogs [INFO] doWork :: [x] Done 
+[2020-02-21 09:48:54.297] [DESKTOP-58HACMN] [pool-1-thread-6] RabbitmqPublishSubscribeReceiveLogs [INFO]  [x] Done 
+[2020-02-21 09:49:11.356] [DESKTOP-58HACMN] [pool-1-thread-7] RabbitmqPublishSubscribeReceiveLogs [INFO]  [x] Received 'Hello World!' 
+[2020-02-21 09:49:11.358] [DESKTOP-58HACMN] [pool-1-thread-7] RabbitmqPublishSubscribeReceiveLogs [INFO] doWork :: [x] start 
+[2020-02-21 09:49:11.360] [DESKTOP-58HACMN] [pool-1-thread-7] RabbitmqPublishSubscribeReceiveLogs [INFO] Hello World! 
+[2020-02-21 09:49:11.360] [DESKTOP-58HACMN] [pool-1-thread-7] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: H 
+[2020-02-21 09:49:11.356] [DESKTOP-58HACMN] [main] RabbitmqPublishSubscribeEmitLog [INFO]  [x] Sent 'Hello World!' 
+[2020-02-21 09:49:12.361] [DESKTOP-58HACMN] [pool-1-thread-7] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: e 
+[2020-02-21 09:49:13.364] [DESKTOP-58HACMN] [pool-1-thread-7] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: l 
+[2020-02-21 09:49:13.782] [DESKTOP-58HACMN] [main] RabbitmqPublishSubscribeEmitLog [INFO]  [x] Sent 'Hello World!' 
+[2020-02-21 09:49:14.364] [DESKTOP-58HACMN] [pool-1-thread-7] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: l 
+[2020-02-21 09:49:15.364] [DESKTOP-58HACMN] [pool-1-thread-7] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: o 
+[2020-02-21 09:49:15.772] [DESKTOP-58HACMN] [main] RabbitmqPublishSubscribeEmitLog [INFO]  [x] Sent 'Hello World!' 
+[2020-02-21 09:49:16.366] [DESKTOP-58HACMN] [pool-1-thread-7] RabbitmqPublishSubscribeReceiveLogs [INFO] ch ::   
+[2020-02-21 09:49:17.367] [DESKTOP-58HACMN] [pool-1-thread-7] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: W 
+[2020-02-21 09:49:17.924] [DESKTOP-58HACMN] [main] RabbitmqPublishSubscribeEmitLog [INFO]  [x] Sent 'Hello World!' 
+[2020-02-21 09:49:18.368] [DESKTOP-58HACMN] [pool-1-thread-7] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: o 
+[2020-02-21 09:49:19.369] [DESKTOP-58HACMN] [pool-1-thread-7] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: r 
+[2020-02-21 09:49:20.370] [DESKTOP-58HACMN] [pool-1-thread-7] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: l 
+[2020-02-21 09:49:21.371] [DESKTOP-58HACMN] [pool-1-thread-7] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: d 
+[2020-02-21 09:49:22.373] [DESKTOP-58HACMN] [pool-1-thread-7] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: ! 
+[2020-02-21 09:49:23.375] [DESKTOP-58HACMN] [pool-1-thread-7] RabbitmqPublishSubscribeReceiveLogs [INFO] doWork :: [x] Done 
+[2020-02-21 09:49:23.375] [DESKTOP-58HACMN] [pool-1-thread-7] RabbitmqPublishSubscribeReceiveLogs [INFO]  [x] Done 
+[2020-02-21 09:49:23.378] [DESKTOP-58HACMN] [pool-1-thread-8] RabbitmqPublishSubscribeReceiveLogs [INFO]  [x] Received 'Hello World!' 
+[2020-02-21 09:49:23.380] [DESKTOP-58HACMN] [pool-1-thread-8] RabbitmqPublishSubscribeReceiveLogs [INFO] doWork :: [x] start 
+[2020-02-21 09:49:23.382] [DESKTOP-58HACMN] [pool-1-thread-8] RabbitmqPublishSubscribeReceiveLogs [INFO] Hello World! 
+[2020-02-21 09:49:23.383] [DESKTOP-58HACMN] [pool-1-thread-8] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: H 
+[2020-02-21 09:49:24.386] [DESKTOP-58HACMN] [pool-1-thread-8] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: e 
+[2020-02-21 09:49:25.387] [DESKTOP-58HACMN] [pool-1-thread-8] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: l 
+[2020-02-21 09:49:26.389] [DESKTOP-58HACMN] [pool-1-thread-8] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: l 
+[2020-02-21 09:49:27.393] [DESKTOP-58HACMN] [pool-1-thread-8] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: o 
+[2020-02-21 09:49:28.394] [DESKTOP-58HACMN] [pool-1-thread-8] RabbitmqPublishSubscribeReceiveLogs [INFO] ch ::   
+[2020-02-21 09:49:29.395] [DESKTOP-58HACMN] [pool-1-thread-8] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: W 
+[2020-02-21 09:49:30.397] [DESKTOP-58HACMN] [pool-1-thread-8] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: o 
+[2020-02-21 09:49:31.397] [DESKTOP-58HACMN] [pool-1-thread-8] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: r 
+[2020-02-21 09:49:32.401] [DESKTOP-58HACMN] [pool-1-thread-8] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: l 
+[2020-02-21 09:49:33.402] [DESKTOP-58HACMN] [pool-1-thread-8] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: d 
+[2020-02-21 09:49:34.403] [DESKTOP-58HACMN] [pool-1-thread-8] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: ! 
+[2020-02-21 09:49:35.407] [DESKTOP-58HACMN] [pool-1-thread-8] RabbitmqPublishSubscribeReceiveLogs [INFO] doWork :: [x] Done 
+[2020-02-21 09:49:35.408] [DESKTOP-58HACMN] [pool-1-thread-8] RabbitmqPublishSubscribeReceiveLogs [INFO]  [x] Done 
+[2020-02-21 09:49:35.408] [DESKTOP-58HACMN] [pool-1-thread-8] RabbitmqPublishSubscribeReceiveLogs [INFO]  [x] Received 'Hello World!' 
+[2020-02-21 09:49:35.410] [DESKTOP-58HACMN] [pool-1-thread-8] RabbitmqPublishSubscribeReceiveLogs [INFO] doWork :: [x] start 
+[2020-02-21 09:49:35.410] [DESKTOP-58HACMN] [pool-1-thread-8] RabbitmqPublishSubscribeReceiveLogs [INFO] Hello World! 
+[2020-02-21 09:49:35.411] [DESKTOP-58HACMN] [pool-1-thread-8] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: H 
+[2020-02-21 09:49:36.414] [DESKTOP-58HACMN] [pool-1-thread-8] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: e 
+[2020-02-21 09:49:37.420] [DESKTOP-58HACMN] [pool-1-thread-8] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: l 
+[2020-02-21 09:49:38.422] [DESKTOP-58HACMN] [pool-1-thread-8] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: l 
+[2020-02-21 09:49:39.423] [DESKTOP-58HACMN] [pool-1-thread-8] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: o 
+[2020-02-21 09:49:40.426] [DESKTOP-58HACMN] [pool-1-thread-8] RabbitmqPublishSubscribeReceiveLogs [INFO] ch ::   
+[2020-02-21 09:49:41.427] [DESKTOP-58HACMN] [pool-1-thread-8] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: W 
+[2020-02-21 09:49:42.428] [DESKTOP-58HACMN] [pool-1-thread-8] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: o 
+[2020-02-21 09:49:43.433] [DESKTOP-58HACMN] [pool-1-thread-8] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: r 
+[2020-02-21 09:49:44.435] [DESKTOP-58HACMN] [pool-1-thread-8] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: l 
+[2020-02-21 09:49:45.435] [DESKTOP-58HACMN] [pool-1-thread-8] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: d 
+[2020-02-21 09:49:46.435] [DESKTOP-58HACMN] [pool-1-thread-8] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: ! 
+[2020-02-21 09:49:47.438] [DESKTOP-58HACMN] [pool-1-thread-8] RabbitmqPublishSubscribeReceiveLogs [INFO] doWork :: [x] Done 
+[2020-02-21 09:49:47.439] [DESKTOP-58HACMN] [pool-1-thread-8] RabbitmqPublishSubscribeReceiveLogs [INFO]  [x] Done 
+[2020-02-21 09:49:47.442] [DESKTOP-58HACMN] [pool-1-thread-8] RabbitmqPublishSubscribeReceiveLogs [INFO]  [x] Received 'Hello World!' 
+[2020-02-21 09:49:47.444] [DESKTOP-58HACMN] [pool-1-thread-8] RabbitmqPublishSubscribeReceiveLogs [INFO] doWork :: [x] start 
+[2020-02-21 09:49:47.445] [DESKTOP-58HACMN] [pool-1-thread-8] RabbitmqPublishSubscribeReceiveLogs [INFO] Hello World! 
+[2020-02-21 09:49:47.446] [DESKTOP-58HACMN] [pool-1-thread-8] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: H 
+[2020-02-21 09:49:48.447] [DESKTOP-58HACMN] [pool-1-thread-8] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: e 
+[2020-02-21 09:49:49.448] [DESKTOP-58HACMN] [pool-1-thread-8] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: l 
+[2020-02-21 09:49:50.449] [DESKTOP-58HACMN] [pool-1-thread-8] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: l 
+[2020-02-21 09:49:51.450] [DESKTOP-58HACMN] [pool-1-thread-8] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: o 
+[2020-02-21 09:49:52.453] [DESKTOP-58HACMN] [pool-1-thread-8] RabbitmqPublishSubscribeReceiveLogs [INFO] ch ::   
+[2020-02-21 09:49:53.454] [DESKTOP-58HACMN] [pool-1-thread-8] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: W 
+[2020-02-21 09:49:54.454] [DESKTOP-58HACMN] [pool-1-thread-8] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: o 
+[2020-02-21 09:49:55.456] [DESKTOP-58HACMN] [pool-1-thread-8] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: r 
+[2020-02-21 09:49:56.457] [DESKTOP-58HACMN] [pool-1-thread-8] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: l 
+[2020-02-21 09:49:57.460] [DESKTOP-58HACMN] [pool-1-thread-8] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: d 
+[2020-02-21 09:49:58.461] [DESKTOP-58HACMN] [pool-1-thread-8] RabbitmqPublishSubscribeReceiveLogs [INFO] ch :: ! 
+[2020-02-21 09:49:59.461] [DESKTOP-58HACMN] [pool-1-thread-8] RabbitmqPublishSubscribeReceiveLogs [INFO] doWork :: [x] Done 
+[2020-02-21 09:49:59.462] [DESKTOP-58HACMN] [pool-1-thread-8] RabbitmqPublishSubscribeReceiveLogs [INFO]  [x] Done 
+[2020-02-21 09:51:25.672] [DESKTOP-58HACMN] [main] RabbitmqPublishSubscribeReceiveLogs [INFO]  [*] Waiting for messages. To exit press CTRL+C 
+[2020-02-21 09:51:32.368] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqPublishSubscribeReceiveLogs [INFO]  [x] Received 'Hello World!' 
+[2020-02-21 09:51:32.370] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqPublishSubscribeReceiveLogs [INFO] doWork :: [x] start 
+[2020-02-21 09:51:32.372] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqPublishSubscribeReceiveLogs [INFO] Hello World! 
+[2020-02-21 09:51:32.366] [DESKTOP-58HACMN] [main] RabbitmqPublishSubscribeEmitLog [INFO]  [x] Sent 'Hello World!' 
+[2020-02-21 09:51:34.983] [DESKTOP-58HACMN] [main] RabbitmqPublishSubscribeEmitLog [INFO]  [x] Sent 'Hello World!' 
+[2020-02-21 09:51:37.160] [DESKTOP-58HACMN] [main] RabbitmqPublishSubscribeEmitLog [INFO]  [x] Sent 'Hello World!' 
+[2020-02-21 09:51:42.154] [DESKTOP-58HACMN] [main] RabbitmqPublishSubscribeEmitLog [INFO]  [x] Sent 'Hello World!' 
+[2020-02-21 09:51:42.374] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqPublishSubscribeReceiveLogs [INFO] doWork :: [x] Done 
+[2020-02-21 09:51:42.375] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqPublishSubscribeReceiveLogs [INFO]  [x] Done 
+[2020-02-21 09:51:42.377] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqPublishSubscribeReceiveLogs [INFO]  [x] Received 'Hello World!' 
+[2020-02-21 09:51:42.378] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqPublishSubscribeReceiveLogs [INFO] doWork :: [x] start 
+[2020-02-21 09:51:42.378] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqPublishSubscribeReceiveLogs [INFO] Hello World! 
+[2020-02-21 09:51:48.280] [DESKTOP-58HACMN] [main] RabbitmqPublishSubscribeEmitLog [INFO]  [x] Sent 'Hello World!' 
+[2020-02-21 09:51:50.729] [DESKTOP-58HACMN] [main] RabbitmqPublishSubscribeEmitLog [INFO]  [x] Sent 'Hello World!' 
+[2020-02-21 09:51:52.379] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqPublishSubscribeReceiveLogs [INFO] doWork :: [x] Done 
+[2020-02-21 09:51:52.381] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqPublishSubscribeReceiveLogs [INFO]  [x] Done 
+[2020-02-21 09:51:52.383] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqPublishSubscribeReceiveLogs [INFO]  [x] Received 'Hello World!' 
+[2020-02-21 09:51:52.384] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqPublishSubscribeReceiveLogs [INFO] doWork :: [x] start 
+[2020-02-21 09:51:52.384] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqPublishSubscribeReceiveLogs [INFO] Hello World! 
+[2020-02-21 09:52:02.385] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqPublishSubscribeReceiveLogs [INFO] doWork :: [x] Done 
+[2020-02-21 09:52:02.389] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqPublishSubscribeReceiveLogs [INFO]  [x] Done 
+[2020-02-21 09:52:02.391] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqPublishSubscribeReceiveLogs [INFO]  [x] Received 'Hello World!' 
+[2020-02-21 09:52:02.391] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqPublishSubscribeReceiveLogs [INFO] doWork :: [x] start 
+[2020-02-21 09:52:02.407] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqPublishSubscribeReceiveLogs [INFO] Hello World! 
+[2020-02-21 09:52:12.414] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqPublishSubscribeReceiveLogs [INFO] doWork :: [x] Done 
+[2020-02-21 09:52:12.419] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqPublishSubscribeReceiveLogs [INFO]  [x] Done 
+[2020-02-21 09:52:12.429] [DESKTOP-58HACMN] [pool-1-thread-6] RabbitmqPublishSubscribeReceiveLogs [INFO]  [x] Received 'Hello World!' 
+[2020-02-21 09:52:12.445] [DESKTOP-58HACMN] [pool-1-thread-6] RabbitmqPublishSubscribeReceiveLogs [INFO] doWork :: [x] start 
+[2020-02-21 09:52:12.447] [DESKTOP-58HACMN] [pool-1-thread-6] RabbitmqPublishSubscribeReceiveLogs [INFO] Hello World! 
+[2020-02-21 09:52:22.448] [DESKTOP-58HACMN] [pool-1-thread-6] RabbitmqPublishSubscribeReceiveLogs [INFO] doWork :: [x] Done 
+[2020-02-21 09:52:22.453] [DESKTOP-58HACMN] [pool-1-thread-6] RabbitmqPublishSubscribeReceiveLogs [INFO]  [x] Done 
+[2020-02-21 09:52:22.456] [DESKTOP-58HACMN] [pool-1-thread-6] RabbitmqPublishSubscribeReceiveLogs [INFO]  [x] Received 'Hello World!' 
+[2020-02-21 09:52:22.458] [DESKTOP-58HACMN] [pool-1-thread-6] RabbitmqPublishSubscribeReceiveLogs [INFO] doWork :: [x] start 
+[2020-02-21 09:52:22.461] [DESKTOP-58HACMN] [pool-1-thread-6] RabbitmqPublishSubscribeReceiveLogs [INFO] Hello World! 
+[2020-02-21 09:52:32.466] [DESKTOP-58HACMN] [pool-1-thread-6] RabbitmqPublishSubscribeReceiveLogs [INFO] doWork :: [x] Done 
+[2020-02-21 09:52:32.467] [DESKTOP-58HACMN] [pool-1-thread-6] RabbitmqPublishSubscribeReceiveLogs [INFO]  [x] Done 
+[2020-02-21 09:57:18.013] [DESKTOP-58HACMN] [main] RabbitmqPublishSubscribeReceiveLogs [INFO]  [*] Waiting for messages. To exit press CTRL+C 
+[2020-02-21 09:57:23.358] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqPublishSubscribeReceiveLogs [INFO]  [x] Received 'Hello World!' 
+[2020-02-21 09:57:23.360] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqPublishSubscribeReceiveLogs [INFO] doWork :: [x] start 
+[2020-02-21 09:57:23.361] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqPublishSubscribeReceiveLogs [INFO] Hello World! 
+[2020-02-21 09:57:23.355] [DESKTOP-58HACMN] [main] RabbitmqPublishSubscribeEmitLog [INFO]  [x] Sent 'Hello World!' 
+[2020-02-21 09:57:26.282] [DESKTOP-58HACMN] [main] RabbitmqPublishSubscribeEmitLog [INFO]  [x] Sent 'Hello World!' 
+[2020-02-21 09:57:28.936] [DESKTOP-58HACMN] [main] RabbitmqPublishSubscribeEmitLog [INFO]  [x] Sent 'Hello World!' 
+[2020-02-21 09:57:31.748] [DESKTOP-58HACMN] [main] RabbitmqPublishSubscribeEmitLog [INFO]  [x] Sent 'Hello World!' 
+[2020-02-21 09:57:33.362] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqPublishSubscribeReceiveLogs [INFO] doWork :: [x] Done 
+[2020-02-21 09:57:33.363] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqPublishSubscribeReceiveLogs [INFO]  [x] Done 
+[2020-02-21 09:57:33.367] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqPublishSubscribeReceiveLogs [INFO]  [x] Received 'Hello World!' 
+[2020-02-21 09:57:33.368] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqPublishSubscribeReceiveLogs [INFO] doWork :: [x] start 
+[2020-02-21 09:57:33.369] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqPublishSubscribeReceiveLogs [INFO] Hello World! 
+[2020-02-21 09:57:34.773] [DESKTOP-58HACMN] [main] RabbitmqPublishSubscribeEmitLog [INFO]  [x] Sent 'Hello World!' 
+[2020-02-21 09:57:43.370] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqPublishSubscribeReceiveLogs [INFO] doWork :: [x] Done 
+[2020-02-21 09:57:43.371] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqPublishSubscribeReceiveLogs [INFO]  [x] Done 
+[2020-02-21 09:57:43.372] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqPublishSubscribeReceiveLogs [INFO]  [x] Received 'Hello World!' 
+[2020-02-21 09:57:43.373] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqPublishSubscribeReceiveLogs [INFO] doWork :: [x] start 
+[2020-02-21 09:57:43.373] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqPublishSubscribeReceiveLogs [INFO] Hello World! 
+[2020-02-21 09:57:53.374] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqPublishSubscribeReceiveLogs [INFO] doWork :: [x] Done 
+[2020-02-21 09:57:53.376] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqPublishSubscribeReceiveLogs [INFO]  [x] Done 
+[2020-02-21 09:57:53.377] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqPublishSubscribeReceiveLogs [INFO]  [x] Received 'Hello World!' 
+[2020-02-21 09:57:53.378] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqPublishSubscribeReceiveLogs [INFO] doWork :: [x] start 
+[2020-02-21 09:57:53.379] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqPublishSubscribeReceiveLogs [INFO] Hello World! 
+[2020-02-21 09:58:03.380] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqPublishSubscribeReceiveLogs [INFO] doWork :: [x] Done 
+[2020-02-21 09:58:03.381] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqPublishSubscribeReceiveLogs [INFO]  [x] Done 
+[2020-02-21 09:58:03.382] [DESKTOP-58HACMN] [pool-1-thread-6] RabbitmqPublishSubscribeReceiveLogs [INFO]  [x] Received 'Hello World!' 
+[2020-02-21 09:58:03.383] [DESKTOP-58HACMN] [pool-1-thread-6] RabbitmqPublishSubscribeReceiveLogs [INFO] doWork :: [x] start 
+[2020-02-21 09:58:03.384] [DESKTOP-58HACMN] [pool-1-thread-6] RabbitmqPublishSubscribeReceiveLogs [INFO] Hello World! 
+[2020-02-21 09:58:13.384] [DESKTOP-58HACMN] [pool-1-thread-6] RabbitmqPublishSubscribeReceiveLogs [INFO] doWork :: [x] Done 
+[2020-02-21 09:58:13.387] [DESKTOP-58HACMN] [pool-1-thread-6] RabbitmqPublishSubscribeReceiveLogs [INFO]  [x] Done 
+[2020-02-21 09:58:33.687] [DESKTOP-58HACMN] [pool-1-thread-7] RabbitmqPublishSubscribeReceiveLogs [INFO]  [x] Received 'Hello World!' 
+[2020-02-21 09:58:33.689] [DESKTOP-58HACMN] [pool-1-thread-7] RabbitmqPublishSubscribeReceiveLogs [INFO] doWork :: [x] start 
+[2020-02-21 09:58:33.690] [DESKTOP-58HACMN] [pool-1-thread-7] RabbitmqPublishSubscribeReceiveLogs [INFO] Hello World! 
+[2020-02-21 09:58:33.687] [DESKTOP-58HACMN] [main] RabbitmqPublishSubscribeEmitLog [INFO]  [x] Sent 'Hello World!' 
+[2020-02-21 09:58:43.691] [DESKTOP-58HACMN] [pool-1-thread-7] RabbitmqPublishSubscribeReceiveLogs [INFO] doWork :: [x] Done 
+[2020-02-21 09:58:43.692] [DESKTOP-58HACMN] [pool-1-thread-7] RabbitmqPublishSubscribeReceiveLogs [INFO]  [x] Done 
+[2020-02-21 10:59:45.669] [DESKTOP-58HACMN] [main] RabbitmqRoutingReceiveLogsDirect [INFO] queueBind :: routingKeyArr[ 0 ] :: erorr 
+[2020-02-21 10:59:45.706] [DESKTOP-58HACMN] [main] RabbitmqRoutingReceiveLogsDirect [INFO] queueBind :: routingKeyArr[ 1 ] :: info 
+[2020-02-21 10:59:45.712] [DESKTOP-58HACMN] [main] RabbitmqRoutingReceiveLogsDirect [INFO] queueBind :: routingKeyArr[ 2 ] :: debug 
+[2020-02-21 10:59:45.713] [DESKTOP-58HACMN] [main] RabbitmqRoutingReceiveLogsDirect [INFO]  [*] Waiting for messages. To exit press CTRL+C 
+[2020-02-21 11:00:58.584] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqRoutingReceiveLogsDirect [INFO]  [x] Received 'erorr':'Hello World!' 
+[2020-02-21 11:00:58.586] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqRoutingReceiveLogsDirect [INFO] doWork :: [x] start 
+[2020-02-21 11:00:58.586] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqRoutingReceiveLogsDirect [INFO] Hello World! 
+[2020-02-21 11:00:58.581] [DESKTOP-58HACMN] [main] RabbitmqRoutingEmitLogDirect [INFO]  [x] Sent 'routingKey :: erorr :: message :: Hello World!' 
+[2020-02-21 11:00:58.605] [DESKTOP-58HACMN] [main] RabbitmqRoutingEmitLogDirect [INFO]  [x] Sent 'routingKey :: trace :: message :: Hello World!' 
+[2020-02-21 11:01:01.014] [DESKTOP-58HACMN] [main] RabbitmqRoutingEmitLogDirect [INFO]  [x] Sent 'routingKey :: erorr :: message :: Hello World!' 
+[2020-02-21 11:01:01.031] [DESKTOP-58HACMN] [main] RabbitmqRoutingEmitLogDirect [INFO]  [x] Sent 'routingKey :: trace :: message :: Hello World!' 
+[2020-02-21 11:01:03.911] [DESKTOP-58HACMN] [main] RabbitmqRoutingEmitLogDirect [INFO]  [x] Sent 'routingKey :: erorr :: message :: Hello World!' 
+[2020-02-21 11:01:03.929] [DESKTOP-58HACMN] [main] RabbitmqRoutingEmitLogDirect [INFO]  [x] Sent 'routingKey :: trace :: message :: Hello World!' 
+[2020-02-21 11:01:08.588] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqRoutingReceiveLogsDirect [INFO] doWork :: [x] Done 
+[2020-02-21 11:01:08.589] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqRoutingReceiveLogsDirect [INFO]  [x] Done 
+[2020-02-21 11:01:08.591] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqRoutingReceiveLogsDirect [INFO]  [x] Received 'erorr':'Hello World!' 
+[2020-02-21 11:01:08.591] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqRoutingReceiveLogsDirect [INFO] doWork :: [x] start 
+[2020-02-21 11:01:08.592] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqRoutingReceiveLogsDirect [INFO] Hello World! 
+[2020-02-21 11:01:18.594] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqRoutingReceiveLogsDirect [INFO] doWork :: [x] Done 
+[2020-02-21 11:01:18.594] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqRoutingReceiveLogsDirect [INFO]  [x] Done 
+[2020-02-21 11:01:18.595] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqRoutingReceiveLogsDirect [INFO]  [x] Received 'erorr':'Hello World!' 
+[2020-02-21 11:01:18.596] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqRoutingReceiveLogsDirect [INFO] doWork :: [x] start 
+[2020-02-21 11:01:18.597] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqRoutingReceiveLogsDirect [INFO] Hello World! 
+[2020-02-21 11:01:28.597] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqRoutingReceiveLogsDirect [INFO] doWork :: [x] Done 
+[2020-02-21 11:01:28.601] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqRoutingReceiveLogsDirect [INFO]  [x] Done 
+[2020-02-21 13:05:13.894] [DESKTOP-58HACMN] [main] RabbitmqTopicsReceiveLogsTopic2 [INFO] queueBind :: routingKeyArr[ 0 ] :: *.erorr 
+[2020-02-21 13:05:13.912] [DESKTOP-58HACMN] [main] RabbitmqTopicsReceiveLogsTopic2 [INFO]  [*] Waiting for messages. To exit press CTRL+C 
+[2020-02-21 13:05:18.579] [DESKTOP-58HACMN] [main] RabbitmqTopicsReceiveLogsTopic [INFO] queueBind :: routingKeyArr[ 0 ] :: anonymous.* 
+[2020-02-21 13:05:18.596] [DESKTOP-58HACMN] [main] RabbitmqTopicsReceiveLogsTopic [INFO]  [*] Waiting for messages. To exit press CTRL+C 
+[2020-02-21 13:05:42.538] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqTopicsReceiveLogsTopic2 [INFO]  [x] Received 'anonymous.erorr':'Hello World!' 
+[2020-02-21 13:05:42.539] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqTopicsReceiveLogsTopic [INFO]  [x] Received 'anonymous.erorr':'Hello World!' 
+[2020-02-21 13:05:42.541] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqTopicsReceiveLogsTopic2 [INFO] doWork :: [x] start 
+[2020-02-21 13:05:42.542] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqTopicsReceiveLogsTopic [INFO] doWork :: [x] start 
+[2020-02-21 13:05:42.542] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqTopicsReceiveLogsTopic2 [INFO] Hello World! 
+[2020-02-21 13:05:42.543] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqTopicsReceiveLogsTopic [INFO] Hello World! 
+[2020-02-21 13:05:42.536] [DESKTOP-58HACMN] [main] RabbitmqTopicsEmitLogTopic [INFO]  [x] Sent 'routingKey :: anonymous.erorr :: message :: Hello World!' 
+[2020-02-21 13:05:42.559] [DESKTOP-58HACMN] [main] RabbitmqTopicsEmitLogTopic [INFO]  [x] Sent 'routingKey :: anonymous.trace :: message :: Hello World!' 
+[2020-02-21 13:05:45.409] [DESKTOP-58HACMN] [main] RabbitmqTopicsEmitLogTopic [INFO]  [x] Sent 'routingKey :: anonymous.erorr :: message :: Hello World!' 
+[2020-02-21 13:05:45.428] [DESKTOP-58HACMN] [main] RabbitmqTopicsEmitLogTopic [INFO]  [x] Sent 'routingKey :: anonymous.trace :: message :: Hello World!' 
+[2020-02-21 13:05:47.719] [DESKTOP-58HACMN] [main] RabbitmqTopicsEmitLogTopic [INFO]  [x] Sent 'routingKey :: anonymous.erorr :: message :: Hello World!' 
+[2020-02-21 13:05:47.747] [DESKTOP-58HACMN] [main] RabbitmqTopicsEmitLogTopic [INFO]  [x] Sent 'routingKey :: anonymous.trace :: message :: Hello World!' 
+[2020-02-21 13:05:50.092] [DESKTOP-58HACMN] [main] RabbitmqTopicsEmitLogTopic [INFO]  [x] Sent 'routingKey :: anonymous.erorr :: message :: Hello World!' 
+[2020-02-21 13:05:50.110] [DESKTOP-58HACMN] [main] RabbitmqTopicsEmitLogTopic [INFO]  [x] Sent 'routingKey :: anonymous.trace :: message :: Hello World!' 
+[2020-02-21 13:05:52.099] [DESKTOP-58HACMN] [main] RabbitmqTopicsEmitLogTopic [INFO]  [x] Sent 'routingKey :: anonymous.erorr :: message :: Hello World!' 
+[2020-02-21 13:05:52.120] [DESKTOP-58HACMN] [main] RabbitmqTopicsEmitLogTopic [INFO]  [x] Sent 'routingKey :: anonymous.trace :: message :: Hello World!' 
+[2020-02-21 13:05:52.544] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqTopicsReceiveLogsTopic2 [INFO] doWork :: [x] Done 
+[2020-02-21 13:05:52.545] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqTopicsReceiveLogsTopic2 [INFO]  [x] Done 
+[2020-02-21 13:05:52.545] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqTopicsReceiveLogsTopic [INFO] doWork :: [x] Done 
+[2020-02-21 13:05:52.546] [DESKTOP-58HACMN] [pool-1-thread-4] RabbitmqTopicsReceiveLogsTopic [INFO]  [x] Done 
+[2020-02-21 13:05:52.547] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqTopicsReceiveLogsTopic2 [INFO]  [x] Received 'anonymous.erorr':'Hello World!' 
+[2020-02-21 13:05:52.548] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqTopicsReceiveLogsTopic [INFO]  [x] Received 'anonymous.trace':'Hello World!' 
+[2020-02-21 13:05:52.548] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqTopicsReceiveLogsTopic2 [INFO] doWork :: [x] start 
+[2020-02-21 13:05:52.549] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqTopicsReceiveLogsTopic [INFO] doWork :: [x] start 
+[2020-02-21 13:05:52.549] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqTopicsReceiveLogsTopic [INFO] Hello World! 
+[2020-02-21 13:05:52.549] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqTopicsReceiveLogsTopic2 [INFO] Hello World! 
+[2020-02-21 13:06:02.550] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqTopicsReceiveLogsTopic [INFO] doWork :: [x] Done 
+[2020-02-21 13:06:02.550] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqTopicsReceiveLogsTopic2 [INFO] doWork :: [x] Done 
+[2020-02-21 13:06:02.552] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqTopicsReceiveLogsTopic [INFO]  [x] Done 
+[2020-02-21 13:06:02.552] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqTopicsReceiveLogsTopic2 [INFO]  [x] Done 
+[2020-02-21 13:06:02.553] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqTopicsReceiveLogsTopic [INFO]  [x] Received 'anonymous.erorr':'Hello World!' 
+[2020-02-21 13:06:02.553] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqTopicsReceiveLogsTopic2 [INFO]  [x] Received 'anonymous.erorr':'Hello World!' 
+[2020-02-21 13:06:02.554] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqTopicsReceiveLogsTopic [INFO] doWork :: [x] start 
+[2020-02-21 13:06:02.554] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqTopicsReceiveLogsTopic2 [INFO] doWork :: [x] start 
+[2020-02-21 13:06:02.555] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqTopicsReceiveLogsTopic [INFO] Hello World! 
+[2020-02-21 13:06:02.556] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqTopicsReceiveLogsTopic2 [INFO] Hello World! 
+[2020-02-21 13:06:12.557] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqTopicsReceiveLogsTopic [INFO] doWork :: [x] Done 
+[2020-02-21 13:06:12.558] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqTopicsReceiveLogsTopic2 [INFO] doWork :: [x] Done 
+[2020-02-21 13:06:12.560] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqTopicsReceiveLogsTopic [INFO]  [x] Done 
+[2020-02-21 13:06:12.561] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqTopicsReceiveLogsTopic2 [INFO]  [x] Done 
+[2020-02-21 13:06:12.562] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqTopicsReceiveLogsTopic [INFO]  [x] Received 'anonymous.trace':'Hello World!' 
+[2020-02-21 13:06:12.563] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqTopicsReceiveLogsTopic2 [INFO]  [x] Received 'anonymous.erorr':'Hello World!' 
+[2020-02-21 13:06:12.564] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqTopicsReceiveLogsTopic [INFO] doWork :: [x] start 
+[2020-02-21 13:06:12.565] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqTopicsReceiveLogsTopic2 [INFO] doWork :: [x] start 
+[2020-02-21 13:06:12.569] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqTopicsReceiveLogsTopic [INFO] Hello World! 
+[2020-02-21 13:06:12.569] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqTopicsReceiveLogsTopic2 [INFO] Hello World! 
+[2020-02-21 13:06:22.570] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqTopicsReceiveLogsTopic [INFO] doWork :: [x] Done 
+[2020-02-21 13:06:22.571] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqTopicsReceiveLogsTopic [INFO]  [x] Done 
+[2020-02-21 13:06:22.573] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqTopicsReceiveLogsTopic [INFO]  [x] Received 'anonymous.erorr':'Hello World!' 
+[2020-02-21 13:06:22.571] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqTopicsReceiveLogsTopic2 [INFO] doWork :: [x] Done 
+[2020-02-21 13:06:22.574] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqTopicsReceiveLogsTopic [INFO] doWork :: [x] start 
+[2020-02-21 13:06:22.574] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqTopicsReceiveLogsTopic2 [INFO]  [x] Done 
+[2020-02-21 13:06:22.576] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqTopicsReceiveLogsTopic2 [INFO]  [x] Received 'anonymous.erorr':'Hello World!' 
+[2020-02-21 13:06:22.576] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqTopicsReceiveLogsTopic2 [INFO] doWork :: [x] start 
+[2020-02-21 13:06:22.575] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqTopicsReceiveLogsTopic [INFO] Hello World! 
+[2020-02-21 13:06:22.577] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqTopicsReceiveLogsTopic2 [INFO] Hello World! 
+[2020-02-21 13:06:32.578] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqTopicsReceiveLogsTopic [INFO] doWork :: [x] Done 
+[2020-02-21 13:06:32.578] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqTopicsReceiveLogsTopic2 [INFO] doWork :: [x] Done 
+[2020-02-21 13:06:32.587] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqTopicsReceiveLogsTopic [INFO]  [x] Done 
+[2020-02-21 13:06:32.588] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqTopicsReceiveLogsTopic2 [INFO]  [x] Done 
+[2020-02-21 13:06:32.591] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqTopicsReceiveLogsTopic [INFO]  [x] Received 'anonymous.trace':'Hello World!' 
+[2020-02-21 13:06:32.597] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqTopicsReceiveLogsTopic [INFO] doWork :: [x] start 
+[2020-02-21 13:06:32.609] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqTopicsReceiveLogsTopic [INFO] Hello World! 
+[2020-02-21 13:06:42.612] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqTopicsReceiveLogsTopic [INFO] doWork :: [x] Done 
+[2020-02-21 13:06:42.614] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqTopicsReceiveLogsTopic [INFO]  [x] Done 
+[2020-02-21 13:06:42.615] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqTopicsReceiveLogsTopic [INFO]  [x] Received 'anonymous.erorr':'Hello World!' 
+[2020-02-21 13:06:42.615] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqTopicsReceiveLogsTopic [INFO] doWork :: [x] start 
+[2020-02-21 13:06:42.616] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqTopicsReceiveLogsTopic [INFO] Hello World! 
+[2020-02-21 13:06:52.616] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqTopicsReceiveLogsTopic [INFO] doWork :: [x] Done 
+[2020-02-21 13:06:52.622] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqTopicsReceiveLogsTopic [INFO]  [x] Done 
+[2020-02-21 13:06:52.623] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqTopicsReceiveLogsTopic [INFO]  [x] Received 'anonymous.trace':'Hello World!' 
+[2020-02-21 13:06:52.625] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqTopicsReceiveLogsTopic [INFO] doWork :: [x] start 
+[2020-02-21 13:06:52.625] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqTopicsReceiveLogsTopic [INFO] Hello World! 
+[2020-02-21 13:07:02.627] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqTopicsReceiveLogsTopic [INFO] doWork :: [x] Done 
+[2020-02-21 13:07:02.633] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqTopicsReceiveLogsTopic [INFO]  [x] Done 
+[2020-02-21 13:07:02.637] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqTopicsReceiveLogsTopic [INFO]  [x] Received 'anonymous.erorr':'Hello World!' 
+[2020-02-21 13:07:02.641] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqTopicsReceiveLogsTopic [INFO] doWork :: [x] start 
+[2020-02-21 13:07:02.645] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqTopicsReceiveLogsTopic [INFO] Hello World! 
+[2020-02-21 13:07:12.650] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqTopicsReceiveLogsTopic [INFO] doWork :: [x] Done 
+[2020-02-21 13:07:12.651] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqTopicsReceiveLogsTopic [INFO]  [x] Done 
+[2020-02-21 13:07:12.653] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqTopicsReceiveLogsTopic [INFO]  [x] Received 'anonymous.trace':'Hello World!' 
+[2020-02-21 13:07:12.655] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqTopicsReceiveLogsTopic [INFO] doWork :: [x] start 
+[2020-02-21 13:07:12.658] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqTopicsReceiveLogsTopic [INFO] Hello World! 
+[2020-02-21 13:07:22.661] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqTopicsReceiveLogsTopic [INFO] doWork :: [x] Done 
+[2020-02-21 13:07:22.662] [DESKTOP-58HACMN] [pool-1-thread-5] RabbitmqTopicsReceiveLogsTopic [INFO]  [x] Done 
+[2020-02-21 13:08:23.391] [DESKTOP-58HACMN] [pool-1-thread-6] RabbitmqTopicsReceiveLogsTopic2 [INFO]  [x] Received 'anonymous.erorr':'Hello World!' 
+[2020-02-21 13:08:23.393] [DESKTOP-58HACMN] [pool-1-thread-6] RabbitmqTopicsReceiveLogsTopic2 [INFO] doWork :: [x] start 
+[2020-02-21 13:08:23.394] [DESKTOP-58HACMN] [pool-1-thread-6] RabbitmqTopicsReceiveLogsTopic2 [INFO] Hello World! 
+[2020-02-21 13:08:23.391] [DESKTOP-58HACMN] [pool-1-thread-6] RabbitmqTopicsReceiveLogsTopic [INFO]  [x] Received 'anonymous.erorr':'Hello World!' 
+[2020-02-21 13:08:23.395] [DESKTOP-58HACMN] [pool-1-thread-6] RabbitmqTopicsReceiveLogsTopic [INFO] doWork :: [x] start 
+[2020-02-21 13:08:23.396] [DESKTOP-58HACMN] [pool-1-thread-6] RabbitmqTopicsReceiveLogsTopic [INFO] Hello World! 
+[2020-02-21 13:08:23.390] [DESKTOP-58HACMN] [main] RabbitmqTopicsEmitLogTopic [INFO]  [x] Sent 'routingKey :: anonymous.erorr :: message :: Hello World!' 
+[2020-02-21 13:08:23.417] [DESKTOP-58HACMN] [main] RabbitmqTopicsEmitLogTopic [INFO]  [x] Sent 'routingKey :: anonymous.trace :: message :: Hello World!' 
+[2020-02-21 13:08:33.395] [DESKTOP-58HACMN] [pool-1-thread-6] RabbitmqTopicsReceiveLogsTopic2 [INFO] doWork :: [x] Done 
+[2020-02-21 13:08:33.397] [DESKTOP-58HACMN] [pool-1-thread-6] RabbitmqTopicsReceiveLogsTopic2 [INFO]  [x] Done 
+[2020-02-21 13:08:33.398] [DESKTOP-58HACMN] [pool-1-thread-6] RabbitmqTopicsReceiveLogsTopic [INFO] doWork :: [x] Done 
+[2020-02-21 13:08:33.399] [DESKTOP-58HACMN] [pool-1-thread-6] RabbitmqTopicsReceiveLogsTopic [INFO]  [x] Done 
+[2020-02-21 13:08:33.400] [DESKTOP-58HACMN] [pool-1-thread-7] RabbitmqTopicsReceiveLogsTopic [INFO]  [x] Received 'anonymous.trace':'Hello World!' 
+[2020-02-21 13:08:33.401] [DESKTOP-58HACMN] [pool-1-thread-7] RabbitmqTopicsReceiveLogsTopic [INFO] doWork :: [x] start 
+[2020-02-21 13:08:33.402] [DESKTOP-58HACMN] [pool-1-thread-7] RabbitmqTopicsReceiveLogsTopic [INFO] Hello World! 
+[2020-02-21 13:08:43.402] [DESKTOP-58HACMN] [pool-1-thread-7] RabbitmqTopicsReceiveLogsTopic [INFO] doWork :: [x] Done 
+[2020-02-21 13:08:43.403] [DESKTOP-58HACMN] [pool-1-thread-7] RabbitmqTopicsReceiveLogsTopic [INFO]  [x] Done 

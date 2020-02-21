@@ -16,6 +16,20 @@ public class ThreadTestMain
 		Thread th = new Thread( imTh ) ;
 		th.start( ) ;
 
+		// multi thread 실행
+
+		int threadCnt = 0 ;
+		MainThread01 imThMulti = new MainThread01( "MainThread01  Multi 실행" ) ;
+
+		threadCnt = 3 ;
+		Thread[ ] thd = new Thread[ threadCnt ] ;
+
+		for ( int i = 0 ; i < threadCnt ; i++ )
+		{
+			thd[ i ] = new Thread( imThMulti ) ;
+			thd[ i ].start( ) ;
+		}
+
 		logger.debug( "MainThread01 :: 끝!! :: " ) ;
 
 	}
