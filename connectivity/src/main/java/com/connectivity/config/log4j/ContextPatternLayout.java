@@ -1,5 +1,5 @@
 
-package com.hs.mgp.connectivity.config.log4j ;
+package com.connectivity.config.log4j ;
 
 import java.net.InetAddress ;
 import java.net.UnknownHostException ;
