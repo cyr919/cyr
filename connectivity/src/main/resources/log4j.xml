@@ -8,7 +8,7 @@
 		<!-- 패턴 레이아웃 설정.. -->
 		<!-- <layout class="org.apache.log4j.PatternLayout"> <param name="ConversionPattern" value="[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%t] %c{1} [%p] %m %n"/> </layout> -->
 		<!-- custom 설정 추가 -->
-		<layout class="com.hs.mgp.connectivity.config.log4j.ContextPatternLayout">
+		<layout class="com.connectivity.config.log4j.ContextPatternLayout">
 			<param name="ConversionPattern" value="[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%h] [%t] %c{1} [%p] %m %n" />
 		</layout>
 	</appender>
@@ -32,7 +32,7 @@
 		<!-- <layout class="org.apache.log4j.PatternLayout"> <param name="ConversionPattern" value="[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%t] %c{1} [%p] %m %n"/> </layout> -->
 
 		<!-- custom 설정 추가 -->
-		<layout class="com.hs.mgp.connectivity.config.log4j.ContextPatternLayout">
+		<layout class="com.connectivity.config.log4j.ContextPatternLayout">
 			<param name="ConversionPattern" value="[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%h] [%t] %c{1} [%p] %m %n" />
 		</layout>
 

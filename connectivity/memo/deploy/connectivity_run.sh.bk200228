@@ -1,0 +1,6 @@
+#!/bin/bash
+
+echo "connectivity run"
+
+cd /APPS/app/connectivity
+nohup java -Xmx2048m -Dfile.encoding=UTF-8 -cp -Dname=hs_msp_connectivity .\lib\*:./connectivity-0.0.1-SNAPSHOT.jar com.prototype.MainRun > /dev/null 2>&1&

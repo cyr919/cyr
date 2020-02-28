@@ -1,0 +1,40 @@
+{
+  "DVIF_SETTINGS" : [
+    {
+      "DVIF_ID" : "PCS01"
+      , "DT_MDL" : [
+        { "STD_IDX" : "BV" }
+        , { "STD_IDX" : "BC" }
+        , { "STD_IDX" : "BF" }
+        , { "STD_IDX" : "DCBA" }
+      ]
+      , "CAL_INF" : [
+        {"STD_IDX" : "BP" , "STD_IDXS" : "BV,BC" , "OPTR" : "*"}
+      ]
+    }
+    , {
+      "DVIF_ID" : "PCS02"
+      , "DT_MDL" : [
+        { "STD_IDX" : "BV" }
+        , { "STD_IDX" : "BC" }
+        , { "STD_IDX" : "BF" }
+        , { "STD_IDX" : "DCBA" }
+      ]
+      , "CAL_INF" : [
+        {"STD_IDX" : "BP" , "STD_IDXS" : "BV,BC" , "OPTR" : "*"}
+      ]
+    }
+    , {
+      "DVIF_ID" : "ESS"
+      , "DT_MDL" : [
+        { "STD_IDX" : "BV" }
+        , { "STD_IDX" : "BC" }
+        , { "STD_IDX" : "BF" }
+        , { "STD_IDX" : "DCBA" }
+      ]
+      , "CAL_INF" : [
+        {"STD_IDX" : "BP" , "STD_IDXS" : "BV,BC" , "OPTR" : "*"}
+      ]
+    }
+  ]
+}

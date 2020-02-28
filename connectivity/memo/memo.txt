@@ -1,0 +1,15 @@
+
+
+// 실행 권한 부여
+chmod +x connectivity_run.sh
+chmod +x connectivity_stop.sh
+chmod +x connectivity_status.sh
+
+$ vi connectivity_run.sh
+$ vi connectivity_stop.sh
+
+:set fileformat=unix
+
+후
+
+:wq
