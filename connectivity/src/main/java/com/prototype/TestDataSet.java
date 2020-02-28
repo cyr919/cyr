@@ -115,7 +115,7 @@ public class TestDataSet implements Runnable
 
 				/////////////////////////////////////////////
 
-				Thread.sleep( 10 ) ;
+//				Thread.sleep( 10 ) ;
 
 				logger.debug( "TestDataSet :: while :: end" ) ;
 			}

@@ -12,23 +12,17 @@ import org.json.simple.parser.JSONParser ;
 import org.json.simple.parser.ParseException ;
 
 import com.connectivity.utils.FileUtil ;
+import com.connectivity.utils.JsonUtil ;
 
 public class JsonDeviceProperties
 {
 
 	static Logger logger = Logger.getLogger( JsonDeviceProperties.class ) ;
 
-	public static HashMap< String , Object > DEVICE_PROPERTIES_HASHMAP = new HashMap<>( ) ;
 
 	public static void main( String[ ] args )
 	{
-		JsonDeviceProperties exe = new JsonDeviceProperties( ) ;
 
-		logger.debug( "JsonDeviceProperties main 시작 :: " ) ;
-
-		DEVICE_PROPERTIES_HASHMAP = exe.getDeviceProperties( ) ;
-
-		logger.debug( "JsonDeviceProperties main 종료 :: " ) ;
 
 	}
 
@@ -36,7 +30,10 @@ public class JsonDeviceProperties
 	{
 
 		HashMap< String , Object > resultHashMap = new HashMap<>( ) ;
+		HashMap< String , Object > resultsubHashMap = new HashMap<>( ) ;
+
 		FileUtil fileUtil = new FileUtil( ) ;
+		JsonUtil jsonUtil = new JsonUtil( ) ;
 
 		StringBuffer fileCntStringBuffer = null ;
 		JSONParser jsonParser = new JSONParser( ) ;
@@ -44,19 +41,16 @@ public class JsonDeviceProperties
 		JSONArray dvSetJSONArray = new JSONArray( ) ;
 		JSONObject dvSetJSONObject = new JSONObject( ) ;
 
-		
 		JSONArray tempJSONArray = new JSONArray( ) ;
 		JSONObject tempJSONObject = new JSONObject( ) ;
-		
+
 		HashMap< String , Object > tempHashMap = new HashMap<>( ) ;
 		List< HashMap< String , Object > > tempList = new ArrayList<>( ) ;
 		String deviceIdStr = "" ;
-		
-		
-		int i = 0 ;
 
-		
-		
+		int i = 0 ;
+		int j = 0 ;
+
 		try
 		{
 			logger.debug( "getDeviceProperties 시작 :: " ) ;
@@ -71,21 +65,32 @@ public class JsonDeviceProperties
 			jsonObject = ( JSONObject ) jsonParser.parse( ( fileCntStringBuffer + "" ) ) ;
 			dvSetJSONArray = ( JSONArray ) jsonObject.get( "DVIF_SETTINGS" ) ;
 
-			logger.debug( "jsonObject.get( \"DVIF_SETTINGS\" ) :: " + jsonObject.get( "DVIF_SETTINGS" ) ) ;
 			logger.debug( "dvSetJSONArray :: " + dvSetJSONArray ) ;
 			logger.debug( "dvSetJSONArray.size( ) :: " + dvSetJSONArray.size( ) ) ;
 
 			for ( i = 0 ; i < dvSetJSONArray.size( ) ; i++ )
 			{
 				dvSetJSONObject = ( JSONObject ) dvSetJSONArray.get( i ) ;
-				
+				resultsubHashMap = new HashMap<>( ) ;
+
 				logger.debug( "dvSetJSONObject :: " + dvSetJSONObject ) ;
-				deviceIdStr = dvSetJSONObject.get( "DVIF_ID" ) + "" ;
-				
-				
-				
-				
+
+				tempJSONArray = ( JSONArray ) dvSetJSONObject.get( "DT_MDL" ) ;
+				tempList = jsonUtil.getListHashMapFromJsonArray( tempJSONArray ) ;
+				logger.debug( "tempList :: " + tempList ) ;
+				resultsubHashMap.put( "DT_MDL" , tempList ) ;
+
+				tempJSONArray = ( JSONArray ) dvSetJSONObject.get( "CAL_INF" ) ;
+				tempList = jsonUtil.getListHashMapFromJsonArray( tempJSONArray ) ;
+				logger.debug( "tempList :: " + tempList ) ;
+				resultsubHashMap.put( "CAL_INF" , tempList ) ;
+
+				resultHashMap.put( ( dvSetJSONObject.get( "DVIF_ID" ) + "" ) , resultsubHashMap ) ;
 			}
+
+			logger.debug( "resultHashMap :: " ) ;
+			logger.debug( resultHashMap ) ;
+			logger.debug( "resultHashMap :: " ) ;
 
 		}
 		catch ( ParseException e )

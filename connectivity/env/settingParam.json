@@ -1,40 +1,88 @@
 {
-  "DVIF_SETTINGS" : [
-    {
-      "DVIF_ID" : "PCS01"
-      , "DT_MDL" : [
-        { "STD_IDX" : "BV" }
-        , { "STD_IDX" : "BC" }
-        , { "STD_IDX" : "BF" }
-        , { "STD_IDX" : "DCBA" }
-      ]
-      , "CAL_INF" : [
-        {"STD_IDX" : "BP" , "STD_IDXS" : "BV,BC" , "OPTR" : "*"}
-      ]
-    }
-    , {
-      "DVIF_ID" : "PCS02"
-      , "DT_MDL" : [
-        { "STD_IDX" : "BV" }
-        , { "STD_IDX" : "BC" }
-        , { "STD_IDX" : "BF" }
-        , { "STD_IDX" : "DCBA" }
-      ]
-      , "CAL_INF" : [
-        {"STD_IDX" : "BP" , "STD_IDXS" : "BV,BC" , "OPTR" : "*"}
-      ]
-    }
-    , {
-      "DVIF_ID" : "ESS"
-      , "DT_MDL" : [
-        { "STD_IDX" : "BV" }
-        , { "STD_IDX" : "BC" }
-        , { "STD_IDX" : "BF" }
-        , { "STD_IDX" : "DCBA" }
-      ]
-      , "CAL_INF" : [
-        {"STD_IDX" : "BP" , "STD_IDXS" : "BV,BC" , "OPTR" : "*"}
-      ]
-    }
-  ]
+	"DVIF_SETTINGS": [
+		{
+			"DVIF_ID": "PCS01",
+			"DT_MDL": [
+				{
+					"STD_IDX": "BV",
+					"IDX": 0
+				},
+				{
+					"STD_IDX": "BC",
+					"IDX": 1
+				},
+				{
+					"STD_IDX": "BF",
+					"IDX": 2
+				},
+				{
+					"STD_IDX": "DCBA",
+					"IDX": 3
+				}
+			],
+			"CAL_INF": [
+				{
+					"STD_IDX": "BP",
+					"STD_IDXS": "BV,BC",
+					"OPTR": "*"
+				}
+			]
+		},
+		{
+			"DVIF_ID": "PCS02",
+			"DT_MDL": [
+				{
+					"STD_IDX": "BV",
+					"IDX": 4
+				},
+				{
+					"STD_IDX": "BC",
+					"IDX": 5
+				},
+				{
+					"STD_IDX": "BF",
+					"IDX": 6
+				},
+				{
+					"STD_IDX": "DCBA",
+					"IDX": 7
+				}
+			],
+			"CAL_INF": [
+				{
+					"STD_IDX": "BP",
+					"STD_IDXS": "BV,BC",
+					"OPTR": "*"
+				}
+			]
+		},
+		{
+			"DVIF_ID": "ESS",
+			"DT_MDL": [
+				{
+					"STD_IDX": "BV",
+					"IDX": 8
+				},
+				{
+					"STD_IDX": "BC",
+					"IDX": 9
+				},
+				{
+					"STD_IDX": "BF",
+					"IDX": 10
+				},
+				{
+					"STD_IDX": "DCBA",
+					"IDX": 11
+				}
+			],
+			"CAL_INF": [
+				{
+					"STD_IDX": "BP",
+					"STD_IDXS": "BV,BC",
+					"OPTR": "*"
+				}
+			]
+		}
+	]
 }

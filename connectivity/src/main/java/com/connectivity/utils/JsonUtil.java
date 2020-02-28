@@ -3,14 +3,13 @@ package com.connectivity.utils ;
 
 import java.util.ArrayList ;
 import java.util.HashMap ;
+import java.util.Iterator ;
 import java.util.List ;
 import java.util.Map ;
 
 import org.apache.log4j.Logger ;
 import org.json.simple.JSONArray ;
 import org.json.simple.JSONObject ;
-
-import com.mongodb.util.JSON ;
 
 public class JsonUtil
 {
@@ -20,14 +19,6 @@ public class JsonUtil
 	public static void main( String[ ] args )
 	{
 		// TODO Auto-generated method stub
-		
-		JsonUtil exe = new JsonUtil( ) ;
-		HashMap< String , Object > paramHashMap = new HashMap<>( ) ;
-		JSONObject jsonObject = new JSONObject( ) ;
-		
-		jsonObject = exe.getJsonStringFromMap( paramHashMap ) ;
-
-
 	}
 
 	/**
@@ -79,58 +70,90 @@ public class JsonUtil
 	}
 
 	/**
-	 * JsonObject를 Map<String, String>으로 변환한다.
-	 *
-	 * @param jsonObj JSONObject.
-	 * @return Map<String, Object>.
+	 * <pre>
+	 * JsonObject를 HashMap<String,Object>으로 변환한다.
+	 * </pre>
+	 * 
+	 * @param
+	 * @return HashMap<String,Object>
+	 * @date 2020. 2. 28.
 	 */
-	@SuppressWarnings( "unchecked" )
-	public Map< String , Object > getMapFromJsonObject( JSONObject jsonObj )
+	public HashMap< String , Object > getHashMapFromJsonObject( JSONObject jsonObj )
 	{
-		Map< String , Object > map = null ;
+		HashMap< String , Object > resultHashMap = new HashMap<>( ) ;
 
-		// try
-		// {
-		//
-		// map = new ObjectMapper( ).readValue( jsonObj.toJSONString( ) , Map.class ) ;
-		//
-		// }
-		// catch ( JsonParseException e )
-		// {
-		// e.printStackTrace( ) ;
-		// }
-		// catch ( JsonMappingException e )
-		// {
-		// e.printStackTrace( ) ;
-		// }
-		// catch ( IOException e )
-		// {
-		// e.printStackTrace( ) ;
-		// }
+		Iterator< ? > iteratorJSONObjectKeys = null ;
+		String strJsonKey = "" ;
+		// String strJsonVal = "" ;
 
-		return map ;
+		try
+		{
+			if ( jsonObj != null )
+			{
+				iteratorJSONObjectKeys = jsonObj.keySet( ).iterator( ) ;
+				while ( iteratorJSONObjectKeys.hasNext( ) )
+				{
+					strJsonKey = ( String ) iteratorJSONObjectKeys.next( ) ;
+					// strJsonVal = ( String ) jsonObj.get( strJsonKey ) ;
+
+					resultHashMap.put( strJsonKey , jsonObj.get( strJsonKey ) ) ;
+				}
+			}
+			logger.debug( "resultHashMap :: " + resultHashMap ) ;
+
+		}
+		finally
+		{
+			jsonObj = null ;
+
+			iteratorJSONObjectKeys = null ;
+			strJsonKey = null ;
+			// strJsonVal = null ;
+		}
+
+		return resultHashMap ;
 	}
 
 	/**
-	 * JsonArray를 List<Map<String, String>>으로 변환한다.
-	 *
-	 * @param jsonArray JSONArray.
-	 * @return List<Map<String, Object>>.
+	 * <pre>
+	 * JsonArray를 List<HashMap<String,Object>>으로 변환한다.
+	 * </pre>
+	 * 
+	 * @param
+	 * @return List<HashMap<String,Object>>
+	 * @date 2020. 2. 28.
 	 */
-	public List< Map< String , Object > > getListMapFromJsonArray( JSONArray jsonArray )
+	public List< HashMap< String , Object > > getListHashMapFromJsonArray( JSONArray jsonArray )
 	{
-		List< Map< String , Object > > list = new ArrayList< Map< String , Object > >( ) ;
+		List< HashMap< String , Object > > resultList = new ArrayList<>( ) ;
 
-		if ( jsonArray != null )
+		HashMap< String , Object > resultHashMap = new HashMap<>( ) ;
+		JSONObject JSONObject = new JSONObject( ) ;
+		int i = 0 ;
+
+		try
 		{
-			int jsonSize = jsonArray.size( ) ;
-			for ( int i = 0 ; i < jsonSize ; i++ )
+			if ( jsonArray != null )
 			{
-				Map< String , Object > map = this.getMapFromJsonObject( ( JSONObject ) jsonArray.get( i ) ) ;
-				list.add( map ) ;
+				for ( i = 0 ; i < jsonArray.size( ) ; i++ )
+				{
+					JSONObject = ( JSONObject ) jsonArray.get( i ) ;
+
+					resultHashMap = new HashMap<>( ) ;
+					resultHashMap = this.getHashMapFromJsonObject( JSONObject ) ;
+
+					resultList.add( resultHashMap ) ;
+				}
 			}
 		}
+		finally
+		{
+			i = 0 ;
+			JSONObject = null ;
+			resultHashMap = null ;
+			jsonArray = null ;
+		}
 
-		return list ;
+		return resultList ;
 	}
 }
