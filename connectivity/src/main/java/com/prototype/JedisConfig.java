@@ -36,38 +36,38 @@ public class JedisConfig
 			logger.info( "jedis.isConnected() :: " + jedis.isConnected( ) ) ;
 			if ( jedis.isConnected( ) )
 			{
-				jedis.set( "deviceKey01" , "ESS01" ) ;
-				jedis.set( "deviceKey02" , "ESS02" ) ;
-				jedis.set( "deviceKey03" , "ESS03" ) ;
-				jedis.set( "deviceKey04" , "ESS04" ) ;
+//				jedis.set( "deviceKey01" , "ESS01" ) ;
+//				jedis.set( "deviceKey02" , "ESS02" ) ;
+//				jedis.set( "deviceKey03" , "ESS03" ) ;
+//				jedis.set( "deviceKey04" , "ESS04" ) ;
 
 				logger.debug( jedis.get( "deviceKey01" ) ) ;
 				logger.debug( jedis.get( "deviceKey02" ) ) ;
 				logger.debug( jedis.get( "deviceKey03" ) ) ;
 				logger.debug( jedis.get( "deviceKey04" ) ) ;
-
-				intVal = CommUtil.getRandomInt( 100 , 0 ) ;
-				tempHashMap.put( "BV" , intVal ) ;
-				jedis.hset( "PCS01" , "BV" , ( tempHashMap.get( "BV" ) + "" ) ) ;
-
-				intVal = CommUtil.getRandomInt( 10 , 20 ) ;
-				tempHashMap.put( "BC" , intVal ) ;
-				jedis.hset( "PCS01" , "BC" , ( tempHashMap.get( "BC" ) + "" ) ) ;
-
-				intVal = CommUtil.getRandomInt( 10 , 50 ) ;
-				tempHashMap.put( "BF" , intVal ) ;
-				jedis.hset( "PCS01" , "BF" , ( tempHashMap.get( "BF" ) + "" ) ) ;
-
-				intVal = CommUtil.getRandomInt( 10 , 150 ) ;
-				tempHashMap.put( "DCBA" , intVal ) ;
-				jedis.hset( "PCS01" , "DCBA" , ( tempHashMap.get( "DCBA" ) + "" ) ) ;
-
-				logger.debug( "tempHashMap :: " + tempHashMap ) ;
-
-				intCalVal = Integer.parseInt( tempHashMap.get( "BV" ) + "" ) * Integer.parseInt( tempHashMap.get( "BC" ) + "" ) ;
-
-				tempHashMap.put( "BP" , intCalVal ) ;
-				jedis.hset( "PCS01" , "BP" , ( tempHashMap.get( "BP" ) + "" ) ) ;
+//
+//				intVal = CommUtil.getRandomInt( 100 , 0 ) ;
+//				tempHashMap.put( "BV" , intVal ) ;
+//				jedis.hset( "PCS01" , "BV" , ( tempHashMap.get( "BV" ) + "" ) ) ;
+//
+//				intVal = CommUtil.getRandomInt( 10 , 20 ) ;
+//				tempHashMap.put( "BC" , intVal ) ;
+//				jedis.hset( "PCS01" , "BC" , ( tempHashMap.get( "BC" ) + "" ) ) ;
+//
+//				intVal = CommUtil.getRandomInt( 10 , 50 ) ;
+//				tempHashMap.put( "BF" , intVal ) ;
+//				jedis.hset( "PCS01" , "BF" , ( tempHashMap.get( "BF" ) + "" ) ) ;
+//
+//				intVal = CommUtil.getRandomInt( 10 , 150 ) ;
+//				tempHashMap.put( "DCBA" , intVal ) ;
+//				jedis.hset( "PCS01" , "DCBA" , ( tempHashMap.get( "DCBA" ) + "" ) ) ;
+//
+//				logger.debug( "tempHashMap :: " + tempHashMap ) ;
+//
+//				intCalVal = Integer.parseInt( tempHashMap.get( "BV" ) + "" ) * Integer.parseInt( tempHashMap.get( "BC" ) + "" ) ;
+//
+//				tempHashMap.put( "BP" , intCalVal ) ;
+//				jedis.hset( "PCS01" , "BP" , ( tempHashMap.get( "BP" ) + "" ) ) ;
 
 				logger.debug( jedis.hget( "PCS01" , "BV" ) ) ;
 				logger.debug( jedis.hget( "PCS01" , "BC" ) ) ;
@@ -107,11 +107,12 @@ public class JedisConfig
 		try
 		{
 			jedisPoolConfig = new JedisPoolConfig( ) ;
+//			 jedisPool = new JedisPool( jedisPoolConfig , "192.168.43.62" , 6379 , 3000  ) ;
 			// jedisPool = new JedisPool( jedisPoolConfig , "192.168.43.62" , 6379 , 3000 , "1q2w3e4r5t!@#$%" ) ;
 			// jedisPool = new JedisPool( jedisPoolConfig , "192.168.56.105" , 6379 , 3000 , "1q2w3e4r5t!@#$%" ) ;
 
-			// jedisPool = new JedisPool( jedisPoolConfig , "192.168.56.104" , 6379 , 3000 , "1q2w3e4r5t!@#$%" ) ;
-			jedisPool = new JedisPool( jedisPoolConfig , "127.0.0.1" , 6379 , 3000 , "1q2w3e4r5t!@#$%" ) ;
+			 jedisPool = new JedisPool( jedisPoolConfig , "192.168.56.104" , 6379 , 3000 , "1q2w3e4r5t!@#$%" ) ;
+//			jedisPool = new JedisPool( jedisPoolConfig , "127.0.0.1" , 6379 , 3000 , "1q2w3e4r5t!@#$%" ) ;
 			// Jedis풀 생성(JedisPoolConfig, host, port, timeout, password)
 
 		}

@@ -12,7 +12,8 @@ public class PropertyLoader
 
 	public static String DEMON_LOGGING_LEVEL = "0" ;
 	public static boolean IS_ALL_DEMON_LIVE = false ;
-	public static HashMap< String , Object > DEVICE_PROPERTIES_HASHMAP = new HashMap<>( ) ;
+	public static HashMap< String , HashMap< String , Object > > DEVICE_PROPERTIES_HASHMAP = new HashMap<>( ) ;
+	
 
 	public static void getDemonProperties( )
 	{

@@ -167,6 +167,8 @@ public class CommUtil
 
 	}
 
+	
+	
 	/**
 	 * <pre>
 	 * HashMap 가 null 혹은 0 < HashMap.size( ) , 빈 값이 아닐 때 false 반환
@@ -200,6 +202,30 @@ public class CommUtil
 
 	}
 
+	public static Boolean checkNullHashMap( HashMap< String , ? > param )
+	{
+		Boolean resultBoll = true ;
+
+		try
+		{
+			if ( null != param && 0 < param.size( ) && !param.isEmpty( ) )
+			{
+				resultBoll = false ;
+			}
+		}
+		catch ( Exception e )
+		{
+			e.printStackTrace( ) ;
+		}
+		finally
+		{
+			param = null ;
+		}
+
+		return resultBoll ;
+
+	}
+	
 	/**
 	 * <pre>
 	 * Object 가 null 혹은 "" 값이 아닐 때 false

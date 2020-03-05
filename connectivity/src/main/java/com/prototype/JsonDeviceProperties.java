@@ -26,10 +26,10 @@ public class JsonDeviceProperties
 
 	}
 
-	public HashMap< String , Object > getDeviceProperties( )
+	public HashMap< String , HashMap< String , Object > > getDeviceProperties( )
 	{
 
-		HashMap< String , Object > resultHashMap = new HashMap<>( ) ;
+		HashMap< String , HashMap< String , Object > > resultHashMap = new HashMap<>( ) ;
 		HashMap< String , Object > resultsubHashMap = new HashMap<>( ) ;
 
 		FileUtil fileUtil = new FileUtil( ) ;

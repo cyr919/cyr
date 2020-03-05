@@ -1,7 +1,10 @@
 
 package com.prototype ;
 
+import java.util.ArrayList ;
 import java.util.HashMap ;
+import java.util.Iterator ;
+import java.util.List ;
 
 import org.apache.log4j.Logger ;
 
@@ -48,6 +51,11 @@ public class TestDataSet implements Runnable
 				int intCalVal = 0 ;
 				HashMap< String , Object > tempHashMap = new HashMap<>( ) ;
 				int i = 0 ;
+				Iterator< ? > iteratorHashMapKeys = null ;
+				String strHashMapKey = "" ;
+
+				HashMap< String , Object > dataHashMap = new HashMap<>( ) ;
+
 				try
 				{
 					jedisPool = jedisConfig.setJedisPool( ) ;
@@ -56,44 +64,32 @@ public class TestDataSet implements Runnable
 					logger.info( "jedis.isConnected() :: " + jedis.isConnected( ) ) ;
 					if ( jedis.isConnected( ) )
 					{
+						//////////////////////////
+//						if ( !CommUtil.checkNull( PropertyLoader.DEVICE_PROPERTIES_HASHMAP ) )
+//						{
 
-						for ( i = 0 ; i < dvStrArr.length ; i++ )
-						{
-							logger.debug( "===============================" ) ;
+							iteratorHashMapKeys = PropertyLoader.DEVICE_PROPERTIES_HASHMAP.keySet( ).iterator( ) ;
+							while ( iteratorHashMapKeys.hasNext( ) )
+							{
+								strHashMapKey = ( String ) iteratorHashMapKeys.next( ) ;
 
-							tempHashMap = new HashMap<>( ) ;
+								// PropertyLoader.DEVICE_PROPERTIES_HASHMAP.get( strHashMapKey );
+								logger.debug( "PropertyLoader.DEVICE_PROPERTIES_HASHMAP.get( " + strHashMapKey + " ) :: " ) ;
+								logger.debug( PropertyLoader.DEVICE_PROPERTIES_HASHMAP.get( strHashMapKey ) ) ;
+								logger.debug( ":::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::" ) ;
+								////////////////////////////////////////////////////
+								// 표준인덱스 처리
 
-							intVal = CommUtil.getRandomInt( 100 , 10 ) ;
-							tempHashMap.put( "BV" , intVal ) ;
-							jedis.hset( dvStrArr[ i ] , "BV" , ( tempHashMap.get( "BV" ) + "" ) ) ;
+								List< HashMap< String , Object > > dtHashmap = new ArrayList<>( ) ;
 
-							intVal = CommUtil.getRandomInt( 10 , 20 ) ;
-							tempHashMap.put( "BC" , intVal ) ;
-							jedis.hset( dvStrArr[ i ] , "BC" , ( tempHashMap.get( "BC" ) + "" ) ) ;
+								//////////////////////////
+								// 장치 내 연산 처리
 
-							intVal = CommUtil.getRandomInt( 10 , 50 ) ;
-							tempHashMap.put( "BF" , intVal ) ;
-							jedis.hset( dvStrArr[ i ] , "BF" , ( tempHashMap.get( "BF" ) + "" ) ) ;
+								////////////////////////////////////////////////////
+							}
 
-							intVal = CommUtil.getRandomInt( 100 , 50 ) ;
-							tempHashMap.put( "DCBA" , intVal ) ;
-							jedis.hset( dvStrArr[ i ] , "DCBA" , ( tempHashMap.get( "DCBA" ) + "" ) ) ;
-
-							intCalVal = Integer.parseInt( tempHashMap.get( "BV" ) + "" ) * Integer.parseInt( tempHashMap.get( "BC" ) + "" ) ;
-
-							tempHashMap.put( "BP" , intCalVal ) ;
-							jedis.hset( dvStrArr[ i ] , "BP" , ( tempHashMap.get( "BP" ) + "" ) ) ;
-
-							logger.debug( "tempHashMap :: " + tempHashMap ) ;
-
-							logger.debug( "jedis.hget( " + dvStrArr[ i ] + " , \"BV\" ) :: " + jedis.hget( dvStrArr[ i ] , "BV" ) ) ;
-							logger.debug( "jedis.hget( " + dvStrArr[ i ] + " , \"BC\" ) :: " + jedis.hget( dvStrArr[ i ] , "BC" ) ) ;
-							logger.debug( "jedis.hget( " + dvStrArr[ i ] + " , \"BF\" ) :: " + jedis.hget( dvStrArr[ i ] , "BF" ) ) ;
-							logger.debug( "jedis.hget( " + dvStrArr[ i ] + " , \"DCBA\" ) :: " + jedis.hget( dvStrArr[ i ] , "DCBA" ) ) ;
-							logger.debug( "jedis.hget( " + dvStrArr[ i ] + " , \"BP\" ) :: " + jedis.hget( dvStrArr[ i ] , "BP" ) ) ;
-
-						}
-
+//						}
+						//////////////////////////
 					}
 
 				}
@@ -115,8 +111,8 @@ public class TestDataSet implements Runnable
 
 				/////////////////////////////////////////////
 
-//				Thread.sleep( 10 ) ;
-
+				// Thread.sleep( 10 ) ;
+				Thread.sleep( 100000 ) ;
 				logger.debug( "TestDataSet :: while :: end" ) ;
 			}
 
