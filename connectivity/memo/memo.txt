@@ -13,3 +13,12 @@ $ vi connectivity_stop.sh
 후
 
 :wq
+
+mkdir bk
+
+
+cd /hs/mgp/apps/connectivity
+cp -p connectivity-0.0.1-SNAPSHOT.jar ./bk/connectivity-0.0.1-SNAPSHOT.jar
+
+ls -al
+ls -al ./bk

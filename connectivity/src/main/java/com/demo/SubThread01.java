@@ -14,14 +14,14 @@ public class SubThread01 implements Runnable
 	@Override
 	public void run( )
 	{
-		for ( int i = 0 ; i < 9 ; i++ )
+		for ( int i = 0 ; i < 2 ; i++ )
 		{
 			
-			logger.debug( "SubThread01 :: i :: " + i ) ;
-			logger.debug( "subCheckParam01 :: " + subCheckParam01 ) ;
+			logger.debug( "subCheckParam01 :: " + subCheckParam01 + "/SubThread01 :: i :: " + i ) ;
 
 			try
 			{
+				
 				Thread.sleep( 3000 );
 			}
 			catch ( InterruptedException e )
