@@ -23,7 +23,7 @@ public class PropertyLoader
 		{
 			IS_ALL_DEMON_LIVE = true ;
 
-//			DEVICE_PROPERTIES_HASHMAP = jsonDeviceProperties.getDeviceProperties( ) ;
+			DEVICE_PROPERTIES_HASHMAP = jsonDeviceProperties.getDeviceProperties( ) ;
 			logger.debug( "DEVICE_PROPERTIES_HASHMAP :: " ) ;
 			logger.debug( DEVICE_PROPERTIES_HASHMAP ) ;
 			logger.debug( "DEVICE_PROPERTIES_HASHMAP :: " ) ;

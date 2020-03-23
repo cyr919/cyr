@@ -5,10 +5,12 @@
 			"DT_MDL": [
 				{
 					"STD_IDX": "BV",
+					"SC_FCT": 0.1,
 					"IDX": 0
 				},
 				{
 					"STD_IDX": "BC",
+					"SC_FCT": 0.1,
 					"IDX": 1
 				},
 				{
@@ -17,6 +19,7 @@
 				},
 				{
 					"STD_IDX": "DCBA",
+					"SC_FCT": 0.01,
 					"IDX": 3
 				}
 			],
@@ -33,10 +36,12 @@
 			"DT_MDL": [
 				{
 					"STD_IDX": "BV",
+					"SC_FCT": 0.1,
 					"IDX": 4
 				},
 				{
 					"STD_IDX": "BC",
+					"SC_FCT": 0.1,
 					"IDX": 5
 				},
 				{
@@ -45,6 +50,7 @@
 				},
 				{
 					"STD_IDX": "DCBA",
+					"SC_FCT": 0.01,
 					"IDX": 7
 				}
 			],
@@ -61,10 +67,12 @@
 			"DT_MDL": [
 				{
 					"STD_IDX": "BV",
+					"SC_FCT": 0.1,
 					"IDX": 8
 				},
 				{
 					"STD_IDX": "BC",
+					"SC_FCT": 0.1,
 					"IDX": 9
 				},
 				{
@@ -73,6 +81,7 @@
 				},
 				{
 					"STD_IDX": "DCBA",
+					"SC_FCT": 0.01,
 					"IDX": 11
 				}
 			],
