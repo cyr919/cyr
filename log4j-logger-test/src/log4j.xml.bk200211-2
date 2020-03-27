@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">  
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">  
+
+    <!-- 콘솔 로그 -->  
+    <appender name="console" class="org.apache.log4j.ConsoleAppender">  
+       	<param name="Target" value="System.out"/>
+        <!-- 패턴 레이아웃 설정.. -->  
+        <layout class="org.apache.log4j.PatternLayout">  
+            <param name="ConversionPattern" value="[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%t] %c{1} [%p] %m %n"/>  
+        </layout>  
+    </appender>  
+ 
+    <!--  날짜별 로그 -->  
+   <!--  <appender name="rollingFile" class="org.apache.log4j.DailyRollingFileAppender">  
+        이것은 날짜별로  로그를 남김. 파일명.확장자.DatePattern으로 정의 함  
+        <param name="file" value="./log/dailyout.log"/>  
+        <param name="Append" value="true"/>  
+        <param name="DatePattern" value=".yyyy-MM-dd"/>  
+        패턴 레이아웃 설정..  
+        <layout class="org.apache.log4j.PatternLayout">  
+            <param name="ConversionPattern" value="[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%t] %c{1} [%p] %m %n"/>  
+        </layout>  
+    </appender>   -->
+ 
+
+
+    <!--  날짜별, 크기별 로그 -->  
+	<appender name="rollingFile" class="org.apache.log4j.rolling.RollingFileAppender">
+	    <rollingPolicy
+	        class="org.apache.log4j.rolling.TimeBasedRollingPolicy">
+	        <param name="FileNamePattern" value="./log/application.%d{yyyy-MM-dd}.log.gz" />
+	        <param name="ActiveFileName" value="./log/application.log" />
+	    </rollingPolicy>
+	    <triggeringPolicy
+	        class="org.apache.log4j.rolling.SizeBasedTriggeringPolicy">
+<!-- 	        <param name="MaxFileSize" value="500MB" /> -->
+	        <param name="maxFileSize" value="1024"/>
+	        <!-- maxFileSize : size in bytes -->
+	    </triggeringPolicy>
+	        <layout class="org.apache.log4j.PatternLayout">  
+	            <param name="ConversionPattern" value="[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%t] %c{1} [%p] %m %n"/>  
+	        </layout>  
+	    
+	</appender>
+
+    <!-- xml 로그-->  
+    <!-- xml형식으로 로그를 남김 -->  
+    <!-- 
+    <appender name="xmlout" class="org.apache.log4j.FileAppender">  
+        <param name="file" value="log4jxml.xml"/>  
+        <param name="Append" value="true"/>  
+        <layout class="org.apache.log4j.xml.XMLLayout"/>  
+    </appender>  
+  -->
+    <!-- 특정 로거 설정 -->
+    <!-- 
+    <logger name="org.springframework" additivity="false">
+        <level value="WARN" />
+        <appender-ref ref="dailyout" />
+        <appender-ref ref="stdout" />
+    </logger> 
+  -->
+ 
+    <!-- root 로거 기본 설정 -->
+    <root>  
+        <level value="TRACE"/>  
+        <appender-ref ref="console"/>  
+        <appender-ref ref="rollingFile"/>  
+    </root>  
+</log4j:configuration>  
