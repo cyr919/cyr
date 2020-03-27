@@ -50,7 +50,6 @@ public class Log4jTestMain
 				}
 				catch ( InterruptedException e )
 				{
-					// TODO Auto-generated catch block
 					e.printStackTrace( ) ;
 				}
 				logger.info( "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" ) ;
@@ -62,8 +61,7 @@ public class Log4jTestMain
 		catch ( Exception e )
 		{
 			logger.error( e.getMessage( ) , e ) ;
-
-//			e.printStackTrace( ) ;
+			
 		}
 		finally
 		{

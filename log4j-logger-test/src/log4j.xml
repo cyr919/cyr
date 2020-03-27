@@ -20,7 +20,7 @@
 
 	<!-- 날짜별, 크기별 로그 -->
 	<appender name="rollingFile" class="org.apache.log4j.rolling.RollingFileAppender">
-		<!-- <param name="Append" value="true" /> -->
+		<param name="Append" value="true" />
 		<rollingPolicy class="org.apache.log4j.rolling.TimeBasedRollingPolicy">
 			<!-- 로그가 압축됨. -->
 			<param name="ActiveFileName" value="./log/application.log" />
