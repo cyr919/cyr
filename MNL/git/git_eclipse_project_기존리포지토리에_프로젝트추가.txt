@@ -21,7 +21,13 @@
 commit과 push 별도 진행 예정
 targer 폴더, .setting 폴더 .classpath 파일 등이 Staged Changes 영역에 없는지 확인한다.
 
+(ignore 처리, project Explore에서 프로젝트 선택 > 우클릭 > team > synchronize workspace 에서 처리 )
+
+
 - 올릴 파일을 Staged Changes에 드래그 한 후 Commit Message에 무엇이 바꼈는지 입력해 주고 Commit
 Unstaged Changes에 프로젝트 파일이 올라가있고 Git에 올리고 싶은 파일을 선택해 Staged Changes로 드래그 하면된다.
 
 -  project Explore에서 프로젝트 선택 > 우클릭 > team > remote > push.. 클릭
+
+commit과 push는 따로 한다.
+
