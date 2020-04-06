@@ -1,0 +1,5 @@
+1. adapter에서 데이터 넘겨주는 형식 1개
+
+2. service hub에서 플랫폼 제어 넘겨주는 형태
+
+3. connectivity 기능
