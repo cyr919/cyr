@@ -1,12 +1,13 @@
 
 package com ;
 
+import java.io.UncheckedIOException ;
 import java.util.Date ;
 import java.util.HashMap ;
 
 import org.apache.log4j.Logger ;
 
-public class Log4jTestMain
+public class Log4jTestMain 
 {
 
 	// Define a static logger variable so that it references the
@@ -50,6 +51,7 @@ public class Log4jTestMain
 				}
 				catch ( InterruptedException e )
 				{
+					logger.error( e.getMessage( ) , e ) ;
 					e.printStackTrace( ) ;
 				}
 				logger.info( "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" ) ;
@@ -58,11 +60,12 @@ public class Log4jTestMain
 			}
 
 		}
-		catch ( Exception e )
-		{
-			logger.error( e.getMessage( ) , e ) ;
-			
-		}
+//		catch ( Exception e )
+//		{
+//			logger.error( e.getMessage( ) , e ) ;
+//			e.printStackTrace( ) ;
+//			
+//		}
 		finally
 		{
 			System.out.println( "finally" ) ;
