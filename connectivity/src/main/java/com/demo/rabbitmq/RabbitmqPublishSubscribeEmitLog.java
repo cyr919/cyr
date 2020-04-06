@@ -56,7 +56,7 @@ public class RabbitmqPublishSubscribeEmitLog
 		}
 		catch ( Exception e )
 		{
-			logger.error( e ) ;
+			logger.error( e.getMessage( ) , e ) ;
 		}
 		finally
 		{
@@ -67,12 +67,12 @@ public class RabbitmqPublishSubscribeEmitLog
 			}
 			catch ( IOException e )
 			{
-				logger.error( e ) ;
+				logger.error( e.getMessage( ) , e ) ;
 				e.printStackTrace( ) ;
 			}
 			catch ( TimeoutException e )
 			{
-				logger.error( e ) ;
+				logger.error( e.getMessage( ) , e ) ;
 				e.printStackTrace( ) ;
 			}
 
@@ -82,7 +82,7 @@ public class RabbitmqPublishSubscribeEmitLog
 			}
 			catch ( IOException e )
 			{
-				logger.error( e ) ;
+				logger.error( e.getMessage( ) , e ) ;
 				e.printStackTrace( ) ;
 			}
 		}

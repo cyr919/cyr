@@ -166,7 +166,7 @@ public class TestDataSet implements Runnable
 			
 		} catch( Exception e ) {
 			e.printStackTrace( ) ;
-			logger.error( e ) ;
+			logger.error( e.getMessage( ) , e ) ;
 		} finally {
 			setDemonLive( false ) ;
 			dvStrArr = null ;

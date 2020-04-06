@@ -55,7 +55,7 @@ public class RabbitmqWorkQueuesNewTask2
 		}
 		catch ( Exception e )
 		{
-			logger.error( e ) ;
+			logger.error( e.getMessage( ) , e ) ;
 		}
 		finally
 		{
@@ -66,12 +66,12 @@ public class RabbitmqWorkQueuesNewTask2
 			}
 			catch ( IOException e )
 			{
-				logger.error( e ) ;
+				logger.error( e.getMessage( ) , e ) ;
 				e.printStackTrace( ) ;
 			}
 			catch ( TimeoutException e )
 			{
-				logger.error( e ) ;
+				logger.error( e.getMessage( ) , e ) ;
 				e.printStackTrace( ) ;
 			}
 
@@ -81,7 +81,7 @@ public class RabbitmqWorkQueuesNewTask2
 			}
 			catch ( IOException e )
 			{
-				logger.error( e ) ;
+				logger.error( e.getMessage( ) , e ) ;
 				e.printStackTrace( ) ;
 			}
 		}

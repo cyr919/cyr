@@ -75,7 +75,7 @@ public class RabbitmqWorkQueuesWorker2
 		}
 		catch ( Exception e )
 		{
-			logger.error( e ) ;
+			logger.error( e.getMessage( ) , e ) ;
 		}
 
 	}
@@ -96,7 +96,7 @@ public class RabbitmqWorkQueuesWorker2
 				}
 				catch ( InterruptedException e )
 				{
-					logger.error( e ) ;
+					logger.error( e.getMessage( ) , e ) ;
 					Thread.currentThread( ).interrupt( ) ;
 				}
 			}

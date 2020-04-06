@@ -44,7 +44,7 @@ public class MainThread01 implements Runnable
 				catch ( InterruptedException e )
 				{
 					e.printStackTrace( ) ;
-					logger.error( e ) ;
+					logger.error( e.getMessage( ) , e ) ;
 				}
 
 				if ( i == 3 )

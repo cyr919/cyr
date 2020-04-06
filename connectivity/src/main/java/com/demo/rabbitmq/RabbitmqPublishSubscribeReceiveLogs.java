@@ -84,7 +84,7 @@ public class RabbitmqPublishSubscribeReceiveLogs
 		}
 		catch ( Exception e )
 		{
-			logger.error( e ) ;
+			logger.error( e.getMessage( ) , e ) ;
 		}
 
 	}
@@ -103,7 +103,7 @@ public class RabbitmqPublishSubscribeReceiveLogs
 		}
 		catch ( InterruptedException e )
 		{
-			logger.error( e ) ;
+			logger.error( e.getMessage( ) , e ) ;
 			Thread.currentThread( ).interrupt( ) ;
 		}
 		

@@ -48,7 +48,7 @@ public class RabbitmqWorkQueuesNewTask1_2
 		}
 		catch ( Exception e )
 		{
-			logger.error( e ) ;
+			logger.error( e.getMessage( ) , e ) ;
 		}
 
 	}

@@ -9,6 +9,17 @@ import com.rabbitmq.client.Channel ;
 import com.rabbitmq.client.Connection ;
 import com.rabbitmq.client.ConnectionFactory ;
 
+/**
+ *
+ * <pre>
+ * http://previous.rabbitmq.com/v3_5_7/tutorials
+ * http://previous.rabbitmq.com/v3_5_7/tutorials/tutorial-one-java.html
+ * amqp-client 4.1.0
+ * </pre>
+ *
+ * @author cyr
+ * @date 2020-03-25
+ */
 public class RabbitmqSimplestSending
 {
 
@@ -39,11 +50,11 @@ public class RabbitmqSimplestSending
 		}
 		catch ( IOException e )
 		{
-			logger.error( e ) ;
+			logger.error( e.getMessage( ) , e ) ;
 		}
 		catch ( Exception e )
 		{
-			logger.error( e ) ;
+			logger.error( e.getMessage( ) , e ) ;
 		}
 
 	}

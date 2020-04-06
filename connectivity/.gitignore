@@ -2,3 +2,4 @@
 /target/
 /.classpath
 /log/*.*
+/.sts4-cache/

@@ -13,6 +13,16 @@ import com.rabbitmq.client.Consumer ;
 import com.rabbitmq.client.DefaultConsumer ;
 import com.rabbitmq.client.Envelope ;
 
+/**
+ *
+ * <pre>
+ * http://previous.rabbitmq.com/v3_5_7/tutorials
+ * amqp-client 4.1.0
+ * </pre>
+ *
+ * @author cyr
+ * @date 2020-03-25
+ */
 public class RabbitmqSimplestReceiving
 {
 
@@ -54,11 +64,11 @@ public class RabbitmqSimplestReceiving
 		}
 		catch ( IOException e )
 		{
-			logger.error( e ) ;
+			logger.error( e.getMessage( ) , e ) ;
 		}
 		catch ( Exception e )
 		{
-			logger.error( e ) ;
+			logger.error( e.getMessage( ) , e ) ;
 		}
 
 	}
