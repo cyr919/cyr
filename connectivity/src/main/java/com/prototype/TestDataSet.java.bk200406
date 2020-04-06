@@ -27,6 +27,7 @@ public class TestDataSet implements Runnable
 	public void run( ) {
 		setDemonLive( true ) ;
 		
+		String[ ] dvStrArr = { "PCS01" , "PCS02" , "ESS" } ;
 		
 		try {
 			logger.debug( "isDemonLive :: " + isDemonLive ) ;
@@ -69,18 +70,17 @@ public class TestDataSet implements Runnable
 						// if ( !CommUtil.checkNull( PropertyLoader.DEVICE_PROPERTIES_HASHMAP ) )
 						// {
 						
-						logger.debug( "PropertyLoader.DEVICE_PROPERTIES_DT_MDL :: " ) ;
-						logger.debug( PropertyLoader.DEVICE_PROPERTIES_DT_MDL ) ;
-						logger.debug( "PropertyLoader.DEVICE_PROPERTIES_DT_MDL :: " ) ;
-						
-						iteratorHashMapKeys = PropertyLoader.DEVICE_PROPERTIES_DT_MDL.keySet( ).iterator( ) ;
+						iteratorHashMapKeys = PropertyLoader.DEVICE_PROPERTIES_HASHMAP.keySet( ).iterator( ) ;
 						while( iteratorHashMapKeys.hasNext( ) ) {
 							
-							strHashMapKey = ( String ) iteratorHashMapKeys.next( ) ;
-							logger.debug( "strHashMapKey :: " + strHashMapKey ) ;
+							logger.debug( "PropertyLoader.DEVICE_PROPERTIES_HASHMAP :: " ) ;
+							logger.debug( PropertyLoader.DEVICE_PROPERTIES_HASHMAP ) ;
+							logger.debug( "PropertyLoader.DEVICE_PROPERTIES_HASHMAP :: " ) ;
 							
-							logger.debug( "PropertyLoader.DEVICE_PROPERTIES_DT_MDL.get( " + strHashMapKey + " ) :: " ) ;
-							logger.debug( PropertyLoader.DEVICE_PROPERTIES_DT_MDL.get( strHashMapKey ) ) ;
+							strHashMapKey = ( String ) iteratorHashMapKeys.next( ) ;
+							
+							logger.debug( "PropertyLoader.DEVICE_PROPERTIES_HASHMAP.get( " + strHashMapKey + " ) :: " ) ;
+							logger.debug( PropertyLoader.DEVICE_PROPERTIES_HASHMAP.get( strHashMapKey ) ) ;
 							logger.debug( ":::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::" ) ;
 							
 							dataHashMap = new HashMap< String , Object >( ) ;
@@ -89,14 +89,14 @@ public class TestDataSet implements Runnable
 							// 표준인덱스 처리
 							
 							// 값 참고로 변경
-							dtList = ( List< HashMap< String , Object > > ) PropertyLoader.DEVICE_PROPERTIES_DT_MDL.get( strHashMapKey ) ;
+							dtList = ( List< HashMap< String , Object > > ) PropertyLoader.DEVICE_PROPERTIES_HASHMAP.get( strHashMapKey ).get( "DT_MDL" ) ;
 							
 							logger.debug( "dtList :: " + dtList ) ;
 							
 							for( j = 0 ; j < dtList.size( ) ; j++ ) {
 								
 								intVal = CommUtil.getRandomInt( 100 , 10 ) ;
-								logger.debug( "dtList.get( " + j + " ).get( \"STD_IDX\" ) :: " + dtList.get( j ).get( "STD_IDX" ) ) ;
+								logger.debug( "dtList.get( j ).get( \"STD_IDX\" ) :: " + dtList.get( j ).get( "STD_IDX" ) ) ;
 								tempBDVal = dataGather.applyScaleFactor( intVal , dtList.get( j ).get( "SC_FCT" ) ) ;
 								
 								dataHashMap.put( ( dtList.get( j ).get( "STD_IDX" ) + "" ) , tempBDVal ) ;
@@ -108,7 +108,7 @@ public class TestDataSet implements Runnable
 							
 							//////////////////////////
 							// 장치 내 연산 처리
-							calculList = ( List< HashMap< String , Object > > ) PropertyLoader.DEVICE_PROPERTIES_CAL_INF.get( strHashMapKey ) ;
+							calculList = ( List< HashMap< String , Object > > ) PropertyLoader.DEVICE_PROPERTIES_HASHMAP.get( strHashMapKey ).get( "CAL_INF" ) ;
 							
 							logger.debug( "calculList :: " + calculList ) ;
 							
@@ -117,12 +117,16 @@ public class TestDataSet implements Runnable
 							logger.debug( "장치 내 연산 처리 후 dataCalculHashMap :: " + dataCalculHashMap ) ;
 							
 							logger.debug( ":::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::" ) ;
+
 							
 							//////////////////////////
 							// 메모리(redis) 저장
 							
+							
+							
 							//////////////////////////
 							// DB(mongodb) 저장
+							
 							
 							////////////////////////////////////////////////////
 						}
@@ -148,6 +152,9 @@ public class TestDataSet implements Runnable
 				
 				/////////////////////////////////////////////
 				logger.debug( ":::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::" ) ;
+				logger.debug( "PropertyLoader.DEVICE_PROPERTIES_HASHMAP :: " ) ;
+				logger.debug( PropertyLoader.DEVICE_PROPERTIES_HASHMAP ) ;
+				logger.debug( "PropertyLoader.DEVICE_PROPERTIES_HASHMAP :: " ) ;
 				
 				// Thread.sleep( 10 ) ;
 				Thread.sleep( 10000 ) ;
@@ -158,9 +165,11 @@ public class TestDataSet implements Runnable
 			}
 			
 		} catch( Exception e ) {
+			e.printStackTrace( ) ;
 			logger.error( e.getMessage( ) , e ) ;
 		} finally {
 			setDemonLive( false ) ;
+			dvStrArr = null ;
 		}
 		
 	}

@@ -2,65 +2,75 @@
 package com.prototype ;
 
 import java.util.HashMap ;
+import java.util.List ;
 
 import org.apache.log4j.Logger ;
 
 public class PropertyLoader
 {
-
+	
 	static Logger logger = Logger.getLogger( PropertyLoader.class ) ;
-
+	
 	public static String DEMON_LOGGING_LEVEL = "0" ;
 	public static boolean IS_ALL_DEMON_LIVE = false ;
-	public static HashMap< String , HashMap< String , Object > > DEVICE_PROPERTIES_HASHMAP = new HashMap<>( ) ;
+	public static int PROCESS_THREAD_CNT = 0 ;
 	
-
-	public static void getDemonProperties( )
-	{
-
+	public static HashMap< String , List< HashMap< String , Object > > > DEVICE_PROPERTIES_DT_MDL = new HashMap<>( ) ;
+	public static HashMap< String , List< HashMap< String , Object > > > DEVICE_PROPERTIES_CAL_INF = new HashMap<>( ) ;
+	
+	public static void getDemonProperties( ) {
+		
 		JsonDeviceProperties jsonDeviceProperties = new JsonDeviceProperties( ) ;
-		try
-		{
+		try {
+			
+			logger.info( "getDemonProperties start" );
+			
 			IS_ALL_DEMON_LIVE = true ;
-
-			DEVICE_PROPERTIES_HASHMAP = jsonDeviceProperties.getDeviceProperties( ) ;
-			logger.debug( "DEVICE_PROPERTIES_HASHMAP :: " ) ;
-			logger.debug( DEVICE_PROPERTIES_HASHMAP ) ;
-			logger.debug( "DEVICE_PROPERTIES_HASHMAP :: " ) ;
-
-		}
-		finally
-		{
+			
+			DEVICE_PROPERTIES_DT_MDL = jsonDeviceProperties.getDevicePropertiesDtMdl( ) ;
+			DEVICE_PROPERTIES_CAL_INF = jsonDeviceProperties.getDevicePropertiesCalInf( ) ;
+			
+			logger.debug( "DEVICE_PROPERTIES_DT_MDL :: " ) ;
+			logger.debug( DEVICE_PROPERTIES_DT_MDL ) ;
+			logger.debug( "DEVICE_PROPERTIES_DT_MDL :: " ) ;
+			
+			logger.debug( "DEVICE_PROPERTIES_CAL_INF :: " ) ;
+			logger.debug( DEVICE_PROPERTIES_CAL_INF ) ;
+			logger.debug( "DEVICE_PROPERTIES_CAL_INF :: " ) ;
+		} finally {
 			jsonDeviceProperties = null ;
+			logger.info( "getDemonProperties end" );
 		}
-
+		
 	}
-
-	public static void setIsAllDemonLive( boolean setParam )
-	{
+	
+	public static void setIsAllDemonLive( boolean setParam ) {
 		IS_ALL_DEMON_LIVE = setParam ;
-
+		
 	}
-
-	public static void main( String[ ] args )
-	{
+	
+	public static void main( String[ ] args ) {
 		// TODO Auto-generated method stub
-
+		
 		logger.debug( "IS_ALL_DEMON_LIVE :: " + IS_ALL_DEMON_LIVE ) ;
 		logger.debug( "IS_ALL_DEMON_LIVE :: " + IS_ALL_DEMON_LIVE ) ;
-
+		
 		getDemonProperties( ) ;
 		logger.debug( "IS_ALL_DEMON_LIVE :: " + IS_ALL_DEMON_LIVE ) ;
 		logger.debug( "IS_ALL_DEMON_LIVE :: " + IS_ALL_DEMON_LIVE ) ;
-
+		
 		setIsAllDemonLive( false ) ;
 		logger.debug( "IS_ALL_DEMON_LIVE :: " + IS_ALL_DEMON_LIVE ) ;
 		logger.debug( "IS_ALL_DEMON_LIVE :: " + IS_ALL_DEMON_LIVE ) ;
-
-		logger.debug( "DEVICE_PROPERTIES_HASHMAP :: " ) ;
-		logger.debug( DEVICE_PROPERTIES_HASHMAP ) ;
-		logger.debug( "DEVICE_PROPERTIES_HASHMAP :: " ) ;
-
+		
+		logger.debug( "DEVICE_PROPERTIES_DT_MDL :: " ) ;
+		logger.debug( DEVICE_PROPERTIES_DT_MDL ) ;
+		logger.debug( "DEVICE_PROPERTIES_DT_MDL :: " ) ;
+		
+		logger.debug( "DEVICE_PROPERTIES_CAL_INF :: " ) ;
+		logger.debug( DEVICE_PROPERTIES_CAL_INF ) ;
+		logger.debug( "DEVICE_PROPERTIES_CAL_INF :: " ) ;
+		
 	}
-
+	
 }
