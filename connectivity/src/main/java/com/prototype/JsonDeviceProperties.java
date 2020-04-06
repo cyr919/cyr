@@ -29,7 +29,6 @@ public class JsonDeviceProperties
 		JsonUtil jsonUtil = new JsonUtil( ) ;
 		
 		StringBuffer fileCntStringBuffer = null ;
-		JSONParser jsonParser = new JSONParser( ) ;
 		JSONObject jsonObject = new JSONObject( ) ;
 		JSONArray dvSetJSONArray = new JSONArray( ) ;
 		JSONObject dvSetJSONObject = new JSONObject( ) ;
@@ -50,7 +49,8 @@ public class JsonDeviceProperties
 			logger.debug( fileCntStringBuffer ) ;
 			logger.debug( "fileCntStringBuffer :: " ) ;
 			
-			jsonObject = ( JSONObject ) jsonParser.parse( ( fileCntStringBuffer + "" ) ) ;
+			jsonObject = jsonUtil.getJSONObjectFromString( ( fileCntStringBuffer + "" ) ) ;
+			
 			dvSetJSONArray = ( JSONArray ) jsonObject.get( "DVIF_SETTINGS" ) ;
 			
 			logger.debug( "dvSetJSONArray :: " + dvSetJSONArray ) ;
@@ -72,9 +72,6 @@ public class JsonDeviceProperties
 			logger.debug( resultHashMap ) ;
 			logger.debug( "resultHashMap :: " ) ;
 			
-		} catch( ParseException e ) {
-			logger.error( "변환에 실패" ) ;
-			logger.error( e.getMessage( ) , e ) ;
 		} catch( Exception e ) {
 			logger.error( e.getMessage( ) , e ) ;
 		} finally {
@@ -83,7 +80,6 @@ public class JsonDeviceProperties
 			jsonUtil = null ;
 			
 			fileCntStringBuffer = null ;
-			jsonParser = null ;
 			jsonObject = null ;
 			dvSetJSONArray = null ;
 			dvSetJSONObject = null ;

@@ -31,7 +31,7 @@ public class AdapterDataSimulTest implements Runnable
 				
 				adapterDataGenerator = null ;
 				
-				Thread.sleep( 10000 ) ;
+				Thread.sleep( 10 * 1000 ) ;
 			}
 			
 		} catch( Exception e ) {

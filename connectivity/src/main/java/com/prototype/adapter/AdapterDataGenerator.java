@@ -17,9 +17,9 @@ import com.prototype.PropertyLoader ;
 
 public class AdapterDataGenerator implements Runnable
 {
-	private boolean isDemonLive = false ;
-	
 	static Logger logger = Logger.getLogger( AdapterDataGenerator.class ) ;
+	
+	private boolean isDemonLive = false ;
 	
 	public AdapterDataGenerator( ) {
 	}
@@ -46,9 +46,9 @@ public class AdapterDataGenerator implements Runnable
 		LocalDateTime nowLocalDateTime = null ;
 		String strNowLocalDateTime = "" ;
 		
-		JSONObject resultJsonObject = null ;		
-		JSONObject dataJsonObject = null ;		
-		Data2Connectivity  data2Connectivity = new Data2Connectivity( ) ;
+		JSONObject resultJsonObject = null ;
+		JSONObject dataJsonObject = null ;
+		Data2Connectivity data2Connectivity = new Data2Connectivity( ) ;
 		
 		try {
 			PropertyLoader.PROCESS_THREAD_CNT++ ;
@@ -110,7 +110,7 @@ public class AdapterDataGenerator implements Runnable
 				logger.info( "resultJsonObject :: " + resultJsonObject ) ;
 				////////////////////////////////////////////////////
 				// rabbitmq pub
-				data2Connectivity.publishData2Connectivity( resultJsonObject );
+				data2Connectivity.publishData2Connectivity( resultJsonObject ) ;
 				
 				////////////////////////////////////////////////////
 			}

@@ -19,7 +19,11 @@ public class ConnectivityMainRun
 		Data2Connectivity data2Connectivity = new Data2Connectivity( factory , "ESS01" ) ;
 		Thread thread = new Thread( data2Connectivity , "data2Connectivity-Thread" ) ;
 		thread.start( ); 
+	
 		
+		Command2Module command2Module = new Command2Module( factory , "Command2Module" ) ;
+		Thread cmThread = new Thread( command2Module , "command2Module-Thread" ) ;
+		cmThread.start( );
 		
 		
 	}

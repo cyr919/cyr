@@ -24,11 +24,6 @@ public class AdapterMainRun
 			
 			dsThread.start( ); 
 			
-			logger.info( "PropertyLoader.PROCESS_THREAD_CNT :: " + PropertyLoader.PROCESS_THREAD_CNT );
-			
-			Thread.sleep( 5 * 1000 );
-			
-			logger.info( "PropertyLoader.PROCESS_THREAD_CNT :: " + PropertyLoader.PROCESS_THREAD_CNT );
 			
 			
 		} catch( Exception e ) {
