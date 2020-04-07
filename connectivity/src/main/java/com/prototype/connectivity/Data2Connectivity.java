@@ -1,6 +1,7 @@
 package com.prototype.connectivity ;
 
 import java.io.IOException ;
+import java.util.concurrent.TimeoutException ;
 
 import org.apache.log4j.Logger ;
 
@@ -28,8 +29,12 @@ public class Data2Connectivity implements Runnable
 	
 	private final static String TASK_QUEUE_NAME = "Data2Connectivity" ;
 	
-	private ConnectionFactory connectionFactory = null ;
 	private String strDeviceName = "" ;
+	
+	private ConnectionFactory connectionFactory = null ;
+	private Connection connection = null ;
+	private Channel channel = null ;
+	
 	
 	private static void doWork( String task ) {
 		
@@ -39,6 +44,7 @@ public class Data2Connectivity implements Runnable
 			Thread.currentThread( ).interrupt( ) ;
 		}
 		
+		return ;
 	}
 	
 	public Data2Connectivity(  ConnectionFactory connectionFactory , String param ) {
@@ -49,6 +55,7 @@ public class Data2Connectivity implements Runnable
 		logger.info( "connectionFactory :: " + connectionFactory );
 		logger.info( "param :: " + param );
 		
+		return ;
 	}
 	
 	@Override
@@ -67,15 +74,15 @@ public class Data2Connectivity implements Runnable
 		
 		
 		try {
-			final Connection connection = factory.newConnection( ) ;
-			final Channel channel = connection.createChannel( ) ;
+			this.connection = factory.newConnection( ) ;
+			this.channel = this.connection.createChannel( ) ;
 			
-			channel.queueDeclare( TASK_QUEUE_NAME , true , false , false , null ) ;
+			this.channel.queueDeclare( TASK_QUEUE_NAME , true , false , false , null ) ;
 			logger.info( " [*] Waiting for messages. To exit press CTRL+C" ) ;
 			
-			channel.basicQos( 1 ) ;
+			this.channel.basicQos( 1 ) ;
 			
-			final Consumer consumer = new DefaultConsumer( channel ) {
+			final Consumer consumer = new DefaultConsumer( this.channel ) {
 				@Override
 				public void handleDelivery( String consumerTag , Envelope envelope , AMQP.BasicProperties properties , byte[ ] body ) throws IOException {
 					String message = new String( body , "UTF-8" ) ;
@@ -89,7 +96,10 @@ public class Data2Connectivity implements Runnable
 					}
 				}
 			} ;
-			channel.basicConsume( TASK_QUEUE_NAME , false , consumer ) ;
+			
+			logger.info( "==========this.channel.basicConsume( TASK_QUEUE_NAME , false , consumer ) ;" ) ;
+
+			this.channel.basicConsume( TASK_QUEUE_NAME , false , consumer ) ;
 			
 		} catch( Exception e ) {
 			logger.error( e.getMessage( ) , e ) ;
@@ -98,6 +108,40 @@ public class Data2Connectivity implements Runnable
 			logger.info( "run finally" );
 		}
 		
+		return ;
+	}
+	
+	
+	public void connectionCut( ) {
+		
+		try {
+			logger.info( "================connectionCut================" ) ;
+			
+			if( this.channel != null ) {
+				try {
+					this.channel.close( ) ;
+				} catch( IOException e ) {
+					logger.error( e.getMessage( ) , e ) ;
+				} catch( TimeoutException e ) {
+					logger.error( e.getMessage( ) , e ) ;
+				}
+			}
+			if( this.connection != null ) {
+				try {
+					this.connection.close( ) ;
+				} catch( IOException e ) {
+					logger.error( e.getMessage( ) , e ) ;
+				}
+			}
+			this.connectionFactory = null ;
+			this.connection = null ;
+			this.channel = null ;
+			
+		} catch( Exception e ) {
+			logger.error( e.getMessage( ) , e ) ;
+		}
+		
+		return ;
 	}
 	
 }
