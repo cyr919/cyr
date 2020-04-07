@@ -14,7 +14,6 @@ import org.json.simple.parser.JSONParser ;
 import org.json.simple.parser.ParseException ;
 
 /**
- *
  * <pre>
  * </pre>
  *
@@ -31,7 +30,6 @@ public class JsonUtil
 	}
 	
 	/**
-	 * 
 	 * <pre>
 	 * json string to json object
 	 * </pre>
@@ -49,12 +47,15 @@ public class JsonUtil
 		try {
 			resultJsonObject = ( JSONObject ) jsonParser.parse( ( strJson ) ) ;
 			
-		} catch( ParseException e ) {
+		}
+		catch( ParseException e ) {
 			logger.error( "변환에 실패" ) ;
 			logger.error( e.getMessage( ) , e ) ;
-		} catch( Exception e ) {
+		}
+		catch( Exception e ) {
 			logger.error( e.getMessage( ) , e ) ;
-		} finally {
+		}
+		finally {
 			jsonParser = null ;
 			strJson = null ;
 		}
@@ -64,17 +65,37 @@ public class JsonUtil
 	}
 	
 	/**
+	 * <pre>
 	 * Map을 json으로 변환한다.
-	 *
-	 * @param map Map<String, Object>.
-	 * @return JSONObject.
+	 * </pre>
+	 * 
+	 * @author cyr
+	 * @date 2020-04-07
+	 * @param map
+	 * @return
 	 */
 	public JSONObject getJsonStringFromMap( Map< String , Object > map ) {
+		
 		JSONObject jsonObject = new JSONObject( ) ;
-		for( Map.Entry< String , Object > entry : map.entrySet( ) ) {
-			String key = entry.getKey( ) ;
-			Object value = entry.getValue( ) ;
-			jsonObject.put( key , value ) ;
+		String key = "" ;
+		Object value = null ;
+		try {
+			for( Map.Entry< String , Object > entry : map.entrySet( ) ) {
+				key = entry.getKey( ) ;
+				value = entry.getValue( ) ;
+				
+				jsonObject.put( key , value ) ;
+			}
+			
+		}
+		catch( Exception e ) {
+			jsonObject = new JSONObject( ) ;
+			logger.error( e.getMessage( ) , e ) ;
+		}
+		finally {
+			map = null ;
+			key = null ;
+			value = null ;
 		}
 		
 		return jsonObject ;
@@ -134,9 +155,11 @@ public class JsonUtil
 			}
 			logger.debug( "resultHashMap :: " + resultHashMap ) ;
 			
-		} catch( Exception e ) {
+		}
+		catch( Exception e ) {
 			logger.error( e.getMessage( ) , e ) ;
-		} finally {
+		}
+		finally {
 			jsonObj = null ;
 			
 			iteratorJSONObjectKeys = null ;
@@ -174,9 +197,11 @@ public class JsonUtil
 					resultList.add( resultHashMap ) ;
 				}
 			}
-		} catch( Exception e ) {
+		}
+		catch( Exception e ) {
 			logger.error( e.getMessage( ) , e ) ;
-		} finally {
+		}
+		finally {
 			i = 0 ;
 			JSONObject = null ;
 			resultHashMap = null ;

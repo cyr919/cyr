@@ -12,7 +12,6 @@ import com.rabbitmq.client.ConnectionFactory ;
 import com.rabbitmq.client.MessageProperties ;
 
 /**
- *
  * <pre>
  * Work Queues
  * servicehub에서 queue로 데이터를 전송한다.
@@ -25,7 +24,7 @@ public class Command2Module
 {
 	static Logger logger = Logger.getLogger( Command2Module.class ) ;
 	
-	private static final String TASK_QUEUE_NAME = "Command2Module" ;
+	private String TASK_QUEUE_NAME = "Command2Module" ;
 	
 	public void publishCommand2Module( JSONObject jsonObjectMessage ) {
 		
@@ -51,27 +50,34 @@ public class Command2Module
 			channel.basicPublish( "" , TASK_QUEUE_NAME , MessageProperties.PERSISTENT_TEXT_PLAIN , message.getBytes( ) ) ;
 			logger.info( " [x] Sent '" + message + "'" ) ;
 			
-		} catch( IOException e ) {
+		}
+		catch( IOException e ) {
 			logger.error( e.getMessage( ) , e ) ;
-		} catch( TimeoutException e ) {
+		}
+		catch( TimeoutException e ) {
 			logger.error( e.getMessage( ) , e ) ;
-		} catch( Exception e ) {
+		}
+		catch( Exception e ) {
 			logger.error( e.getMessage( ) , e ) ;
-		} finally {
+		}
+		finally {
 			
 			if( channel != null ) {
 				try {
 					channel.close( ) ;
-				} catch( IOException e ) {
+				}
+				catch( IOException e ) {
 					logger.error( e.getMessage( ) , e ) ;
-				} catch( TimeoutException e ) {
+				}
+				catch( TimeoutException e ) {
 					logger.error( e.getMessage( ) , e ) ;
 				}
 			}
 			if( connection != null ) {
 				try {
 					connection.close( ) ;
-				} catch( IOException e ) {
+				}
+				catch( IOException e ) {
 					logger.error( e.getMessage( ) , e ) ;
 				}
 			}

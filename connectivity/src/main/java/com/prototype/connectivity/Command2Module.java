@@ -4,6 +4,7 @@ import java.io.IOException ;
 import java.util.concurrent.TimeoutException ;
 
 import org.apache.log4j.Logger ;
+import org.json.simple.JSONObject ;
 
 import com.connectivity.utils.JsonUtil ;
 import com.rabbitmq.client.AMQP ;
@@ -33,10 +34,15 @@ public class Command2Module implements Runnable
 	private Connection connection = null ;
 	private Channel channel = null ;
 	
-	public void doWork( String strSubMessage , Channel channel , Envelope envelope ) throws Exception {
+	// private static void doWork( String strSubMessage , Channel channel , Envelope envelope ) throws Exception {
+	public void doWork( String strSubMessage , Channel channel , Envelope envelope ) {
 		
 		JsonUtil jsonUtil = new JsonUtil( ) ;
 		ConnectivityMainRun exe = new ConnectivityMainRun( ) ;
+		
+		JSONObject msgJSONObject = new JSONObject( ) ;
+		String strCommandLower = "" ;
+//		String strEventID = "" ;
 		
 		try {
 			
@@ -44,22 +50,45 @@ public class Command2Module implements Runnable
 			
 			Thread.sleep( 10 * 1000 ) ;
 			
-			////////////////////////////////////////////
-			// stop
+			msgJSONObject = jsonUtil.getJSONObjectFromString( strSubMessage ) ;
+			
+			logger.info( "msgJSONObject.get( \"COMMAND\" ) :: " + msgJSONObject.get( "COMMAND" ) ) ;
+			
+			strCommandLower = msgJSONObject.get( "COMMAND" ) + "" ;
+			strCommandLower = strCommandLower.toLowerCase( ) ;
+			
+			// ack 날리기, channel 이 끊어 진 후에는 기존 채널이 아니게 되므로 수신 되면 ack를 날리고 실패시 이벤트 처리(성공/실패시) 이벤트 처리해야함.
 			channel.basicAck( envelope.getDeliveryTag( ) , false ) ;
 			
-			exe.connectivityStop( ) ;
+			if( "reset".equals( strCommandLower ) ) {
+				////////////////////////////////////////////
+				// reset
+				logger.info( "::::::::::::::::::connectivityReset ::::::::::::::::" ) ;
+				logger.info( "::::::::::::::::::connectivityReset ::::::::::::::::" ) ;
+				logger.info( "::::::::::::::::::connectivityReset ::::::::::::::::" ) ;
+				
+				exe.connectivityReset( "event-reset" ) ;
+				
+			}
+			else if( "DeviceSimulationReset".equals( strCommandLower ) ) {
+				////////////////////////////////////////////
+				// device simulation data reset
+				
+			}
+			else {
+				////////////////////////////////////////////
+				// stop
+				logger.info( "::::::::::::::::::connectivityStop ::::::::::::::::" ) ;
+				logger.info( "::::::::::::::::::connectivityStop ::::::::::::::::" ) ;
+				logger.info( "::::::::::::::::::connectivityStop ::::::::::::::::" ) ;
+				
+				exe.connectivityStop( "event-stop" ) ;
+				
+			}
 			
-			////////////////////////////////////////////
-			// reset
-			
-			// 처리 후 ack 날리기
-			
-			////////////////////////////////////////////
-			// device simulation data reset
-			
-			// 처리 후 ack 날리기
-			
+		}
+		catch( InterruptedException _ignored ) {
+			Thread.currentThread( ).interrupt( ) ;
 		}
 		catch( Exception e ) {
 			logger.error( e.getMessage( ) , e ) ;
@@ -141,7 +170,7 @@ public class Command2Module implements Runnable
 		return ;
 	}
 	
-	public void connectionCut( ) {
+	public void connectionClose( ) {
 		
 		try {
 			logger.info( "================connectionCut================" ) ;

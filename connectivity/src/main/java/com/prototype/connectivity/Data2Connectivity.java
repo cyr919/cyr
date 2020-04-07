@@ -116,7 +116,7 @@ public class Data2Connectivity implements Runnable
 		return ;
 	}
 	
-	public void connectionCut( ) {
+	public void connectionClose( ) {
 		
 		try {
 			logger.info( "================connectionCut================" ) ;

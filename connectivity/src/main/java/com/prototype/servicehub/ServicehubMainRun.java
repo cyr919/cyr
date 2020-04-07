@@ -10,12 +10,13 @@ public class ServicehubMainRun
 	public static void main( String[ ] args ) {
 		
 		ServicehubMainRun exe = new ServicehubMainRun( ) ;
-		exe.commandSend( "STop" ) ;
+		exe.commandSend( "reset" ) ;
 	}
 	
 	public void commandSend( String strCommand ) {
 		
 		Command2Module command2Module = new Command2Module( ) ;
+		
 		JSONObject resultJsonObject = new JSONObject( ) ;
 		String strCommandLower = "" ;
 		

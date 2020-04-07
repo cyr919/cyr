@@ -14,7 +14,8 @@ public class ConnectivityMainRun
 	public static void main( String[ ] args ) {
 		
 		ConnectivityMainRun exe = new ConnectivityMainRun( ) ;
-		exe.connectivityRun( ) ;
+		
+		exe.connectivityRun( "eventId01" ) ;
 		
 		logger.info( "================================" ) ;
 		logger.info( Thread.currentThread( ) ) ;
@@ -34,31 +35,39 @@ public class ConnectivityMainRun
 		
 	}
 	
-	public void connectivityRun( ) {
+	public void connectivityRun( String strEventID ) {
 		
+		logger.info( "strEventID :: " + strEventID ) ;
 		try {
 			
 			this.rabbitmqConnectionOpen( ) ;
 			
+			logger.info( "connectivityRun 성공" ) ;
 		}
 		catch( Exception e ) {
+			logger.error( "connectivityRun 실패" ) ;
 			logger.error( e.getMessage( ) , e ) ;
 		}
 		finally {
+			strEventID = null ;
 			
 		}
 		
 		return ;
 	}
 	
-	public void connectivityStop( ) {
+	public void connectivityStop( String strEventID ) {
+		logger.info( "strEventID :: " + strEventID ) ;
 		try {
 			this.rabbitmqConnectionClose( ) ;
+			logger.info( "connectivityStop 성공" ) ;
 		}
 		catch( Exception e ) {
+			logger.error( "connectivityStop 실패" ) ;
 			logger.error( e.getMessage( ) , e ) ;
 		}
 		finally {
+			strEventID = null ;
 			
 		}
 		
@@ -66,37 +75,49 @@ public class ConnectivityMainRun
 		
 	}
 	
-	public void connectivityReset( ) {
+	public void connectivityReset( String strEventID ) {
 		
+		logger.info( "strEventID :: " + strEventID ) ;
 		try {
 			
+			this.rabbitmqConnectionClose( ) ;
+			
+			this.rabbitmqConnectionOpen( ) ;
+			
+			logger.info( "connectivityReset 성공" ) ;
 		}
 		catch( Exception e ) {
+			logger.error( "connectivityReset 실패" ) ;
 			logger.error( e.getMessage( ) , e ) ;
+			
 		}
 		finally {
+			strEventID = null ;
 			
 		}
 		
 		return ;
 	}
 	
-	public void connectivityDeviceSimulDataReset( ) {
+	public void connectivityDeviceSimulDataReset( String strEventID ) {
 		
+		logger.info( "strEventID :: " + strEventID ) ;
 		try {
 			
+			logger.info( "connectivityDeviceSimulDataReset 성공" ) ;
 		}
 		catch( Exception e ) {
+			logger.error( "connectivityDeviceSimulDataReset 실패" ) ;
 			logger.error( e.getMessage( ) , e ) ;
 		}
 		finally {
-			
+			strEventID = null ;
 		}
 		return ;
 		
 	}
 	
-	public void rabbitmqConnectionOpen( ) {
+	public void rabbitmqConnectionOpen( ) throws Exception {
 		
 		Thread cmThread = null ;
 		Thread[ ] dcThread = null ;
@@ -106,8 +127,8 @@ public class ConnectivityMainRun
 		int i = 0 ;
 		
 		try {
-			// rabbitmq 수신 connection
 			
+			// rabbitmq 수신 connection			
 			logger.info( "================rabbitmqConnectionOpen================" ) ;
 			factory = new ConnectionFactory( ) ;
 			factory.setHost( "192.168.56.105" ) ;
@@ -118,7 +139,7 @@ public class ConnectivityMainRun
 			cmThread = new Thread( command2Module , "command2Module-Thread" ) ;
 			cmThread.start( ) ;
 			
-			// multi thread 실행
+			// multi thread 실행(rabbitmq 수신 connection)
 			
 			threadCnt = 5 ;
 			data2ConnectivityArr = new Data2Connectivity[ threadCnt ] ;
@@ -132,9 +153,6 @@ public class ConnectivityMainRun
 			}
 			
 		}
-		catch( Exception e ) {
-			logger.error( e.getMessage( ) , e ) ;
-		}
 		finally {
 			factory = null ;
 			threadCnt = 0 ;
@@ -143,7 +161,7 @@ public class ConnectivityMainRun
 		
 	}
 	
-	public void rabbitmqConnectionClose( ) {
+	public void rabbitmqConnectionClose( ) throws Exception {
 		
 		logger.info( "================rabbitmqConnectionClose================" ) ;
 		
@@ -151,7 +169,7 @@ public class ConnectivityMainRun
 		try {
 			
 			// 플랫폼 제어 rabbitmq connection 종료
-			command2Module.connectionCut( ) ;
+			command2Module.connectionClose( ) ;
 			
 			// 데이터 계측 rabbitmq connection 종료
 			if( data2ConnectivityArr != null ) {
@@ -160,16 +178,12 @@ public class ConnectivityMainRun
 				
 				for( i = 0 ; i < data2ConnectivityArr.length ; i++ ) {
 					
-					data2ConnectivityArr[ i ].connectionCut( ) ;
+					data2ConnectivityArr[ i ].connectionClose( ) ;
 				}
 			}
-			
 			this.command2Module = null ;
 			this.data2ConnectivityArr = null ;
 			
-		}
-		catch( Exception e ) {
-			logger.error( e.getMessage( ) , e ) ;
 		}
 		finally {
 			i = 0 ;
