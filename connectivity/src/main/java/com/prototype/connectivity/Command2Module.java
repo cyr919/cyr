@@ -15,7 +15,6 @@ import com.rabbitmq.client.DefaultConsumer ;
 import com.rabbitmq.client.Envelope ;
 
 /**
- *
  * <pre>
  * Work Queues
  * connectivity가 queue의 데이터를 받는다.(from ServiceHUB)
@@ -28,17 +27,16 @@ public class Command2Module implements Runnable
 {
 	static Logger logger = Logger.getLogger( Command2Module.class ) ;
 	
-	private final static String TASK_QUEUE_NAME = "Command2Module" ;
-	
-	private String strDeviceName = "" ;
+	private String TASK_QUEUE_NAME = "Command2Module" ;
 	
 	private ConnectionFactory connectionFactory = null ;
 	private Connection connection = null ;
 	private Channel channel = null ;
 	
-	private void doWork( String strSubMessage , Channel channel , Envelope envelope ) throws Exception {
+	public void doWork( String strSubMessage , Channel channel , Envelope envelope ) throws Exception {
 		
 		JsonUtil jsonUtil = new JsonUtil( ) ;
+		ConnectivityMainRun exe = new ConnectivityMainRun( ) ;
 		
 		try {
 			
@@ -46,15 +44,30 @@ public class Command2Module implements Runnable
 			
 			Thread.sleep( 10 * 1000 ) ;
 			
+			////////////////////////////////////////////
+			// stop
 			channel.basicAck( envelope.getDeliveryTag( ) , false ) ;
 			
-			ConnectivityMainRun.connectivityStop( ) ;
+			exe.connectivityStop( ) ;
 			
-		} catch( Exception e ) {
+			////////////////////////////////////////////
+			// reset
+			
+			// 처리 후 ack 날리기
+			
+			////////////////////////////////////////////
+			// device simulation data reset
+			
+			// 처리 후 ack 날리기
+			
+		}
+		catch( Exception e ) {
 			logger.error( e.getMessage( ) , e ) ;
-		} finally {
+		}
+		finally {
 			jsonUtil = null ;
 			strSubMessage = null ;
+			exe = null ;
 		}
 		
 		return ;
@@ -63,10 +76,8 @@ public class Command2Module implements Runnable
 	public Command2Module( ConnectionFactory connectionFactory , String param ) {
 		
 		this.connectionFactory = connectionFactory ;
-		this.strDeviceName = param ;
 		
 		logger.info( "connectionFactory :: " + connectionFactory ) ;
-		logger.info( "param :: " + param ) ;
 		
 	}
 	
@@ -82,7 +93,6 @@ public class Command2Module implements Runnable
 		ConnectionFactory factory = this.connectionFactory ;
 		
 		logger.info( "this.connectionFactory :: " + this.connectionFactory ) ;
-		logger.info( "this.strDeviceName :: " + this.strDeviceName ) ;
 		
 		try {
 			this.connection = factory.newConnection( ) ;
@@ -104,9 +114,11 @@ public class Command2Module implements Runnable
 						
 						doWork( message , channel , envelope ) ;
 						
-					} catch( Exception e ) {
+					}
+					catch( Exception e ) {
 						logger.error( e.getMessage( ) , e ) ;
-					} finally {
+					}
+					finally {
 						logger.info( " [x] Done" ) ;
 						message = null ;
 					}
@@ -116,10 +128,12 @@ public class Command2Module implements Runnable
 			logger.info( "==========this.channel.basicConsume( TASK_QUEUE_NAME , false , consumer ) ;" ) ;
 			this.channel.basicConsume( TASK_QUEUE_NAME , false , consumer ) ;
 			
-		} catch( Exception e ) {
+		}
+		catch( Exception e ) {
 			logger.error( e.getMessage( ) , e ) ;
 			
-		} finally {
+		}
+		finally {
 			factory = null ;
 			logger.info( "run finally" ) ;
 		}
@@ -135,16 +149,19 @@ public class Command2Module implements Runnable
 			if( this.channel != null ) {
 				try {
 					this.channel.close( ) ;
-				} catch( IOException e ) {
+				}
+				catch( IOException e ) {
 					logger.error( e.getMessage( ) , e ) ;
-				} catch( TimeoutException e ) {
+				}
+				catch( TimeoutException e ) {
 					logger.error( e.getMessage( ) , e ) ;
 				}
 			}
 			if( this.connection != null ) {
 				try {
 					this.connection.close( ) ;
-				} catch( IOException e ) {
+				}
+				catch( IOException e ) {
 					logger.error( e.getMessage( ) , e ) ;
 				}
 			}
@@ -152,7 +169,8 @@ public class Command2Module implements Runnable
 			this.connection = null ;
 			this.channel = null ;
 			
-		} catch( Exception e ) {
+		}
+		catch( Exception e ) {
 			logger.error( e.getMessage( ) , e ) ;
 		}
 		

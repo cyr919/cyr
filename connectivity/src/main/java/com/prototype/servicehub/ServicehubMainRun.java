@@ -31,10 +31,12 @@ public class ServicehubMainRun
 			if( "reset".equals( strCommandLower ) ) {
 				
 				resultJsonObject.put( "COMMAND" , "reset" ) ;
-			} else if( "devicesimulationreset".equals( strCommandLower ) ) {
+			}
+			else if( "devicesimulationreset".equals( strCommandLower ) ) {
 				
 				resultJsonObject.put( "COMMAND" , "DeviceSimulationReset" ) ;
-			} else {
+			}
+			else {
 				resultJsonObject.put( "COMMAND" , "stop" ) ;
 			}
 			
@@ -42,9 +44,11 @@ public class ServicehubMainRun
 			
 			command2Module.publishCommand2Module( resultJsonObject ) ;
 			
-		} catch( Exception e ) {
+		}
+		catch( Exception e ) {
 			logger.error( e.getMessage( ) , e ) ;
-		} finally {
+		}
+		finally {
 			resultJsonObject = null ;
 			command2Module = null ;
 			strCommand = null ;

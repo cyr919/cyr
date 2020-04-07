@@ -14,10 +14,10 @@ import com.rabbitmq.client.DefaultConsumer ;
 import com.rabbitmq.client.Envelope ;
 
 /**
- *
  * <pre>
  * Work Queues
  * connectivity가 queue의 데이터를 받는다.
+ * device ID 별로 Queue가 생성한다.
  * </pre>
  *
  * @author cyr
@@ -27,33 +27,34 @@ public class Data2Connectivity implements Runnable
 {
 	static Logger logger = Logger.getLogger( Data2Connectivity.class ) ;
 	
-	private final static String TASK_QUEUE_NAME = "Data2Connectivity" ;
-	
-	private String strDeviceName = "" ;
+	private String TASK_QUEUE_NAME = "Data2Connectivity" ;
 	
 	private ConnectionFactory connectionFactory = null ;
 	private Connection connection = null ;
 	private Channel channel = null ;
 	
-	
-	private static void doWork( String task ) {
+	public void doWork( String task ) {
 		
 		try {
 			Thread.sleep( 1000 ) ;
-		} catch( InterruptedException _ignored ) {
+		}
+		catch( InterruptedException _ignored ) {
 			Thread.currentThread( ).interrupt( ) ;
 		}
 		
 		return ;
 	}
 	
-	public Data2Connectivity(  ConnectionFactory connectionFactory , String param ) {
+	public Data2Connectivity( ConnectionFactory connectionFactory , String strDeviceName ) {
 		
 		this.connectionFactory = connectionFactory ;
-		this.strDeviceName = param ;
 		
-		logger.info( "connectionFactory :: " + connectionFactory );
-		logger.info( "param :: " + param );
+		logger.info( "connectionFactory :: " + connectionFactory ) ;
+		logger.info( "strDeviceName :: " + strDeviceName ) ;
+		
+		this.TASK_QUEUE_NAME = this.TASK_QUEUE_NAME + "_" + strDeviceName ;
+		
+		logger.info( "this.TASK_QUEUE_NAME :: " + this.TASK_QUEUE_NAME ) ;
 		
 		return ;
 	}
@@ -67,13 +68,13 @@ public class Data2Connectivity implements Runnable
 		// factory.setUsername( "admin" ) ;
 		// factory.setPassword( "admin" ) ;
 		
-		ConnectionFactory factory = this.connectionFactory ; 
+		ConnectionFactory factory = this.connectionFactory ;
 		
-		logger.info( "this.connectionFactory :: " + this.connectionFactory );
-		logger.info( "this.strDeviceName :: " + this.strDeviceName );
-		
+		logger.info( "this.connectionFactory :: " + this.connectionFactory ) ;
+		logger.info( "this.TASK_QUEUE_NAME :: " + this.TASK_QUEUE_NAME ) ;
 		
 		try {
+			
 			this.connection = factory.newConnection( ) ;
 			this.channel = this.connection.createChannel( ) ;
 			
@@ -90,7 +91,8 @@ public class Data2Connectivity implements Runnable
 					logger.info( " [x] Received '" + message + "'" ) ;
 					try {
 						doWork( message ) ;
-					} finally {
+					}
+					finally {
 						logger.info( " [x] Done" ) ;
 						channel.basicAck( envelope.getDeliveryTag( ) , false ) ;
 					}
@@ -98,19 +100,21 @@ public class Data2Connectivity implements Runnable
 			} ;
 			
 			logger.info( "==========this.channel.basicConsume( TASK_QUEUE_NAME , false , consumer ) ;" ) ;
-
+			
 			this.channel.basicConsume( TASK_QUEUE_NAME , false , consumer ) ;
 			
-		} catch( Exception e ) {
+		}
+		catch( Exception e ) {
 			logger.error( e.getMessage( ) , e ) ;
 			
-		} finally {
-			logger.info( "run finally" );
+		}
+		finally {
+			logger.info( "run finally" ) ;
+			factory = null ;
 		}
 		
 		return ;
 	}
-	
 	
 	public void connectionCut( ) {
 		
@@ -120,16 +124,19 @@ public class Data2Connectivity implements Runnable
 			if( this.channel != null ) {
 				try {
 					this.channel.close( ) ;
-				} catch( IOException e ) {
+				}
+				catch( IOException e ) {
 					logger.error( e.getMessage( ) , e ) ;
-				} catch( TimeoutException e ) {
+				}
+				catch( TimeoutException e ) {
 					logger.error( e.getMessage( ) , e ) ;
 				}
 			}
 			if( this.connection != null ) {
 				try {
 					this.connection.close( ) ;
-				} catch( IOException e ) {
+				}
+				catch( IOException e ) {
 					logger.error( e.getMessage( ) , e ) ;
 				}
 			}
@@ -137,7 +144,8 @@ public class Data2Connectivity implements Runnable
 			this.connection = null ;
 			this.channel = null ;
 			
-		} catch( Exception e ) {
+		}
+		catch( Exception e ) {
 			logger.error( e.getMessage( ) , e ) ;
 		}
 		

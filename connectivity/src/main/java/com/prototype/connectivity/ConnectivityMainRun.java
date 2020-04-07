@@ -13,7 +13,8 @@ public class ConnectivityMainRun
 	
 	public static void main( String[ ] args ) {
 		
-		connectivityRun( ) ;
+		ConnectivityMainRun exe = new ConnectivityMainRun( ) ;
+		exe.connectivityRun( ) ;
 		
 		logger.info( "================================" ) ;
 		logger.info( Thread.currentThread( ) ) ;
@@ -33,7 +34,39 @@ public class ConnectivityMainRun
 		
 	}
 	
-	public static void connectivityRun( ) {
+	public void connectivityRun( ) {
+		
+		try {
+			
+			this.rabbitmqConnectionOpen( ) ;
+			
+		}
+		catch( Exception e ) {
+			logger.error( e.getMessage( ) , e ) ;
+		}
+		finally {
+			
+		}
+		
+		return ;
+	}
+	
+	public void connectivityStop( ) {
+		try {
+			this.rabbitmqConnectionClose( ) ;
+		}
+		catch( Exception e ) {
+			logger.error( e.getMessage( ) , e ) ;
+		}
+		finally {
+			
+		}
+		
+		return ;
+		
+	}
+	
+	public void connectivityReset( ) {
 		
 		try {
 			
@@ -48,22 +81,7 @@ public class ConnectivityMainRun
 		return ;
 	}
 	
-	public static void connectivityStop( ) {
-		try {
-			
-		}
-		catch( Exception e ) {
-			logger.error( e.getMessage( ) , e ) ;
-		}
-		finally {
-			
-		}
-		
-		return ;
-		
-	}
-	
-	public static void connectivityReset( ) {
+	public void connectivityDeviceSimulDataReset( ) {
 		
 		try {
 			
@@ -78,22 +96,7 @@ public class ConnectivityMainRun
 		
 	}
 	
-	public static void connectivityDeviceSimulDataReset( ) {
-		
-		try {
-			
-		}
-		catch( Exception e ) {
-			logger.error( e.getMessage( ) , e ) ;
-		}
-		finally {
-			
-		}
-		return ;
-		
-	}
-	
-	public static void rabbitmqConnectionOpen( ) {
+	public void rabbitmqConnectionOpen( ) {
 		
 		Thread cmThread = null ;
 		Thread[ ] dcThread = null ;
@@ -118,27 +121,29 @@ public class ConnectivityMainRun
 			// multi thread 실행
 			
 			threadCnt = 5 ;
-			
 			data2ConnectivityArr = new Data2Connectivity[ threadCnt ] ;
 			dcThread = new Thread[ threadCnt ] ;
 			for( i = 0 ; i < threadCnt ; i++ ) {
 				
-				data2ConnectivityArr[ i ] = new Data2Connectivity( factory , ( "ESS01" + i ) ) ;
+				data2ConnectivityArr[ i ] = new Data2Connectivity( factory , ( "ESS-" + i ) ) ;
 				
 				dcThread[ i ] = new Thread( data2ConnectivityArr[ i ] , ( "data2Connectivity-Thread-" + i ) ) ;
 				dcThread[ i ].start( ) ;
 			}
+			
 		}
 		catch( Exception e ) {
 			logger.error( e.getMessage( ) , e ) ;
 		}
 		finally {
-			
+			factory = null ;
+			threadCnt = 0 ;
+			i = 0 ;
 		}
 		
 	}
 	
-	public static void rabbitmqConnectionClose( ) {
+	public void rabbitmqConnectionClose( ) {
 		
 		logger.info( "================rabbitmqConnectionClose================" ) ;
 		
@@ -159,7 +164,8 @@ public class ConnectivityMainRun
 				}
 			}
 			
-			// data2Connectivity.connectionCut( );
+			this.command2Module = null ;
+			this.data2ConnectivityArr = null ;
 			
 		}
 		catch( Exception e ) {
