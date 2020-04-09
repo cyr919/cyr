@@ -17,6 +17,15 @@ public class JedisConnection
 	private static JedisPool jedisPool ;
 	private static JedisPoolConfig jedisPoolConfig ;
 	
+	/**
+	 * 
+	 * <pre>
+	 * </pre>
+	 * 
+	 * @author cyr
+	 * @date 2020-04-09
+	 * @return jedisPool
+	 */
 	public static JedisPool getJedisPool( ) {
 		
 		if( null == jedisPool ) {
