@@ -1,0 +1,45 @@
+□ eclipse java maven 프로젝트 설정 관련
+
+
+○ windows > preference
+
+▷ java > installed jres
+사용할 jres, jdk 추가(add 버튼 클릭)
+
+
+▷ java > installed jres > Execution Environments
+Execution Environments 버전 별로 있음.
+각 Execution Environments 클릭해서 compatible jres 에서 사용할 java 체크
+
+▷ maven
+do not automatically update dependencies from remote repositories : 체크
+download artifact Sources : 체크
+download artifact javadoc : 체크
+
+▷ maven > User Settings
+확인
+
+
+○ 프로젝트 생성 후 프로젝트 properties 설정
+
+▷ java bulid path
+jer system library > Excution Environment 에서 맞는 자바 버전 선택
+
+▷ java compiler
+Use compliance from execution environment 'javaSE-11' on the java build path : 체크
+
+
+○ 프로젝트의 maven run 설정
+
+▷ 프로젝트 > run as > run configurations
+- maven build > main
+goals : clean install compile package
+
+- maven build > jre
+runtime jre 에서 excution environment에서 사용할 java 버전 선택
+
+
+** run 할 때 실행되는 java 확인 : console 상단에서 나타남...
+
+
+
