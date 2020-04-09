@@ -11,6 +11,9 @@ public class ConnectivityMainRun
 	public static Command2Module command2Module = null ;
 	public static Data2Connectivity[ ] data2ConnectivityArr = null ;
 	
+	public static ConditionReport conditionReport = null ;
+	public static Thread ctThread = null ;
+	
 	public static void main( String[ ] args ) {
 		
 		ConnectivityMainRun exe = new ConnectivityMainRun( ) ;
@@ -40,8 +43,15 @@ public class ConnectivityMainRun
 		logger.info( "strEventID :: " + strEventID ) ;
 		try {
 			
+			// rabbitmaConnection 연결
 			this.rabbitmqConnectionOpen( ) ;
 			
+			// 상태 보고 실행
+			conditionReport = new ConditionReport( 30 ) ;
+			ctThread = new Thread( conditionReport , "conditionReport-Thread" ) ;
+			ctThread.start( );
+			
+			// TODO 기동 이벤트 추가 필요
 			logger.info( "connectivityRun 성공" ) ;
 		}
 		catch( Exception e ) {
@@ -60,6 +70,14 @@ public class ConnectivityMainRun
 		logger.info( "strEventID :: " + strEventID ) ;
 		try {
 			this.rabbitmqConnectionClose( ) ;
+			
+			// 중간에 다른 처리 넣기
+			
+			
+			// 상태 보고 중지
+			conditionReport.setStopReport( );
+			ctThread.interrupt( ); 
+			
 			logger.info( "connectivityStop 성공" ) ;
 		}
 		catch( Exception e ) {
@@ -79,9 +97,10 @@ public class ConnectivityMainRun
 		
 		logger.info( "strEventID :: " + strEventID ) ;
 		try {
-			
+			// 처리 정지 처리
 			this.rabbitmqConnectionClose( ) ;
 			
+			// 처리 정지 시작 처리
 			this.rabbitmqConnectionOpen( ) ;
 			
 			logger.info( "connectivityReset 성공" ) ;
@@ -128,7 +147,7 @@ public class ConnectivityMainRun
 		
 		try {
 			
-			// rabbitmq 수신 connection			
+			// rabbitmq 수신 connection
 			logger.info( "================rabbitmqConnectionOpen================" ) ;
 			factory = new ConnectionFactory( ) ;
 			factory.setHost( "192.168.56.105" ) ;
@@ -181,8 +200,8 @@ public class ConnectivityMainRun
 					data2ConnectivityArr[ i ].connectionClose( ) ;
 				}
 			}
-			this.command2Module = null ;
-			this.data2ConnectivityArr = null ;
+			ConnectivityMainRun.command2Module = null ;
+			ConnectivityMainRun.data2ConnectivityArr = null ;
 			
 		}
 		finally {

@@ -48,7 +48,7 @@ public class Command2Module implements Runnable
 			
 			logger.info( "strSubMessage :: " + strSubMessage ) ;
 			
-			Thread.sleep( 10 * 1000 ) ;
+			Thread.sleep( 5 * 1000 ) ;
 			
 			msgJSONObject = jsonUtil.getJSONObjectFromString( strSubMessage ) ;
 			

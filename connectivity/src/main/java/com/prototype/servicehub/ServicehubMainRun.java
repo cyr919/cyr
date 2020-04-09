@@ -10,7 +10,7 @@ public class ServicehubMainRun
 	public static void main( String[ ] args ) {
 		
 		ServicehubMainRun exe = new ServicehubMainRun( ) ;
-		exe.commandSend( "reset" ) ;
+		exe.commandSend( "stop" ) ;
 	}
 	
 	public void commandSend( String strCommand ) {
