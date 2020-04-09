@@ -1,0 +1,45 @@
+
+□ eclipse java maven 프로젝트 offline 설정
+
+
+
+○ online 환경에서 아래 설정 후
+eclipse_maven_bulid_설정_200409.txt
+
+maven clean, maven install, maven build 등 수행한다.
+
+○ repository 폴더 통채로 압축한다.
+C:\Users\[사용자명]\.m2\repository
+
+----- 기타 offline repository 설정은 추후 확인 및 내용 추가 필요.
+settings.xml 추가 등 확인.
+
+
+
+
+○ windows > preference
+
+▷ maven
+offline : 체크
+
+
+
+
+▷ maven > User Settings
+settings.xml 파일 위치 넣기
+(settings.xml 관련해서는 위에서 확인)
+
+
+
+online 환경에서 maven update 후 maven build 수행
+
+
+
+○ offline 환경으로 이동 후
+offline repository 위치에 위에서 압축한 repository.zip 안의 라이브러리들을 넣어 준다.
+
+
+
+
+
+
