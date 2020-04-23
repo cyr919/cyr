@@ -1,0 +1,175 @@
+
+1. 초기에는 authorization이 disabled 되어 있으므로 그냥 mongo 쉘 커맨드로 접속하면 된다.
+
+mongo 
+
+
+2. admin DB를 생성하여 모든 DB에 접속할 권한을 준다.(모든 권한을 준 것 이다.)
+
+- 모든 권한
+
+use admin
+db.createUser( { user: "<username>",
+          pwd: "<password>",
+          roles: [ "dbAdminAnyDatabase",
+                   "userAdminAnyDatabase",
+                   "readWriteAnyDatabase",
+                   "readAnyDatabase",
+                   "clusterAdmin",
+                   "userAdmin",
+                   "dbAdmin",
+                   "readWrite",
+                   "read"
+] } ) 
+
+
+- 클러스터 권한을 제외한 모든 권한
+
+use admin
+db.createUser( { user: "<username>",
+          pwd: "<password>",
+          roles: [ "dbAdminAnyDatabase",
+                   "userAdminAnyDatabase",
+                   "readWriteAnyDatabase",
+				   "readAnyDatabase",
+
+] } ) 
+
+
+- 예시
+use admin
+db.createUser( { user: "hsmgpadmin",
+          pwd: "1q2w3e4r5t!@#$%",
+          roles: [ "dbAdminAnyDatabase",
+                   "userAdminAnyDatabase",
+                   "readWriteAnyDatabase",
+				   "readAnyDatabase",
+
+] } ) 
+
+
+
+
+
+2-1) 사용자 생성후 권한 추가 부여시
+
+
+use admin
+db.grantRolesToUser(
+    "hsmgpadmin",
+    [
+{role:"read", db:"admin"},
+{role:"readWrite", db:"admin"},
+{role:"dbAdmin", db:"admin"},
+{role:"userAdmin", db:"admin"},
+{role:"clusterAdmin", db:"admin"},
+{role:"readAnyDatabase", db:"admin"},
+{role:"readWriteAnyDatabase", db:"admin"},
+{role:"userAdminAnyDatabase", db:"admin"},
+{role:"dbAdminAnyDatabase", db:"admin"}
+    ]
+)
+;
+
+
+추가 내용은 아래 페이지 참고
+https://emong.tistory.com/237
+
+
+
+3. 다음은 사용자가 원하는 DB를 만들때 셋팅이다. (이 경우 해당 디비에만 권한을 받는다. 사용자 권한)
+
+use hsmgp
+db.createUser({ user: "<username>",
+          pwd: "<password>",
+          roles: [
+                   "userAdmin",
+                   "dbAdmin",
+                   "readWrite",
+                   "read"
+          ]
+}) 
+
+
+- 예시
+use hsmgp
+db.createUser({ user: "hsmgp",
+          pwd: "1q2w3e4r5t!@#$%",
+          roles: [
+					"userAdmin",
+					"dbAdmin",
+					"readWrite",
+					"read"
+          ]
+}) ;
+
+
+
++ 사용자를 drop 시킬때 쓰는 명령이다. (거의 쓸일 없다)
+
+use admin
+db.dropUser("<username>") 
+
+
+출처: https://nopsled.tistory.com/227 [Analyzing bot]
+
+
+---------------------------------------------------------
+
+1-2. 조회
+db : 현재 사용중인 데이터베이스 확인
+show dbs : 데이터베이스 리스트 확인
+db.stats() : 데이터베이스 상태확인
+
+
+출처: https://sjh836.tistory.com/100 [빨간색코딩]
+
+
+
+
+ ----------------------------------------------------------
+ 
+ 
+> use admin
+switched to db admin
+> db
+admin
+> db.auth( "hsmgpadmin" , "1q2w3e4r5t!@#$%" )
+1
+> show dbs
+admin   0.000GB
+config  0.000GB
+local   0.000GB
+>
+
+> db.getUser("hsmgpadmin")
+{
+        "_id" : "admin.hsmgpadmin",
+        "userId" : UUID("3db78284-cb65-4445-8158-51a3311f99d0"),
+        "user" : "hsmgpadmin",
+        "db" : "admin",
+        "roles" : [
+                {
+                        "role" : "dbAdminAnyDatabase",
+                        "db" : "admin"
+                }
+        ],
+        "mechanisms" : [
+                "SCRAM-SHA-1",
+                "SCRAM-SHA-256"
+        ]
+}
+>
+
+
+db.dropUser("hsmgpadmin") ;
+ 
+ 
+ 
+
+ ----------------------------------------------------------
+ 
+use db 후 바로 show dbs 하면 생성한 db가 보이지 않는다. 최소 1개의  Document를 추가해야한다.
+ 
+  ----------------------------------------------------------
+ 
