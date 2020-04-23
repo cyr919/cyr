@@ -7,7 +7,8 @@ import java.util.Iterator ;
 import java.util.List ;
 import java.util.Map ;
 
-import org.apache.log4j.Logger ;
+import org.apache.logging.log4j.LogManager ;
+import org.apache.logging.log4j.Logger ;
 import org.json.simple.JSONArray ;
 import org.json.simple.JSONObject ;
 import org.json.simple.parser.JSONParser ;
@@ -23,11 +24,9 @@ import org.json.simple.parser.ParseException ;
 public class JsonUtil
 {
 	
-	static Logger logger = Logger.getLogger( JsonUtil.class ) ;
-	
-	public static void main( String[ ] args ) {
-		// TODO Auto-generated method stub
-	}
+	// Define a static logger variable so that it references the
+	// Logger instance named "MyApp".
+	Logger logger = LogManager.getLogger( JsonUtil.class ) ;
 	
 	/**
 	 * <pre>

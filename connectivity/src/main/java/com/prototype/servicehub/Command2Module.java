@@ -3,7 +3,8 @@ package com.prototype.servicehub ;
 import java.io.IOException ;
 import java.util.concurrent.TimeoutException ;
 
-import org.apache.log4j.Logger ;
+import org.apache.logging.log4j.LogManager ;
+import org.apache.logging.log4j.Logger ;
 import org.json.simple.JSONObject ;
 
 import com.rabbitmq.client.Channel ;
@@ -22,7 +23,8 @@ import com.rabbitmq.client.MessageProperties ;
  */
 public class Command2Module
 {
-	static Logger logger = Logger.getLogger( Command2Module.class ) ;
+	
+	Logger logger = LogManager.getLogger( ) ;
 	
 	private String TASK_QUEUE_NAME = "Command2Module" ;
 	

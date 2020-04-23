@@ -3,7 +3,8 @@ package com.prototype ;
 
 import java.util.HashMap ;
 
-import org.apache.log4j.Logger ;
+import org.apache.logging.log4j.LogManager ;
+import org.apache.logging.log4j.Logger ;
 
 import redis.clients.jedis.Jedis ;
 import redis.clients.jedis.JedisPool ;
@@ -12,7 +13,10 @@ import redis.clients.jedis.JedisPoolConfig ;
 public class JedisConfig
 {
 
-	static Logger logger = Logger.getLogger( JedisConfig.class ) ;
+	// Define a static logger variable so that it references the
+	// Logger instance named "MyApp".
+	private static Logger logger = LogManager.getLogger( JedisConfig.class ) ;
+	// Logger logger = LogManager.getLogger( ) ;
 
 	public static void main( String[ ] args )
 	{

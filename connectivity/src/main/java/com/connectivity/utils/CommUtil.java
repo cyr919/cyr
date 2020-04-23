@@ -4,18 +4,19 @@ package com.connectivity.utils ;
 import java.util.HashMap ;
 import java.util.List ;
 
-import org.apache.log4j.Logger ;
+import org.apache.logging.log4j.LogManager ;
+import org.apache.logging.log4j.Logger ;
 
 public class CommUtil
 {
-
-	static Logger logger = Logger.getLogger( CommUtil.class ) ;
-
-	public static void main( String[ ] args )
-	{
+	
+	// Define a static logger variable so that it references the
+	// Logger instance named "MyApp".
+	private static final Logger logger = LogManager.getLogger( CommUtil.class ) ;
+	// Logger logger = LogManager.getLogger( ) ;
+	
+	public static void main( String[ ] args ) {
 		int intVal = 0 ;
-
-
 		
 		intVal = CommUtil.getRandomInt( 1 , 10 ) ;
 		logger.debug( "" + intVal ) ;
@@ -26,32 +27,27 @@ public class CommUtil
 		intVal = CommUtil.getRandomInt( 100 , 100 ) ;
 		logger.debug( "" + intVal ) ;
 		
-
 	}
-
-	public static int getRandomInt( int multyParam , int  plusParam ) {
+	
+	public static int getRandomInt( int multyParam , int plusParam ) {
 		
 		int intResult = 0 ;
 		
 		double dValue = 0D ;
-
-		try
-		{
-			dValue = Math.random( ) ;			
+		
+		try {
+			dValue = Math.random( ) ;
 			intResult = ( int ) ( dValue * multyParam ) + plusParam ;
 		}
-		finally
-		{
+		finally {
 			dValue = 0D ;
 			multyParam = 0 ;
 			plusParam = 0 ;
 		}
 		
-		
 		return intResult ;
 		
 	}
-	
 	
 	/**
 	 * <pre>
@@ -62,30 +58,25 @@ public class CommUtil
 	 * @return Boolean
 	 * @date 2019. 8. 6.
 	 */
-	public static Boolean checkNull( String param )
-	{
+	public static Boolean checkNull( String param ) {
 		Boolean resultBoll = true ;
-
-		try
-		{
-			if ( null != param && !"".equals( param ) && !param.isEmpty( ) )
-			{
+		
+		try {
+			if( null != param && !"".equals( param ) && !param.isEmpty( ) ) {
 				resultBoll = false ;
 			}
 		}
-		catch ( Exception e )
-		{
+		catch( Exception e ) {
 			e.printStackTrace( ) ;
 		}
-		finally
-		{
+		finally {
 			param = null ;
 		}
-
+		
 		return resultBoll ;
-
+		
 	}
-
+	
 	/**
 	 * <pre>
 	 * List 가 null 혹은 0 < paramList.size( ) , 빈 값이 아닐 때 false 반환
@@ -95,79 +86,62 @@ public class CommUtil
 	 * @return Boolean
 	 * @date 2019. 8. 5.
 	 */
-	public static Boolean checkNull( List< ? > paramList )
-	{
+	public static Boolean checkNull( List< ? > paramList ) {
 		Boolean resultBoll = true ;
-
-		try
-		{
-			if ( null != paramList && 0 < paramList.size( ) && !paramList.isEmpty( ) )
-			{
+		
+		try {
+			if( null != paramList && 0 < paramList.size( ) && !paramList.isEmpty( ) ) {
 				resultBoll = false ;
 			}
 		}
-		catch ( Exception e )
-		{
+		catch( Exception e ) {
 			e.printStackTrace( ) ;
 		}
-		finally
-		{
+		finally {
 			paramList = null ;
 		}
-
+		
 		return resultBoll ;
-
+		
 	}
-
-	public static Boolean checkNull( String[ ][ ] paramStrtArray )
-	{
-		Boolean resultBoll = true ;
-
-		try
-		{
-			if ( null != paramStrtArray && 0 < paramStrtArray.length )
-			{
-				resultBoll = false ;
-			}
-		}
-		catch ( Exception e )
-		{
-			e.printStackTrace( ) ;
-		}
-		finally
-		{
-			paramStrtArray = null ;
-		}
-
-		return resultBoll ;
-
-	}
-
-	public static Boolean checkNull( String[ ] paramStrtArray )
-	{
-		Boolean resultBoll = true ;
-
-		try
-		{
-			if ( null != paramStrtArray && 0 < paramStrtArray.length )
-			{
-				resultBoll = false ;
-			}
-		}
-		catch ( Exception e )
-		{
-			e.printStackTrace( ) ;
-		}
-		finally
-		{
-			paramStrtArray = null ;
-		}
-
-		return resultBoll ;
-
-	}
-
 	
+	public static Boolean checkNull( String[ ][ ] paramStrtArray ) {
+		Boolean resultBoll = true ;
+		
+		try {
+			if( null != paramStrtArray && 0 < paramStrtArray.length ) {
+				resultBoll = false ;
+			}
+		}
+		catch( Exception e ) {
+			e.printStackTrace( ) ;
+		}
+		finally {
+			paramStrtArray = null ;
+		}
+		
+		return resultBoll ;
+		
+	}
+	
+	public static Boolean checkNull( String[ ] paramStrtArray ) {
+		Boolean resultBoll = true ;
+		
+		try {
+			if( null != paramStrtArray && 0 < paramStrtArray.length ) {
+				resultBoll = false ;
+			}
+		}
+		catch( Exception e ) {
+			e.printStackTrace( ) ;
+		}
+		finally {
+			paramStrtArray = null ;
+		}
+		
+		return resultBoll ;
+		
+	}
 	
 	/**
 	 * <pre>
@@ -178,52 +152,42 @@ public class CommUtil
 	 * @return Boolean
 	 * @date 2019. 8. 5.
 	 */
-	public static Boolean checkNull( HashMap< String , Object > param )
-	{
+	public static Boolean checkNull( HashMap< String , Object > param ) {
 		Boolean resultBoll = true ;
-
-		try
-		{
-			if ( null != param && 0 < param.size( ) && !param.isEmpty( ) )
-			{
+		
+		try {
+			if( null != param && 0 < param.size( ) && !param.isEmpty( ) ) {
 				resultBoll = false ;
 			}
 		}
-		catch ( Exception e )
-		{
+		catch( Exception e ) {
 			e.printStackTrace( ) ;
 		}
-		finally
-		{
+		finally {
 			param = null ;
 		}
-
+		
 		return resultBoll ;
-
+		
 	}
-
-	public static Boolean checkNullHashMap( HashMap< String , ? > param )
-	{
+	
+	public static Boolean checkNullHashMap( HashMap< String , ? > param ) {
 		Boolean resultBoll = true ;
-
-		try
-		{
-			if ( null != param && 0 < param.size( ) && !param.isEmpty( ) )
-			{
+		
+		try {
+			if( null != param && 0 < param.size( ) && !param.isEmpty( ) ) {
 				resultBoll = false ;
 			}
 		}
-		catch ( Exception e )
-		{
+		catch( Exception e ) {
 			e.printStackTrace( ) ;
 		}
-		finally
-		{
+		finally {
 			param = null ;
 		}
-
+		
 		return resultBoll ;
-
+		
 	}
 	
 	/**
@@ -235,30 +199,25 @@ public class CommUtil
 	 * @return Boolean
 	 * @date 2019. 8. 6.
 	 */
-	public static Boolean checkObjNull( Object paramObj )
-	{
+	public static Boolean checkObjNull( Object paramObj ) {
 		Boolean resultBoll = true ;
-
-		try
-		{
-			if ( null != paramObj && !"".equals( paramObj ) && !( paramObj + "" ).isEmpty( ) )
-			{
+		
+		try {
+			if( null != paramObj && !"".equals( paramObj ) && !( paramObj + "" ).isEmpty( ) ) {
 				resultBoll = false ;
 			}
 		}
-		catch ( Exception e )
-		{
+		catch( Exception e ) {
 			e.printStackTrace( ) ;
 		}
-		finally
-		{
+		finally {
 			paramObj = null ;
 		}
-
+		
 		return resultBoll ;
-
+		
 	}
-
+	
 	/**
 	 * <pre>
 	 * </pre>
@@ -267,29 +226,24 @@ public class CommUtil
 	 * @return int
 	 * @date 2019. 9. 8.
 	 */
-	public static int checkNumNull( Object param )
-	{
+	public static int checkNumNull( Object param ) {
 		int resultInt = 0 ;
-
-		try
-		{
-			if ( !CommUtil.checkObjNull( param ) )
-			{
+		
+		try {
+			if( !CommUtil.checkObjNull( param ) ) {
 				resultInt = Integer.parseInt( ( param + "" ).trim( ).replaceAll( " " , "" ) ) ;
 			}
 		}
-		catch ( Exception e )
-		{
+		catch( Exception e ) {
 			e.printStackTrace( ) ;
 		}
-		finally
-		{
+		finally {
 			param = null ;
 		}
-
+		
 		return resultInt ;
 	}
-
+	
 	/**
 	 * <pre>
 	 * </pre>
@@ -298,32 +252,26 @@ public class CommUtil
 	 * @return int
 	 * @date 2019. 9. 8.
 	 */
-	public static int checkNumNull( Object param , int replaceParam )
-	{
+	public static int checkNumNull( Object param , int replaceParam ) {
 		int resultInt = 0 ;
-
-		try
-		{
-			if ( !CommUtil.checkObjNull( param ) )
-			{
+		
+		try {
+			if( !CommUtil.checkObjNull( param ) ) {
 				resultInt = Integer.parseInt( ( param + "" ).trim( ).replaceAll( " " , "" ) ) ;
 			}
-			else
-			{
+			else {
 				param = replaceParam ;
 			}
 		}
-		catch ( Exception e )
-		{
+		catch( Exception e ) {
 			e.printStackTrace( ) ;
 		}
-		finally
-		{
+		finally {
 			param = null ;
 			replaceParam = 0 ;
 		}
-
+		
 		return resultInt ;
 	}
-
+	
 }

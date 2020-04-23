@@ -8,16 +8,20 @@ import java.util.HashMap ;
 import java.util.Iterator ;
 import java.util.List ;
 
-import org.apache.log4j.Logger ;
+import org.apache.logging.log4j.LogManager ;
+import org.apache.logging.log4j.Logger ;
 import org.json.simple.JSONObject ;
 
+import com.connectivity.gather.DataGather ;
 import com.connectivity.utils.CommUtil ;
-import com.prototype.DataGather ;
 import com.prototype.PropertyLoader ;
 
 public class AdapterDataGenerator implements Runnable
 {
-	static Logger logger = Logger.getLogger( AdapterDataGenerator.class ) ;
+	// Define a static logger variable so that it references the
+	// Logger instance named "MyApp".
+	private static final Logger logger = LogManager.getLogger( AdapterDataGenerator.class ) ;
+	// Logger logger = LogManager.getLogger( ) ;
 	
 	private boolean isDemonLive = false ;
 	

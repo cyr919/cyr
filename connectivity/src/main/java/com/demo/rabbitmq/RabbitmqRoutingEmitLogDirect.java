@@ -4,7 +4,8 @@ package com.demo.rabbitmq ;
 import java.io.IOException ;
 import java.util.concurrent.TimeoutException ;
 
-import org.apache.log4j.Logger ;
+import org.apache.logging.log4j.LogManager ;
+import org.apache.logging.log4j.Logger ;
 
 import com.rabbitmq.client.Channel ;
 import com.rabbitmq.client.Connection ;
@@ -23,7 +24,10 @@ import com.rabbitmq.client.ConnectionFactory ;
 public class RabbitmqRoutingEmitLogDirect
 {
 	
-	static Logger logger = Logger.getLogger( RabbitmqRoutingEmitLogDirect.class ) ;
+	// Define a static logger variable so that it references the
+	// Logger instance named "MyApp".
+	private static final Logger logger = LogManager.getLogger( RabbitmqRoutingEmitLogDirect.class ) ;
+	// Logger logger = LogManager.getLogger( ) ;
 	
 	private final static String EXCHANGE_NAME = "direct_logs" ;
 	
@@ -58,26 +62,33 @@ public class RabbitmqRoutingEmitLogDirect
 			logger.debug( " [x] Sent 'routingKey :: " + routingKey + " :: message :: " + message + "'" ) ;
 			//////////////////////
 			
-		} catch( Exception e ) {
+		}
+		catch( Exception e ) {
 			logger.error( e.getMessage( ) , e ) ;
 			
-		} finally {
+		}
+		finally {
 			
 			try {
 				channel.close( ) ;
-			} catch( IOException e ) {
+			}
+			catch( IOException e ) {
 				logger.error( e.getMessage( ) , e ) ;
-			} catch( TimeoutException e ) {
+			}
+			catch( TimeoutException e ) {
 				logger.error( e.getMessage( ) , e ) ;
-			} catch( Exception e ) {
+			}
+			catch( Exception e ) {
 				logger.error( e.getMessage( ) , e ) ;
 			}
 			
 			try {
 				connection.close( ) ;
-			} catch( IOException e ) {
+			}
+			catch( IOException e ) {
 				logger.error( e.getMessage( ) , e ) ;
-			} catch( Exception e ) {
+			}
+			catch( Exception e ) {
 				logger.error( e.getMessage( ) , e ) ;
 			}
 		}

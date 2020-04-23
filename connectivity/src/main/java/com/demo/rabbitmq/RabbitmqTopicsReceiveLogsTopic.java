@@ -3,7 +3,8 @@ package com.demo.rabbitmq ;
 
 import java.io.IOException ;
 
-import org.apache.log4j.Logger ;
+import org.apache.logging.log4j.LogManager ;
+import org.apache.logging.log4j.Logger ;
 
 import com.rabbitmq.client.AMQP ;
 import com.rabbitmq.client.Channel ;
@@ -26,7 +27,10 @@ import com.rabbitmq.client.Envelope ;
 public class RabbitmqTopicsReceiveLogsTopic
 {
 	
-	static Logger logger = Logger.getLogger( RabbitmqTopicsReceiveLogsTopic.class ) ;
+	// Define a static logger variable so that it references the
+	// Logger instance named "MyApp".
+	private static final Logger logger = LogManager.getLogger( RabbitmqTopicsReceiveLogsTopic.class ) ;
+	// Logger logger = LogManager.getLogger( ) ;
 	
 	private static final String EXCHANGE_NAME = "topic_logs" ;
 	
@@ -73,7 +77,8 @@ public class RabbitmqTopicsReceiveLogsTopic
 					
 					try {
 						doWork( message ) ;
-					} finally {
+					}
+					finally {
 						logger.debug( " [x] Done" ) ;
 						// channel.basicAck( envelope.getDeliveryTag( ) , false ) ;
 						
@@ -81,7 +86,8 @@ public class RabbitmqTopicsReceiveLogsTopic
 				}
 			} ;
 			channel.basicConsume( queueName , true , consumer ) ;
-		} catch( Exception e ) {
+		}
+		catch( Exception e ) {
 			logger.error( e.getMessage( ) , e ) ;
 		}
 		
@@ -96,7 +102,8 @@ public class RabbitmqTopicsReceiveLogsTopic
 			Thread.sleep( 10000 ) ;
 			// logger.info( "Thread.sleep :: " + ch ) ;
 			
-		} catch( InterruptedException e ) {
+		}
+		catch( InterruptedException e ) {
 			logger.error( e.getMessage( ) , e ) ;
 			Thread.currentThread( ).interrupt( ) ;
 		}

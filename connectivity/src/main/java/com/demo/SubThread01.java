@@ -1,9 +1,14 @@
 package com.demo ;
-import org.apache.log4j.Logger ;
+import org.apache.logging.log4j.LogManager ;
+import org.apache.logging.log4j.Logger ;
 
 public class SubThread01 implements Runnable
 {
-	static Logger logger = Logger.getLogger( SubThread01.class ) ;
+
+	// Define a static logger variable so that it references the
+	// Logger instance named "MyApp".
+	private static final Logger logger = LogManager.getLogger( SubThread01.class ) ;
+	// Logger logger = LogManager.getLogger( ) ;
 
 	private String subCheckParam01 = "" ;
 

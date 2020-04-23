@@ -5,7 +5,8 @@ import java.util.ArrayList ;
 import java.util.HashMap ;
 import java.util.List ;
 
-import org.apache.log4j.Logger ;
+import org.apache.logging.log4j.LogManager ;
+import org.apache.logging.log4j.Logger ;
 import org.json.simple.JSONArray ;
 import org.json.simple.JSONObject ;
 import org.json.simple.parser.JSONParser ;
@@ -17,7 +18,7 @@ import com.connectivity.utils.JsonUtil ;
 public class JsonDeviceProperties
 {
 	
-	static Logger logger = Logger.getLogger( JsonDeviceProperties.class ) ;
+	Logger logger = LogManager.getLogger( ) ;
 	
 	private String jsonPropertiesFile = "C:\\\\_git\\\\local_repositories\\\\cyr\\\\connectivity\\\\env\\\\settingParam.json" ;
 	

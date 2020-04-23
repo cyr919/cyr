@@ -3,7 +3,8 @@ package com.demo.rabbitmq ;
 
 import java.io.IOException ;
 
-import org.apache.log4j.Logger ;
+import org.apache.logging.log4j.LogManager ;
+import org.apache.logging.log4j.Logger ;
 
 import com.rabbitmq.client.AMQP ;
 import com.rabbitmq.client.Channel ;
@@ -13,102 +14,97 @@ import com.rabbitmq.client.Consumer ;
 import com.rabbitmq.client.DefaultConsumer ;
 import com.rabbitmq.client.Envelope ;
 
-
 /**
  * com.demo.rabbitmq.RabbitmqPublishSubscribeReceiveLogs.java
+ * 
  * <pre>
  * http://previous.rabbitmq.com/v3_5_7/tutorials/tutorial-three-java.html
  * </pre>
+ * 
  * @author cyr
  * @Date 2020. 2. 21.
  */
 public class RabbitmqPublishSubscribeReceiveLogs
 {
-
-	static Logger logger = Logger.getLogger( RabbitmqPublishSubscribeReceiveLogs.class ) ;
-
+	
+	// Define a static logger variable so that it references the
+	// Logger instance named "MyApp".
+	private static final Logger logger = LogManager.getLogger( RabbitmqPublishSubscribeReceiveLogs.class ) ;
+	// Logger logger = LogManager.getLogger( ) ;
+	
 	// private final static String QUEUE_NAME = "task_queue" ;
 	private static final String EXCHANGE_NAME = "logs" ;
-
-	public static void main( String[ ] args )
-	{
+	
+	public static void main( String[ ] args ) {
 		// TODO Auto-generated method stub
-
+		
 		ConnectionFactory factory = null ;
 		Connection connection = null ;
 		Channel channel = null ;
 		String queueName = "" ;
 		Consumer consumer = null ;
-		try
-		{
+		try {
 			factory = new ConnectionFactory( ) ;
 			factory.setHost( "192.168.56.104" ) ;
 			factory.setUsername( "admin" ) ;
 			factory.setPassword( "admin" ) ;
-
+			
 			connection = factory.newConnection( ) ;
 			channel = connection.createChannel( ) ;
-
+			
 			channel.exchangeDeclare( EXCHANGE_NAME , "fanout" ) ;
 			// channel.queueDeclare( QUEUE_NAME , true , false , false , null ) ;
-
+			
 			queueName = channel.queueDeclare( ).getQueue( ) ;
 			channel.queueBind( queueName , EXCHANGE_NAME , "" ) ;
-
+			
 			logger.info( " [*] Waiting for messages. To exit press CTRL+C" ) ;
-
+			
 			// channel.basicQos( 1 ) ;
-
+			
 			consumer = new DefaultConsumer( channel ) {
-
+				
 				@Override
-				public void handleDelivery( String consumerTag , Envelope envelope , AMQP.BasicProperties properties , byte[ ] body ) throws IOException
-				{
+				public void handleDelivery( String consumerTag , Envelope envelope , AMQP.BasicProperties properties , byte[ ] body ) throws IOException {
 					String message = new String( body , "UTF-8" ) ;
 					logger.info( " [x] Received '" + message + "'" ) ;
-
-					try
-					{
+					
+					try {
 						doWork( message ) ;
 					}
-					finally
-					{
+					finally {
 						logger.info( " [x] Done" ) ;
 						// channel.basicAck( envelope.getDeliveryTag( ) , false ) ;
-
+						
 					}
 				}
 			} ;
 			// channel.basicConsume( QUEUE_NAME , false , consumer ) ;
 			channel.basicConsume( queueName , true , consumer ) ;
 		}
-		catch ( Exception e )
-		{
+		catch( Exception e ) {
 			logger.error( e.getMessage( ) , e ) ;
 		}
-
+		
 	}
-
-	private static void doWork( String task )
-	{
+	
+	private static void doWork( String task ) {
 		logger.info( "doWork :: [x] start" ) ;
 		logger.info( task ) ;
-
-		try
-		{
-
+		
+		try {
+			
 			Thread.sleep( 10000 ) ;
-			//logger.info( "Thread.sleep :: " + ch ) ;
-
+			// logger.info( "Thread.sleep :: " + ch ) ;
+			
 		}
-		catch ( InterruptedException e )
-		{
+		catch( InterruptedException e ) {
 			logger.error( e.getMessage( ) , e ) ;
 			Thread.currentThread( ).interrupt( ) ;
 		}
 		
 		logger.info( "doWork :: [x] Done" ) ;
-
+		
 	}
-
+	
 }

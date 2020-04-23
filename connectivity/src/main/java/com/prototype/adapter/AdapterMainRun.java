@@ -1,13 +1,17 @@
 package com.prototype.adapter ;
 
-import org.apache.log4j.Logger ;
+import org.apache.logging.log4j.LogManager ;
+import org.apache.logging.log4j.Logger ;
 
 import com.prototype.PropertyLoader ;
 
 public class AdapterMainRun
 {
 	
-	static Logger logger = Logger.getLogger( AdapterMainRun.class ) ;
+	// Define a static logger variable so that it references the
+	// Logger instance named "MyApp".
+	private static final Logger logger = LogManager.getLogger( AdapterMainRun.class ) ;
+	// Logger logger = LogManager.getLogger( ) ;
 	
 	/**
 	 * adapter 데이터 생성기...

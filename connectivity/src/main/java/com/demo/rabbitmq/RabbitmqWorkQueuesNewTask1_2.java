@@ -1,7 +1,8 @@
 
 package com.demo.rabbitmq ;
 
-import org.apache.log4j.Logger ;
+import org.apache.logging.log4j.LogManager ;
+import org.apache.logging.log4j.Logger ;
 
 import com.rabbitmq.client.Channel ;
 import com.rabbitmq.client.Connection ;
@@ -18,7 +19,10 @@ import com.rabbitmq.client.ConnectionFactory ;
 public class RabbitmqWorkQueuesNewTask1_2
 {
 
-	static Logger logger = Logger.getLogger( RabbitmqWorkQueuesNewTask1_2.class ) ;
+	// Define a static logger variable so that it references the
+	// Logger instance named "MyApp".
+	private static final Logger logger = LogManager.getLogger( RabbitmqWorkQueuesNewTask1_2.class ) ;
+	// Logger logger = LogManager.getLogger( ) ;
 
 	private final static String QUEUE_NAME = "hello" ;
 

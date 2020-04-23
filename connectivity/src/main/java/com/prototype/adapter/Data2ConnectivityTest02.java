@@ -3,7 +3,8 @@ package com.prototype.adapter ;
 import java.io.IOException ;
 import java.util.concurrent.TimeoutException ;
 
-import org.apache.log4j.Logger ;
+import org.apache.logging.log4j.LogManager ;
+import org.apache.logging.log4j.Logger ;
 
 import com.rabbitmq.client.Channel ;
 import com.rabbitmq.client.Connection ;
@@ -22,7 +23,10 @@ import com.rabbitmq.client.MessageProperties ;
  */
 public class Data2ConnectivityTest02
 {
-	static Logger logger = Logger.getLogger( Data2ConnectivityTest02.class ) ;
+	// Define a static logger variable so that it references the
+	// Logger instance named "MyApp".
+	private static final Logger logger = LogManager.getLogger( Data2ConnectivityTest02.class ) ;
+	// Logger logger = LogManager.getLogger( ) ;
 	
 	private static final String TASK_QUEUE_NAME = "task_queue" ;
 	

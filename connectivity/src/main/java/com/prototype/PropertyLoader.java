@@ -4,12 +4,14 @@ package com.prototype ;
 import java.util.HashMap ;
 import java.util.List ;
 
-import org.apache.log4j.Logger ;
+import org.apache.logging.log4j.LogManager ;
+import org.apache.logging.log4j.Logger ;
 
 public class PropertyLoader
 {
-	
-	static Logger logger = Logger.getLogger( PropertyLoader.class ) ;
+	// Define a static logger variable so that it references the
+	// Logger instance named "MyApp".
+	private static final Logger logger = LogManager.getLogger( PropertyLoader.class ) ;
 	
 	public static String DEMON_LOGGING_LEVEL = "0" ;
 	public static boolean IS_ALL_DEMON_LIVE = false ;
@@ -23,7 +25,7 @@ public class PropertyLoader
 		JsonDeviceProperties jsonDeviceProperties = new JsonDeviceProperties( ) ;
 		try {
 			
-			logger.info( "getDemonProperties start" );
+			logger.info( "getDemonProperties start" ) ;
 			
 			IS_ALL_DEMON_LIVE = true ;
 			
@@ -37,9 +39,10 @@ public class PropertyLoader
 			logger.debug( "DEVICE_PROPERTIES_CAL_INF :: " ) ;
 			logger.debug( DEVICE_PROPERTIES_CAL_INF ) ;
 			logger.debug( "DEVICE_PROPERTIES_CAL_INF :: " ) ;
-		} finally {
+		}
+		finally {
 			jsonDeviceProperties = null ;
-			logger.info( "getDemonProperties end" );
+			logger.info( "getDemonProperties end" ) ;
 		}
 		
 	}

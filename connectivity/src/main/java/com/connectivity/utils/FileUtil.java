@@ -8,19 +8,21 @@ import java.io.FileNotFoundException ;
 import java.io.IOException ;
 import java.io.InputStreamReader ;
 
-import org.apache.log4j.Logger ;
+import org.apache.logging.log4j.LogManager ;
+import org.apache.logging.log4j.Logger ;
 
 public class FileUtil
 {
-
-	static Logger logger = Logger.getLogger( FileUtil.class ) ;
-
-	public static void main( String[ ] args )
-	{
+	
+	// Define a static logger variable so that it references the
+	// Logger instance named "MyApp".
+	Logger logger = LogManager.getLogger( FileUtil.class ) ;
+	
+	public static void main( String[ ] args ) {
 		// TODO Auto-generated method stub
-
+		
 	}
-
+	
 	/**
 	 * <pre>
 	 * 디렉토리 생성 매서드
@@ -31,65 +33,55 @@ public class FileUtil
 	 * @return void
 	 * @date 2020. 1. 9.
 	 */
-	public void makeDir( String strFilePath )
-	{
-
+	public void makeDir( String strFilePath ) {
+		
 		File folder = null ;
-
+		
 		Boolean resultBool = true ;
-		try
-		{
+		try {
 			folder = new File( strFilePath ) ;
-
+			
 			// 해당 디렉토리가 없을경우 디렉토리를 생성합니다.
-			if ( !folder.exists( ) )
-			{
+			if( !folder.exists( ) ) {
 				// folder.mkdir( ) ; // 폴더 생성합니다.
-
+				
 				// 최 하위 디렉토리에 대해서만 생성을 함. 최 하위 디렉토리의 바루 상위 디렉토리가 존재하지 않을 경우, 디렉토리가 생성되지 못하고, false를 리턴함
 				resultBool = folder.mkdir( ) ;
-
-				if ( resultBool )
-				{
+				
+				if( resultBool ) {
 					logger.trace( "폴더가 생성되었습니다." ) ;
 				}
-				else
-				{
+				else {
 					logger.trace( "상위 폴더가 존재하지 않습니다." ) ;
 					// 폴더 생성합니다.
 					// 상위 디렉토리가 존재하지 않을 경우, 상위 디렉토리까지 생성함
 					resultBool = folder.mkdirs( ) ;
-
-					if ( resultBool )
-					{
+					
+					if( resultBool ) {
 						logger.trace( "상위 폴더 포함하여 폴더가 생성되었습니다." ) ;
 					}
-					else
-					{
+					else {
 						logger.trace( "폴더 생성에 실패하였습니다." ) ;
 					}
 				}
 			}
-			else
-			{
+			else {
 				logger.trace( "이미 폴더가 생성되어 있습니다." ) ;
 			}
-
+			
 		}
-		catch ( Exception e )
-		{
+		catch( Exception e ) {
 			logger.error( e.getMessage( ) , e ) ;
 		}
-		finally
-		{
+		finally {
 			strFilePath = null ;
 			folder = null ;
 			resultBool = null ;
 		}
-
+		
 		return ;
 	}
-
+	
 	/**
 	 * <pre>
 	 * 파일 읽기
@@ -100,15 +92,14 @@ public class FileUtil
 	 * @return StringBuffer
 	 * @date 2020. 2. 27.
 	 */
-	public StringBuffer fileContentRead( String fileName )
-	{
+	public StringBuffer fileContentRead( String fileName ) {
 		logger.trace( ":::::::::: fileContentRead " ) ;
-
+		
 		// File 경로
 		File file = null ;
 		// File Input 스트림 생성
 		FileInputStream fileInputStream = null ;
-
+		
 		// Input 스트림 생성
 		InputStreamReader inputStreamReader = null ;
 		// 버퍼 생성
@@ -117,15 +108,13 @@ public class FileUtil
 		String strTempLine = "" ;
 		// 최종 내용 출력을 위한 변수
 		StringBuffer resultStrBuffer = new StringBuffer( ) ;
-
+		
 		int intBuffer = 1024 ;
-
-		try
-		{
+		
+		try {
 			logger.trace( "fileName :: " + fileName ) ;
-
-			if ( !CommUtil.checkNull( fileName ) )
-			{
+			
+			if( !CommUtil.checkNull( fileName ) ) {
 				// File 경로
 				file = new File( fileName ) ;
 				// 파일을 읽어들여 File Input 스트림 객체 생성
@@ -136,74 +125,61 @@ public class FileUtil
 				// Input 스트림 객체를 이용하여 버퍼를 생성
 				bufferedReader = new BufferedReader( inputStreamReader , intBuffer ) ;
 				// 버퍼를 한줄한줄 읽어들여 내용 추출
-				while ( ( strTempLine = bufferedReader.readLine( ) ) != null )
-				{
+				while( ( strTempLine = bufferedReader.readLine( ) ) != null ) {
 					resultStrBuffer.append( strTempLine ) ;
 				}
 				// logger.trace( "================== 파일 내용 출력 ==================" ) ;
 				// logger.trace( "resultStrBuffer :: " + ( resultStrBuffer + "" ) ) ;
 			}
-
+			
 		}
-		catch ( FileNotFoundException e )
-		{
+		catch( FileNotFoundException e ) {
 			logger.error( e.getMessage( ) , e ) ;
 		}
-		catch ( Exception e )
-		{
+		catch( Exception e ) {
 			logger.error( e.getMessage( ) , e ) ;
 		}
-		finally
-		{
-			if ( fileInputStream != null )
-			{
-				try
-				{
+		finally {
+			if( fileInputStream != null ) {
+				try {
 					fileInputStream.close( ) ;
 				}
-				catch ( IOException e )
-				{
+				catch( IOException e ) {
 					logger.error( e.getMessage( ) , e ) ;
 				}
 			}
-			if ( inputStreamReader != null )
-			{
-				try
-				{
+			if( inputStreamReader != null ) {
+				try {
 					inputStreamReader.close( ) ;
 				}
-				catch ( IOException e )
-				{
+				catch( IOException e ) {
 					logger.error( e.getMessage( ) , e ) ;
 				}
 			}
-			if ( bufferedReader != null )
-			{
-				try
-				{
+			if( bufferedReader != null ) {
+				try {
 					bufferedReader.close( ) ;
 				}
-				catch ( IOException e )
-				{
+				catch( IOException e ) {
 					logger.error( e.getMessage( ) , e ) ;
 				}
 			}
 			fileName = null ;
 			file = null ;
 			fileInputStream = null ;
-
+			
 			inputStreamReader = null ;
 			bufferedReader = null ;
 			strTempLine = null ;
-
+			
 			intBuffer = 0 ;
-
+			
 		}
-
+		
 		logger.trace( ":::::::::: fileContentRead End" ) ;
-
+		
 		return resultStrBuffer ;
-
+		
 	}
-
+	
 }

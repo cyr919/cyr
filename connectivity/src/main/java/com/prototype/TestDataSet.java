@@ -7,8 +7,11 @@ import java.util.HashMap ;
 import java.util.Iterator ;
 import java.util.List ;
 
-import org.apache.log4j.Logger ;
+import org.apache.logging.log4j.LogManager ;
+import org.apache.logging.log4j.Logger ;
 
+import com.connectivity.config.JedisConnection ;
+import com.connectivity.gather.DataGather ;
 import com.connectivity.utils.CommUtil ;
 
 import redis.clients.jedis.Jedis ;
@@ -16,7 +19,7 @@ import redis.clients.jedis.Jedis ;
 public class TestDataSet implements Runnable
 {
 	
-	static Logger logger = Logger.getLogger( TestDataSet.class ) ;
+	Logger logger = LogManager.getLogger( ) ;
 	
 	private boolean isDemonLive = false ;
 	

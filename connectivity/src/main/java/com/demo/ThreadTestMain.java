@@ -1,12 +1,16 @@
 
 package com.demo ;
 
-import org.apache.log4j.Logger ;
+import org.apache.logging.log4j.LogManager ;
+import org.apache.logging.log4j.Logger ;
 
 public class ThreadTestMain
 {
 
-	static Logger logger = Logger.getLogger( ThreadTestMain.class ) ;
+	// Define a static logger variable so that it references the
+	// Logger instance named "MyApp".
+	private static final Logger logger = LogManager.getLogger( ThreadTestMain.class ) ;
+	// Logger logger = LogManager.getLogger( ) ;
 
 	public static void main( String[ ] args )
 	{
