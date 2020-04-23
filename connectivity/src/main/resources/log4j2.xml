@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+	<Properties>
+		<Property name="projectName">connectivity</Property>
+		<Property name="PatternLayoutStr">[%d{yyyy-MM-dd HH:mm:ss.SSS}] [${hostName}] [%t] %c{1} [%-5level] - %msg%n</Property>
+
+	</Properties>
+	<!-- Appender, Layout 설정 -->
+	<Appenders>
+		<!-- attribute: name(Appender명), target(출력방향지정, "SYSTEM_OUT" or "SYSTEM_ERR"(default)), follow, ignoreExceptions -->
+		<!-- element: Layout(출력패턴설정), Filters -->
+		<Console name="Console" target="SYSTEM_OUT">
+			<PatternLayout pattern="${PatternLayoutStr}" />
+		</Console>
+		<!-- attribute: name(Appender명), fileName(target파일명), append(이어쓰기여부, true(default) or false), locking, immediateFlush, ignoreExceptions, bufferedIO -->
+		<!-- element: Layout(출력패턴설정), Filters -->
+		<!-- append="false"이면 매번 로깅 시 기존 로그 파일을 clear하고 새로 로깅 -->
+		<!-- <File name="File" fileName="./log/${projectName}.log" append="true">
+			<PatternLayout pattern="${PatternLayoutStr}" />
+			</File> -->
+
+		<!-- attribute: name(Appender명), fileName(target파일명), filePattern(history파일명), append, immediateFlush, ignoreExceptions, bufferedIO -->
+		<!-- element: Layout(출력패턴설정), Filters, Policy(file rolling 조건 설정), Strategy(file name과 location 관련 설정) -->
+		<!-- 1일(yyyy-MM-dd)간격 그리고 같은 일자라도 파일크기가 SizeBasedTriggeringPolicy size보다 커지면 롤오버가 발생합니다. -->
+		<!-- .log.%d{yyyy-MM-dd}.1, .log.%d{yyyy-MM-dd}.2 ...  색인이 높은 파일이 색인이 작은 파일보다 최신 파일입니다. -->
+		<RollingFile name="rollingFile" fileName="./log/${projectName}.log" filePattern="./log/${projectName}.log.%d{yyyy-MM-dd}.%i" append="true" bufferedIO="true" bufferSize="8192">
+			<PatternLayout pattern="${PatternLayoutStr}" />
+			<Policies>
+				<!-- interval(default 1)이므로 1 간격으로 rolling 수행 -->
+				<!-- <TimeBasedTriggeringPolicy /> -->
+				<!-- 일별 로그 파일 생성 -->
+				<TimeBasedTriggeringPolicy interval="1" />
+
+				<!-- size 단위: Byte(default), KB, MB, or GB -->
+				<!-- <SizeBasedTriggeringPolicy size="1000" /> -->
+				<!-- 10MB 용량이 초과시 DefaultRolloverStrategy 정책만큼 넘버링 -->
+				<!-- <SizeBasedTriggeringPolicy size="10MB" /> -->
+				<SizeBasedTriggeringPolicy size="10MB" />
+			</Policies>
+			<!-- fileIndex="max"이므로 target file의 size가 1000 byte를 넘어가면, fileIndex가 1(min)인 history file에 백업 (fixed window strategy) -->
+			<!-- fileIndex 속성이 "nomax"로 설정되면 최소값 및 최대 값이 무시되고 파일 번호가 1 씩 증가하고 각 롤오버는 최대 파일 수없이 점차적으로 더 높은 값을 갖습니다. -->
+			<DefaultRolloverStrategy fileIndex="nomax" />
+		</RollingFile>
+
+	</Appenders>
+
+	<!-- Logger 설정 -->
+	<Loggers>
+		<!-- <Logger name="egovLogger" level="DEBUG" additivity="false">
+			<AppenderRef ref="Console" />
+			<AppenderRef ref="File" />
+			</Logger> -->
+
+		<Root level="TRACE">
+			<AppenderRef ref="Console" />
+			<AppenderRef ref="rollingFile" />
+
+		</Root>
+	</Loggers>
+
+</Configuration>
