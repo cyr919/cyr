@@ -1,0 +1,30 @@
+2020-04-23 10:29:24.422 [main] Log4jTestMain [ERROR com.Log4jTestMain] - 로그 찍기 : error 
+2020-04-23 10:29:24.427 [main] Log4jTestMain [FATAL com.Log4jTestMain] - 로그 찍기 : fatal 
+2020-04-23 10:29:25.428 [main] Log4jTestMain [ERROR com.Log4jTestMain] - 로그 찍기 : error 
+2020-04-23 10:29:25.431 [main] Log4jTestMain [FATAL com.Log4jTestMain] - 로그 찍기 : fatal 
+2020-04-23 10:29:26.433 [main] Log4jTestMain [ERROR com.Log4jTestMain] - 로그 찍기 : error 
+2020-04-23 10:29:26.435 [main] Log4jTestMain [FATAL com.Log4jTestMain] - 로그 찍기 : fatal 
+2020-04-23 10:30:52.377 [main] Log4jTestMain [ERROR] com.Log4jTestMain - 로그 찍기 : error
+2020-04-23 10:30:52.389 [main] Log4jTestMain [FATAL] com.Log4jTestMain - 로그 찍기 : fatal
+2020-04-23 10:30:53.391 [main] Log4jTestMain [ERROR] com.Log4jTestMain - 로그 찍기 : error
+2020-04-23 10:30:53.394 [main] Log4jTestMain [FATAL] com.Log4jTestMain - 로그 찍기 : fatal
+2020-04-23 10:30:54.395 [main] Log4jTestMain [ERROR] com.Log4jTestMain - 로그 찍기 : error
+2020-04-23 10:30:54.397 [main] Log4jTestMain [FATAL] com.Log4jTestMain - 로그 찍기 : fatal
+2020-04-23 10:32:43.613 [main] Log4jTestMain [ERROR] - 로그 찍기 : error
+2020-04-23 10:32:43.621 [main] Log4jTestMain [FATAL] - 로그 찍기 : fatal
+2020-04-23 10:32:44.622 [main] Log4jTestMain [ERROR] - 로그 찍기 : error
+2020-04-23 10:32:44.624 [main] Log4jTestMain [FATAL] - 로그 찍기 : fatal
+2020-04-23 10:32:45.627 [main] Log4jTestMain [ERROR] - 로그 찍기 : error
+2020-04-23 10:32:45.628 [main] Log4jTestMain [FATAL] - 로그 찍기 : fatal
+[2020-04-23 10:41:08.844] DESKTOP-58HACMN [main] Log4jTestMain [ERROR] - 로그 찍기 : error
+[2020-04-23 10:41:08.850] DESKTOP-58HACMN [main] Log4jTestMain [FATAL] - 로그 찍기 : fatal
+[2020-04-23 10:41:09.851] DESKTOP-58HACMN [main] Log4jTestMain [ERROR] - 로그 찍기 : error
+[2020-04-23 10:41:09.853] DESKTOP-58HACMN [main] Log4jTestMain [FATAL] - 로그 찍기 : fatal
+[2020-04-23 10:41:10.855] DESKTOP-58HACMN [main] Log4jTestMain [ERROR] - 로그 찍기 : error
+[2020-04-23 10:41:10.856] DESKTOP-58HACMN [main] Log4jTestMain [FATAL] - 로그 찍기 : fatal
+[2020-04-23 10:41:57.899] [DESKTOP-58HACMN] [main] Log4jTestMain [ERROR] - 로그 찍기 : error
+[2020-04-23 10:41:57.905] [DESKTOP-58HACMN] [main] Log4jTestMain [FATAL] - 로그 찍기 : fatal
+[2020-04-23 10:41:58.907] [DESKTOP-58HACMN] [main] Log4jTestMain [ERROR] - 로그 찍기 : error
+[2020-04-23 10:41:58.907] [DESKTOP-58HACMN] [main] Log4jTestMain [FATAL] - 로그 찍기 : fatal
+[2020-04-23 10:41:59.908] [DESKTOP-58HACMN] [main] Log4jTestMain [ERROR] - 로그 찍기 : error
+[2020-04-23 10:41:59.910] [DESKTOP-58HACMN] [main] Log4jTestMain [FATAL] - 로그 찍기 : fatal

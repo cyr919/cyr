@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+	<Properties>
+		<Property name="projectName">log4j-test</Property>
+		<Property name="PatternLayoutStr">[%d{yyyy-MM-dd HH:mm:ss.SSS}] [${hostName}] [%t] %c{1} [%-5level] - %msg%n</Property>
+
+	</Properties>
+	<!-- Appender, Layout 설정 -->
+	<Appenders>
+		<Console name="Console" target="SYSTEM_OUT">
+			<PatternLayout pattern="${PatternLayoutStr}" />
+		</Console>
+		<File name="File" fileName="./log/${projectName}.log" append="true">
+			<PatternLayout pattern="${PatternLayoutStr}" />
+		</File>
+	</Appenders>
+
+	<!-- Logger 설정 -->
+	<Loggers>
+		<!-- <Logger name="egovLogger" level="DEBUG" additivity="false">
+			<AppenderRef ref="Console" />
+			<AppenderRef ref="File" />
+			</Logger> -->
+
+		<Root level="ERROR">
+			<AppenderRef ref="Console" />
+			<AppenderRef ref="File" />
+		</Root>
+	</Loggers>
+
+</Configuration>
