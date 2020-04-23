@@ -10,6 +10,7 @@ import java.util.List ;
 import org.apache.logging.log4j.LogManager ;
 import org.apache.logging.log4j.Logger ;
 
+import com.connectivity.common.CommonProperties ;
 import com.connectivity.config.JedisConnection ;
 import com.connectivity.gather.DataGather ;
 import com.connectivity.utils.CommUtil ;
@@ -30,7 +31,6 @@ public class TestDataSet implements Runnable
 	public void run( ) {
 		setDemonLive( true ) ;
 		
-		
 		try {
 			logger.debug( "isDemonLive :: " + isDemonLive ) ;
 			logger.debug( "PropertyLoader.IS_ALL_DEMON_LIVE :: " + PropertyLoader.IS_ALL_DEMON_LIVE ) ;
@@ -42,6 +42,10 @@ public class TestDataSet implements Runnable
 				// logger.debug( "PropertyLoader.IS_ALL_DEMON_LIVE :: " + PropertyLoader.IS_ALL_DEMON_LIVE ) ;
 				
 				/////////////////////////////////////////////
+				
+				CommonProperties commonProperties = new CommonProperties( ) ;
+				
+				JedisConnection exe = new JedisConnection( ) ;
 				
 				Jedis jedis = null ;
 				int intVal = 0 ;
@@ -64,7 +68,10 @@ public class TestDataSet implements Runnable
 				DataGather dataGather = new DataGather( ) ;
 				
 				try {
-					jedis = JedisConnection.getJedisPool( ).getResource( ) ;
+					
+					commonProperties.setProperties( ) ;
+					
+					jedis = exe.getJedisPool( ).getResource( ) ;
 					
 					logger.info( "jedis.isConnected() :: " + jedis.isConnected( ) ) ;
 					if( jedis.isConnected( ) ) {
@@ -133,8 +140,10 @@ public class TestDataSet implements Runnable
 						// }
 						//////////////////////////
 					}
-					
-				} finally {
+					logger.debug( exe.getPoolCurrentUsage( ) ) ;
+
+				}
+				finally {
 					intVal = 0 ;
 					intCalVal = 0 ;
 					tempHashMap = null ;
@@ -147,6 +156,8 @@ public class TestDataSet implements Runnable
 						jedis.close( ) ;
 					}
 					jedis = null ;
+					exe = null ;
+					
 				}
 				
 				/////////////////////////////////////////////
@@ -155,14 +166,15 @@ public class TestDataSet implements Runnable
 				// Thread.sleep( 10 ) ;
 				Thread.sleep( 10000 ) ;
 				
-				logger.debug( JedisConnection.getPoolCurrentUsage( ) ) ;
 				
 				logger.debug( "TestDataSet :: while :: end" ) ;
 			}
 			
-		} catch( Exception e ) {
+		}
+		catch( Exception e ) {
 			logger.error( e.getMessage( ) , e ) ;
-		} finally {
+		}
+		finally {
 			setDemonLive( false ) ;
 		}
 		

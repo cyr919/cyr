@@ -28,7 +28,7 @@ public class Data2ConnectivityReceiver implements Runnable
 {
 	// Define a static logger variable so that it references the
 	// Logger instance named "MyApp".
-	private static final Logger logger = LogManager.getLogger( Data2ConnectivityReceiver.class ) ;
+	Logger logger = LogManager.getLogger( Data2ConnectivityReceiver.class ) ;
 	// Logger logger = LogManager.getLogger( ) ;
 	
 	private String TASK_QUEUE_NAME = "Data2Connectivity" ;

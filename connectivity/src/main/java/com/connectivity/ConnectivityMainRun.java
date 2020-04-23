@@ -3,6 +3,8 @@ package com.connectivity ;
 import org.apache.logging.log4j.LogManager ;
 import org.apache.logging.log4j.Logger ;
 
+import com.connectivity.common.CommonProperties ;
+import com.connectivity.config.RabbitmqConnection ;
 import com.connectivity.gather.receiver.Data2ConnectivityReceiver ;
 import com.connectivity.manage.ConditionReport ;
 import com.connectivity.manage.receiver.Command2ModuleReceiver ;
@@ -47,9 +49,19 @@ public class ConnectivityMainRun
 	
 	public void connectivityRun( String strEventID ) {
 		
+		CommonProperties commonProperties = new CommonProperties( ) ;
+		
+		Boolean resultBool = true ;
+		
 		logger.info( "strEventID :: " + strEventID ) ;
 		try {
 			
+			 resultBool = false ;
+			 resultBool = commonProperties.setProperties( ) ;
+			 
+			
+			 
+			 
 			// rabbitmaConnection 연결
 			this.rabbitmqConnectionOpen( ) ;
 			
@@ -156,9 +168,6 @@ public class ConnectivityMainRun
 			// rabbitmq 수신 connection
 			logger.info( "================rabbitmqConnectionOpen================" ) ;
 			factory = new ConnectionFactory( ) ;
-			factory.setHost( "192.168.56.105" ) ;
-			factory.setUsername( "admin" ) ;
-			factory.setPassword( "admin" ) ;
 			
 			command2ModuleReceiver = new Command2ModuleReceiver( factory , "Command2ModuleReceiver" ) ;
 			cmThread = new Thread( command2ModuleReceiver , "command2ModuleReceiver-Thread" ) ;

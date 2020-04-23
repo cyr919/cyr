@@ -7,7 +7,6 @@ import java.util.ArrayList ;
 import java.util.List ;
 import java.util.Map ;
 
-
 import org.apache.logging.log4j.LogManager ;
 import org.apache.logging.log4j.Logger ;
 
@@ -45,17 +44,17 @@ public class RedisCommon
 		try {
 			String resulString = exe.redisHget( "PCS01" , "BP" ) ;
 			
-//			logger.info( resulString ) ;
+			// logger.info( resulString ) ;
 			
 			Long resultLong = exe.redisHset( "PCS01" , "BP" , "100.23" ) ;
 			resulString = exe.redisHget( "PCS01" , "BP" ) ;
 			
-//			logger.info( resultLong ) ;
-//			logger.info( resulString ) ;
+			// logger.info( resultLong ) ;
+			// logger.info( resulString ) ;
 			
 		}
 		catch( Exception e ) {
-//			logger.error( e.getMessage( ) , e ) ;
+			// logger.error( e.getMessage( ) , e ) ;
 		}
 		
 	}
@@ -78,8 +77,10 @@ public class RedisCommon
 		Long resultLong = 0L ;
 		Jedis jedis = null ;
 		
+		JedisConnection jedisConnection = new JedisConnection( ) ;
+		
 		try {
-			jedis = JedisConnection.getJedisPool( ).getResource( ) ;
+			jedis = jedisConnection.getJedisPool( ).getResource( ) ;
 			
 			logger.trace( "jedis.isConnected() :: " + jedis.isConnected( ) ) ;
 			if( jedis.isConnected( ) ) {
@@ -97,6 +98,7 @@ public class RedisCommon
 				jedis.close( ) ;
 			}
 			jedis = null ;
+			jedisConnection = null ;
 			
 		}
 		
@@ -120,9 +122,10 @@ public class RedisCommon
 		
 		String resultStr = "" ;
 		Jedis jedis = null ;
+		JedisConnection jedisConnection = new JedisConnection( ) ;
 		
 		try {
-			jedis = JedisConnection.getJedisPool( ).getResource( ) ;
+			jedis = jedisConnection.getJedisPool( ).getResource( ) ;
 			
 			logger.trace( "jedis.isConnected() :: " + jedis.isConnected( ) ) ;
 			if( jedis.isConnected( ) ) {
@@ -137,6 +140,8 @@ public class RedisCommon
 				jedis.close( ) ;
 			}
 			jedis = null ;
+			jedisConnection = null ;
+			
 		}
 		
 		return resultStr ;
@@ -144,7 +149,6 @@ public class RedisCommon
 	}
 	
 	/**
-	 * 
 	 * <pre>
 	 * Set the respective fields to the respective values. HMSET replaces old values with new values.
 	 * If key does not exist, a new key holding a hash is created.
@@ -161,9 +165,10 @@ public class RedisCommon
 		
 		String resultStr = "" ;
 		Jedis jedis = null ;
+		JedisConnection jedisConnection = new JedisConnection( ) ;
 		
 		try {
-			jedis = JedisConnection.getJedisPool( ).getResource( ) ;
+			jedis = jedisConnection.getJedisPool( ).getResource( ) ;
 			
 			logger.trace( "jedis.isConnected() :: " + jedis.isConnected( ) ) ;
 			if( jedis.isConnected( ) ) {
@@ -178,6 +183,8 @@ public class RedisCommon
 				jedis.close( ) ;
 			}
 			jedis = null ;
+			jedisConnection = null ;
+			
 		}
 		
 		return resultStr ;
@@ -188,9 +195,10 @@ public class RedisCommon
 		
 		List< String > resultList = new ArrayList< String >( ) ;
 		Jedis jedis = null ;
+		JedisConnection jedisConnection = new JedisConnection( ) ;
 		
 		try {
-			jedis = JedisConnection.getJedisPool( ).getResource( ) ;
+			jedis = jedisConnection.getJedisPool( ).getResource( ) ;
 			
 			logger.trace( "jedis.isConnected() :: " + jedis.isConnected( ) ) ;
 			if( jedis.isConnected( ) ) {
@@ -205,6 +213,7 @@ public class RedisCommon
 				jedis.close( ) ;
 			}
 			jedis = null ;
+			jedisConnection = null ;
 		}
 		
 		return resultList ;
