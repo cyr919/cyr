@@ -1,0 +1,14 @@
+dev 브랜치에서 개발한 것 master에다 commit하기
+
+dev branch에서 작업하던 것을 모두 commit 한다.
+
+master branch로 이동한다.
+
+project > team > marge 클릭
+
+dev branch를 선택한다.
+
+
+
+참고
+https://backlog.com/git-tutorial/kr/stepup/stepup2_4.html
