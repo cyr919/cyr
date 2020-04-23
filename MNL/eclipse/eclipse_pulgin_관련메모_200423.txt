@@ -1,0 +1,20 @@
+1. properties editor
+
+
+이클립스에서 Properties 파일 편집을 하기 위해  PropEdit 또는 PropertiesEditor 라 불리는 플러그인이 있습니다. 설치방법은 Help > New Install Software... 선택후 Add..을 클릭하여 다음 주소를 추가합니다.
+
+PropertiesEditor
+http://propedit.sourceforge.jp/eclipse/updates/
+
+설치 항목이 나타나면
+PropertiesEditor 항목을 체크하고 설치를 진행합니다.
+(PropertiesEditor 만 체크 나머진 체크 해제)
+
+properties editor, propertiesEditor_Asian_NLS 가 설치된다.
+
+설치가 완료되면 .properties 파일 클릭후
+open with > propertiesEditor가 나타나는지 확인한다.
+
+
+출처: https://civan.tistory.com/112 [행복만땅 개발자]
+

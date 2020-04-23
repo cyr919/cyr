@@ -1,0 +1,22 @@
+□ eclipse java javascript formatter 적용
+
+
+
+○ windows > preference
+
+▷ java > code style > formatter
+
+
+- export 한 formatter xml 파일을 준비한다.
+- import 버튼을 클릭 후 export 한 formatter xml 파일을 선택한다.
+
+
+
+▷ javascript > code style > formatter
+
+
+- export 한 formatter xml 파일을 준비한다.
+- import 버튼을 클릭 후 export 한 formatter xml 파일을 선택한다.
+
+
+
