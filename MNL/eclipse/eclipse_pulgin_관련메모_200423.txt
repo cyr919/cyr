@@ -1,20 +1,20 @@
 1. properties editor
 
 
-ÀÌÅ¬¸³½º¿¡¼­ Properties ÆÄÀÏ ÆíÁıÀ» ÇÏ±â À§ÇØ  PropEdit ¶Ç´Â PropertiesEditor ¶ó ºÒ¸®´Â ÇÃ·¯±×ÀÎÀÌ ÀÖ½À´Ï´Ù. ¼³Ä¡¹æ¹ıÀº Help > New Install Software... ¼±ÅÃÈÄ Add..À» Å¬¸¯ÇÏ¿© ´ÙÀ½ ÁÖ¼Ò¸¦ Ãß°¡ÇÕ´Ï´Ù.
+ì´í´ë¦½ìŠ¤ì—ì„œ Properties íŒŒì¼ í¸ì§‘ì„ í•˜ê¸° ìœ„í•´  PropEdit ë˜ëŠ” PropertiesEditor ë¼ ë¶ˆë¦¬ëŠ” í”ŒëŸ¬ê·¸ì¸ì´ ìˆìŠµë‹ˆë‹¤. ì„¤ì¹˜ë°©ë²•ì€ Help > New Install Software... ì„ íƒí›„ Add..ì„ í´ë¦­í•˜ì—¬ ë‹¤ìŒ ì£¼ì†Œë¥¼ ì¶”ê°€í•©ë‹ˆë‹¤.
 
 PropertiesEditor
 http://propedit.sourceforge.jp/eclipse/updates/
 
-¼³Ä¡ Ç×¸ñÀÌ ³ªÅ¸³ª¸é
-PropertiesEditor Ç×¸ñÀ» Ã¼Å©ÇÏ°í ¼³Ä¡¸¦ ÁøÇàÇÕ´Ï´Ù.
-(PropertiesEditor ¸¸ Ã¼Å© ³ª¸ÓÁø Ã¼Å© ÇØÁ¦)
+ì„¤ì¹˜ í•­ëª©ì´ ë‚˜íƒ€ë‚˜ë©´
+PropertiesEditor í•­ëª©ì„ ì²´í¬í•˜ê³  ì„¤ì¹˜ë¥¼ ì§„í–‰í•©ë‹ˆë‹¤.
+(PropertiesEditor ë§Œ ì²´í¬ ë‚˜ë¨¸ì§„ ì²´í¬ í•´ì œ)
 
-properties editor, propertiesEditor_Asian_NLS °¡ ¼³Ä¡µÈ´Ù.
+properties editor, propertiesEditor_Asian_NLS ê°€ ì„¤ì¹˜ëœë‹¤.
 
-¼³Ä¡°¡ ¿Ï·áµÇ¸é .properties ÆÄÀÏ Å¬¸¯ÈÄ
-open with > propertiesEditor°¡ ³ªÅ¸³ª´ÂÁö È®ÀÎÇÑ´Ù.
+ì„¤ì¹˜ê°€ ì™„ë£Œë˜ë©´ .properties íŒŒì¼ í´ë¦­í›„
+open with > propertiesEditorê°€ ë‚˜íƒ€ë‚˜ëŠ”ì§€ í™•ì¸í•œë‹¤.
 
 
-ÃâÃ³: https://civan.tistory.com/112 [Çàº¹¸¸¶¥ °³¹ßÀÚ]
+ì¶œì²˜: https://civan.tistory.com/112 [í–‰ë³µë§Œë•… ê°œë°œì]
 

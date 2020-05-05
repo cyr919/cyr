@@ -1,42 +1,42 @@
 
-¡à eclipse java maven ÇÁ·ÎÁ§Æ® offline ¼³Á¤
+â–¡ eclipse java maven í”„ë¡œì íŠ¸ offline ì„¤ì •
 
 
 
-¡Û online È¯°æ¿¡¼­ ¾Æ·¡ ¼³Á¤ ÈÄ
-eclipse_maven_bulid_¼³Á¤_200409.txt
+â—‹ online í™˜ê²½ì—ì„œ ì•„ë˜ ì„¤ì • í›„
+eclipse_maven_bulid_ì„¤ì •_200409.txt
 
-maven clean, maven install, maven build µî ¼öÇàÇÑ´Ù.
+maven clean, maven install, maven build ë“± ìˆ˜í–‰í•œë‹¤.
 
-¡Û repository Æú´õ ÅëÃ¤·Î ¾ĞÃàÇÑ´Ù.
-C:\Users\[»ç¿ëÀÚ¸í]\.m2\repository
+â—‹ repository í´ë” í†µì±„ë¡œ ì••ì¶•í•œë‹¤.
+C:\Users\[ì‚¬ìš©ìëª…]\.m2\repository
 
------ ±âÅ¸ offline repository ¼³Á¤Àº ÃßÈÄ È®ÀÎ ¹× ³»¿ë Ãß°¡ ÇÊ¿ä.
-settings.xml Ãß°¡ µî È®ÀÎ.
-
-
-
-
-¡Û windows > preference
-
-¢¹ maven
-offline : Ã¼Å©
+----- ê¸°íƒ€ offline repository ì„¤ì •ì€ ì¶”í›„ í™•ì¸ ë° ë‚´ìš© ì¶”ê°€ í•„ìš”.
+settings.xml ì¶”ê°€ ë“± í™•ì¸.
 
 
 
 
-¢¹ maven > User Settings
-settings.xml ÆÄÀÏ À§Ä¡ ³Ö±â
-(settings.xml °ü·ÃÇØ¼­´Â À§¿¡¼­ È®ÀÎ)
+â—‹ windows > preference
+
+â–· maven
+offline : ì²´í¬
 
 
 
-online È¯°æ¿¡¼­ maven update ÈÄ maven build ¼öÇà
+
+â–· maven > User Settings
+settings.xml íŒŒì¼ ìœ„ì¹˜ ë„£ê¸°
+(settings.xml ê´€ë ¨í•´ì„œëŠ” ìœ„ì—ì„œ í™•ì¸)
 
 
 
-¡Û offline È¯°æÀ¸·Î ÀÌµ¿ ÈÄ
-offline repository À§Ä¡¿¡ À§¿¡¼­ ¾ĞÃàÇÑ repository.zip ¾ÈÀÇ ¶óÀÌºê·¯¸®µéÀ» ³Ö¾î ÁØ´Ù.
+online í™˜ê²½ì—ì„œ maven update í›„ maven build ìˆ˜í–‰
+
+
+
+â—‹ offline í™˜ê²½ìœ¼ë¡œ ì´ë™ í›„
+offline repository ìœ„ì¹˜ì— ìœ„ì—ì„œ ì••ì¶•í•œ repository.zip ì•ˆì˜ ë¼ì´ë¸ŒëŸ¬ë¦¬ë“¤ì„ ë„£ì–´ ì¤€ë‹¤.
 
 
 

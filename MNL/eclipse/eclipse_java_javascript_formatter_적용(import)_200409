@@ -1,22 +1,22 @@
-¡à eclipse java javascript formatter Àû¿ë
+â–¡ eclipse java javascript formatter ì ìš©
 
 
 
-¡Û windows > preference
+â—‹ windows > preference
 
-¢¹ java > code style > formatter
-
-
-- export ÇÑ formatter xml ÆÄÀÏÀ» ÁØºñÇÑ´Ù.
-- import ¹öÆ°À» Å¬¸¯ ÈÄ export ÇÑ formatter xml ÆÄÀÏÀ» ¼±ÅÃÇÑ´Ù.
+â–· java > code style > formatter
 
 
+- export í•œ formatter xml íŒŒì¼ì„ ì¤€ë¹„í•œë‹¤.
+- import ë²„íŠ¼ì„ í´ë¦­ í›„ export í•œ formatter xml íŒŒì¼ì„ ì„ íƒí•œë‹¤.
 
-¢¹ javascript > code style > formatter
 
 
-- export ÇÑ formatter xml ÆÄÀÏÀ» ÁØºñÇÑ´Ù.
-- import ¹öÆ°À» Å¬¸¯ ÈÄ export ÇÑ formatter xml ÆÄÀÏÀ» ¼±ÅÃÇÑ´Ù.
+â–· javascript > code style > formatter
+
+
+- export í•œ formatter xml íŒŒì¼ì„ ì¤€ë¹„í•œë‹¤.
+- import ë²„íŠ¼ì„ í´ë¦­ í›„ export í•œ formatter xml íŒŒì¼ì„ ì„ íƒí•œë‹¤.
 
 
 

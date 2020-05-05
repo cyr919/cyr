@@ -11,7 +11,7 @@ http://192.168.56.104:15672/
 
 하나의 연결에 채널이 여러개더라고 통로는 1개이기 때문에 순차적으로 처리된다.
 
-중요한 것과 중요하지 않은 것을 
+중요한 것과 중요하지 않은 것을
 
 
 https://stackoverflow.com/questions/15680093/in-rabbitmq-should-i-create-a-connection-pool-on-connections-channels-or-both

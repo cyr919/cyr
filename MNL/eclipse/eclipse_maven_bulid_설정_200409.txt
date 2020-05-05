@@ -1,45 +1,45 @@
-¡à eclipse java maven ÇÁ·ÎÁ§Æ® ¼³Á¤ °ü·Ã
+â–¡ eclipse java maven í”„ë¡œì íŠ¸ ì„¤ì • ê´€ë ¨
 
 
-¡Û windows > preference
+â—‹ windows > preference
 
-¢¹ java > installed jres
-»ç¿ëÇÒ jres, jdk Ãß°¡(add ¹öÆ° Å¬¸¯)
-
-
-¢¹ java > installed jres > Execution Environments
-Execution Environments ¹öÀü º°·Î ÀÖÀ½.
-°¢ Execution Environments Å¬¸¯ÇØ¼­ compatible jres ¿¡¼­ »ç¿ëÇÒ java Ã¼Å©
-
-¢¹ maven
-do not automatically update dependencies from remote repositories : Ã¼Å©
-download artifact Sources : Ã¼Å©
-download artifact javadoc : Ã¼Å©
-
-¢¹ maven > User Settings
-È®ÀÎ
+â–· java > installed jres
+ì‚¬ìš©í•  jres, jdk ì¶”ê°€(add ë²„íŠ¼ í´ë¦­)
 
 
-¡Û ÇÁ·ÎÁ§Æ® »ı¼º ÈÄ ÇÁ·ÎÁ§Æ® properties ¼³Á¤
+â–· java > installed jres > Execution Environments
+Execution Environments ë²„ì „ ë³„ë¡œ ìˆìŒ.
+ê° Execution Environments í´ë¦­í•´ì„œ compatible jres ì—ì„œ ì‚¬ìš©í•  java ì²´í¬
 
-¢¹ java bulid path
-jer system library > Excution Environment ¿¡¼­ ¸Â´Â ÀÚ¹Ù ¹öÀü ¼±ÅÃ
+â–· maven
+do not automatically update dependencies from remote repositories : ì²´í¬
+download artifact Sources : ì²´í¬
+download artifact javadoc : ì²´í¬
 
-¢¹ java compiler
-Use compliance from execution environment 'javaSE-11' on the java build path : Ã¼Å©
+â–· maven > User Settings
+í™•ì¸
 
 
-¡Û ÇÁ·ÎÁ§Æ®ÀÇ maven run ¼³Á¤
+â—‹ í”„ë¡œì íŠ¸ ìƒì„± í›„ í”„ë¡œì íŠ¸ properties ì„¤ì •
 
-¢¹ ÇÁ·ÎÁ§Æ® > run as > run configurations
+â–· java bulid path
+jer system library > Excution Environment ì—ì„œ ë§ëŠ” ìë°” ë²„ì „ ì„ íƒ
+
+â–· java compiler
+Use compliance from execution environment 'javaSE-11' on the java build path : ì²´í¬
+
+
+â—‹ í”„ë¡œì íŠ¸ì˜ maven run ì„¤ì •
+
+â–· í”„ë¡œì íŠ¸ > run as > run configurations
 - maven build > main
 goals : clean install compile package
 
 - maven build > jre
-runtime jre ¿¡¼­ excution environment¿¡¼­ »ç¿ëÇÒ java ¹öÀü ¼±ÅÃ
+runtime jre ì—ì„œ excution environmentì—ì„œ ì‚¬ìš©í•  java ë²„ì „ ì„ íƒ
 
 
-** run ÇÒ ¶§ ½ÇÇàµÇ´Â java È®ÀÎ : console »ó´Ü¿¡¼­ ³ªÅ¸³²...
+** run í•  ë•Œ ì‹¤í–‰ë˜ëŠ” java í™•ì¸ : console ìƒë‹¨ì—ì„œ ë‚˜íƒ€ë‚¨...
 
 
 
