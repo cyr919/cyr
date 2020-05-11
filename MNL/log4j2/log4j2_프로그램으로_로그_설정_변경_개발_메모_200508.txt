@@ -1,0 +1,17 @@
+log4j 2 set log level programmatically
+log4j 2 set log file size programmatically
+
+
+https://stackoverflow.com/questions/23434252/programmatically-change-log-level-in-log4j2
+
+https://logging.apache.org/log4j/log4j-2.4/faq.html
+https://logging.apache.org/log4j/2.x/manual/customconfig.html
+https://logging.apache.org/log4j/2.x/manual/customconfig.html
+https://stackoverflow.com/questions/34170780/log4j2-programmatically-change-max-file-size-of-rollingfileappender
+
+
+https://stackoverflow.com/questions/25738550/programmatically-configure-log4j2-to-replace-each-logfile-when-the-size-is-above
+https://www.baeldung.com/log4j2-programmatic-config
+
+https://github.com/eugenp/tutorials/tree/master/logging-modules/log4j2
+

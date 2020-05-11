@@ -1,0 +1,23 @@
+
+
+https://examples.javacodegeeks.com/enterprise-java/log4j/log4j-2-rollingfileappender-example/
+
+
+1. Create a new Maven project
+Go to File -> Project ->Maven -> Maven Project.
+
+In the “Select project name and location” page of the wizard, make sure that “Create a simple project (skip archetype selection)” option is checked, hit “Next” to continue with default values.
+
+In the “Enter an artifact id” page of the wizard, you can define the name and main package of your project. We will set the “Group Id” variable to "com.javacodegeeks.snippets.enterprise" and the “Artifact Id” variable to "log4jexample". The aforementioned selections compose the main project package as "com.javacodegeeks.snippets.enterprise.log4jexample " and the project name as "log4jexample". Hit “Finish” to exit the wizard and to create your project.
+
+The Maven project structure is shown below:
+
+
+It consists of the following folders:
+/src/main/java folder, that contains source files for the dynamic content of the application,
+/src/test/java folder contains all source files for unit tests,
+/src/main/resources folder contains configurations files,
+/target folder contains the compiled and packaged deliverables,
+the pom.xml is the project object model (POM) file. The single file that contains all project related configuration.
+
+
