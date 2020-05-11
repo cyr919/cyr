@@ -1,0 +1,7 @@
+// 비밀번호 변경 // ____________________________________________________________________________ 
+
+use <database>
+
+db.changeUserPassword("USER", "NEW_PASSWD")
+
+출처: https://bloodguy.tistory.com/entry/MongoDB-사용자-관리-User-Administration [Bloodguy]
