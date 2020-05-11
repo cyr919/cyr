@@ -38,16 +38,17 @@ public class Log4jTestMain
 				logger.error( "로그 찍기 : error" ) ;
 				logger.fatal( "로그 찍기 : fatal" ) ;
 				
-				// this.getDalayTime(60);				
+				// this.getDalayTime(60);
 				try {
-					Thread.sleep( ( 10 * 1000 ) ) ;
+					// Thread.sleep( ( 10 * 1000 ) ) ;
+					Thread.sleep( ( 1 * 1000 ) ) ;
 				}
 				catch( InterruptedException e ) {
 					logger.error( e.getMessage( ) , e ) ;
 					e.printStackTrace( ) ;
 				}
 				logger.info( "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" ) ;
-//				 paramHashmap.get( "dd" ) ;
+				// paramHashmap.get( "dd" ) ;
 				
 			}
 			
