@@ -4,9 +4,20 @@ package com ;
 import java.util.Date ;
 import java.util.HashMap ;
 
+import org.apache.logging.log4j.Level ;
 import org.apache.logging.log4j.LogManager ;
 import org.apache.logging.log4j.Logger ;
 
+/**
+ *
+ * <pre>
+ *  * 개발 완료 후 Log4j2Util 로 옮기기
+
+ * </pre>
+ *
+ * @author cyr
+ * @date 2020-05-13
+ */
 public class Log4jTestMain
 {
 	
@@ -23,6 +34,9 @@ public class Log4jTestMain
 	public void runLoof( ) {
 		
 		HashMap< String , Object > paramHashmap = null ;
+		
+		LoggerLevelChange exe = new LoggerLevelChange( ) ;
+		
 		try {
 			
 			for( int i = 0 ; i < 10000 ; i++ ) {
@@ -37,6 +51,16 @@ public class Log4jTestMain
 				logger.warn( "로그 찍기 : warn" ) ;
 				logger.error( "로그 찍기 : error" ) ;
 				logger.fatal( "로그 찍기 : fatal" ) ;
+				
+				if( i == 1000 ) {
+					exe.changeLoggerSetting( Level.DEBUG , "500KB" ) ;
+				}
+				if( i == 2000 ) {
+					exe.changeLoggerSetting( Level.INFO , "1MB" ) ;
+				}
+				if( i == 3000 ) {
+					exe.changeLoggerSetting( Level.TRACE , "500KB" ) ;
+				}
 				
 				// this.getDalayTime(60);
 				try {

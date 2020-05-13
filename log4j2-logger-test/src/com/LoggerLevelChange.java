@@ -3,13 +3,10 @@
  */
 package com ;
 
-import java.util.zip.Deflater ;
-
 import org.apache.logging.log4j.Level ;
 import org.apache.logging.log4j.LogManager ;
 import org.apache.logging.log4j.Logger ;
 import org.apache.logging.log4j.core.Appender ;
-import org.apache.logging.log4j.core.Layout ;
 import org.apache.logging.log4j.core.LoggerContext ;
 import org.apache.logging.log4j.core.appender.ConsoleAppender ;
 import org.apache.logging.log4j.core.appender.RollingFileAppender ;
@@ -37,6 +34,8 @@ import org.apache.logging.log4j.core.layout.PatternLayout ;
  * https://logging.apache.org/log4j/2.x/manual/customconfig.html
  * https://www.baeldung.com/log4j2-programmatic-config
  * https://github.com/eugenp/tutorials/tree/master/logging-modules/log4j2
+ * 
+ * 개발 완료 후 Log4j2Util 로 옮기기
  * </pre>
  *
  * @author cyr
@@ -64,24 +63,89 @@ public class LoggerLevelChange
 		exe.changeLoggerLevel( Level.ERROR ) ;
 		
 		// 설정 변경
-		exe.changeLoggerSetting( ) ;
+		exe.changeLoggerSetting( Level.DEBUG , "1KB" ) ;
 		
-		LoggerLevelChange exe1 = new LoggerLevelChange( ) ;
-		exe1.changeLoggerLevel( Level.INFO ) ;
-		
-		LoggerLevelChange exe2 = new LoggerLevelChange( ) ;
-		exe2.changeLoggerLevel( Level.WARN ) ;
+		// LoggerLevelChange exe1 = new LoggerLevelChange( ) ;
+		// exe1.changeLoggerLevel( Level.INFO ) ;
+		//
+		// LoggerLevelChange exe2 = new LoggerLevelChange( ) ;
+		// exe2.changeLoggerLevel( Level.WARN ) ;
 		
 		//////////////////////////////////////////
 		
 	}
 	
+	/**
+	 * 
+	 * <pre>
+	 * log4j2 logger level 변경
+	 * </pre>
+	 * 
+	 * @author cyr
+	 * @date 2020-05-13
+	 * @param paramLevel
+	 * @return
+	 */
 	public Boolean changeLoggerLevel( Level paramLevel ) {
+		Boolean resultBool = true ;
+		
+		LoggerContext ctx = null ;
+		Configuration config = null ;
+		LoggerConfig loggerConfig = null ;
+		
+		try {
+			resultBool = false ;
+			
+			logger.fatal( "::::: changeLoggerLevel :::::" ) ;
+			logger.trace( "로그" ) ;
+			logger.debug( "로그" ) ;
+			logger.info( "로그" ) ;
+			logger.warn( "로그" ) ;
+			logger.error( "로그" ) ;
+			logger.fatal( "로그" ) ;
+			logger.fatal( "::::: 변경 전 :::::" ) ;
+			logger.fatal( "---------------------------" ) ;
+			logger.fatal( "paramLevel :: " + paramLevel ) ;
+			logger.fatal( "---------------------------" ) ;
+			
+			ctx = ( LoggerContext ) LogManager.getContext( false ) ;
+			config = ctx.getConfiguration( ) ;
+			loggerConfig = config.getLoggerConfig( LogManager.ROOT_LOGGER_NAME ) ;
+			loggerConfig.setLevel( paramLevel ) ;
+			// This causes all Loggers to refetch information from their LoggerConfig.
+			ctx.updateLoggers( ) ;
+			
+			resultBool = true ;
+		}
+		catch( Exception e ) {
+			resultBool = false ;
+			logger.fatal( e.getMessage( ) , e ) ;
+		}
+		finally {
+			loggerConfig = null ;
+			config = null ;
+			ctx = null ;
+			
+			logger.fatal( "::::: 변경 후 :::::" ) ;
+			logger.trace( "로그" ) ;
+			logger.debug( "로그" ) ;
+			logger.info( "로그" ) ;
+			logger.warn( "로그" ) ;
+			logger.error( "로그" ) ;
+			logger.fatal( "로그" ) ;
+			logger.fatal( "::::: changeLoggerLevel finally :::::" ) ;
+			
+		}
+		
+		return resultBool ;
+	}
+	
+	public Boolean changeLoggerLevel_1( Level paramLevel ) {
 		
 		Boolean resultBool = true ;
 		
 		try {
-			System.out.println( "=================================" ) ;
+			logger.fatal( "=================================" ) ;
 			
 			logger.trace( "로그" ) ;
 			logger.debug( "로그" ) ;
@@ -117,21 +181,20 @@ public class LoggerLevelChange
 			ctx.updateLoggers( ) ;
 			
 			resultBool = true ;
-			
 		}
 		catch( Exception e ) {
 			resultBool = false ;
 			logger.fatal( e.getMessage( ) , e ) ;
 		}
 		finally {
-			System.out.println( "=====finally============================" ) ;
+			logger.fatal( "=====finally============================" ) ;
 			logger.trace( "로그" ) ;
 			logger.debug( "로그" ) ;
 			logger.info( "로그" ) ;
 			logger.warn( "로그" ) ;
 			logger.error( "로그" ) ;
 			logger.fatal( "로그" ) ;
-			System.out.println( "=================================" ) ;
+			logger.fatal( "=================================" ) ;
 			
 		}
 		
@@ -149,7 +212,139 @@ public class LoggerLevelChange
 	 * @date 2020-05-11
 	 * @return
 	 */
-	public Boolean changeLoggerSetting( ) {
+	public Boolean changeLoggerSetting( Level paramLevel , String strFileSize ) {
+		
+		Boolean resultBool = true ;
+		
+		String strPattern = "" ;
+		String strProjecNm = "" ;
+		LoggerContext ctx = null ;
+		Configuration config = null ;
+		LoggerConfig loggerConfig = null ;
+		PatternLayout layout = null ;
+		TimeBasedTriggeringPolicy timeBasedTriggeringPolicy = null ;
+		SizeBasedTriggeringPolicy sizeBasedTriggeringPolicy = null ;
+		CompositeTriggeringPolicy policy = null ;
+		DefaultRolloverStrategy strategy = null ;
+		Appender appender = null ;
+		
+		try {
+			strPattern = "[%d{yyyy-MM-dd HH:mm:ss.SSS}] [${hostName}] [%t] %c{1} [%-5level] - %msg%n" ;
+			strProjecNm = "log4j-test" ;
+			
+			logger.fatal( "::::: changeLoggerSetting :::::" ) ;
+			logger.trace( "로그" ) ;
+			logger.debug( "로그" ) ;
+			logger.info( "로그" ) ;
+			logger.warn( "로그" ) ;
+			logger.error( "로그" ) ;
+			logger.fatal( "로그" ) ;
+			logger.fatal( "::::: 변경 전 :::::" ) ;
+			logger.fatal( "---------------------------" ) ;
+			logger.fatal( "paramLevel :: " + paramLevel ) ;
+			logger.fatal( "strFileSize :: " + strFileSize ) ;
+			logger.fatal( "---------------------------" ) ;
+			
+			resultBool = false ;
+			
+			ctx = ( LoggerContext ) LogManager.getContext( false ) ;
+			config = ctx.getConfiguration( ) ;
+			loggerConfig = config.getLoggerConfig( LogManager.ROOT_LOGGER_NAME ) ;
+			
+			// Layout< ? > layout = PatternLayout.createLayout( strPattern , null , config , null , null , false , false , null , null ) ;
+			layout = PatternLayout.newBuilder( ).withPattern( strPattern ).build( ) ;
+			logger.fatal( "layout :: " + layout ) ;
+			
+			// TimeBasedTriggeringPolicy timeBasedTriggeringPolicy = TimeBasedTriggeringPolicy.createPolicy( "1" , "false" ) ;
+			timeBasedTriggeringPolicy = TimeBasedTriggeringPolicy.newBuilder( ).withInterval( 1 ).build( ) ;
+			logger.fatal( "timeBasedTriggeringPolicy :: " + timeBasedTriggeringPolicy ) ;
+			
+			// SizeBasedTriggeringPolicy sizeBasedTriggeringPolicy = SizeBasedTriggeringPolicy.createPolicy( "1KB" ) ;
+			sizeBasedTriggeringPolicy = SizeBasedTriggeringPolicy.createPolicy( strFileSize ) ;
+			logger.fatal( "sizeBasedTriggeringPolicy :: " + sizeBasedTriggeringPolicy ) ;
+			
+			policy = CompositeTriggeringPolicy.createPolicy( timeBasedTriggeringPolicy , sizeBasedTriggeringPolicy ) ;
+			logger.fatal( "policy :: " + policy ) ;
+			
+			// DefaultRolloverStrategy strategy = DefaultRolloverStrategy.createStrategy( null , null , "nomax" , null , null , false , config ) ;
+			strategy = DefaultRolloverStrategy.newBuilder( ).withFileIndex( "nomax" ).build( ) ;
+			
+			logger.fatal( "strategy :: " + strategy ) ;
+			// Appender appender = RollingFileAppender.createAppender( "./log/" + strProjecNm + ".log" , "./log/" + strProjecNm + ".log.%d{yyyy-MM-dd}.%i" , "true" , "rollingFile" , "true" , "1024" , null , policy , strategy , layout , null , null , null , null , config ) ;
+			appender = RollingFileAppender.newBuilder( ).setName( "rollingFile" )
+							.withFileName( "./log/" + strProjecNm + ".log" )
+							.withFilePattern( "./log/" + strProjecNm + ".log.%d{yyyy-MM-dd}.%i" )
+							.withAppend( true ).withBufferedIo( true ).withBufferSize( 1024 )
+							.setLayout( layout ).withPolicy( policy ).withStrategy( strategy ).build( ) ;
+			
+			appender.start( ) ;
+			config.addAppender( appender ) ;
+			
+			logger.fatal( "appender :: " + appender ) ;
+			logger.fatal( "appender.getLayout( ) :: " + appender.getLayout( ) ) ;
+			logger.fatal( "appender.getHandler( ) :: " + appender.getHandler( ) ) ;
+			logger.fatal( "appender.getClass( ) :: " + appender.getClass( ) ) ;
+			
+			// loggerConfig.addAppender( appender , Level.DEBUG , null ) ;
+			// loggerConfig.setLevel( Level.DEBUG ) ;
+			loggerConfig.addAppender( appender , paramLevel , null ) ;
+			loggerConfig.setLevel( paramLevel ) ;
+			
+			logger.fatal( "config :: " + config ) ;
+			logger.fatal( "loggerConfig :: " + loggerConfig ) ;
+			logger.fatal( "loggerConfig.getAppenders( ) :: " + loggerConfig.getAppenders( ) ) ;
+			logger.fatal( "loggerConfig.getAppenderRefs( ) :: " + loggerConfig.getAppenderRefs( ) ) ;
+			logger.fatal( "loggerConfig.getLevel( ) :: " + loggerConfig.getLevel( ) ) ;
+			logger.fatal( "loggerConfig.getName( ) :: " + loggerConfig.getName( ) ) ;
+			logger.fatal( "loggerConfig.getState( ) :: " + loggerConfig.getState( ) ) ;
+			
+			ctx.updateLoggers( ) ;
+			resultBool = true ;
+		}
+		catch( Exception e ) {
+			resultBool = false ;
+			logger.fatal( e.getMessage( ) , e ) ;
+		}
+		finally {
+			strPattern = "" ;
+			strProjecNm = "" ;
+			
+			appender = null ;
+			strategy = null ;
+			policy = null ;
+			sizeBasedTriggeringPolicy = null ;
+			timeBasedTriggeringPolicy = null ;
+			layout = null ;
+			loggerConfig = null ;
+			config = null ;
+			ctx = null ;
+			
+			logger.fatal( "::::: 변경 후 :::::" ) ;
+			logger.trace( "로그" ) ;
+			logger.debug( "로그" ) ;
+			logger.info( "로그" ) ;
+			logger.warn( "로그" ) ;
+			logger.error( "로그" ) ;
+			logger.fatal( "로그" ) ;
+			logger.fatal( "::::: changeLoggerSetting finally:::::" ) ;
+		}
+		
+		return resultBool ;
+		
+	}
+	
+	/**
+	 * <pre>
+	 * https://logging.apache.org/log4j/2.x/manual/customconfig.html - Programmatically Modifying the Current Configuration after Initialization
+	 * 
+	 * https://stackify.com/log4j2-java/
+	 * </pre>
+	 * 
+	 * @author cyr
+	 * @date 2020-05-11
+	 * @return
+	 */
+	public Boolean changeLoggerSetting_3( ) {
 		
 		Boolean resultBool = true ;
 		
@@ -197,7 +392,7 @@ public class LoggerLevelChange
 		}
 		finally {
 			
-			System.out.println( "=================================" ) ;
+			logger.fatal( "=================================" ) ;
 		}
 		
 		return resultBool ;
