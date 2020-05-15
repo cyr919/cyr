@@ -116,7 +116,7 @@ public class Log4j2Util
 	 * @param strFileSize
 	 * @return
 	 */
-	public Boolean changeLoggerSetting( Level paramLevel , String strFileSize ) {
+	public Boolean changeLoggerRootSetting( Level paramLevel , String strFileSize ) {
 		
 		Boolean resultBool = true ;
 		

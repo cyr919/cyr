@@ -31,11 +31,54 @@ public class Log4jTestMain
 		
 	}
 	
+	public void testLog( ) {
+		
+		logger.fatal( "::::: testLog :::::" ) ;
+		logger.trace( "로그" ) ;
+		logger.debug( "로그" ) ;
+		logger.info( "로그" ) ;
+		logger.warn( "로그" ) ;
+		logger.error( "로그" ) ;
+		logger.fatal( "로그" ) ;
+		logger.trace( "로그" ) ;
+		logger.debug( "로그" ) ;
+		logger.info( "로그" ) ;
+		logger.warn( "로그" ) ;
+		logger.error( "로그" ) ;
+		logger.fatal( "로그" ) ;
+		logger.trace( "로그" ) ;
+		logger.debug( "로그" ) ;
+		logger.info( "로그" ) ;
+		logger.warn( "로그" ) ;
+		logger.error( "로그" ) ;
+		logger.fatal( "로그" ) ;
+		logger.trace( "로그" ) ;
+		logger.debug( "로그" ) ;
+		logger.info( "로그" ) ;
+		logger.warn( "로그" ) ;
+		logger.error( "로그" ) ;
+		logger.fatal( "로그" ) ;
+		logger.trace( "로그" ) ;
+		logger.debug( "로그" ) ;
+		logger.info( "로그" ) ;
+		logger.warn( "로그" ) ;
+		logger.error( "로그" ) ;
+		logger.fatal( "로그" ) ;
+		logger.trace( "로그" ) ;
+		logger.debug( "로그" ) ;
+		logger.info( "로그" ) ;
+		logger.warn( "로그" ) ;
+		logger.error( "로그" ) ;
+		logger.fatal( "로그" ) ;
+		logger.fatal( "::::: testLog :::::" ) ;
+		
+	}
+	
 	public void runLoof( ) {
 		
 		HashMap< String , Object > paramHashmap = null ;
 		
-		LoggerLevelChange exe = new LoggerLevelChange( ) ;
+		LoggerChange exe = new LoggerChange( ) ;
 		
 		try {
 			
@@ -53,13 +96,13 @@ public class Log4jTestMain
 				logger.fatal( "로그 찍기 : fatal" ) ;
 				
 				if( i == 1000 ) {
-					exe.changeLoggerSetting( Level.DEBUG , "500KB" ) ;
+					exe.changeLoggerRootSetting( Level.DEBUG , "500KB" ) ;
 				}
 				if( i == 2000 ) {
-					exe.changeLoggerSetting( Level.INFO , "1MB" ) ;
+					exe.changeLoggerRootSetting( Level.INFO , "1MB" ) ;
 				}
 				if( i == 3000 ) {
-					exe.changeLoggerSetting( Level.TRACE , "500KB" ) ;
+					exe.changeLoggerRootSetting( Level.TRACE , "500KB" ) ;
 				}
 				
 				// this.getDalayTime(60);
