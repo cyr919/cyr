@@ -1,9 +1,13 @@
 package com.connectivity ;
 
+import java.util.HashMap ;
+import java.util.Set ;
+
 import org.apache.logging.log4j.LogManager ;
 import org.apache.logging.log4j.Logger ;
 
 import com.connectivity.common.CommonProperties ;
+import com.connectivity.common.ConnectivityProperties ;
 import com.connectivity.config.RabbitmqConnection ;
 import com.connectivity.gather.receiver.Data2ConnectivityReceiver ;
 import com.connectivity.manage.ConditionReport ;
@@ -26,7 +30,6 @@ public class ConnectivityMainRun
 	public static void main( String[ ] args ) {
 		
 		ConnectivityMainRun exe = new ConnectivityMainRun( ) ;
-		
 		exe.connectivityRun( "eventId01" ) ;
 		
 		logger.info( "================================" ) ;
@@ -50,28 +53,36 @@ public class ConnectivityMainRun
 	public void connectivityRun( String strEventID ) {
 		
 		CommonProperties commonProperties = new CommonProperties( ) ;
+		ConnectivityProperties connectivityProperties = new ConnectivityProperties( ) ;
 		
-		Boolean resultBool = true ;
+		Boolean resultBool01 = true ;
+		Boolean resultBool02 = true ;
 		
 		logger.info( "strEventID :: " + strEventID ) ;
 		try {
 			
-			 resultBool = false ;
-			 resultBool = commonProperties.setProperties( ) ;
-			 
+			resultBool01 = false ;
+			resultBool02 = false ;
+			resultBool01 = commonProperties.setProperties( ) ;
+			resultBool02 = connectivityProperties.setStdv( ) ;
 			
-			 
-			 
-			// rabbitmaConnection 연결
-			this.rabbitmqConnectionOpen( ) ;
-			
-			// 상태 보고 실행
-			conditionReport = new ConditionReport( 30 ) ;
-			ctThread = new Thread( conditionReport , "conditionReport-Thread" ) ;
-			ctThread.start( ) ;
-			
-			// TODO 기동 이벤트 추가 필요
-			logger.info( "connectivityRun 성공" ) ;
+			if( resultBool01 && resultBool02 ) {
+				
+				logger.info( "ConnectivityProperties.STDV_INF :: " + ConnectivityProperties.STDV_INF ) ;
+				
+				// rabbitmaConnection 연결
+				this.rabbitmqConnectionOpen( ConnectivityProperties.STDV_INF ) ;
+				
+				logger.info( "ConnectivityProperties.STDV_INF :: " + ConnectivityProperties.STDV_INF ) ;
+				
+				// 상태 보고 실행
+				conditionReport = new ConditionReport( 30 ) ;
+				ctThread = new Thread( conditionReport , "conditionReport-Thread" ) ;
+				ctThread.start( ) ;
+				
+				// TODO 기동 이벤트 추가 필요
+				logger.info( "connectivityRun 성공" ) ;
+			}
 		}
 		catch( Exception e ) {
 			logger.error( "connectivityRun 실패" ) ;
@@ -119,7 +130,7 @@ public class ConnectivityMainRun
 			this.rabbitmqConnectionClose( ) ;
 			
 			// 처리 정지 시작 처리
-			this.rabbitmqConnectionOpen( ) ;
+			this.rabbitmqConnectionOpen( ConnectivityProperties.STDV_INF ) ;
 			
 			logger.info( "connectivityReset 성공" ) ;
 		}
@@ -154,7 +165,9 @@ public class ConnectivityMainRun
 		
 	}
 	
-	public void rabbitmqConnectionOpen( ) throws Exception {
+	public void rabbitmqConnectionOpen( HashMap< String , HashMap< String , Object > > staticDiviceInfo ) throws Exception {
+		
+		RabbitmqConnection rabbitmqConnection = new RabbitmqConnection( ) ;
 		
 		Thread cmThread = null ;
 		Thread[ ] dcThread = null ;
@@ -162,29 +175,42 @@ public class ConnectivityMainRun
 		ConnectionFactory factory = null ;
 		int threadCnt = 0 ;
 		int i = 0 ;
-		
 		try {
 			
 			// rabbitmq 수신 connection
 			logger.info( "================rabbitmqConnectionOpen================" ) ;
-			factory = new ConnectionFactory( ) ;
 			
+			logger.info( "staticDiviceInfo :: " + staticDiviceInfo ) ;
+			
+			factory = rabbitmqConnection.getConnectionFactory( ) ;
+			
+			// service hub
 			command2ModuleReceiver = new Command2ModuleReceiver( factory , "Command2ModuleReceiver" ) ;
 			cmThread = new Thread( command2ModuleReceiver , "command2ModuleReceiver-Thread" ) ;
 			cmThread.start( ) ;
 			
 			// multi thread 실행(rabbitmq 수신 connection)
-			
-			threadCnt = 5 ;
+			// adaptor
+			threadCnt = staticDiviceInfo.size( ) ;
 			data2ConnectivityArr = new Data2ConnectivityReceiver[ threadCnt ] ;
 			dcThread = new Thread[ threadCnt ] ;
-			for( i = 0 ; i < threadCnt ; i++ ) {
+			
+			int cntMapKey = 0 ;
+			
+			for( String key : staticDiviceInfo.keySet( ) ) {
+				logger.info( "cntMapKey :: " + cntMapKey ) ;
+
+				System.out.println( String.format( "키 : %s, 값 : %s" , key , staticDiviceInfo.get( key ) ) ) ;
 				
-				data2ConnectivityArr[ i ] = new Data2ConnectivityReceiver( factory , ( "ESS-" + i ) ) ;
+				data2ConnectivityArr[ cntMapKey ] = new Data2ConnectivityReceiver( factory , ( key ) ) ;
 				
-				dcThread[ i ] = new Thread( data2ConnectivityArr[ i ] , ( "data2Connectivity-Thread-" + i ) ) ;
-				dcThread[ i ].start( ) ;
+				dcThread[ cntMapKey ] = new Thread( data2ConnectivityArr[ cntMapKey ] , ( "data2Connectivity-Thread-" + key ) ) ;
+				dcThread[ cntMapKey ].start( ) ;
+				cntMapKey = cntMapKey + 1 ;
 			}
+			
+			
+			logger.info( "staticDiviceInfo :: " + staticDiviceInfo ) ;
 			
 		}
 		finally {

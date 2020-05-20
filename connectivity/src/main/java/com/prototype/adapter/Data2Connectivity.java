@@ -30,35 +30,32 @@ public class Data2Connectivity
 	
 	private String TASK_QUEUE_NAME = "Data2Connectivity" ;
 	
-	public void publishData2Connectivity( JSONObject jsonObjectMessage ) {
+	public void publishData2Connectivity( JSONObject jsonObjectMessage , String strDeviceID ) {
 		
-		ConnectionFactory factory = new ConnectionFactory( ) ;
-		Connection connection = null ;
+		Connection connection =null ; 
 		Channel channel = null ;
 		
 		String message = "" ;
 		
+		String queueName = "" ;
+		
+		AdapterMainRun adapterMainRun = new AdapterMainRun( ) ;
+						
+		
 		try {
-			
-			factory.setHost( "192.168.56.105" ) ;
-			factory.setUsername( "admin" ) ;
-			factory.setPassword( "admin" ) ;
-			
-			connection = factory.newConnection( ) ;
+			queueName = TASK_QUEUE_NAME +  "_" +strDeviceID ;
+			connection = adapterMainRun.getPubConnection( ) ;
 			channel = connection.createChannel( ) ;
 			
-			channel.queueDeclare( TASK_QUEUE_NAME , true , false , false , null ) ;
+			channel.queueDeclare( queueName , true , false , false , null ) ;
 			
 			message = jsonObjectMessage.toJSONString( ) ;
 			
-			channel.basicPublish( "" , TASK_QUEUE_NAME , MessageProperties.PERSISTENT_TEXT_PLAIN , message.getBytes( ) ) ;
+			channel.basicPublish( "" , queueName , MessageProperties.PERSISTENT_TEXT_PLAIN , message.getBytes( ) ) ;
 			logger.info( " [x] Sent '" + message + "'" ) ;
 			
 		}
 		catch( IOException e ) {
-			logger.error( e.getMessage( ) , e ) ;
-		}
-		catch( TimeoutException e ) {
 			logger.error( e.getMessage( ) , e ) ;
 		}
 		catch( Exception e ) {
@@ -77,17 +74,7 @@ public class Data2Connectivity
 					logger.error( e.getMessage( ) , e ) ;
 				}
 			}
-			if( connection != null ) {
-				try {
-					connection.close( ) ;
-				}
-				catch( IOException e ) {
-					logger.error( e.getMessage( ) , e ) ;
-				}
-			}
-			factory = null ;
 			channel = null ;
-			connection = null ;
 			jsonObjectMessage = null ;
 			message = null ;
 		}

@@ -37,10 +37,13 @@ public class Data2ConnectivityReceiver implements Runnable
 	private Connection connection = null ;
 	private Channel channel = null ;
 	
-	public void doWork( String task ) {
+	public void doWork( String strSubMessage ) {
 		
 		try {
-			Thread.sleep( 1000 ) ;
+			
+			logger.debug( "strSubMessage :: " + strSubMessage ) ;
+			
+			Thread.sleep( 1 ) ;
 		}
 		catch( InterruptedException _ignored ) {
 			Thread.currentThread( ).interrupt( ) ;
@@ -99,6 +102,7 @@ public class Data2ConnectivityReceiver implements Runnable
 					finally {
 						logger.info( " [x] Done" ) ;
 						channel.basicAck( envelope.getDeliveryTag( ) , false ) ;
+						message = null ;
 					}
 				}
 			} ;

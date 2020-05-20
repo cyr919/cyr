@@ -1,8 +1,11 @@
 package com.prototype.adapter ;
 
+import java.util.HashMap ;
+
 import org.apache.logging.log4j.LogManager ;
 import org.apache.logging.log4j.Logger ;
 
+import com.connectivity.common.ConnectivityProperties ;
 import com.prototype.PropertyLoader ;
 
 public class AdapterDataSimulTest implements Runnable
@@ -18,29 +21,38 @@ public class AdapterDataSimulTest implements Runnable
 	@Override
 	public void run( ) {
 		
+		HashMap< String , HashMap< String , Object > > staticDiviceInfo = new HashMap< String , HashMap< String , Object > >( ) ;
 		try {
 			PropertyLoader.PROCESS_THREAD_CNT++ ;
 			
 			setDemonLive( true ) ;
 			
 			logger.debug( "isDemonLive :: " + isDemonLive ) ;
-			logger.debug( "PropertyLoader.IS_ALL_DEMON_LIVE :: " + PropertyLoader.IS_ALL_DEMON_LIVE ) ;
 			
-			while( isDemonLive && PropertyLoader.IS_ALL_DEMON_LIVE ) {
+			while( isDemonLive ) {
 				
-				AdapterDataGenerator adapterDataGenerator = new AdapterDataGenerator( ) ;
-				Thread dgThread = new Thread( adapterDataGenerator , "adapterDataGeneratorThread" ) ;
+				staticDiviceInfo = ConnectivityProperties.STDV_INF ;
 				
-				dgThread.start( ) ;
+				logger.debug( "staticDiviceInfo :: " + staticDiviceInfo ) ;
 				
-				adapterDataGenerator = null ;
+				for( String key : staticDiviceInfo.keySet( ) ) {
+					AdapterDataGenerator adapterDataGenerator = new AdapterDataGenerator( key ) ;
+					Thread dgThread = new Thread( adapterDataGenerator , "adapterDataGeneratorThread" ) ;
+					
+					dgThread.start( ) ;
+					
+					adapterDataGenerator = null ;
+					
+				}
 				
 				Thread.sleep( 10 * 1000 ) ;
 			}
 			
-		} catch( Exception e ) {
+		}
+		catch( Exception e ) {
 			logger.error( e.getMessage( ) , e ) ;
-		} finally {
+		}
+		finally {
 			setDemonLive( false ) ;
 			PropertyLoader.PROCESS_THREAD_CNT-- ;
 			

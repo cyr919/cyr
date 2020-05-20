@@ -3,7 +3,10 @@ package com.prototype.adapter ;
 import org.apache.logging.log4j.LogManager ;
 import org.apache.logging.log4j.Logger ;
 
+import com.connectivity.common.ConnectivityProperties ;
 import com.prototype.PropertyLoader ;
+import com.rabbitmq.client.Connection ;
+import com.rabbitmq.client.ConnectionFactory ;
 
 public class AdapterMainRun
 {
@@ -13,6 +16,9 @@ public class AdapterMainRun
 	private static final Logger logger = LogManager.getLogger( AdapterMainRun.class ) ;
 	// Logger logger = LogManager.getLogger( ) ;
 	
+	
+	private static Connection pubConnection ;
+	
 	/**
 	 * adapter 데이터 생성기...
 	 * 
@@ -21,7 +27,13 @@ public class AdapterMainRun
 	public static void main( String[ ] args ) {
 		
 		try {
-			PropertyLoader.getDemonProperties( ) ;
+			
+			ConnectivityProperties connectivityProperties = new ConnectivityProperties( ) ;
+			connectivityProperties.setStdv( ) ;
+			
+			AdapterMainRun exe = new AdapterMainRun( ) ;
+							
+			exe.getPubConnection() ;
 			
 			AdapterDataSimulTest adapterDataSimulTest = new AdapterDataSimulTest( ) ;
 			Thread dsThread = new Thread( adapterDataSimulTest , "adapterDataSimulTestThread" ) ;
@@ -38,4 +50,38 @@ public class AdapterMainRun
 		
 	}
 	
+	
+
+	public Connection setConnection( ) {
+		
+		ConnectionFactory connectionFactory = null ;
+		Connection connection = null ;
+		
+		try {
+			connectionFactory = new ConnectionFactory( ) ;
+			
+			connectionFactory.setHost( "192.168.56.105" ) ;
+			connectionFactory.setUsername( "admin" ) ;
+			connectionFactory.setPassword( "admin" ) ;
+			
+			connection = connectionFactory.newConnection( ) ;
+			
+		}
+		catch( Exception e ) {
+			logger.error( e.getMessage( ) , e ) ;
+		}
+		finally {
+			connectionFactory = null ;
+		}
+		
+		return connection ;
+	}
+	
+	public Connection getPubConnection( ) {
+		if( null == pubConnection || !pubConnection.isOpen( ) ) {
+			pubConnection = setConnection( ) ;
+		}
+		return pubConnection ;
+		
+	}
 }

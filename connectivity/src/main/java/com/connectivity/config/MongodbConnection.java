@@ -9,6 +9,7 @@ import java.net.URLEncoder ;
 import org.apache.logging.log4j.LogManager ;
 import org.apache.logging.log4j.Logger ;
 import org.bson.Document ;
+import org.springframework.data.mongodb.core.MongoTemplate ;
 
 import com.mongodb.ConnectionString ;
 import com.mongodb.client.MongoClient ;
@@ -60,7 +61,8 @@ public class MongodbConnection
 		 */
 		try {
 			encodedPwd = URLEncoder.encode( dbPwd , "UTF-8" ) ;
-		} catch( UnsupportedEncodingException e ) {
+		}
+		catch( UnsupportedEncodingException e ) {
 			logger.error( e.getMessage( ) , e ) ;
 		}
 		
@@ -73,11 +75,14 @@ public class MongodbConnection
 			
 			mongoClientLocal = MongoClients.create( connectionString ) ;
 			
-		} catch( IllegalArgumentException e ) {
+		}
+		catch( IllegalArgumentException e ) {
 			logger.error( e.getMessage( ) , e ) ;
-		} catch( Exception e ) {
+		}
+		catch( Exception e ) {
 			logger.error( e.getMessage( ) , e ) ;
-		} finally {
+		}
+		finally {
 			
 			connectionString = null ;
 			strMongoClientURI = null ;
@@ -100,7 +105,8 @@ public class MongodbConnection
 				
 				mongoClient.close( ) ;
 			}
-		} catch( Exception e ) {
+		}
+		catch( Exception e ) {
 			logger.error( e.getMessage( ) , e ) ;
 		}
 		
@@ -116,11 +122,14 @@ public class MongodbConnection
 			database = getMongoClient( ).getDatabase( "hsmgp" ) ;
 			logger.info( "database :: [" + database + "]" ) ;
 			
-		} catch( IllegalArgumentException e ) {
+		}
+		catch( IllegalArgumentException e ) {
 			logger.error( e.getMessage( ) , e ) ;
-		} catch( Exception e ) {
+		}
+		catch( Exception e ) {
 			logger.error( e.getMessage( ) , e ) ;
-		} finally {
+		}
+		finally {
 			
 		}
 		
@@ -138,11 +147,13 @@ public class MongodbConnection
 			logger.info( "dbStats document :: [" + document + "]" ) ;
 			
 			resultBool = true ;
-		} catch( Exception e ) {
+		}
+		catch( Exception e ) {
 			resultBool = false ;
 			
 			logger.error( e.getMessage( ) , e ) ;
-		} finally {
+		}
+		finally {
 			document = null ;
 		}
 		
@@ -158,11 +169,14 @@ public class MongodbConnection
 			database = getMongoClient( ).getDatabase( dbName ) ;
 			logger.info( "database :: [" + database + "]" ) ;
 			
-		} catch( IllegalArgumentException e ) {
+		}
+		catch( IllegalArgumentException e ) {
 			logger.error( e.getMessage( ) , e ) ;
-		} catch( Exception e ) {
+		}
+		catch( Exception e ) {
 			logger.error( e.getMessage( ) , e ) ;
-		} finally {
+		}
+		finally {
 			dbName = null ;
 		}
 		
@@ -180,16 +194,26 @@ public class MongodbConnection
 			logger.info( "dbStats document :: [" + document + "]" ) ;
 			
 			resultBool = true ;
-		} catch( Exception e ) {
+		}
+		catch( Exception e ) {
 			resultBool = false ;
 			
 			logger.error( e.getMessage( ) , e ) ;
-		} finally {
+		}
+		finally {
 			document = null ;
 			dbName = null ;
 		}
 		
 		return resultBool ;
+	}
+	
+	public MongoTemplate getMongoTemplate( ) throws Exception {
+		return new MongoTemplate( getMongoClient( ) , "hsmgp" ) ;
+	}
+	
+	public MongoTemplate getMongoTemplate( String dbName ) throws Exception {
+		return new MongoTemplate( getMongoClient( ) , dbName ) ;
 	}
 	
 	public void mongodbConnectionTest( ) {
@@ -215,7 +239,8 @@ public class MongodbConnection
 		 */
 		try {
 			encodedPwd = URLEncoder.encode( dbPwd , "UTF-8" ) ;
-		} catch( UnsupportedEncodingException e ) {
+		}
+		catch( UnsupportedEncodingException e ) {
 			logger.error( e.getMessage( ) , e ) ;
 		}
 		
@@ -223,7 +248,7 @@ public class MongodbConnection
 			
 			strMongoClientURI = "mongodb://" + dbUser + ":" + encodedPwd + "@" + host + ":" + port + "/" + dbName + "?authSource=" + dbName + "&authMechanism=SCRAM-SHA-256" ;
 			
-//			strMongoClientURI = "mongodb://" + "192.168.56.105" + ":" + "27017" ;
+			// strMongoClientURI = "mongodb://" + "192.168.56.105" + ":" + "27017" ;
 			
 			connectionString = new ConnectionString( strMongoClientURI ) ;
 			logger.info( "strMongoClientURI :: [" + strMongoClientURI + "]" ) ;
@@ -244,10 +269,12 @@ public class MongodbConnection
 			logger.info( "coll :: [" + coll + "]" ) ;
 			logger.info( "coll.countDocuments( ) :: [" + coll.countDocuments( ) + "]" ) ;
 			
-		} catch( Exception e ) {
+		}
+		catch( Exception e ) {
 			
 			logger.error( e.getMessage( ) , e ) ;
-		} finally {
+		}
+		finally {
 			
 			if( mongoClient != null ) {
 				mongoClient.close( ) ;
@@ -277,7 +304,7 @@ public class MongodbConnection
 		
 		logger.info( "mongodbConnectionTest2 start" ) ;
 		MongoCollection< Document > coll = null ;
-
+		
 		try {
 			
 			logger.info( "checkMongoDatabase( ) :: " + checkMongoDatabase( ) ) ;
@@ -288,8 +315,8 @@ public class MongodbConnection
 			logger.info( "coll :: [" + coll + "]" ) ;
 			logger.info( "coll.countDocuments( ) :: [" + coll.countDocuments( ) + "]" ) ;
 			
-			
-		} catch( Exception e ) {
+		}
+		catch( Exception e ) {
 			logger.error( e.getMessage( ) , e ) ;
 		}
 		
@@ -310,7 +337,7 @@ public class MongodbConnection
 		
 		MongodbConnection exe = new MongodbConnection( ) ;
 		
-//		exe.mongodbConnectionTest( ) ;
+		// exe.mongodbConnectionTest( ) ;
 		
 		exe.mongodbConnectionTest2( ) ;
 		
