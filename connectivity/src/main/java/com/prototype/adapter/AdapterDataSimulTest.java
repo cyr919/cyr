@@ -13,7 +13,7 @@ public class AdapterDataSimulTest implements Runnable
 	
 	// Define a static logger variable so that it references the
 	// Logger instance named "MyApp".
-	private static final Logger logger = LogManager.getLogger( AdapterDataSimulTest.class ) ;
+	private  Logger logger = LogManager.getLogger( AdapterDataSimulTest.class ) ;
 	// Logger logger = LogManager.getLogger( ) ;
 	
 	private boolean isDemonLive = false ;

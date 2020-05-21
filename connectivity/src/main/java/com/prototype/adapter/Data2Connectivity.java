@@ -9,7 +9,6 @@ import org.json.simple.JSONObject ;
 
 import com.rabbitmq.client.Channel ;
 import com.rabbitmq.client.Connection ;
-import com.rabbitmq.client.ConnectionFactory ;
 import com.rabbitmq.client.MessageProperties ;
 
 /**
@@ -25,14 +24,14 @@ public class Data2Connectivity
 {
 	// Define a static logger variable so that it references the
 	// Logger instance named "MyApp".
-	private static final Logger logger = LogManager.getLogger( Data2Connectivity.class ) ;
+	private Logger logger = LogManager.getLogger( Data2Connectivity.class ) ;
 	// Logger logger = LogManager.getLogger( ) ;
 	
 	private String TASK_QUEUE_NAME = "Data2Connectivity" ;
 	
 	public void publishData2Connectivity( JSONObject jsonObjectMessage , String strDeviceID ) {
 		
-		Connection connection =null ; 
+		Connection connection = null ;
 		Channel channel = null ;
 		
 		String message = "" ;
@@ -40,10 +39,9 @@ public class Data2Connectivity
 		String queueName = "" ;
 		
 		AdapterMainRun adapterMainRun = new AdapterMainRun( ) ;
-						
 		
 		try {
-			queueName = TASK_QUEUE_NAME +  "_" +strDeviceID ;
+			queueName = TASK_QUEUE_NAME + "_" + strDeviceID ;
 			connection = adapterMainRun.getPubConnection( ) ;
 			channel = connection.createChannel( ) ;
 			
@@ -52,7 +50,7 @@ public class Data2Connectivity
 			message = jsonObjectMessage.toJSONString( ) ;
 			
 			channel.basicPublish( "" , queueName , MessageProperties.PERSISTENT_TEXT_PLAIN , message.getBytes( ) ) ;
-			logger.info( " [x] Sent '" + message + "'" ) ;
+			logger.info( " [x] Sent :: " + message + "" ) ;
 			
 		}
 		catch( IOException e ) {

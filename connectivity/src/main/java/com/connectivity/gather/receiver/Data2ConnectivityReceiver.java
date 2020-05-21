@@ -43,10 +43,9 @@ public class Data2ConnectivityReceiver implements Runnable
 			
 			logger.debug( "strSubMessage :: " + strSubMessage ) ;
 			
-			Thread.sleep( 1 ) ;
 		}
-		catch( InterruptedException _ignored ) {
-			Thread.currentThread( ).interrupt( ) ;
+		catch( Exception e ) {
+			logger.error( e.getMessage( ) , e ) ;
 		}
 		
 		return ;
@@ -95,7 +94,7 @@ public class Data2ConnectivityReceiver implements Runnable
 				public void handleDelivery( String consumerTag , Envelope envelope , AMQP.BasicProperties properties , byte[ ] body ) throws IOException {
 					String message = new String( body , "UTF-8" ) ;
 					
-					logger.info( " [x] Received '" + message + "'" ) ;
+					logger.info( " [x] Received :: " + message + "" ) ;
 					try {
 						doWork( message ) ;
 					}
@@ -107,9 +106,8 @@ public class Data2ConnectivityReceiver implements Runnable
 				}
 			} ;
 			
-			logger.info( "==========this.channel.basicConsume( TASK_QUEUE_NAME , false , consumer ) ;" ) ;
-			
 			this.channel.basicConsume( TASK_QUEUE_NAME , false , consumer ) ;
+			logger.info( "==========this.channel.basicConsume( TASK_QUEUE_NAME , false , consumer ) ;" ) ;
 			
 		}
 		catch( Exception e ) {

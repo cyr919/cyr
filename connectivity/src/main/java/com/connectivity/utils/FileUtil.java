@@ -111,10 +111,12 @@ public class FileUtil
 		
 		int intBuffer = 1024 ;
 		
+		CommUtil commUtil = new CommUtil( ) ;
+		
 		try {
 			logger.trace( "fileName :: " + fileName ) ;
 			
-			if( !CommUtil.checkNull( fileName ) ) {
+			if( !commUtil.checkNull( fileName ) ) {
 				// File 경로
 				file = new File( fileName ) ;
 				// 파일을 읽어들여 File Input 스트림 객체 생성

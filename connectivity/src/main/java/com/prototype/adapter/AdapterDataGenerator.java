@@ -1,11 +1,9 @@
 package com.prototype.adapter ;
 
-import java.math.BigDecimal ;
 import java.time.LocalDateTime ;
 import java.time.format.DateTimeFormatter ;
 import java.util.ArrayList ;
 import java.util.HashMap ;
-import java.util.Iterator ;
 import java.util.List ;
 
 import org.apache.logging.log4j.LogManager ;
@@ -13,7 +11,6 @@ import org.apache.logging.log4j.Logger ;
 import org.json.simple.JSONObject ;
 
 import com.connectivity.common.ConnectivityProperties ;
-import com.connectivity.gather.DataGather ;
 import com.connectivity.utils.CommUtil ;
 import com.prototype.PropertyLoader ;
 
@@ -21,7 +18,7 @@ public class AdapterDataGenerator implements Runnable
 {
 	// Define a static logger variable so that it references the
 	// Logger instance named "MyApp".
-	private static final Logger logger = LogManager.getLogger( AdapterDataGenerator.class ) ;
+	private Logger logger = LogManager.getLogger( AdapterDataGenerator.class ) ;
 	// Logger logger = LogManager.getLogger( ) ;
 	
 	private boolean isDemonLive = false ;
@@ -36,19 +33,9 @@ public class AdapterDataGenerator implements Runnable
 		
 		int intVal = 0 ;
 		
-		BigDecimal tempBDVal = new BigDecimal( "0" ) ;
-		
-		HashMap< String , Object > tempHashMap = new HashMap<>( ) ;
-		int i = 0 ;
-		Iterator< ? > iteratorHashMapKeys = null ;
-		String strHashMapKey = "" ;
-		
 		HashMap< String , Object > dataHashMap = new HashMap<>( ) ;
-		
 		List< HashMap< String , Object > > dtList = new ArrayList<>( ) ;
 		int j = 0 ;
-		
-		DataGather dataGather = new DataGather( ) ;
 		
 		LocalDateTime nowLocalDateTime = null ;
 		String strNowLocalDateTime = "" ;
@@ -56,7 +43,8 @@ public class AdapterDataGenerator implements Runnable
 		JSONObject resultJsonObject = null ;
 		JSONObject dataJsonObject = null ;
 		Data2Connectivity data2Connectivity = new Data2Connectivity( ) ;
-		
+		CommUtil commUtil = new CommUtil( ) ;
+
 		try {
 			PropertyLoader.PROCESS_THREAD_CNT++ ;
 			
@@ -67,50 +55,50 @@ public class AdapterDataGenerator implements Runnable
 			logger.debug( ConnectivityProperties.STDV_DT_MDL.get( deviceID ) ) ;
 			logger.debug( "ConnectivityProperties.STDV_DT_MDL :: " + deviceID ) ;
 			
-				dataHashMap = new HashMap< String , Object >( ) ;
+			dataHashMap = new HashMap< String , Object >( ) ;
+			
+			////////////////////////////////////////////////////
+			// 테스트 데이터 생성
+			
+			// 값 참고로 변경
+			dtList = ConnectivityProperties.STDV_DT_MDL.get( deviceID ) ;
+			
+			logger.debug( "dtList :: " + dtList ) ;
+			
+			for( j = 0 ; j < dtList.size( ) ; j++ ) {
 				
-				////////////////////////////////////////////////////
-				// 테스트 데이터 생성
+				logger.debug( "dtList.get( " + j + " ).get( \"MGP_KEY\" ) :: " + dtList.get( j ).get( "MGP_KEY" ) ) ;
+				intVal = commUtil.getRandomInt( 100 , 10 ) ;
 				
-				// 값 참고로 변경
-				dtList = ConnectivityProperties.STDV_DT_MDL.get( deviceID ) ;
+				dataHashMap.put( ( dtList.get( j ).get( "MGP_KEY" ) + "" ) , intVal ) ;
 				
-				logger.debug( "dtList :: " + dtList ) ;
-				
-				for( j = 0 ; j < dtList.size( ) ; j++ ) {
-					
-					logger.debug( "dtList.get( " + j + " ).get( \"MGP_KEY\" ) :: " + dtList.get( j ).get( "MGP_KEY" ) ) ;
-					intVal = CommUtil.getRandomInt( 100 , 10 ) ;
-					
-					dataHashMap.put( ( dtList.get( j ).get( "MGP_KEY" ) + "" ) , intVal ) ;
-					
-				}
-				
-				logger.debug( ":::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::" ) ;
-				////////////////////////////////////////////////////
-				// 시간 데이터 생성
-				
-				nowLocalDateTime = LocalDateTime.now( ) ;
-				strNowLocalDateTime = nowLocalDateTime.format( DateTimeFormatter.ofPattern( "yyyy-MM-dd HH:mm:ss.SSS" ) ) ;
-				
-				logger.info( "nowLocalDateTime :: " + nowLocalDateTime ) ;
-				logger.info( "strNowLocalDateTime :: " + strNowLocalDateTime ) ;
-				
-				////////////////////////////////////////////////////
-				// jsonData 만들기
-				resultJsonObject = new JSONObject( ) ;
-				dataJsonObject = new JSONObject( dataHashMap ) ;
-				
-				resultJsonObject.put( "STDV_ID" , deviceID ) ;
-				resultJsonObject.put( "DMT" , strNowLocalDateTime ) ;
-				resultJsonObject.put( "DATA" , dataJsonObject ) ;
-				
-				logger.info( "resultJsonObject :: " + resultJsonObject ) ;
-				////////////////////////////////////////////////////
-				// rabbitmq pub
-				data2Connectivity.publishData2Connectivity( resultJsonObject , deviceID ) ;
-				
-				////////////////////////////////////////////////////
+			}
+			
+			logger.debug( ":::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::" ) ;
+			////////////////////////////////////////////////////
+			// 시간 데이터 생성
+			
+			nowLocalDateTime = LocalDateTime.now( ) ;
+			strNowLocalDateTime = nowLocalDateTime.format( DateTimeFormatter.ofPattern( "yyyy-MM-dd HH:mm:ss.SSS" ) ) ;
+			
+			logger.info( "nowLocalDateTime :: " + nowLocalDateTime ) ;
+			logger.info( "strNowLocalDateTime :: " + strNowLocalDateTime ) ;
+			
+			////////////////////////////////////////////////////
+			// jsonData 만들기
+			resultJsonObject = new JSONObject( ) ;
+			dataJsonObject = new JSONObject( dataHashMap ) ;
+			
+			resultJsonObject.put( "STDV_ID" , deviceID ) ;
+			resultJsonObject.put( "DMT" , strNowLocalDateTime ) ;
+			resultJsonObject.put( "DATA" , dataJsonObject ) ;
+			
+			logger.info( "resultJsonObject :: " + resultJsonObject ) ;
+			////////////////////////////////////////////////////
+			// rabbitmq pub
+			data2Connectivity.publishData2Connectivity( resultJsonObject , deviceID ) ;
+			
+			////////////////////////////////////////////////////
 			
 		}
 		catch( Exception e ) {
@@ -118,15 +106,9 @@ public class AdapterDataGenerator implements Runnable
 		}
 		finally {
 			intVal = 0 ;
-			i = 0 ;
 			j = 0 ;
-			tempBDVal = null ;
-			tempHashMap = null ;
-			iteratorHashMapKeys = null ;
-			strHashMapKey = null ;
 			dataHashMap = null ;
 			dtList = null ;
-			dataGather = null ;
 			
 			nowLocalDateTime = null ;
 			strNowLocalDateTime = null ;

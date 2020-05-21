@@ -2,7 +2,9 @@
 <Configuration>
 	<Properties>
 		<Property name="projectName">log4j-test</Property>
-		<Property name="PatternLayoutStr">[%d{yyyy-MM-dd HH:mm:ss.SSS}] [${hostName}] [%t] %c{1} [%-5level] - %msg%n</Property>
+		<!-- <Property name="projectName">Connectivity</Property> -->
+		<!-- <Property name="PatternLayoutStr">[%d{yyyy-MM-dd HH:mm:ss.SSS}] [${hostName}] [%t] %c{1} [%-5level] - %msg%n</Property> -->
+		<Property name="PatternLayoutStr">[%d{yyyy-MM-dd HH:mm:ss.SSS}] [${projectName}] [%-5level] [%c{1}] - %msg%n</Property>
 
 	</Properties>
 	<!-- Appender, Layout 설정 -->

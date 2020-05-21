@@ -4,7 +4,6 @@ import org.apache.logging.log4j.LogManager ;
 import org.apache.logging.log4j.Logger ;
 
 import com.connectivity.common.ConnectivityProperties ;
-import com.prototype.PropertyLoader ;
 import com.rabbitmq.client.Connection ;
 import com.rabbitmq.client.ConnectionFactory ;
 
@@ -15,7 +14,6 @@ public class AdapterMainRun
 	// Logger instance named "MyApp".
 	private static final Logger logger = LogManager.getLogger( AdapterMainRun.class ) ;
 	// Logger logger = LogManager.getLogger( ) ;
-	
 	
 	private static Connection pubConnection ;
 	
@@ -32,26 +30,24 @@ public class AdapterMainRun
 			connectivityProperties.setStdv( ) ;
 			
 			AdapterMainRun exe = new AdapterMainRun( ) ;
-							
-			exe.getPubConnection() ;
+			
+			exe.getPubConnection( ) ;
 			
 			AdapterDataSimulTest adapterDataSimulTest = new AdapterDataSimulTest( ) ;
 			Thread dsThread = new Thread( adapterDataSimulTest , "adapterDataSimulTestThread" ) ;
 			
-			dsThread.start( ); 
+			dsThread.start( ) ;
 			
-			
-			
-		} catch( Exception e ) {
+		}
+		catch( Exception e ) {
 			logger.error( e.getMessage( ) , e ) ;
-		} finally {
+		}
+		finally {
 			
 		}
 		
 	}
 	
-	
-
 	public Connection setConnection( ) {
 		
 		ConnectionFactory connectionFactory = null ;

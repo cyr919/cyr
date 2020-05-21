@@ -66,7 +66,7 @@ public class TestDataSet implements Runnable
 				int j = 0 ;
 				
 				DataGather dataGather = new DataGather( ) ;
-				
+				CommUtil commUtil = new CommUtil( ) ;
 				try {
 					
 					commonProperties.setProperties( ) ;
@@ -105,7 +105,7 @@ public class TestDataSet implements Runnable
 							
 							for( j = 0 ; j < dtList.size( ) ; j++ ) {
 								
-								intVal = CommUtil.getRandomInt( 100 , 10 ) ;
+								intVal = commUtil.getRandomInt( 100 , 10 ) ;
 								logger.debug( "dtList.get( " + j + " ).get( \"STD_IDX\" ) :: " + dtList.get( j ).get( "STD_IDX" ) ) ;
 								tempBDVal = dataGather.applyScaleFactor( intVal , dtList.get( j ).get( "SC_FCT" ) ) ;
 								

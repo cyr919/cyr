@@ -11,6 +11,7 @@ import org.apache.logging.log4j.Logger ;
 
 import com.connectivity.common.ConnectivityProperties ;
 import com.connectivity.setting.dao.SettingManageDao ;
+import com.connectivity.utils.CommUtil ;
 
 /**
  * <pre>
@@ -52,10 +53,15 @@ public class SettingManage
 		HashMap< String , ArrayList< HashMap< String , Object > > > deviceDataModel = new HashMap< String , ArrayList< HashMap< String , Object > > >( ) ;
 		HashMap< String , ArrayList< HashMap< String , Object > > > deviceCalInfo = new HashMap< String , ArrayList< HashMap< String , Object > > >( ) ;
 		
+		CommUtil commUtil = new CommUtil( ) ;
+		HashMap< String , HashMap< String , Object > > tempMapFromList = new HashMap< String , HashMap<String,Object> >( );
+		
+		HashMap< String , HashMap< String , HashMap< String , Object > > > deviceDataModelMap = new HashMap< String , HashMap< String , HashMap< String , Object > > >( ) ;
+		
 		String deviceId = "" ;
 		try {
 			result = false ;
-
+			
 			// 데이터 조회
 			resultList = settingManageDao.selectInstallDeviceList( ) ;
 			logger.info( "resultList :: " + resultList ) ;
@@ -74,7 +80,7 @@ public class SettingManage
 				
 				deviceId = resultList.get( i ).get( "_id" ) + "" ;
 				
-				//
+				// 디바이스 기본정보 처리
 				tempMap.put( "_id" , resultList.get( i ).get( "_id" ) ) ;
 				tempMap.put( "SMLT" , resultList.get( i ).get( "SMLT" ) ) ;
 				tempMap.put( "QC" , resultList.get( i ).get( "QC" ) ) ;
@@ -84,26 +90,32 @@ public class SettingManage
 				
 				deviceInfo.put( deviceId , tempMap ) ;
 				
-				//
+				// 데이터 모델 처리
 				tempList = new ArrayList< HashMap< String , Object > >( ) ;
 				tempList.addAll( ( ArrayList< HashMap< String , Object > > ) resultList.get( i ).get( "DT_MDL" ) ) ;
 				
 				deviceDataModel.put( deviceId , tempList ) ;
 				
-				//
+				// 데이터 모델 list -> map
+				tempMapFromList = commUtil.getHashMapFromListHashMap( tempList , "MGP_KEY" ) ;
+				deviceDataModelMap.put( deviceId , tempMapFromList ) ;
+				
+				// 장치 내 연산 처리
 				tempList = new ArrayList< HashMap< String , Object > >( ) ;
 				tempList.addAll( ( ArrayList< HashMap< String , Object > > ) resultList.get( i ).get( "CAL_INF" ) ) ;
 				
 				deviceCalInfo.put( deviceId , tempList ) ;
 				
-				logger.info( "deviceDataModel :: " + deviceDataModel ) ;
-				logger.info( "deviceCalInfo :: " + deviceCalInfo ) ;
-				
 			}
+			logger.info( "deviceDataModel :: " + deviceDataModel ) ;
+			logger.info( "deviceDataModelMap :: " + deviceDataModelMap ) ;
+			logger.info( "deviceCalInfo :: " + deviceCalInfo ) ;
 			
 			ConnectivityProperties.STDV_DT_MDL = deviceDataModel ;
 			ConnectivityProperties.STDV_CAL_INF = deviceCalInfo ;
 			ConnectivityProperties.STDV_INF = deviceInfo ;
+			ConnectivityProperties.STDV_DT_MDL_MAP = deviceDataModelMap ;
+			
 			result = true ;
 		}
 		catch( Exception e ) {
