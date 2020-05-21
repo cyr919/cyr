@@ -25,7 +25,7 @@ public class RedisCommon
 {
 	// Define a static logger variable so that it references the
 	// Logger instance named "MyApp".
-	private static Logger logger = LogManager.getLogger( RedisCommon.class ) ;
+	private Logger logger = LogManager.getLogger( RedisCommon.class ) ;
 	// Logger logger = LogManager.getLogger( ) ;
 	
 	/**
@@ -39,23 +39,23 @@ public class RedisCommon
 	public static void main( String[ ] args ) {
 		// TODO Auto-generated method stub
 		
-		RedisCommon exe = new RedisCommon( ) ;
-		
-		try {
-			String resulString = exe.redisHget( "PCS01" , "BP" ) ;
-			
-			// logger.info( resulString ) ;
-			
-			Long resultLong = exe.redisHset( "PCS01" , "BP" , "100.23" ) ;
-			resulString = exe.redisHget( "PCS01" , "BP" ) ;
-			
-			// logger.info( resultLong ) ;
-			// logger.info( resulString ) ;
-			
-		}
-		catch( Exception e ) {
-			// logger.error( e.getMessage( ) , e ) ;
-		}
+//		RedisCommon exe = new RedisCommon( ) ;
+//		
+//		try {
+//			String resulString = exe.redisHget( "PCS01" , "BP" ) ;
+//			
+//			// logger.info( resulString ) ;
+//			
+//			Long resultLong = exe.redisHset( "PCS01" , "BP" , "100.23" ) ;
+//			resulString = exe.redisHget( "PCS01" , "BP" ) ;
+//			
+//			// logger.info( resultLong ) ;
+//			// logger.info( resulString ) ;
+//			
+//		}
+//		catch( Exception e ) {
+//			// logger.error( e.getMessage( ) , e ) ;
+//		}
 		
 	}
 	

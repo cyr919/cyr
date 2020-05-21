@@ -1,8 +1,8 @@
 package com.connectivity.gather ;
 
 import java.math.BigDecimal ;
+import java.math.RoundingMode ;
 import java.util.ArrayList ;
-import java.util.Arrays ;
 import java.util.HashMap ;
 import java.util.List ;
 
@@ -10,7 +10,9 @@ import org.apache.logging.log4j.LogManager ;
 import org.apache.logging.log4j.Logger ;
 import org.json.simple.JSONObject ;
 
+import com.connectivity.common.CommonProperties ;
 import com.connectivity.common.ConnectivityProperties ;
+import com.connectivity.gather.dao.DataGatherDao ;
 import com.connectivity.utils.CommUtil ;
 import com.connectivity.utils.ExtndEgovStringUtil ;
 import com.connectivity.utils.JsonUtil ;
@@ -27,14 +29,23 @@ public class DataGather
 		ConnectivityProperties connectivityProperties = new ConnectivityProperties( ) ;
 		connectivityProperties.setStdv( ) ;
 		
+		CommonProperties commonProperties = new CommonProperties( ) ;
+		try {
+			commonProperties.setProperties( ) ;
+		}
+		catch( Exception e ) {
+			// TODO Auto-generated catch block
+			e.printStackTrace( ) ;
+		}
+		
 		DataGather exe = new DataGather( ) ;
 		String testData = "" ;
 		
 		// testData = "{\"STDV_ID\":\"stdv0004\",\"DATA\":{\"MGP040\":16,\"MGP041\":10,\"MGP044\":105,\"MGP023\":70,\"MGP045\":34,\"MGP042\":47,\"MGP043\":38,\"MGP026\":19,\"MGP048\":48,\"MGP027\":17,\"MGP049\":67,\"MGP024\":69,\"MGP046\":45,\"MGP025\":80,\"MGP047\":28,\"MGP039\":90,\"MGP051\":24,\"MGP030\":82,\"MGP052\":73,\"MGP050\":42,\"MGP033\":88,\"MGP055\":28,\"MGP034\":66,\"MGP056\":57,\"MGP031\":86,\"MGP053\":87,\"MGP032\":25,\"MGP054\":38,\"MGP037\":22,\"MGP038\":70,\"MGP035\":23,\"MGP057\":109,\"MGP036\":99,\"MGP028\":88,\"MGP029\":52},\"DMT\":\"2020-05-21 09:12:57.396\"}" ;
 		testData = "{\"STDV_ID\":\"stdv0002\",\"DATA\":{\"MGP022\":85,\"MGP021\":50},\"DMT\":\"2020-05-21 13:00:34.747\"}" ;
+		// testData = "{\"STDV_ID\":\"stdv0001\",\"DATA\":{\"MGP011\":17,\"MGP001\":36,\"MGP012\":81,\"MGP020\":33,\"MGP010\":93,\"MGP004\":27,\"MGP015\":91,\"MGP005\":30,\"MGP016\":58,\"MGP002\":109,\"MGP013\":25,\"MGP003\":48,\"MGP014\":98,\"MGP008\":85,\"MGP019\":78,\"MGP009\":34,\"MGP006\":31,\"MGP017\":42,\"MGP007\":24,\"MGP018\":98},\"DMT\":\"2020-05-21 17:51:29.044\"}" ;
 		
 		exe.dataGathering( testData ) ;
-		
 	}
 	
 	public Boolean dataGathering( String strJsonData ) {
@@ -48,14 +59,19 @@ public class DataGather
 		JSONObject subDataJSONObject = new JSONObject( ) ;
 		JSONObject resultDataJSONObject = new JSONObject( ) ;
 		// TODO 일단 hashmap으로 해보고 object 변환시 좀 오래 걸리는거같으면 바꾸기
-		HashMap< String , Object > resultDataMap = new HashMap< String , Object >( ) ;
+		HashMap< String , String > resultDataMap = new HashMap< String , String >( ) ;
+		HashMap< String , String > resultCalCulDataMap = new HashMap< String , String >( ) ;
+		HashMap< String , String > resultRedisDataMap = new HashMap< String , String >( ) ;
+		//
 		
 		HashMap< String , HashMap< String , Object > > stdvDtMdlMap = new HashMap< String , HashMap< String , Object > >( ) ;
 		ArrayList< HashMap< String , Object > > stdvCalInf = new ArrayList< HashMap< String , Object > >( ) ;
 		
 		BigDecimal tempBigDecimal = new BigDecimal( "0" ) ;
 		
+		CommUtil commUtil = new CommUtil( ) ;
 		ExtndEgovStringUtil extndEgovStringUtil = new ExtndEgovStringUtil( ) ;
+		DataGatherDao dataGatherDao = new DataGatherDao( ) ;
 		try {
 			logger.debug( "dataGathering :: " ) ;
 			logger.debug( "수신된 데이터 :: " + strJsonData ) ;
@@ -80,15 +96,15 @@ public class DataGather
 			
 			// 수집된 계측 데이터 처리
 			for( Object key : subDataJSONObject.keySet( ) ) {
-				logger.debug( "key :: " + key ) ;
-				logger.debug( "subDataJSONObject.get( key ) :: " + subDataJSONObject.get( key ) ) ;
-				logger.debug( "stdvDtMdlMap.get( key ) :: " + stdvDtMdlMap.get( key ) ) ;
+				// logger.debug( "key :: " + key ) ;
+				// logger.debug( "subDataJSONObject.get( key ) :: " + subDataJSONObject.get( key ) ) ;
+				// logger.debug( "stdvDtMdlMap.get( key ) :: " + stdvDtMdlMap.get( key ) ) ;
 				
 				// 시뮬레이션 값 치환 또는 스케일 팩터 적용
 				
 				if( "Y".equals( stdvDtMdlMap.get( key ).get( "SMLT" ) ) ) {
 					// 시뮬레이션 값 적용
-					resultDataMap.put( ( key + "" ) , stdvDtMdlMap.get( key ).get( "SMLT_V" ) ) ;
+					resultDataMap.put( ( key + "" ) , ( stdvDtMdlMap.get( key ).get( "SMLT_V" ) + "" ) ) ;
 				}
 				else {
 					// 스케일 팩터 값 적용
@@ -98,21 +114,54 @@ public class DataGather
 				
 				// 계측 필드 데이터 QC 적용
 				
-			}
+			} // subDataJSONObject.keySet( )
+			logger.debug( "계측 처리 후 ::" ) ;
 			logger.debug( "resultDataMap :: " + resultDataMap ) ;
-			
+			logger.debug( "계측 처리 후 끝 ::" ) ;
 			// 계측 레코드 데이터 QC 적용
 			
 			// 연산 정보 가지고 오기
 			stdvCalInf = ConnectivityProperties.STDV_CAL_INF.get( strDviceId ) ;
 			
-			// 장치내 연산 데이터 생성
+			// 장치내 연산 데이터 생성+장치내 연산 데이터 필드 QC 적용
+			resultCalCulDataMap = getCalculatingGatherData( resultDataMap , stdvCalInf ) ;
 			
-			
+			logger.debug( "연산 처리 후 ::" ) ;
+			logger.debug( "resultCalCulDataMap :: " + resultCalCulDataMap ) ;
+			logger.debug( "연산 처리 후 끝 ::" ) ;
 			
 			// 장치내 연산 데이터 QC 적용
 			
 			// redis 저장
+			
+			// redis 저장 데이터 만들기
+			// 계측 데이터 확인
+			// 설정 된 데이터 맵을 기준으로 app io 저장 여부를 확인한다.
+			for( Object key : stdvDtMdlMap.keySet( ) ) {
+				
+				// logger.debug( "stdvDtMdlMap.get( " + ( key + "" ) + " ).get( \"APP_IO\" ) :: [" + stdvDtMdlMap.get( ( key + "" ) ).get( "APP_IO" ) + "]" ) ;
+				// logger.debug( "checkObjNull :: " + ( !commUtil.checkObjNull( stdvDtMdlMap.get( ( key + "" ) ).get( "APP_IO" ) ) ) ) ;
+				// logger.debug( "equals :: " + ( "1".equals( stdvDtMdlMap.get( ( key + "" ) ).get( "APP_IO" ) + "" ) ) ) ;
+				
+				if( !commUtil.checkObjNull( stdvDtMdlMap.get( ( key + "" ) ).get( "APP_IO" ) ) && "1".equals( stdvDtMdlMap.get( ( key + "" ) ).get( "APP_IO" ) + "" ) ) {
+					// app io 저장 여부가 1 이면 redis에 저장될 데이터이다. 해당 되는 계측 데이터와 필드 QC를 redis 저장 map에 추가한다.
+					
+					// logger.debug( "APP_IO 저장 대상 :: " + ( key + "" ) ) ;
+					resultRedisDataMap.put( ( key + "" ) , extndEgovStringUtil.getStringFromNullAndObject( resultDataMap.get( ( key + "" ) ) ) ) ;
+					resultRedisDataMap.put( ( key + "_Q" ) , extndEgovStringUtil.getStringFromNullAndObject( resultDataMap.get( ( key + "_Q" ) ) ) ) ;
+				}
+			} // stdvDtMdlMap.keySet( )
+				// 아이디/계측시간 추가
+			resultRedisDataMap.put( "ID" , strDmt ) ;
+			// 레코드 QC 추가
+			resultRedisDataMap.put( "Q" , "00000000" ) ;
+			// 연산 데이터 추가
+			resultRedisDataMap.putAll( resultCalCulDataMap ) ;
+			logger.debug( "redis 저장 데이터 :: resultRedisDataMap :: " + resultRedisDataMap ) ;
+			
+			// redis 데이터 저장 처리
+			resultBool = dataGatherDao.hmSetGatherData( strDviceId , resultRedisDataMap ) ;
+			resultRedisDataMap = null ;
 			
 			// mongodb 저장
 			
@@ -130,6 +179,18 @@ public class DataGather
 		return resultBool ;
 	}
 	
+	/**
+	 * <pre>
+	 * 스케일 팩처 적용 함수.
+	 * gatherData * scaleFactor 처리
+	 * </pre>
+	 * 
+	 * @author cyr
+	 * @date 2020-05-21
+	 * @param gatherData
+	 * @param scaleFactor
+	 * @return
+	 */
 	public BigDecimal applyScaleFactor( Object gatherData , Object scaleFactor ) {
 		
 		BigDecimal resultBigDecimal = new BigDecimal( "0" ) ;
@@ -140,19 +201,19 @@ public class DataGather
 		try {
 			
 			resultBigDecimal = new BigDecimal( ( gatherData + "" ) ) ;
-			logger.debug( "resultBigDecimal :: " + resultBigDecimal ) ;
-			logger.debug( "scaleFactor :: " + scaleFactor ) ;
-			logger.debug( "!commUtil.checkObjNull( ( scaleFactor ) :: " + !commUtil.checkObjNull( ( scaleFactor ) ) ) ;
+			// logger.debug( "resultBigDecimal :: " + resultBigDecimal ) ;
+			// logger.debug( "scaleFactor :: " + scaleFactor ) ;
+			// logger.debug( "!commUtil.checkObjNull( ( scaleFactor ) :: " + !commUtil.checkObjNull( ( scaleFactor ) ) ) ;
 			
 			if( !commUtil.checkObjNull( ( scaleFactor ) ) ) {
 				
 				scaleFactorBigDecimal = new BigDecimal( scaleFactor + "" ) ;
-				logger.debug( "scaleFactorBigDecimal :: " + scaleFactorBigDecimal ) ;
+				// logger.debug( "scaleFactorBigDecimal :: " + scaleFactorBigDecimal ) ;
 				
 				resultBigDecimal = resultBigDecimal.multiply( scaleFactorBigDecimal ) ;
 			}
 			
-			logger.debug( "resultBigDecimal :: " + resultBigDecimal ) ;
+			// logger.debug( "resultBigDecimal :: " + resultBigDecimal ) ;
 		}
 		finally {
 			gatherData = null ;
@@ -163,53 +224,154 @@ public class DataGather
 		return resultBigDecimal ;
 	}
 	
-	public HashMap< String , Object > getCalculatingGatherData( HashMap< String , Object > gatherDataHashMap , List< HashMap< String , Object > > calculInfoList ) {
+	/**
+	 * <pre>
+	 * 장치내 연산 처리 function
+	 * </pre>
+	 * 
+	 * @author cyr
+	 * @date 2020-05-21
+	 * @param gatherDataHashMap 계측 데이터
+	 * @param calculInfoList 장치 내 연산 설정 정보
+	 * @return
+	 */
+	public HashMap< String , String > getCalculatingGatherData( HashMap< String , String > gatherDataHashMap , List< HashMap< String , Object > > calculInfoList ) {
 		
-		HashMap< String , Object > resultHashMap = new HashMap< String , Object >( ) ;
+		HashMap< String , String > resultHashMap = new HashMap< String , String >( ) ;
 		
 		BigDecimal tempResultBigDecimal = new BigDecimal( "0" ) ;
 		BigDecimal tempBigDecimal = new BigDecimal( "0" ) ;
+		BigDecimal scFctBigDecimal = new BigDecimal( "0" ) ;
+		BigDecimal avgBigDecimal = new BigDecimal( "0" ) ;
 		
 		String[ ] stdIdxsArr = new String[ 0 ] ;
 		String[ ] optrArr = new String[ 0 ] ;
+		String strFuncOptr = "" ;
+		int intPLen = 0 ;
+		Boolean boolNullCheckPLen = true ;
 		
 		int i = 0 ;
 		int j = 0 ;
 		
+		CommUtil commUtil = new CommUtil( ) ;
+		ExtndEgovStringUtil extndEgovStringUtil = new ExtndEgovStringUtil( ) ;
+		
 		try {
-			
+			logger.info( "getCalculatingGatherData :: " ) ;
 			for( i = 0 ; i < calculInfoList.size( ) ; i++ ) {
-				logger.debug( "calculInfoList.get( i ).get( \"STD_IDX\" ) :: " + calculInfoList.get( i ).get( "STD_IDX" ) ) ;
-				logger.debug( "calculInfoList.get( i ).get( \"STD_IDXS\" ) :: " + calculInfoList.get( i ).get( "STD_IDXS" ) ) ;
-				logger.debug( "calculInfoList.get( i ).get( \"OPTR\" ) :: " + calculInfoList.get( i ).get( "OPTR" ) ) ;
 				
-				stdIdxsArr = ( calculInfoList.get( i ).get( "STD_IDXS" ) + "" ).split( "," ) ;
-				logger.debug( "stdIdxsArr :: " + Arrays.toString( stdIdxsArr ) ) ;
+				// logger.debug( "calculInfoList.get( " + i + " ) :: " + calculInfoList.get( i ) ) ;
+				// logger.debug( "calculInfoList.get( " + i + " ).get( \"MGP_KEY\" ) :: " + calculInfoList.get( i ).get( "MGP_KEY" ) ) ;
+				// logger.debug( "calculInfoList.get( " + i + " ).get( \"MGP_KEYS\" ) :: " + calculInfoList.get( i ).get( "MGP_KEYS" ) ) ;
+				// logger.debug( "calculInfoList.get( " + i + " ).get( \"OPER\" ) :: " + calculInfoList.get( i ).get( "OPER" ) ) ;
+				
+				if( commUtil.checkObjNull( calculInfoList.get( i ).get( "P_LEN" ) ) ) {
+					boolNullCheckPLen = true ;
+				}
+				else {
+					boolNullCheckPLen = false ;
+					intPLen = Integer.parseInt( ( calculInfoList.get( i ).get( "P_LEN" ) + "" ) ) ;
+				}
+				
+				stdIdxsArr = ( calculInfoList.get( i ).get( "MGP_KEYS" ) + "" ).split( "," ) ;
+				optrArr = ( calculInfoList.get( i ).get( "OPER" ) + "" ).split( "," ) ;
+				// logger.debug( "stdIdxsArr :: " + Arrays.toString( stdIdxsArr ) ) ;
+				// logger.debug( "optrArr :: " + Arrays.toString( optrArr ) ) ;
+				
+				// 함수 스트링 소문자 변환
+				if( "002".equals( calculInfoList.get( i ).get( "OPER_TP" ) ) ) {
+					strFuncOptr = optrArr[ 0 ] ;
+					strFuncOptr = strFuncOptr.toLowerCase( ) ;
+				}
+				else {
+					strFuncOptr = "" ;
+				}
 				
 				for( j = 0 ; j < stdIdxsArr.length ; j++ ) {
 					
-					tempBigDecimal = new BigDecimal( ( gatherDataHashMap.get( stdIdxsArr[ j ] ) + "" ) ) ;
-					logger.debug( "tempBigDecimal :: " + j + " :: " + tempBigDecimal ) ;
+					tempBigDecimal = new BigDecimal( gatherDataHashMap.get( stdIdxsArr[ j ] ) ) ;
+					// logger.debug( "tempBigDecimal :: " + j + " :: " + tempBigDecimal ) ;
 					
-					if( j == 0 ) {
-						
-						tempResultBigDecimal = tempBigDecimal ;
-					}
-					else {
-						if( "*".equals( calculInfoList.get( i ).get( "OPTR" ) ) ) {
-							
-							tempResultBigDecimal = tempResultBigDecimal.multiply( tempBigDecimal ) ;
+					// logger.debug( "calculInfoList.get( i ).get( \"OPER_TP\" ) :: " + calculInfoList.get( i ).get( "OPER_TP" ) ) ;
+					if( "001".equals( calculInfoList.get( i ).get( "OPER_TP" ) ) ) {
+						// 사칙 연산
+						if( j == 0 ) {
+							tempResultBigDecimal = tempBigDecimal ;
 						}
-						logger.debug( "tempResultBigDecimal :: " + j + " :: " + tempResultBigDecimal ) ;
-					}
+						else {
+							if( "*".equals( optrArr[ ( j - 1 ) ] ) ) {
+								tempResultBigDecimal = tempResultBigDecimal.multiply( tempBigDecimal ) ;
+							}
+							else if( "+".equals( optrArr[ ( j - 1 ) ] ) ) {
+								tempResultBigDecimal = tempResultBigDecimal.add( tempBigDecimal ) ;
+							}
+							else if( "-".equals( optrArr[ ( j - 1 ) ] ) ) {
+								tempResultBigDecimal = tempResultBigDecimal.subtract( tempBigDecimal ) ;
+							}
+							else if( "/".equals( optrArr[ ( j - 1 ) ] ) ) {
+								tempResultBigDecimal = tempResultBigDecimal.divide( tempBigDecimal , intPLen , RoundingMode.DOWN ) ;
+							}
+							// logger.debug( "tempResultBigDecimal :: " + j + " :: " + tempResultBigDecimal ) ;
+						}
+						
+					} // 사칙 연산
+					else {
+						// 함수 연산
+						
+						if( j == 0 ) {
+							
+							tempResultBigDecimal = tempBigDecimal ;
+						}
+						else {
+							if( "sum".equals( strFuncOptr ) || "avg".equals( strFuncOptr ) ) {
+								tempResultBigDecimal = tempResultBigDecimal.add( tempBigDecimal ) ;
+							}
+							else if( "min".equals( strFuncOptr ) ) {
+								if( tempBigDecimal.compareTo( tempResultBigDecimal ) == -1 ) {
+									tempResultBigDecimal = tempBigDecimal ;
+								}
+							}
+							else if( "max".equals( strFuncOptr ) ) {
+								if( tempBigDecimal.compareTo( tempResultBigDecimal ) == 1 ) {
+									tempResultBigDecimal = tempBigDecimal ;
+								}
+							}
+							
+							// logger.debug( "tempResultBigDecimal :: " + j + " :: " + tempResultBigDecimal ) ;
+						}
+						
+						// tempResultBigDecimal = tempResultBigDecimal.add( tempBigDecimal ) ;
+						
+					} // 함수 연산
+				} // stdIdxsArr
+				
+				// 함수 연산 - avg 시에 count 나누기
+				if( "avg".equals( strFuncOptr ) ) {
+					// stdIdxsArr.length
 					
+					avgBigDecimal = new BigDecimal( String.valueOf( stdIdxsArr.length ) ) ;
+					tempResultBigDecimal = tempResultBigDecimal.divide( avgBigDecimal , intPLen , RoundingMode.DOWN ) ;
 				}
 				
-				logger.debug( "tempResultBigDecimal :: " + tempResultBigDecimal ) ;
-				resultHashMap.put( ( calculInfoList.get( i ).get( "STD_IDX" ) + "" ) , tempResultBigDecimal ) ;
-			}
-			
-		}
+				// 연산식 스케일 팩터 적용 - 스케일 팩터가 있는 것만 처리
+				if( !commUtil.checkObjNull( calculInfoList.get( i ).get( "SC_FCT" ) ) ) {
+					// 연산식 스케일 팩터 적용
+					scFctBigDecimal = commUtil.getBigdeciNumValue( ( calculInfoList.get( i ).get( "SC_FCT" ) + "" ) ) ;
+					tempResultBigDecimal = tempResultBigDecimal.multiply( scFctBigDecimal ) ;
+				}
+				// 연산식 데이터 소수점 처리 - 소수점 길이가 설정 된 것만 처리
+				if( boolNullCheckPLen == false ) {
+					// 연산식 데이터 소수점 처리
+					tempResultBigDecimal = commUtil.setScaleStringToBigDecimal( ( tempResultBigDecimal + "" ) , intPLen , 1 ) ;
+				}
+				
+				// 연산 결과 값 추가
+//				logger.debug( "tempResultBigDecimal :: " + tempResultBigDecimal ) ;
+				resultHashMap.put( ( calculInfoList.get( i ).get( "MGP_KEY" ) + "" ) , extndEgovStringUtil.getStringFromNullAndObject( tempResultBigDecimal ) ) ;
+				
+			} // calculInfoList
+			logger.debug( "resultHashMap :: " + resultHashMap ) ;
+		} // try
 		finally {
 			i = 0 ;
 			j = 0 ;
@@ -219,7 +381,8 @@ public class DataGather
 			tempResultBigDecimal = null ;
 			tempBigDecimal = null ;
 			stdIdxsArr = null ;
-		}
+			logger.info( "getCalculatingGatherData finally:: " ) ;
+		} // finally
 		
 		return resultHashMap ;
 		

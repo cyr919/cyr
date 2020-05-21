@@ -122,7 +122,7 @@ public class TestDataSet implements Runnable
 							
 							logger.debug( "calculList :: " + calculList ) ;
 							
-							dataCalculHashMap = dataGather.getCalculatingGatherData( dataHashMap , calculList ) ;
+							// dataCalculHashMap = dataGather.getCalculatingGatherData( dataHashMap , calculList ) ;
 							
 							logger.debug( "장치 내 연산 처리 후 dataCalculHashMap :: " + dataCalculHashMap ) ;
 							
@@ -141,7 +141,7 @@ public class TestDataSet implements Runnable
 						//////////////////////////
 					}
 					logger.debug( exe.getPoolCurrentUsage( ) ) ;
-
+					
 				}
 				finally {
 					intVal = 0 ;
@@ -165,7 +165,6 @@ public class TestDataSet implements Runnable
 				
 				// Thread.sleep( 10 ) ;
 				Thread.sleep( 10000 ) ;
-				
 				
 				logger.debug( "TestDataSet :: while :: end" ) ;
 			}

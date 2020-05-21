@@ -2,6 +2,7 @@
 package com.connectivity.utils ;
 
 import java.math.BigDecimal ;
+import java.math.RoundingMode ;
 import java.util.HashMap ;
 import java.util.List ;
 
@@ -28,7 +29,7 @@ public class CommUtil
 	 * @return BigDecimal
 	 * @date 2019. 8. 20.
 	 */
-	public static BigDecimal getBigdeciNumValue( String paramVal ) {
+	public BigDecimal getBigdeciNumValue( String paramVal ) {
 		
 		BigDecimal returnVal = new BigDecimal( "0" ) ;
 		
@@ -59,7 +60,7 @@ public class CommUtil
 	 * @param String paramVal
 	 * @return BigDecimal
 	 */
-	public static BigDecimal getBigdeciNumValue( String paramVal , int newScale , int roundingMode ) {
+	public BigDecimal getBigdeciNumValue( String paramVal , int newScale , int roundingMode ) {
 		
 		BigDecimal returnVal = new BigDecimal( "0" ) ;
 		
@@ -102,23 +103,23 @@ public class CommUtil
 	 * @return BigDecimal
 	 * @date 2019. 8. 22.
 	 */
-	public static BigDecimal setScaleStringToBigDecimal( String strNum , int intScale , int intScaleMode ) {
+	public BigDecimal setScaleStringToBigDecimal( String strNum , int intScale , int intScaleMode ) {
 		BigDecimal bgdcVal = new BigDecimal( "0" ) ;
 		
 		try {
 			bgdcVal = new BigDecimal( strNum ) ;
 			
 			if( "0".equals( ( intScaleMode + "" ) ) ) {
-				bgdcVal = bgdcVal.setScale( intScale , BigDecimal.ROUND_UP ) ;
+				bgdcVal = bgdcVal.setScale( intScale , RoundingMode.UP ) ;
 			}
 			else if( "1".equals( ( intScaleMode + "" ) ) ) {
-				bgdcVal = bgdcVal.setScale( intScale , BigDecimal.ROUND_DOWN ) ;
+				bgdcVal = bgdcVal.setScale( intScale , RoundingMode.DOWN ) ;
+			}
+			else if( "2".equals( ( intScaleMode + "" ) ) ) {
+				bgdcVal = bgdcVal.setScale( intScale , RoundingMode.HALF_UP ) ;
 			}
 			else if( "3".equals( ( intScaleMode + "" ) ) ) {
-				bgdcVal = bgdcVal.setScale( intScale , BigDecimal.ROUND_HALF_DOWN ) ;
-			}
-			else {
-				bgdcVal = bgdcVal.setScale( intScale , BigDecimal.ROUND_HALF_UP ) ;
+				bgdcVal = bgdcVal.setScale( intScale , RoundingMode.HALF_DOWN ) ;
 			}
 			
 		}
