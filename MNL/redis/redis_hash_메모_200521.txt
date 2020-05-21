@@ -1,0 +1,3 @@
+https://realmojo.tistory.com/172
+
+HGETALL  MGP_STDV^stdv0002
