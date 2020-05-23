@@ -56,26 +56,34 @@ public class ConnectivityMainRun
 		
 		Boolean resultBool01 = true ;
 		Boolean resultBool02 = true ;
-		
+		long currentPid = 0L ;
 		logger.info( "strEventID :: " + strEventID ) ;
 		try {
 			
 			resultBool01 = false ;
 			resultBool02 = false ;
+			// 공통 프로퍼티(프로퍼티 파일에 있는 설정) 읽어서 static 변수에 저장
 			resultBool01 = commonProperties.setProperties( ) ;
+			// connectivity 프로퍼티(db에 있는 mgp 설정) 읽어서 static 변수에 저장
 			resultBool02 = connectivityProperties.setStdv( ) ;
 			
 			if( resultBool01 && resultBool02 ) {
 				
 				logger.info( "ConnectivityProperties.STDV_INF :: " + ConnectivityProperties.STDV_INF ) ;
 				
-				// rabbitmaConnection 연결
+				// rabbitmqConnection 연결
+				// 설치 디바이스 수 많큼 queue connection이 실행된다.
 				this.rabbitmqConnectionOpen( ConnectivityProperties.STDV_INF ) ;
 				
 				logger.info( "ConnectivityProperties.STDV_INF :: " + ConnectivityProperties.STDV_INF ) ;
 				
-				// 상태 보고 실행
-				conditionReport = new ConditionReport( 30 ) ;
+				//// 상태 보고 실행
+				// PID 가져오기
+				currentPid = ProcessHandle.current( ).pid( ) ;
+				logger.info( "currentPid :: " + currentPid ) ;
+				// TODO 프로세스 아이디 처리필요
+				// 상태보고 thread 실행
+				conditionReport = new ConditionReport( 10 , "Connectivity" , ( currentPid + "" ) ) ;
 				ctThread = new Thread( conditionReport , "conditionReport-Thread" ) ;
 				ctThread.start( ) ;
 				
@@ -198,7 +206,7 @@ public class ConnectivityMainRun
 			
 			for( String key : staticDiviceInfo.keySet( ) ) {
 				logger.info( "cntMapKey :: " + cntMapKey ) ;
-
+				
 				System.out.println( String.format( "키 : %s, 값 : %s" , key , staticDiviceInfo.get( key ) ) ) ;
 				
 				data2ConnectivityArr[ cntMapKey ] = new Data2ConnectivityReceiver( factory , ( key ) ) ;
@@ -207,7 +215,6 @@ public class ConnectivityMainRun
 				dcThread[ cntMapKey ].start( ) ;
 				cntMapKey = cntMapKey + 1 ;
 			}
-			
 			
 			logger.info( "staticDiviceInfo :: " + staticDiviceInfo ) ;
 			

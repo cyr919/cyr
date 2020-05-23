@@ -3,6 +3,8 @@ package com.connectivity.utils ;
 
 import java.math.BigDecimal ;
 import java.math.RoundingMode ;
+import java.time.LocalDateTime ;
+import java.time.format.DateTimeFormatter ;
 import java.util.HashMap ;
 import java.util.List ;
 
@@ -18,6 +20,72 @@ public class CommUtil
 	// Logger logger = LogManager.getLogger( ) ;
 	
 	public void main( String[ ] args ) {
+	}
+	
+	/**
+	 * <pre>
+	 * 현재 일시를 "yyyy-MM-dd HH:mm:ss.SSS" 형식으로 formating 하여 String 으로 리턴한다.
+	 * getNowDateTime( ) 메서드 사용.
+	 * </pre>
+	 * 
+	 * @author cyr
+	 * @date 2020-05-22
+	 * @return
+	 */
+	public String getFormatingNowDateTime( ) {
+		String resultStr = "" ;
+		
+		LocalDateTime nowLocalDateTime = null ;
+		
+		try {
+			
+			nowLocalDateTime = LocalDateTime.now( ) ;
+			resultStr = nowLocalDateTime.format( DateTimeFormatter.ofPattern( "yyyy-MM-dd HH:mm:ss.SSS" ) ) ;
+			
+		}
+		catch( Exception e ) {
+			logger.error( e.getMessage( ) , e ) ;
+		}
+		finally {
+			
+		}
+		
+		return resultStr ;
+		
+	}
+	
+	/**
+	 * <pre>
+	 * 현재 일시를 formating 하여 String 으로 리턴한다.
+	 * getNowDateTime( ) 메서드 사용.
+	 * format 형식 예시 : yyyy-MM-dd HH:mm:ss.SSS / yyyy-MM-dd HH:mm:ss / yyyyMMdd / yyyyMMddHHmmss
+	 * </pre>
+	 * 
+	 * @author cyr
+	 * @date 2020-05-22
+	 * @param strFormat
+	 * @return
+	 */
+	public String getFormatingNowDateTime( String strFormat ) {
+		String resultStr = "" ;
+		
+		LocalDateTime nowLocalDateTime = null ;
+		
+		try {
+			
+			nowLocalDateTime = LocalDateTime.now( ) ;
+			resultStr = nowLocalDateTime.format( DateTimeFormatter.ofPattern( strFormat ) ) ;
+			
+		}
+		catch( Exception e ) {
+			logger.error( e.getMessage( ) , e ) ;
+		}
+		finally {
+			strFormat = null ;
+			nowLocalDateTime = null ;
+		}
+		
+		return resultStr ;
 	}
 	
 	/**

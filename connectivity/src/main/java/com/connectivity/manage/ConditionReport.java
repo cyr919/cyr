@@ -3,10 +3,13 @@
  */
 package com.connectivity.manage ;
 
+import java.util.HashMap ;
+
 import org.apache.logging.log4j.LogManager ;
 import org.apache.logging.log4j.Logger ;
 
-import com.connectivity.common.RedisCommon ;
+import com.connectivity.manage.dao.ConditionReportDao ;
+import com.connectivity.utils.CommUtil ;
 
 /**
  * <pre>
@@ -24,15 +27,21 @@ public class ConditionReport implements Runnable
 	
 	private boolean isDemonLive = true ;
 	private String strState = "" ;
+	private String strPID = "" ;
+	private String strProcessID = "" ;
 	private int intReportInterval = 0 ;
 	
 	/**
 	 * @param intReportInterval 초 단위로 입력
+	 * @param strProcessID ProcessID(디비에서 읽어옴??)
+	 * @param strPID PID
 	 */
-	public ConditionReport( int intReportInterval ) {
+	public ConditionReport( int intReportInterval , String strProcessID , String strPID ) {
 		this.intReportInterval = ( intReportInterval * 1000 ) ;
 		this.strState = "run" ;
 		this.isDemonLive = true ;
+		this.strPID = strPID ;
+		this.strProcessID = strProcessID ;
 		return ;
 	}
 	
@@ -50,10 +59,10 @@ public class ConditionReport implements Runnable
 				Thread.sleep( intReportInterval ) ;
 			}
 			
+			logger.info( "while 종료 :: isDemonLive :: "  + isDemonLive ) ;
 		}
 		catch( InterruptedException e ) {
-			logger.info( "ConditionReport run 종료 요청" ) ;
-			this.stopConditionSet( ) ;
+			logger.info( "ConditionReport run 종료 요청 :: interrupt" ) ;
 			
 			logger.error( e.getMessage( ) , e ) ;
 		}
@@ -61,6 +70,7 @@ public class ConditionReport implements Runnable
 			logger.error( e.getMessage( ) , e ) ;
 		}
 		finally {
+			this.stopConditionSet( ) ;
 			logger.info( "ConditionReport run 종료" ) ;
 		}
 		
@@ -76,36 +86,59 @@ public class ConditionReport implements Runnable
 	 */
 	public void runConditionSet( ) throws Exception {
 		
-		RedisCommon redisCommon = new RedisCommon( ) ;
-		long resultLong = 0L ;
+		ConditionReportDao ConditionReportDao = new ConditionReportDao( ) ;
+		CommUtil commUtil = new CommUtil( ) ;
 		
+		String redisSetKey = "" ;
+		String strDateTime = "" ;
+		HashMap< String , String > redisSetDataMap = new HashMap< String , String >( ) ;
 		try {
-			resultLong = redisCommon.redisHset( "conditions" , "connectivity" , "run" ) ;
+			redisSetKey = "MGP_PSST" + "^" + strProcessID ;
+			
+			strDateTime = commUtil.getFormatingNowDateTime( ) ;
+			
+			redisSetDataMap.put( "PID" , strPID ) ;
+			redisSetDataMap.put( "STAT" , "RUN" ) ;
+			redisSetDataMap.put( "LSDT" , strDateTime ) ;
+			
+			ConditionReportDao.hmSetCondition( redisSetKey , redisSetDataMap ) ;
 		}
 		finally {
-			redisCommon = null ;
-			resultLong = 0L ;
+			ConditionReportDao = null ;
+			commUtil = null ;
+			redisSetKey = null ;
+			strDateTime = null ;
+			redisSetDataMap = null ;
 		}
 		
 		return ;
 	}
 	
 	public void stopConditionSet( ) {
-		RedisCommon redisCommon = new RedisCommon( ) ;
-		long resultLong = 0L ;
 		
+		ConditionReportDao ConditionReportDao = new ConditionReportDao( ) ;
+		CommUtil commUtil = new CommUtil( ) ;
+		
+		String redisSetKey = "" ;
+		String strDateTime = "" ;
+		HashMap< String , String > redisSetDataMap = new HashMap< String , String >( ) ;
 		try {
-			logger.debug( "runConditionSet :: stop" ) ;
-			resultLong = redisCommon.redisHset( "conditions" , "connectivity" , "stop" ) ;
+			redisSetKey = "MGP_PSST" + "^" + strProcessID ;
 			
-			// TODO 이벤트 처리 추가 필요
-		}
-		catch( Exception e ) {
-			logger.error( e.getMessage( ) , e ) ;
+			strDateTime = commUtil.getFormatingNowDateTime( ) ;
+			
+			redisSetDataMap.put( "PID" , strPID ) ;
+			redisSetDataMap.put( "STAT" , "STOP" ) ;
+			redisSetDataMap.put( "LSDT" , strDateTime ) ;
+			
+			ConditionReportDao.hmSetCondition( redisSetKey , redisSetDataMap ) ;
 		}
 		finally {
-			redisCommon = null ;
-			resultLong = 0L ;
+			ConditionReportDao = null ;
+			commUtil = null ;
+			redisSetKey = null ;
+			strDateTime = null ;
+			redisSetDataMap = null ;
 		}
 		
 		return ;
