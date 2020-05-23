@@ -38,7 +38,7 @@ public class SettingManageDao
 			
 			logger.info( "springMongodbDataTest01" ) ;
 			
-			mongoOps = new MongoTemplate( mongodbConnection.getMongoClient( ) , "hsmgp" ) ;
+			mongoOps =  mongodbConnection.getMongoTemplate( ) ;
 			
 			// sql where
 			query.addCriteria( Criteria.where( "USE" ).is( "Y" ) ) ;

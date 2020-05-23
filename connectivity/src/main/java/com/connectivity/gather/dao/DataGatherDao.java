@@ -7,8 +7,12 @@ import java.util.HashMap ;
 
 import org.apache.logging.log4j.LogManager ;
 import org.apache.logging.log4j.Logger ;
+import org.springframework.data.mongodb.core.MongoOperations ;
 
-import com.connectivity.common.RedisCommon ;
+import com.connectivity.config.JedisConnection ;
+import com.connectivity.config.MongodbConnection ;
+
+import redis.clients.jedis.Jedis ;
 
 /**
  * <pre>
@@ -35,29 +39,79 @@ public class DataGatherDao
 	public Boolean hmSetGatherData( String dviceId , HashMap< String , String > redisSetDataMap ) {
 		Boolean resulBoolean = true ;
 		
+		Jedis jedis = null ;
+		JedisConnection jedisConnection = new JedisConnection( ) ;
+		
 		String strKey = "" ;
 		String resultStr = "" ;
 		
-		RedisCommon redisCommon = new RedisCommon( ) ;
 		try {
-			strKey = "MGP_STDV" + "^" + dviceId ;
+			logger.info( "hmSetGatherData" ) ;
+			
+			strKey = "MGP_SVDT" + "^" + dviceId ;
 			logger.debug( "strKey :: " + strKey ) ;
 			
-			resultStr = redisCommon.redisHmset( strKey , redisSetDataMap ) ;
+			// resultStr = redisCommon.redisHmset( strKey , redisSetDataMap ) ;
 			
+			jedis = jedisConnection.getJedisPool( ).getResource( ) ;
+			// logger.trace( "jedis.isConnected() :: " + jedis.isConnected( ) ) ;
+			if( jedis.isConnected( ) ) {
+				resulBoolean = false ;
+				resultStr = jedis.hmset( strKey , redisSetDataMap ) ;
+				logger.trace( "resultStr :: " + resultStr ) ;
+				
+			}
 		}
 		catch( Exception e ) {
 			resulBoolean = false ;
+			logger.error( e.getMessage( ) , e ) ;
 		}
 		finally {
 			strKey = null ;
 			dviceId = null ;
 			redisSetDataMap = null ;
 			resultStr = null ;
-			redisCommon = null ;
+			
+			if( jedis != null ) {
+				jedis.close( ) ;
+			}
+			jedis = null ;
+			jedisConnection = null ;
+			logger.info( "hmSetGatherData finally" ) ;
+			
 		}
 		
 		return resulBoolean ;
+	}
+	
+	public Boolean insertGatherData( HashMap< String , Object > mongodbSetDataMap ) {
+		
+		Boolean resulBoolean = true ;
+		
+		MongodbConnection mongodbConnection = new MongodbConnection( ) ;
+		MongoOperations mongoOps = null ;
+		
+		try {
+			logger.info( "insertGatherData" ) ;
+			
+			mongoOps = mongodbConnection.getMongoTemplate( ) ;
+			mongoOps.insert( mongodbSetDataMap , "MGP_SDHS" ) ;
+			
+		}
+		catch( Exception e ) {
+			resulBoolean = false ;
+			logger.error( e.getMessage( ) , e ) ;
+		}
+		finally {
+			mongodbConnection = null ;
+			mongoOps = null ;
+			mongodbSetDataMap = null ;
+			logger.info( "insertGatherData finally" ) ;
+			
+		}
+		
+		return resulBoolean ;
+		
 	}
 	
 }

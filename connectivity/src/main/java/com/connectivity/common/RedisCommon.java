@@ -39,23 +39,23 @@ public class RedisCommon
 	public static void main( String[ ] args ) {
 		// TODO Auto-generated method stub
 		
-//		RedisCommon exe = new RedisCommon( ) ;
-//		
-//		try {
-//			String resulString = exe.redisHget( "PCS01" , "BP" ) ;
-//			
-//			// logger.info( resulString ) ;
-//			
-//			Long resultLong = exe.redisHset( "PCS01" , "BP" , "100.23" ) ;
-//			resulString = exe.redisHget( "PCS01" , "BP" ) ;
-//			
-//			// logger.info( resultLong ) ;
-//			// logger.info( resulString ) ;
-//			
-//		}
-//		catch( Exception e ) {
-//			// logger.error( e.getMessage( ) , e ) ;
-//		}
+		// RedisCommon exe = new RedisCommon( ) ;
+		//
+		// try {
+		// String resulString = exe.redisHget( "PCS01" , "BP" ) ;
+		//
+		// // logger.info( resulString ) ;
+		//
+		// Long resultLong = exe.redisHset( "PCS01" , "BP" , "100.23" ) ;
+		// resulString = exe.redisHget( "PCS01" , "BP" ) ;
+		//
+		// // logger.info( resultLong ) ;
+		// // logger.info( resulString ) ;
+		//
+		// }
+		// catch( Exception e ) {
+		// // logger.error( e.getMessage( ) , e ) ;
+		// }
 		
 	}
 	
@@ -82,7 +82,7 @@ public class RedisCommon
 		try {
 			jedis = jedisConnection.getJedisPool( ).getResource( ) ;
 			
-			logger.trace( "jedis.isConnected() :: " + jedis.isConnected( ) ) ;
+			// logger.trace( "jedis.isConnected() :: " + jedis.isConnected( ) ) ;
 			if( jedis.isConnected( ) ) {
 				resultLong = jedis.hset( key , field , value ) ;
 			}
@@ -127,7 +127,7 @@ public class RedisCommon
 		try {
 			jedis = jedisConnection.getJedisPool( ).getResource( ) ;
 			
-			logger.trace( "jedis.isConnected() :: " + jedis.isConnected( ) ) ;
+			// logger.trace( "jedis.isConnected() :: " + jedis.isConnected( ) ) ;
 			if( jedis.isConnected( ) ) {
 				resultStr = jedis.hget( key , field ) ;
 			}
@@ -170,9 +170,11 @@ public class RedisCommon
 		try {
 			jedis = jedisConnection.getJedisPool( ).getResource( ) ;
 			
-			logger.trace( "jedis.isConnected() :: " + jedis.isConnected( ) ) ;
+			// logger.trace( "jedis.isConnected() :: " + jedis.isConnected( ) ) ;
 			if( jedis.isConnected( ) ) {
 				resultStr = jedis.hmset( key , hash ) ;
+				logger.trace( "resultStr :: " + resultStr ) ;
+				
 			}
 		}
 		finally {
@@ -200,7 +202,7 @@ public class RedisCommon
 		try {
 			jedis = jedisConnection.getJedisPool( ).getResource( ) ;
 			
-			logger.trace( "jedis.isConnected() :: " + jedis.isConnected( ) ) ;
+			// logger.trace( "jedis.isConnected() :: " + jedis.isConnected( ) ) ;
 			if( jedis.isConnected( ) ) {
 				resultList = jedis.hmget( key , fields ) ;
 			}

@@ -12,6 +12,8 @@ import org.json.simple.JSONObject ;
 
 import com.connectivity.common.CommonProperties ;
 import com.connectivity.common.ConnectivityProperties ;
+import com.connectivity.config.JedisConnection ;
+import com.connectivity.config.MongodbConnection ;
 import com.connectivity.gather.dao.DataGatherDao ;
 import com.connectivity.utils.CommUtil ;
 import com.connectivity.utils.ExtndEgovStringUtil ;
@@ -30,8 +32,13 @@ public class DataGather
 		connectivityProperties.setStdv( ) ;
 		
 		CommonProperties commonProperties = new CommonProperties( ) ;
+		JedisConnection jedisConnection = new JedisConnection( ) ;
+		MongodbConnection mongodbConnection = new MongodbConnection( ) ;
+		
 		try {
 			commonProperties.setProperties( ) ;
+			jedisConnection.getJedisPool( ) ;
+			mongodbConnection.getMongoClient( ) ;
 		}
 		catch( Exception e ) {
 			// TODO Auto-generated catch block
@@ -53,16 +60,15 @@ public class DataGather
 		
 		String strDviceId = "" ;
 		String strDmt = "" ;
-		
+		String strTemp = "" ;
 		JsonUtil jsonUtil = new JsonUtil( ) ;
 		JSONObject jsonObject = new JSONObject( ) ;
 		JSONObject subDataJSONObject = new JSONObject( ) ;
-		JSONObject resultDataJSONObject = new JSONObject( ) ;
 		// TODO 일단 hashmap으로 해보고 object 변환시 좀 오래 걸리는거같으면 바꾸기
 		HashMap< String , String > resultDataMap = new HashMap< String , String >( ) ;
 		HashMap< String , String > resultCalCulDataMap = new HashMap< String , String >( ) ;
 		HashMap< String , String > resultRedisDataMap = new HashMap< String , String >( ) ;
-		//
+		HashMap< String , Object > resultMongodbDataMap = new HashMap< String , Object >( ) ;
 		
 		HashMap< String , HashMap< String , Object > > stdvDtMdlMap = new HashMap< String , HashMap< String , Object > >( ) ;
 		ArrayList< HashMap< String , Object > > stdvCalInf = new ArrayList< HashMap< String , Object > >( ) ;
@@ -72,6 +78,7 @@ public class DataGather
 		CommUtil commUtil = new CommUtil( ) ;
 		ExtndEgovStringUtil extndEgovStringUtil = new ExtndEgovStringUtil( ) ;
 		DataGatherDao dataGatherDao = new DataGatherDao( ) ;
+		
 		try {
 			logger.debug( "dataGathering :: " ) ;
 			logger.debug( "수신된 데이터 :: " + strJsonData ) ;
@@ -157,14 +164,50 @@ public class DataGather
 			resultRedisDataMap.put( "Q" , "00000000" ) ;
 			// 연산 데이터 추가
 			resultRedisDataMap.putAll( resultCalCulDataMap ) ;
+			
+			// 저장 시간
+			// TODO redis now 같은거 있는지, db 저장되는 시간으로 처리
+			resultRedisDataMap.put( "INS_DT" , commUtil.getFormatingNowDateTime( ) ) ;
+			
 			logger.debug( "redis 저장 데이터 :: resultRedisDataMap :: " + resultRedisDataMap ) ;
 			
 			// redis 데이터 저장 처리
 			resultBool = dataGatherDao.hmSetGatherData( strDviceId , resultRedisDataMap ) ;
 			resultRedisDataMap = null ;
 			
+			// logger.debug( "resultCalCulDataMap :: " + resultCalCulDataMap ) ;
+			// logger.debug( "resultDataMap :: " + resultDataMap ) ;
+			
 			// mongodb 저장
 			
+			strTemp = strDmt.replaceAll( " " , "" ).replaceAll( "-" , "" ).replaceAll( ":" , "" ).replaceAll( "\\." , "" ) ;
+			// logger.debug( "strTemp :: " + strTemp ) ;
+			
+			resultMongodbDataMap.put( "_id" , ( strDviceId + "_" + strTemp ) ) ;
+			
+			strTemp = strDmt.split( " " )[ 0 ] ;
+			resultMongodbDataMap.put( "YMD" , strTemp ) ;
+			resultMongodbDataMap.put( "DTM" , strDmt ) ;
+			resultMongodbDataMap.put( "STDV_ID" , strDviceId ) ;
+			resultMongodbDataMap.put( "Q" , "00000000" ) ;
+			// logger.debug( "strTemp :: [" + strTemp +"]" ) ;
+			
+			// 장치내 연산 데이터 및 계측 데이터
+			resultCalCulDataMap.putAll( resultDataMap ) ;
+			resultMongodbDataMap.put( "DT" , resultCalCulDataMap ) ;
+			
+			strTemp = commUtil.getFormatingNowDateTime( ) ;
+			resultMongodbDataMap.put( "INS_DT" , strTemp ) ;
+			resultMongodbDataMap.put( "INS_USR" , "Connectivity" ) ;
+			resultMongodbDataMap.put( "UPD_DT" , strTemp ) ;
+			resultMongodbDataMap.put( "UPD_USR" , "Connectivity" ) ;
+			
+			logger.debug( "mongodb 저장 데이터 :: resultMongodbDataMap :: " + resultMongodbDataMap ) ;
+			// logger.debug( "resultCalCulDataMap :: " + resultCalCulDataMap ) ;
+			// logger.debug( "resultDataMap :: " + resultDataMap ) ;
+			
+			// 계측 데이터 mongodb 저장처리
+//			dataGatherDao.insertGatherData( resultMongodbDataMap ) ;
 			// 이벤트 처리(thread 생성 후 거기서 처리하는 방안으로)
 			
 		}
@@ -173,7 +216,31 @@ public class DataGather
 			logger.error( e.getMessage( ) , e ) ;
 		}
 		finally {
-			logger.debug( "finally :: " ) ;
+			
+			strJsonData = null ;
+			
+			strDviceId = null ;
+			strDmt = null ;
+			strTemp = null ;
+			jsonUtil = null ;
+			jsonObject = null ;
+			subDataJSONObject = null ;
+			// TODO 일단 hashmap으로 해보고 object 변환시 좀 오래 걸리는거같으면 바꾸기
+			resultDataMap = null ;
+			resultCalCulDataMap = null ;
+			resultRedisDataMap = null ;
+			resultMongodbDataMap = null ;
+			
+			stdvDtMdlMap = null ;
+			stdvCalInf = null ;
+			
+			tempBigDecimal = null ;
+			
+			commUtil = null ;
+			extndEgovStringUtil = null ;
+			dataGatherDao = null ;
+			
+			logger.debug( "dataGathering finally :: " ) ;
 		}
 		
 		return resultBool ;
@@ -257,7 +324,7 @@ public class DataGather
 		ExtndEgovStringUtil extndEgovStringUtil = new ExtndEgovStringUtil( ) ;
 		
 		try {
-			logger.info( "getCalculatingGatherData :: " ) ;
+			// logger.info( "getCalculatingGatherData :: " ) ;
 			for( i = 0 ; i < calculInfoList.size( ) ; i++ ) {
 				
 				// logger.debug( "calculInfoList.get( " + i + " ) :: " + calculInfoList.get( i ) ) ;
@@ -366,11 +433,11 @@ public class DataGather
 				}
 				
 				// 연산 결과 값 추가
-//				logger.debug( "tempResultBigDecimal :: " + tempResultBigDecimal ) ;
+				// logger.debug( "tempResultBigDecimal :: " + tempResultBigDecimal ) ;
 				resultHashMap.put( ( calculInfoList.get( i ).get( "MGP_KEY" ) + "" ) , extndEgovStringUtil.getStringFromNullAndObject( tempResultBigDecimal ) ) ;
 				
 			} // calculInfoList
-			logger.debug( "resultHashMap :: " + resultHashMap ) ;
+			// logger.debug( "resultHashMap :: " + resultHashMap ) ;
 		} // try
 		finally {
 			i = 0 ;
@@ -381,7 +448,7 @@ public class DataGather
 			tempResultBigDecimal = null ;
 			tempBigDecimal = null ;
 			stdIdxsArr = null ;
-			logger.info( "getCalculatingGatherData finally:: " ) ;
+			// logger.info( "getCalculatingGatherData finally:: " ) ;
 		} // finally
 		
 		return resultHashMap ;
