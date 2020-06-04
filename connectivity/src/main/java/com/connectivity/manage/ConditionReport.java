@@ -59,7 +59,7 @@ public class ConditionReport implements Runnable
 				Thread.sleep( intReportInterval ) ;
 			}
 			
-			logger.info( "while 종료 :: isDemonLive :: "  + isDemonLive ) ;
+			logger.info( "while 종료 :: isDemonLive :: " + isDemonLive ) ;
 		}
 		catch( InterruptedException e ) {
 			logger.info( "ConditionReport run 종료 요청 :: interrupt" ) ;
@@ -93,6 +93,8 @@ public class ConditionReport implements Runnable
 		String strDateTime = "" ;
 		HashMap< String , String > redisSetDataMap = new HashMap< String , String >( ) ;
 		try {
+			logger.debug( "runConditionSet :: " ) ;
+			
 			redisSetKey = "MGP_PSST" + "^" + strProcessID ;
 			
 			strDateTime = commUtil.getFormatingNowDateTime( ) ;
