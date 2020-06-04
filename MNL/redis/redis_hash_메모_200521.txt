@@ -1,3 +1,10 @@
 https://realmojo.tistory.com/172
 
 HGETALL  MGP_STDV^stdv0002
+
+HGETALL MGP_PSST^Connectivity
+
+HGETALL MGP_PSST^
+
+
+
