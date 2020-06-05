@@ -62,8 +62,16 @@ public class ConnectivityMainRun
 			
 			resultBool01 = false ;
 			resultBool02 = false ;
+			
+			// db, redis, qeueu 연결 후
+			// 기동 이벤트 전송
+			// 받은 이벤트 이력 부모 아이디가 없으면 빈 값으로 처리
+			
 			// 공통 프로퍼티(프로퍼티 파일에 있는 설정) 읽어서 static 변수에 저장
 			resultBool01 = commonProperties.setProperties( ) ;
+			
+			
+			
 			// connectivity 프로퍼티(db에 있는 mgp 설정) 읽어서 static 변수에 저장
 			resultBool02 = connectivityProperties.setStdv( ) ;
 			
@@ -106,6 +114,8 @@ public class ConnectivityMainRun
 	public void connectivityStop( String strEventID ) {
 		logger.info( "strEventID :: " + strEventID ) ;
 		try {
+			// 중지 이벤트
+			
 			this.rabbitmqConnectionClose( ) ;
 			
 			// 중간에 다른 처리 넣기
@@ -136,8 +146,10 @@ public class ConnectivityMainRun
 			// 처리 정지 처리
 			this.rabbitmqConnectionClose( ) ;
 			
-			// 처리 정지 시작 처리
+			// 처리  시작 처리
 			this.rabbitmqConnectionOpen( ConnectivityProperties.STDV_INF ) ;
+			
+			// 리셋 완료 이벤트
 			
 			logger.info( "connectivityReset 성공" ) ;
 		}

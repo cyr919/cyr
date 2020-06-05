@@ -6,6 +6,7 @@ import java.util.concurrent.TimeoutException ;
 import org.apache.logging.log4j.LogManager ;
 import org.apache.logging.log4j.Logger ;
 
+import com.connectivity.gather.DataGather ;
 import com.rabbitmq.client.AMQP ;
 import com.rabbitmq.client.Channel ;
 import com.rabbitmq.client.Connection ;

@@ -133,5 +133,31 @@ public class SettingManage
 		
 		return result ;
 	}
+
+	public Boolean qualityCodeInfoSetting( ) {
+		
+		Boolean result = true ;
+		logger.info( "qualityCodeInfoSetting" ) ;
+		
+		SettingManageDao settingManageDao = new SettingManageDao( ) ;
+		
+		
+		try {
+			
+		}
+		catch( Exception e ) {
+			result = false ;
+			logger.error( e.getMessage( ) , e ) ;
+		}
+		finally {
+			settingManageDao = null ;
+		}
+		
+		return result ;
+	}
+
+	
 	
 }
+
+

@@ -31,6 +31,8 @@ public class ConnectivityProperties
 	public static HashMap< String , HashMap< String , HashMap< String , Object > > > STDV_DT_MDL_MAP = new HashMap< String , HashMap<String,HashMap<String,Object>> >( ) ;
 	// 장치내 연산정보
 	public static HashMap< String , ArrayList< HashMap< String , Object > > > STDV_CAL_INF = new HashMap< String , ArrayList< HashMap< String , Object > > >( ) ;
+	// 퀄리티 코드 정보
+	public static HashMap< String , HashMap< String , Object > > FIELD_QC_INF = new HashMap< String , HashMap< String , Object > >( ) ;
 	
 	public Boolean setStdv( ) {
 		Boolean resultBool = true ;
