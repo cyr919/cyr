@@ -2,7 +2,6 @@ package com.connectivity.gather ;
 
 import java.math.BigDecimal ;
 import java.math.RoundingMode ;
-import java.util.ArrayList ;
 import java.util.HashMap ;
 import java.util.List ;
 
@@ -15,6 +14,7 @@ import com.connectivity.common.ConnectivityProperties ;
 import com.connectivity.config.JedisConnection ;
 import com.connectivity.config.MongodbConnection ;
 import com.connectivity.gather.dao.DataGatherDao ;
+import com.connectivity.quality.QualityCode ;
 import com.connectivity.utils.CommUtil ;
 import com.connectivity.utils.ExtndEgovStringUtil ;
 import com.connectivity.utils.JsonUtil ;
@@ -27,9 +27,14 @@ public class DataGather
 	private Logger logger = LogManager.getLogger( this.getClass( ) ) ;
 	// Logger logger = LogManager.getLogger( ) ;
 	
+	private QualityCode qualityCode = new QualityCode( ConnectivityProperties.RECORD_QC_INF , ConnectivityProperties.RECORD_QC_IDX , ConnectivityProperties.FIELD_QC_INF , ConnectivityProperties.FIELD_QC_IDX ) ;
+	private CommUtil commUtil = new CommUtil( ) ;
+	private ExtndEgovStringUtil extndEgovStringUtil = new ExtndEgovStringUtil( ) ;
+	private DataGatherDao dataGatherDao = new DataGatherDao( ) ;
+	
 	public static void main( String[ ] args ) {
 		ConnectivityProperties connectivityProperties = new ConnectivityProperties( ) ;
-		connectivityProperties.setStdv( ) ;
+		connectivityProperties.setConnectivityProperties( ) ;
 		
 		CommonProperties commonProperties = new CommonProperties( ) ;
 		JedisConnection jedisConnection = new JedisConnection( ) ;
@@ -53,11 +58,16 @@ public class DataGather
 		// testData = "{\"STDV_ID\":\"stdv0001\",\"DATA\":{\"MGP011\":17,\"MGP001\":36,\"MGP012\":81,\"MGP020\":33,\"MGP010\":93,\"MGP004\":27,\"MGP015\":91,\"MGP005\":30,\"MGP016\":58,\"MGP002\":109,\"MGP013\":25,\"MGP003\":48,\"MGP014\":98,\"MGP008\":85,\"MGP019\":78,\"MGP009\":34,\"MGP006\":31,\"MGP017\":42,\"MGP007\":24,\"MGP018\":98},\"DMT\":\"2020-05-21 17:51:29.044\"}" ;
 		exe.dataGathering( testData ) ;
 		
-		testData = "{\"STDV_ID\":\"stdv0001\",\"DATA\":{\"MGP011\":17,\"MGP001\":36,\"MGP012\":81,\"MGP020\":33,\"MGP010\":93,\"MGP004\":27,\"MGP015\":91,\"MGP005\":30,\"MGP016\":58,\"MGP002\":109,\"MGP013\":25,\"MGP003\":48,\"MGP014\":98,\"MGP008\":85,\"MGP019\":78,\"MGP009\":34,\"MGP006\":31,\"MGP017\":42,\"MGP007\":24,\"MGP018\":98},\"DMT\":\"2020-05-21 17:51:29.044\"}" ;
+		// testData = "{\"STDV_ID\":\"stdv0004\",\"DATA\":{\"MGP040\":16,\"MGP041\":10,\"MGP044\":105,\"MGP023\":70,\"MGP045\":34,\"MGP042\":47,\"MGP043\":38,\"MGP026\":19,\"MGP048\":48,\"MGP027\":17,\"MGP049\":67,\"MGP024\":69,\"MGP046\":45,\"MGP025\":80,\"MGP047\":28,\"MGP039\":90,\"MGP051\":24,\"MGP030\":82,\"MGP052\":73,\"MGP050\":42,\"MGP033\":88,\"MGP055\":28,\"MGP034\":66,\"MGP056\":57,\"MGP031\":86,\"MGP053\":87,\"MGP032\":25,\"MGP054\":38,\"MGP037\":22,\"MGP038\":70,\"MGP035\":23,\"MGP057\":109,\"MGP036\":99,\"MGP028\":88,\"MGP029\":52},\"DMT\":\"2020-05-21 09:12:57.396\"}" ;
+		testData = "{\"STDV_ID\":\"stdv0002\",\"DATA\":{\"MGP022\":85,\"MGP021\":50000000},\"DMT\":\"2020-05-21 13:00:34.747\"}" ;
+		// testData = "{\"STDV_ID\":\"stdv0001\",\"DATA\":{\"MGP011\":17,\"MGP001\":36,\"MGP012\":81,\"MGP020\":33,\"MGP010\":93,\"MGP004\":27,\"MGP015\":91,\"MGP005\":30,\"MGP016\":58,\"MGP002\":109,\"MGP013\":25,\"MGP003\":48,\"MGP014\":98,\"MGP008\":85,\"MGP019\":78,\"MGP009\":34,\"MGP006\":31,\"MGP017\":42,\"MGP007\":24,\"MGP018\":98},\"DMT\":\"2020-05-21 17:51:29.044\"}" ;
 		exe.dataGathering( testData ) ;
 		
-		testData = "{\"STDV_ID\":\"stdv0004\",\"DATA\":{\"MGP040\":16,\"MGP041\":10,\"MGP044\":105,\"MGP023\":70,\"MGP045\":34,\"MGP042\":47,\"MGP043\":38,\"MGP026\":19,\"MGP048\":48,\"MGP027\":17,\"MGP049\":67,\"MGP024\":69,\"MGP046\":45,\"MGP025\":80,\"MGP047\":28,\"MGP039\":90,\"MGP051\":24,\"MGP030\":82,\"MGP052\":73,\"MGP050\":42,\"MGP033\":88,\"MGP055\":28,\"MGP034\":66,\"MGP056\":57,\"MGP031\":86,\"MGP053\":87,\"MGP032\":25,\"MGP054\":38,\"MGP037\":22,\"MGP038\":70,\"MGP035\":23,\"MGP057\":109,\"MGP036\":99,\"MGP028\":88,\"MGP029\":52},\"DMT\":\"2020-05-21 09:12:57.396\"}" ;
-		exe.dataGathering( testData ) ;
+		// testData = "{\"STDV_ID\":\"stdv0001\",\"DATA\":{\"MGP011\":17,\"MGP001\":36,\"MGP012\":81,\"MGP020\":33,\"MGP010\":93,\"MGP004\":27,\"MGP015\":91,\"MGP005\":30,\"MGP016\":58,\"MGP002\":109,\"MGP013\":25,\"MGP003\":48,\"MGP014\":98,\"MGP008\":85,\"MGP019\":78,\"MGP009\":34,\"MGP006\":31,\"MGP017\":42,\"MGP007\":24,\"MGP018\":98},\"DMT\":\"2020-05-21 17:51:29.044\"}" ;
+		// exe.dataGathering( testData ) ;
+		//
+		// testData = "{\"STDV_ID\":\"stdv0004\",\"DATA\":{\"MGP040\":16,\"MGP041\":10,\"MGP044\":105,\"MGP023\":70,\"MGP045\":34,\"MGP042\":47,\"MGP043\":38,\"MGP026\":19,\"MGP048\":48,\"MGP027\":17,\"MGP049\":67,\"MGP024\":69,\"MGP046\":45,\"MGP025\":80,\"MGP047\":28,\"MGP039\":90,\"MGP051\":24,\"MGP030\":82,\"MGP052\":73,\"MGP050\":42,\"MGP033\":88,\"MGP055\":28,\"MGP034\":66,\"MGP056\":57,\"MGP031\":86,\"MGP053\":87,\"MGP032\":25,\"MGP054\":38,\"MGP037\":22,\"MGP038\":70,\"MGP035\":23,\"MGP057\":109,\"MGP036\":99,\"MGP028\":88,\"MGP029\":52},\"DMT\":\"2020-05-21 09:12:57.396\"}" ;
+		// exe.dataGathering( testData ) ;
 		
 	}
 	
@@ -77,13 +87,14 @@ public class DataGather
 		HashMap< String , Object > resultMongodbDataMap = new HashMap< String , Object >( ) ;
 		
 		HashMap< String , HashMap< String , Object > > stdvDtMdlMap = new HashMap< String , HashMap< String , Object > >( ) ;
-		ArrayList< HashMap< String , Object > > stdvCalInf = new ArrayList< HashMap< String , Object > >( ) ;
 		
 		BigDecimal tempBigDecimal = new BigDecimal( "0" ) ;
 		
-		CommUtil commUtil = new CommUtil( ) ;
-		ExtndEgovStringUtil extndEgovStringUtil = new ExtndEgovStringUtil( ) ;
-		DataGatherDao dataGatherDao = new DataGatherDao( ) ;
+		String tempQcStr = "" ;
+		String gatherValStr = "" ;
+		
+		String resultRecordQc = "" ;
+		HashMap< String , Object > tempFildQcMap = new HashMap< String , Object >( ) ;
 		
 		try {
 			logger.debug( "dataGathering :: " ) ;
@@ -107,6 +118,8 @@ public class DataGather
 			logger.debug( "stdvDtMdlMap :: " + stdvDtMdlMap ) ;
 			// logger.debug( "ConnectivityProperties.STDV_DT_MDL.get( " + strDviceId + " ) :: " + ConnectivityProperties.STDV_DT_MDL.get( strDviceId ) ) ;
 			
+			// 레코드 QC 처리 관련 true 부터 시작한다.
+			resultRecordQc = "1" ;
 			// 수집된 계측 데이터 처리
 			for( Object key : subDataJSONObject.keySet( ) ) {
 				// logger.debug( "key :: " + key ) ;
@@ -114,30 +127,49 @@ public class DataGather
 				// logger.debug( "stdvDtMdlMap.get( key ) :: " + stdvDtMdlMap.get( key ) ) ;
 				
 				// 시뮬레이션 값 치환 또는 스케일 팩터 적용
-				
 				if( "Y".equals( stdvDtMdlMap.get( key ).get( "SMLT" ) ) ) {
+					
 					// 시뮬레이션 값 적용
-					resultDataMap.put( ( key + "" ) , ( stdvDtMdlMap.get( key ).get( "SMLT_V" ) + "" ) ) ;
+					gatherValStr = ( stdvDtMdlMap.get( key ).get( "SMLT_V" ) + "" ) ;
 				}
 				else {
 					// 스케일 팩터 값 적용
 					tempBigDecimal = applyScaleFactor( subDataJSONObject.get( key ) , stdvDtMdlMap.get( key ).get( "SC_FCT" ) ) ;
-					resultDataMap.put( ( key + "" ) , extndEgovStringUtil.getStringFromNullAndObject( tempBigDecimal ) ) ;
+					gatherValStr = extndEgovStringUtil.getStringFromNullAndObject( tempBigDecimal ) ;
 				}
+				resultDataMap.put( ( key + "" ) , gatherValStr ) ;
 				
-				// 계측 필드 데이터 QC 적용
+				//// TODO 계측 필드 데이터 QC 적용
+				// 초기값
+				tempQcStr = qualityCode.initFieldQualityCode( ) ;
+				//// 계측 필드 QC 적용
+				tempQcStr = qualityCode.gatherOldData( tempQcStr ) ;
+				
+				// OverFlow 레코드 QC 같이 확인
+				tempFildQcMap = qualityCode.gatherOverFlow( tempQcStr , gatherValStr , stdvDtMdlMap.get( key ) , resultRecordQc ) ;
+				tempQcStr = tempFildQcMap.get( "resultFieldQc" ) + "" ;
+				resultRecordQc = tempFildQcMap.get( "resultTempRecordQc" ) + "" ;
+				
+				tempQcStr = qualityCode.gatherMeasurementMode( tempQcStr ) ;
+				tempQcStr = qualityCode.gatherCalculationMode( tempQcStr ) ;
+				tempQcStr = qualityCode.gatherSimulationMode( tempQcStr ) ;
+				
+				resultDataMap.put( ( key + "_Q" ) , tempQcStr ) ;
+				//// 계측 필드 데이터 QC 적용
+				
+				logger.debug( "tempQcStr ::" + tempQcStr ) ;
 				
 			} // subDataJSONObject.keySet( )
 			logger.debug( "계측 처리 후 ::" ) ;
 			logger.debug( "resultDataMap :: " + resultDataMap ) ;
 			logger.debug( "계측 처리 후 끝 ::" ) ;
-			// 계측 레코드 데이터 QC 적용
 			
-			// 연산 정보 가지고 오기
-			stdvCalInf = ConnectivityProperties.STDV_CAL_INF.get( strDviceId ) ;
+			// TODO 계측 레코드 데이터 QC 적용
+			logger.debug( "계측 레코드 데이터 QC :: resultRecordQc :: " + resultRecordQc ) ;
 			
 			// 장치내 연산 데이터 생성+장치내 연산 데이터 필드 QC 적용
-			resultCalCulDataMap = getCalculatingGatherData( resultDataMap , stdvCalInf ) ;
+			// 연산 정보 가지고 오기
+			resultCalCulDataMap = getCalculatingGatherData( resultDataMap , ConnectivityProperties.STDV_CAL_INF.get( strDviceId ) ) ;
 			
 			logger.debug( "연산 처리 후 ::" ) ;
 			logger.debug( "resultCalCulDataMap :: " + resultCalCulDataMap ) ;
@@ -167,7 +199,7 @@ public class DataGather
 				// 아이디/계측시간 추가
 			resultRedisDataMap.put( "ID" , strDmt ) ;
 			// 레코드 QC 추가
-			resultRedisDataMap.put( "Q" , "00000000" ) ;
+			resultRedisDataMap.put( "Q" , resultRecordQc ) ;
 			// 연산 데이터 추가
 			resultRedisDataMap.putAll( resultCalCulDataMap ) ;
 			
@@ -195,7 +227,7 @@ public class DataGather
 			resultMongodbDataMap.put( "YMD" , strTemp ) ;
 			resultMongodbDataMap.put( "DTM" , strDmt ) ;
 			resultMongodbDataMap.put( "STDV_ID" , strDviceId ) ;
-			resultMongodbDataMap.put( "Q" , "00000000" ) ;
+			resultMongodbDataMap.put( "Q" , resultRecordQc ) ;
 			// logger.debug( "strTemp :: [" + strTemp +"]" ) ;
 			
 			// 장치내 연산 데이터 및 계측 데이터
@@ -238,13 +270,8 @@ public class DataGather
 			resultMongodbDataMap = null ;
 			
 			stdvDtMdlMap = null ;
-			stdvCalInf = null ;
 			
 			tempBigDecimal = null ;
-			
-			commUtil = null ;
-			extndEgovStringUtil = null ;
-			dataGatherDao = null ;
 			
 			logger.debug( "dataGathering finally :: " ) ;
 		}
@@ -269,14 +296,14 @@ public class DataGather
 		BigDecimal resultBigDecimal = new BigDecimal( "0" ) ;
 		
 		BigDecimal scaleFactorBigDecimal = new BigDecimal( "0" ) ;
-		CommUtil commUtil = new CommUtil( ) ;
 		
 		try {
 			
 			resultBigDecimal = new BigDecimal( ( gatherData + "" ) ) ;
-			// logger.debug( "resultBigDecimal :: " + resultBigDecimal ) ;
-			// logger.debug( "scaleFactor :: " + scaleFactor ) ;
-			// logger.debug( "!commUtil.checkObjNull( ( scaleFactor ) :: " + !commUtil.checkObjNull( ( scaleFactor ) ) ) ;
+			logger.debug( "resultBigDecimal :: " + resultBigDecimal ) ;
+			logger.debug( "scaleFactor :: " + scaleFactor ) ;
+			logger.debug( "commUtil :: " + commUtil ) ;
+			logger.debug( "!commUtil.checkObjNull( ( scaleFactor ) :: " + !commUtil.checkObjNull( ( scaleFactor ) ) ) ;
 			
 			if( !commUtil.checkObjNull( ( scaleFactor ) ) ) {
 				
@@ -325,9 +352,6 @@ public class DataGather
 		
 		int i = 0 ;
 		int j = 0 ;
-		
-		CommUtil commUtil = new CommUtil( ) ;
-		ExtndEgovStringUtil extndEgovStringUtil = new ExtndEgovStringUtil( ) ;
 		
 		try {
 			// logger.info( "getCalculatingGatherData :: " ) ;
@@ -416,6 +440,9 @@ public class DataGather
 						// tempResultBigDecimal = tempResultBigDecimal.add( tempBigDecimal ) ;
 						
 					} // 함수 연산
+					
+					// TODO 연산 QC 적용
+					
 				} // stdIdxsArr
 				
 				// 함수 연산 - avg 시에 count 나누기

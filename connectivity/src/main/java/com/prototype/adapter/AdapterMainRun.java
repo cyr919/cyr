@@ -27,7 +27,7 @@ public class AdapterMainRun
 		try {
 			
 			ConnectivityProperties connectivityProperties = new ConnectivityProperties( ) ;
-			connectivityProperties.setStdv( ) ;
+			connectivityProperties.setConnectivityProperties( ) ;
 			
 			AdapterMainRun exe = new AdapterMainRun( ) ;
 			

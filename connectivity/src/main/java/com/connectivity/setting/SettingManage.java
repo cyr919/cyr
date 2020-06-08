@@ -5,6 +5,7 @@ package com.connectivity.setting ;
 
 import java.util.ArrayList ;
 import java.util.HashMap ;
+import java.util.List ;
 
 import org.apache.logging.log4j.LogManager ;
 import org.apache.logging.log4j.Logger ;
@@ -35,7 +36,8 @@ public class SettingManage
 	public static void main( String[ ] args ) {
 		SettingManage exe = new SettingManage( ) ;
 		
-		exe.devicePropertiesSetting( ) ;
+		// exe.devicePropertiesSetting( ) ;
+		exe.qualityCodeInfoSetting( ) ;
 		
 	}
 	
@@ -46,7 +48,7 @@ public class SettingManage
 		
 		SettingManageDao settingManageDao = new SettingManageDao( ) ;
 		
-		ArrayList< HashMap > resultList = new ArrayList< HashMap >( ) ;
+		List< HashMap > resultList = new ArrayList< HashMap >( ) ;
 		HashMap< String , Object > tempMap = new HashMap< String , Object >( ) ;
 		ArrayList< HashMap< String , Object > > tempList = new ArrayList< HashMap< String , Object > >( ) ;
 		HashMap< String , HashMap< String , Object > > deviceInfo = new HashMap< String , HashMap< String , Object > >( ) ;
@@ -54,7 +56,7 @@ public class SettingManage
 		HashMap< String , ArrayList< HashMap< String , Object > > > deviceCalInfo = new HashMap< String , ArrayList< HashMap< String , Object > > >( ) ;
 		
 		CommUtil commUtil = new CommUtil( ) ;
-		HashMap< String , HashMap< String , Object > > tempMapFromList = new HashMap< String , HashMap<String,Object> >( );
+		HashMap< String , HashMap< String , Object > > tempMapFromList = new HashMap< String , HashMap< String , Object > >( ) ;
 		
 		HashMap< String , HashMap< String , HashMap< String , Object > > > deviceDataModelMap = new HashMap< String , HashMap< String , HashMap< String , Object > > >( ) ;
 		
@@ -133,7 +135,7 @@ public class SettingManage
 		
 		return result ;
 	}
-
+	
 	public Boolean qualityCodeInfoSetting( ) {
 		
 		Boolean result = true ;
@@ -141,8 +143,56 @@ public class SettingManage
 		
 		SettingManageDao settingManageDao = new SettingManageDao( ) ;
 		
+		ArrayList< HashMap > resultList = new ArrayList< HashMap >( ) ;
+		HashMap< String , HashMap< String , Object > > fieldQcInf = new HashMap< String , HashMap< String , Object > >( ) ;
+		HashMap< String , HashMap< String , Object > > recordQcInf = new HashMap< String , HashMap< String , Object > >( ) ;
+		HashMap< String , HashMap< String , Integer > > fieldQcIdx = new HashMap< String , HashMap< String , Integer > >( ) ;
+		HashMap< String , HashMap< String , Integer > > recordQcIdx = new HashMap< String , HashMap< String , Integer > >( ) ;
+		
+		int i = 0 ;
+		
+		HashMap< String , Integer > tempMap = new HashMap< String , Integer >( ) ;
+		int startInt = 0 ;
+		int endInt = 0 ;
 		
 		try {
+			resultList = settingManageDao.selectFieldQualityCodeList( ) ;
+			
+			for( i = 0 ; i < resultList.size( ) ; i++ ) {
+				logger.debug( "resultList.get( " + i + " ) :: " + resultList.get( i ) ) ;
+				
+				startInt = Integer.parseInt( resultList.get( i ).get( "ADR" ) + "" ) ;
+				endInt = Integer.parseInt( resultList.get( i ).get( "LEN" ) + "" ) + startInt ;
+				
+				tempMap = new HashMap< String , Integer >( ) ;
+				tempMap.put( "startInt" , startInt ) ;
+				tempMap.put( "endInt" , endInt ) ;
+				
+				if( "QTC01".equals( resultList.get( i ).get( "TP" ) + "" ) ) {
+					// 레코드 QC
+					recordQcInf.put( ( resultList.get( i ).get( "MTHD" ) + "" ) , resultList.get( i ) ) ;
+					
+					// 레코드 index QC
+					recordQcIdx.put( ( resultList.get( i ).get( "MTHD" ) + "" ) , tempMap ) ;
+				}
+				else if( "QTC02".equals( resultList.get( i ).get( "TP" ) + "" ) ) {
+					// 필드 QC
+					fieldQcInf.put( ( resultList.get( i ).get( "MTHD" ) + "" ) , resultList.get( i ) ) ;
+					
+					// 필드 index QC
+					fieldQcIdx.put( ( resultList.get( i ).get( "MTHD" ) + "" ) , tempMap ) ;
+				}
+			}
+			logger.info( "fieldQcInf :: " + fieldQcInf ) ;
+			logger.info( "recordQcInf :: " + recordQcInf ) ;
+			logger.info( "fieldQcIdx :: " + fieldQcIdx ) ;
+			logger.info( "recordQcIdx :: " + recordQcIdx ) ;
+			
+			ConnectivityProperties.FIELD_QC_INF = fieldQcInf ;
+			ConnectivityProperties.RECORD_QC_INF = recordQcInf ;
+			
+			ConnectivityProperties.FIELD_QC_IDX = fieldQcIdx ;
+			ConnectivityProperties.RECORD_QC_IDX = recordQcIdx ;
 			
 		}
 		catch( Exception e ) {
@@ -151,13 +201,17 @@ public class SettingManage
 		}
 		finally {
 			settingManageDao = null ;
+			resultList = null ;
+			fieldQcInf = null ;
+			recordQcInf = null ;
+			fieldQcIdx = null ;
+			tempMap = null ;
+			i = 0 ;
+			startInt = 0 ;
+			endInt = 0 ;
 		}
 		
 		return result ;
 	}
-
-	
 	
 }
-
-

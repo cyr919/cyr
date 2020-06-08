@@ -73,7 +73,7 @@ public class ConnectivityMainRun
 			
 			
 			// connectivity 프로퍼티(db에 있는 mgp 설정) 읽어서 static 변수에 저장
-			resultBool02 = connectivityProperties.setStdv( ) ;
+			resultBool02 = connectivityProperties.setConnectivityProperties( ) ;
 			
 			if( resultBool01 && resultBool02 ) {
 				

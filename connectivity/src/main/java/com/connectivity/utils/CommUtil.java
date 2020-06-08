@@ -495,4 +495,27 @@ public class CommUtil
 		return resultInt ;
 	}
 	
+	public String idxReplace( String source , int startInt , int endInt , String object ) {
+		StringBuffer resultStringBuffer = null ;
+		
+		try {
+			resultStringBuffer = new StringBuffer( source ) ;
+			
+			logger.debug( "resultStringBuffer.length( ) :: " + resultStringBuffer.length( ) ) ;
+
+			resultStringBuffer = resultStringBuffer.replace( startInt , endInt , object ) ;
+		}
+		catch( Exception e ) {
+			logger.error( e.getMessage( ) , e ) ;
+		}
+		finally {
+			source = null ;
+			object = null ;
+			startInt = 0 ;
+			endInt = 0 ;
+		}
+		
+		return( resultStringBuffer + "" ) ;
+	}
+	
 }
