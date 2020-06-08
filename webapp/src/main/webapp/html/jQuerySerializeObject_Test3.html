@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>jQuery Serialize Object</title>
+<script src="./js/jquery-1.11.2.min.js"></script>
+<script src="./js/jquery.serialize-object.min.js"></script>
+
+</head>
+
+<body>
+
+	<form action="" id="actionFrom" name="actionFrom" method="get" target="">
+		<input type="text" name="title" value="0" />
+		<input type="text" name="name[]" value="1" />
+		<input type="text" name="age[]" value="2" />
+		<input type="text" name="name[]" value="5" />
+		<input type="text" name="age[]" value="6" />
+		<input type="text" name="name[]" value="3" />
+		<input type="text" name="age[]" value="4" />
+	</form>
+	<input type="button" value="버튼 클릭">
+	<br>
+	<p>결과</p>
+	<br>
+	<textarea rows="30" cols="150"></textarea>
+
+</body>
+<script type="text/javascript">
+	$( document ).on( "click" , 'input[type="button"]' , function( ) {
+		alert( "The paragraph was clicked." );
+		fromSubmit( ) ;
+	} )
+
+	function fromSubmit( ) {
+		var param = {};
+		
+		param = $( 'form[name="actionFrom"]' ).serializeObject( );
+		
+		console.log( 'param' , param );
+		
+	}
+</script>
+</html>

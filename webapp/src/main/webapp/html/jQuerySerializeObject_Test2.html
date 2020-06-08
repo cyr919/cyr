@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>jQuery Serialize Object</title>
+<script src="./js/jquery-1.11.2.min.js"></script>
+<script src="./js/jquery.serialize-object.min.js"></script>
+
+</head>
+
+<body>
+
+	<!-- <form action="" id="actionFrom" name="actionFrom" method="get" target="">
+		<input type="text" name="paramData[][deviceId]" value="st001" />
+		<input type="text" name="paramData[][dataMap][mgpKey]" value="m1" />
+		<input type="text" name="paramData[][dataMap][item]" value="1" />
+		<input type="text" name="paramData[][dataMap][val]" value="362" />
+	<br>
+		<input type="text" name="paramData[][deviceId]" value="st001" />
+		<input type="text" name="paramData[][dataMap][mgpKey]" value="m2" />
+		<input type="text" name="paramData[][dataMap][item]" value="2" />
+		<input type="text" name="paramData[][dataMap][val]" value="23" />
+	<br>
+		<input type="text" name="paramData[][deviceId]" value="st002" />
+		<input type="text" name="paramData[][dataMap][mgpKey]" value="m1" />
+		<input type="text" name="paramData[][dataMap][item]" value="3" />
+		<input type="text" name="paramData[][dataMap][val]" value="1425" />
+	<br>
+		<input type="text" name="paramData[][deviceId]" value="st002" />
+		<input type="text" name="paramData[][dataMap][mgpKey]" value="m2" />
+		<input type="text" name="paramData[][dataMap][item]" value="4" />
+		<input type="text" name="paramData[]dataMap[val]" value="523" />
+	</form> -->
+	<form action="" id="actionFrom" name="actionFrom" method="get" target="">
+		<input type="text" name="st001[][deviceId]" value="st001" />
+		<input type="text" name="st001[][dataMap][mgpKey]" value="m1" />
+		<input type="text" name="st001[][dataMap][item]" value="1" />
+		<input type="text" name="st001[][dataMap][val]" value="362" />
+	<br>
+		<input type="text" name="st001[][deviceId]" value="st001" />
+		<input type="text" name="st001[][dataMap][mgpKey]" value="m2" />
+		<input type="text" name="st001[][dataMap][item]" value="2" />
+		<input type="text" name="st001[][dataMap][val]" value="23" />
+	<br>
+		<input type="text" name="st002[][deviceId]" value="st002" />
+		<input type="text" name="st002[][dataMap][mgpKey]" value="m1" />
+		<input type="text" name="st002[][dataMap][item]" value="3" />
+		<input type="text" name="st002[][dataMap][val]" value="1425" />
+	<br>
+		<input type="text" name="st002[][deviceId]" value="st002" />
+		<input type="text" name="st002[][dataMap][mgpKey]" value="m2" />
+		<input type="text" name="st002[][dataMap][item]" value="4" />
+		<input type="text" name="st002[]dataMap[val]" value="523" />
+	</form>	
+	<input type="button" value="버튼 클릭">
+	<br>
+	<p>결과</p>
+	<br>
+	<textarea rows="30" cols="150"></textarea>
+
+</body>
+<script type="text/javascript">
+	$( document ).on( "click" , 'input[type="button"]' , function( ) {
+		alert( "The paragraph was clicked." );
+		fromSubmit( );
+	} )
+
+	function fromSubmit( ) {
+		var param = {};
+		
+		param = $( 'form[name="actionFrom"]' ).serializeObject( );
+		
+		console.log( 'param' , param );
+		
+		for( var i = 0 ; i < param.length ; i++ ) {
+			
+		}
+		
+	}
+</script>
+</html>
