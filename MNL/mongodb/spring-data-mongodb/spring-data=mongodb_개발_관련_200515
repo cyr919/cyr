@@ -1,1 +1,18 @@
 https://mkyong.com/mongodb/spring-data-mongodb-select-fields-to-return/
+
+https://docs.spring.io/spring-data/mongodb/docs/current/reference/html/#mongo-template
+
+
+<beans>
+
+  <mongo:mongo-client host="localhost" port="27017">
+    <mongo:client-settings connection-pool-max-connection-life-time="10"
+        connection-pool-min-size="10"
+		connection-pool-max-size="20"
+		connection-pool-maintenance-frequency="10"
+		connection-pool-maintenance-initial-delay="11"
+		connection-pool-max-connection-idle-time="30"
+		connection-pool-max-wait-time="15" />
+  </mongo:mongo-client>
+
+</beans>
