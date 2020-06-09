@@ -38,20 +38,6 @@ public class Data2ConnectivityReceiver implements Runnable
 	private Connection connection = null ;
 	private Channel channel = null ;
 	
-	public void doWork( String strSubMessage ) {
-		
-		try {
-			
-			logger.debug( "strSubMessage :: " + strSubMessage ) ;
-			
-		}
-		catch( Exception e ) {
-			logger.error( e.getMessage( ) , e ) ;
-		}
-		
-		return ;
-	}
-	
 	public Data2ConnectivityReceiver( ConnectionFactory connectionFactory , String strDeviceName ) {
 		
 		this.connectionFactory = connectionFactory ;
@@ -93,16 +79,18 @@ public class Data2ConnectivityReceiver implements Runnable
 			final Consumer consumer = new DefaultConsumer( this.channel ) {
 				@Override
 				public void handleDelivery( String consumerTag , Envelope envelope , AMQP.BasicProperties properties , byte[ ] body ) throws IOException {
+					
 					String message = new String( body , "UTF-8" ) ;
 					
 					logger.info( " [x] Received :: " + message + "" ) ;
+					
 					try {
 						doWork( message ) ;
 					}
 					finally {
-						logger.info( " [x] Done" ) ;
 						channel.basicAck( envelope.getDeliveryTag( ) , false ) ;
 						message = null ;
+						logger.info( " [x] Done" ) ;
 					}
 				}
 			} ;
@@ -121,6 +109,28 @@ public class Data2ConnectivityReceiver implements Runnable
 		}
 		
 		return ;
+	}
+	
+	public Boolean doWork( String strSubMessage ) {
+		
+		Boolean resultBool = true ;
+		DataGather dataGather = new DataGather( ) ;
+		
+		try {
+			// logger.debug( "strSubMessage :: " + strSubMessage ) ;
+			
+			resultBool = dataGather.dataGathering( strSubMessage ) ;
+		}
+		catch( Exception e ) {
+			resultBool = false ;
+			logger.error( e.getMessage( ) , e ) ;
+		}
+		finally {
+			strSubMessage = null ;
+			dataGather = null ;
+		}
+		
+		return resultBool ;
 	}
 	
 	public void connectionClose( ) {

@@ -19,7 +19,7 @@ import com.connectivity.utils.CommUtil ;
 import com.connectivity.utils.ExtndEgovStringUtil ;
 import com.connectivity.utils.JsonUtil ;
 
-public class DataGather
+public class DataGather extends QualityCode
 {
 	
 	// Define a static logger variable so that it references the
@@ -27,7 +27,7 @@ public class DataGather
 	private Logger logger = LogManager.getLogger( this.getClass( ) ) ;
 	// Logger logger = LogManager.getLogger( ) ;
 	
-	private QualityCode qualityCode = new QualityCode( ConnectivityProperties.RECORD_QC_INF , ConnectivityProperties.RECORD_QC_IDX , ConnectivityProperties.FIELD_QC_INF , ConnectivityProperties.FIELD_QC_IDX ) ;
+	// private QualityCode qualityCode = new QualityCode( ConnectivityProperties.RECORD_QC_INF , ConnectivityProperties.RECORD_QC_IDX , ConnectivityProperties.FIELD_QC_INF , ConnectivityProperties.FIELD_QC_IDX ) ;
 	private CommUtil commUtil = new CommUtil( ) ;
 	private ExtndEgovStringUtil extndEgovStringUtil = new ExtndEgovStringUtil( ) ;
 	private DataGatherDao dataGatherDao = new DataGatherDao( ) ;
@@ -119,7 +119,7 @@ public class DataGather
 			// logger.debug( "ConnectivityProperties.STDV_DT_MDL.get( " + strDviceId + " ) :: " + ConnectivityProperties.STDV_DT_MDL.get( strDviceId ) ) ;
 			
 			// 레코드 QC 처리 관련 true 부터 시작한다.
-			resultRecordQc = qualityCode.initRecordQualityCode( ) ;
+			resultRecordQc = initRecordQualityCode( ) ;
 			
 			// 수집된 계측 데이터 처리
 			for( Object key : subDataJSONObject.keySet( ) ) {
@@ -142,24 +142,24 @@ public class DataGather
 				
 				//// TODO 계측 필드 데이터 QC 적용
 				// 초기값
-				tempQcStr = qualityCode.initFieldQualityCode( ) ;
+				tempQcStr = initFieldQualityCode( ) ;
 				//// 계측 필드 QC 적용
 				// OldData 필드 QC 레코드 QC 같이 확인
-				tempQcStr = qualityCode.gatherOldData( tempQcStr ) ;
+				tempQcStr = gatherOldData( tempQcStr ) ;
 				
 				// OverFlow 필드 QC 레코드 QC 같이 확인
-				tempFildQcMap = qualityCode.gatherOverFlow( tempQcStr , gatherValStr , stdvDtMdlMap.get( key ) , resultRecordQc ) ;
+				tempFildQcMap = gatherOverFlow( tempQcStr , gatherValStr , stdvDtMdlMap.get( key ) , resultRecordQc ) ;
 				tempQcStr = tempFildQcMap.get( "resultFieldQc" ) + "" ;
 				resultRecordQc = tempFildQcMap.get( "resultTempRecordQc" ) + "" ;
 				
-				tempQcStr = qualityCode.gatherMeasurementMode( tempQcStr ) ;
-				tempQcStr = qualityCode.gatherCalculationMode( tempQcStr ) ;
-				tempQcStr = qualityCode.gatherSimulationMode( tempQcStr ) ;
+				tempQcStr = gatherMeasurementMode( tempQcStr ) ;
+				tempQcStr = gatherCalculationMode( tempQcStr ) ;
+				tempQcStr = gatherSimulationMode( tempQcStr ) ;
 				
 				resultDataMap.put( ( key + "_Q" ) , tempQcStr ) ;
 				//// 계측 필드 데이터 QC 적용
 				
-				logger.debug( "tempQcStr ::" + tempQcStr ) ;
+				// logger.debug( "tempQcStr ::" + tempQcStr ) ;
 				
 			} // subDataJSONObject.keySet( )
 			logger.debug( "계측 처리 후 ::" ) ;
@@ -177,7 +177,6 @@ public class DataGather
 			logger.debug( "resultCalCulDataMap :: " + resultCalCulDataMap ) ;
 			logger.debug( "연산 처리 후 끝 ::" ) ;
 			
-			// 장치내 연산 데이터 QC 적용
 			
 			// redis 저장
 			
@@ -248,7 +247,7 @@ public class DataGather
 			
 			// 계측 데이터 mongodb 저장처리
 			// dataGatherDao.insertGatherData( resultMongodbDataMap ) ;
-			// 이벤트 처리(thread 생성 후 거기서 처리하는 방안으로)
+			// TODO 이벤트 처리(thread 생성 후 거기서 처리하는 방안으로)
 			
 		}
 		catch( Exception e ) {
@@ -302,10 +301,10 @@ public class DataGather
 		try {
 			
 			resultBigDecimal = new BigDecimal( ( gatherData + "" ) ) ;
-			logger.debug( "resultBigDecimal :: " + resultBigDecimal ) ;
-			logger.debug( "scaleFactor :: " + scaleFactor ) ;
-			logger.debug( "commUtil :: " + commUtil ) ;
-			logger.debug( "!commUtil.checkObjNull( ( scaleFactor ) :: " + !commUtil.checkObjNull( ( scaleFactor ) ) ) ;
+			// logger.debug( "resultBigDecimal :: " + resultBigDecimal ) ;
+			// logger.debug( "scaleFactor :: " + scaleFactor ) ;
+			// logger.debug( "commUtil :: " + commUtil ) ;
+			// logger.debug( "!commUtil.checkObjNull( ( scaleFactor ) :: " + !commUtil.checkObjNull( ( scaleFactor ) ) ) ;
 			
 			if( !commUtil.checkObjNull( ( scaleFactor ) ) ) {
 				
@@ -316,6 +315,9 @@ public class DataGather
 			}
 			
 			// logger.debug( "resultBigDecimal :: " + resultBigDecimal ) ;
+		}
+		catch( Exception e ) {
+			logger.error( e.getMessage( ) , e ) ;
 		}
 		finally {
 			gatherData = null ;
@@ -388,7 +390,7 @@ public class DataGather
 				
 				for( j = 0 ; j < stdIdxsArr.length ; j++ ) {
 					
-					logger.debug( "stdIdxsArr[ " + j + " ] :: " + stdIdxsArr[ j ] ) ;
+					// logger.debug( "stdIdxsArr[ " + j + " ] :: " + stdIdxsArr[ j ] ) ;
 					// logger.debug( "gatherDataHashMap.get( stdIdxsArr[ " + j + " ] ) :: " + gatherDataHashMap.get( stdIdxsArr[ j ] ) ) ;
 					
 					tempBigDecimal = new BigDecimal( gatherDataHashMap.get( stdIdxsArr[ j ] ) ) ;
@@ -441,11 +443,12 @@ public class DataGather
 						}
 					} // 함수 연산
 					
+					// 장치내 연산 데이터 QC 적용
 					// TODO 연산 QC 적용 : OldData, OverFlow
-					logger.debug( "::::: 연산 QC 적용 OldData, OverFlow :::::" ) ;
+					// logger.debug( "::::: 연산 QC 적용 OldData, OverFlow :::::" ) ;
 					// logger.debug( "stdIdxsArr[ " + j + " ] :: " + stdIdxsArr[ j ] ) ;
-					logger.debug( "stdIdxsArr[ " + j + " ]_Q :: " + ( stdIdxsArr[ j ] + "_Q" ) ) ;
-					logger.debug( "gatherDataHashMap.get( stdIdxsArr[ " + j + " ]_Q ) :: " + gatherDataHashMap.get( ( stdIdxsArr[ j ] + "_Q" ) ) ) ;
+					// logger.debug( "stdIdxsArr[ " + j + " ]_Q :: " + ( stdIdxsArr[ j ] + "_Q" ) ) ;
+					// logger.debug( "gatherDataHashMap.get( stdIdxsArr[ " + j + " ]_Q ) :: " + gatherDataHashMap.get( ( stdIdxsArr[ j ] + "_Q" ) ) ) ;
 					
 					strGatherFieldQc = gatherDataHashMap.get( ( stdIdxsArr[ j ] + "_Q" ) ) + "" ;
 					if( j == 0 ) {
@@ -454,13 +457,13 @@ public class DataGather
 						resultQcStr = strGatherFieldQc ;
 					}
 					else {
-						resultQcStr = qualityCode.calculateOldData( resultQcStr , strGatherFieldQc ) ;
-						resultQcStr = qualityCode.calculateOverFlow( resultQcStr , strGatherFieldQc ) ;
+						resultQcStr = calculateOldData( resultQcStr , strGatherFieldQc ) ;
+						resultQcStr = calculateOverFlow( resultQcStr , strGatherFieldQc ) ;
 						
 					}
 					
-					logger.debug( "resultQcStr :: " + resultQcStr ) ;
-					logger.debug( "::::: 연산 QC 적용 OldData, OverFlow end :::::" ) ;
+					// logger.debug( "resultQcStr :: " + resultQcStr ) ;
+					// logger.debug( "::::: 연산 QC 적용 OldData, OverFlow end :::::" ) ;
 					
 				} // for( j = 0 ; j < stdIdxsArr.length ; j++ )
 				
@@ -483,15 +486,16 @@ public class DataGather
 					tempResultBigDecimal = commUtil.setScaleStringToBigDecimal( ( tempResultBigDecimal + "" ) , intPLen , 1 ) ;
 				}
 				
+				// 장치내 연산 데이터 QC 적용
 				// TODO 연산 필드 QC 처리 : 계측 모드, 연산 모드, calculateInDeviceSimulationMode
-				logger.debug( "::::: 연산 QC 적용 계측 모드, 연산 모드, calculateInDeviceSimulationMode :::::" ) ;
+				// logger.debug( "::::: 연산 QC 적용 계측 모드, 연산 모드, calculateInDeviceSimulationMode :::::" ) ;
 				
-				resultQcStr = qualityCode.calculateMeasurementMode( resultQcStr ) ;
-				resultQcStr = qualityCode.calculateCalculationMode( resultQcStr ) ;
-				resultQcStr = qualityCode.calculateInDeviceSimulationMode( resultQcStr ) ;
+				resultQcStr = calculateMeasurementMode( resultQcStr ) ;
+				resultQcStr = calculateCalculationMode( resultQcStr ) ;
+				resultQcStr = calculateInDeviceSimulationMode( resultQcStr ) ;
 				
-				logger.debug( "resultQcStr :: " + resultQcStr ) ;
-				logger.debug( "::::: 연산 QC 적용 계측 모드, 연산 모드, calculateInDeviceSimulationMode end :::::" ) ;
+				// logger.debug( "resultQcStr :: " + resultQcStr ) ;
+				// logger.debug( "::::: 연산 QC 적용 계측 모드, 연산 모드, calculateInDeviceSimulationMode end :::::" ) ;
 				
 				// 연산 결과 값 추가
 				// logger.debug( "tempResultBigDecimal :: " + tempResultBigDecimal ) ;
@@ -502,6 +506,9 @@ public class DataGather
 			} // for( i = 0 ; i < calculInfoList.size( ) ; i++ )
 				// logger.debug( "resultHashMap :: " + resultHashMap ) ;
 		} // try
+		catch( Exception e ) {
+			logger.error( e.getMessage( ) , e ) ;
+		}
 		finally {
 			i = 0 ;
 			j = 0 ;

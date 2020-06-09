@@ -45,7 +45,7 @@ public class AdapterDataSimulTest implements Runnable
 					
 				}
 				
-				Thread.sleep( 10 * 1000 ) ;
+				Thread.sleep( 100 ) ;
 			}
 			
 		}

@@ -9,6 +9,7 @@ import java.util.HashMap ;
 import org.apache.logging.log4j.LogManager ;
 import org.apache.logging.log4j.Logger ;
 
+import com.connectivity.common.ConnectivityProperties ;
 import com.connectivity.utils.CommUtil ;
 
 /**
@@ -33,11 +34,22 @@ public class QualityCode
 	
 	private CommUtil commUtil = new CommUtil( ) ;
 	
+	public QualityCode( ) {
+		this.recordQcInf = ConnectivityProperties.RECORD_QC_INF ;
+		this.recordQcIdx = ConnectivityProperties.RECORD_QC_IDX ;
+		this.fieldQcInf = ConnectivityProperties.FIELD_QC_INF ;
+		this.fieldQcIdx = ConnectivityProperties.FIELD_QC_IDX ;
+		logger.debug( "recordQcInf :: " + System.identityHashCode( recordQcInf ) ) ;
+		logger.debug( "fieldQcInf :: " + System.identityHashCode( fieldQcInf ) ) ;
+		logger.debug( "this.recordQcInf :: " + System.identityHashCode( this.recordQcInf ) ) ;
+		logger.debug( "this.fieldQcInf :: " + System.identityHashCode( this.fieldQcInf ) ) ;
+	}
+	
 	public QualityCode( HashMap< String , HashMap< String , Object > > recordQcInf , HashMap< String , HashMap< String , Integer > > recordQcIdx , HashMap< String , HashMap< String , Object > > fieldQcInf , HashMap< String , HashMap< String , Integer > > fieldQcIdx ) {
 		this.recordQcInf = recordQcInf ;
+		this.recordQcIdx = recordQcIdx ;
 		this.fieldQcInf = fieldQcInf ;
 		this.fieldQcIdx = fieldQcIdx ;
-		this.recordQcIdx = recordQcIdx ;
 		
 		logger.debug( "recordQcInf :: " + System.identityHashCode( recordQcInf ) ) ;
 		logger.debug( "fieldQcInf :: " + System.identityHashCode( fieldQcInf ) ) ;
@@ -99,8 +111,8 @@ public class QualityCode
 		String resultQcStr = "" ;
 		
 		try {
-			logger.debug( "strQc :: " + strQc ) ;
-			logger.debug( "fieldQcIdx.get( \"oldData\" ) :: " + fieldQcIdx.get( "oldData" ) ) ;
+			// logger.debug( "strQc :: " + strQc ) ;
+			// logger.debug( "fieldQcIdx.get( \"oldData\" ) :: " + fieldQcIdx.get( "oldData" ) ) ;
 			
 			// TODO OldData
 			resultQcStr = "1" ;
@@ -132,10 +144,10 @@ public class QualityCode
 		BigDecimal valData = null ;
 		
 		try {
-			logger.debug( "strQc :: " + strQc ) ;
-			logger.debug( "gatherValStr :: " + gatherValStr ) ;
-			logger.debug( "stdvDtMdlInfo :: " + stdvDtMdlInfo ) ;
-			logger.debug( "fieldQcIdx.get( \"overFlow\" ) :: " + fieldQcIdx.get( "overFlow" ) ) ;
+			// logger.debug( "strQc :: " + strQc ) ;
+			// logger.debug( "gatherValStr :: " + gatherValStr ) ;
+			// logger.debug( "stdvDtMdlInfo :: " + stdvDtMdlInfo ) ;
+			// logger.debug( "fieldQcIdx.get( \"overFlow\" ) :: " + fieldQcIdx.get( "overFlow" ) ) ;
 			
 			// OverFlow
 			
@@ -188,8 +200,8 @@ public class QualityCode
 		String resultQcStr = "" ;
 		
 		try {
-			logger.debug( "strQc :: " + strQc ) ;
-			logger.debug( "fieldQcIdx.get( \"measurementMode\" ) :: " + fieldQcIdx.get( "measurementMode" ) ) ;
+			// logger.debug( "strQc :: " + strQc ) ;
+			// logger.debug( "fieldQcIdx.get( \"measurementMode\" ) :: " + fieldQcIdx.get( "measurementMode" ) ) ;
 			
 			// 계측 모드 : true
 			resultQcStr = "1" ;
@@ -214,8 +226,8 @@ public class QualityCode
 		String resultQcStr = "" ;
 		
 		try {
-			logger.debug( "strQc :: " + strQc ) ;
-			logger.debug( "fieldQcIdx.get( \"calculationMode\" ) :: " + fieldQcIdx.get( "calculationMode" ) ) ;
+			// logger.debug( "strQc :: " + strQc ) ;
+			// logger.debug( "fieldQcIdx.get( \"calculationMode\" ) :: " + fieldQcIdx.get( "calculationMode" ) ) ;
 			
 			// 연산 모드 : false
 			resultQcStr = "0" ;
@@ -240,8 +252,8 @@ public class QualityCode
 		String resultQcStr = "" ;
 		
 		try {
-			logger.debug( "strQc :: " + strQc ) ;
-			logger.debug( "fieldQcIdx.get( \"simulationMode\" ) :: " + fieldQcIdx.get( "simulationMode" ) ) ;
+			// logger.debug( "strQc :: " + strQc ) ;
+			// logger.debug( "fieldQcIdx.get( \"simulationMode\" ) :: " + fieldQcIdx.get( "simulationMode" ) ) ;
 			
 			// TODO 시뮬레이션 모드
 			resultQcStr = "1" ;
@@ -277,18 +289,18 @@ public class QualityCode
 		String strFieldQc = "" ;
 		
 		try {
-			logger.debug( "fieldQcIdx.get( \"oldData\" ) :: " + fieldQcIdx.get( "oldData" ) ) ;
-			logger.debug( "strQc :: " + strQc ) ;
-			logger.debug( "strGatherFieldQc :: " + strGatherFieldQc ) ;
-			
-			logger.debug( "substring test :: " + "12345678".substring( fieldQcIdx.get( "oldData" ).get( "startInt" ) , fieldQcIdx.get( "oldData" ).get( "endInt" ) ) ) ;
+			// logger.debug( "fieldQcIdx.get( \"oldData\" ) :: " + fieldQcIdx.get( "oldData" ) ) ;
+			// logger.debug( "strQc :: " + strQc ) ;
+			// logger.debug( "strGatherFieldQc :: " + strGatherFieldQc ) ;
+			//
+			// logger.debug( "substring test :: " + "12345678".substring( fieldQcIdx.get( "oldData" ).get( "startInt" ) , fieldQcIdx.get( "oldData" ).get( "endInt" ) ) ) ;
 			
 			// OldData
 			strFieldQc = strQc.substring( fieldQcIdx.get( "oldData" ).get( "startInt" ) , fieldQcIdx.get( "oldData" ).get( "endInt" ) ) ;
 			strGatherFieldQc = strGatherFieldQc.substring( fieldQcIdx.get( "oldData" ).get( "startInt" ) , fieldQcIdx.get( "oldData" ).get( "endInt" ) ) ;
 			
-			logger.debug( "strFieldQc :: " + strFieldQc ) ;
-			logger.debug( "strGatherFieldQc :: " + strGatherFieldQc ) ;
+			// logger.debug( "strFieldQc :: " + strFieldQc ) ;
+			// logger.debug( "strGatherFieldQc :: " + strGatherFieldQc ) ;
 			
 			resultInt = commUtil.multiplyData( strFieldQc , strGatherFieldQc ) ;
 			
@@ -323,20 +335,20 @@ public class QualityCode
 		
 		int resultInt = 0 ;
 		String strFieldQc = "" ;
-
+		
 		try {
-			logger.debug( "fieldQcIdx.get( \"overFlow\" ) :: " + fieldQcIdx.get( "overFlow" ) ) ;
-			logger.debug( "strQc :: " + strQc ) ;
-			logger.debug( "strGatherFieldQc :: " + strGatherFieldQc ) ;
-			
-			logger.debug( "substring test :: " + "12345678".substring( fieldQcIdx.get( "overFlow" ).get( "startInt" ) , fieldQcIdx.get( "overFlow" ).get( "endInt" ) ) ) ;
+			// logger.debug( "fieldQcIdx.get( \"overFlow\" ) :: " + fieldQcIdx.get( "overFlow" ) ) ;
+			// logger.debug( "strQc :: " + strQc ) ;
+			// logger.debug( "strGatherFieldQc :: " + strGatherFieldQc ) ;
+			//
+			// logger.debug( "substring test :: " + "12345678".substring( fieldQcIdx.get( "overFlow" ).get( "startInt" ) , fieldQcIdx.get( "overFlow" ).get( "endInt" ) ) ) ;
 			
 			// OverFlow
 			strFieldQc = strQc.substring( fieldQcIdx.get( "overFlow" ).get( "startInt" ) , fieldQcIdx.get( "overFlow" ).get( "endInt" ) ) ;
 			strGatherFieldQc = strGatherFieldQc.substring( fieldQcIdx.get( "overFlow" ).get( "startInt" ) , fieldQcIdx.get( "overFlow" ).get( "endInt" ) ) ;
 			
-			logger.debug( "strFieldQc :: " + strFieldQc ) ;
-			logger.debug( "strGatherFieldQc :: " + strGatherFieldQc ) ;
+			// logger.debug( "strFieldQc :: " + strFieldQc ) ;
+			// logger.debug( "strGatherFieldQc :: " + strGatherFieldQc ) ;
 			
 			resultInt = commUtil.multiplyData( strFieldQc , strGatherFieldQc ) ;
 			
@@ -362,8 +374,8 @@ public class QualityCode
 		String resultQcStr = "" ;
 		
 		try {
-			logger.debug( "strQc :: " + strQc ) ;
-			logger.debug( "fieldQcIdx.get( \"measurementMode\" ) :: " + fieldQcIdx.get( "measurementMode" ) ) ;
+			// logger.debug( "strQc :: " + strQc ) ;
+			// logger.debug( "fieldQcIdx.get( \"measurementMode\" ) :: " + fieldQcIdx.get( "measurementMode" ) ) ;
 			
 			// 계측 모드 : false
 			resultQcStr = "0" ;
@@ -388,8 +400,8 @@ public class QualityCode
 		String resultQcStr = "" ;
 		
 		try {
-			logger.debug( "strQc :: " + strQc ) ;
-			logger.debug( "fieldQcIdx.get( \"calculationMode\" ) :: " + fieldQcIdx.get( "calculationMode" ) ) ;
+			// logger.debug( "strQc :: " + strQc ) ;
+			// logger.debug( "fieldQcIdx.get( \"calculationMode\" ) :: " + fieldQcIdx.get( "calculationMode" ) ) ;
 			
 			// 연산 모드 : true
 			resultQcStr = "1" ;
@@ -414,8 +426,8 @@ public class QualityCode
 		String resultQcStr = "" ;
 		
 		try {
-			logger.debug( "strQc :: " + strQc ) ;
-			logger.debug( "fieldQcIdx.get( \"simulationMode\" ) :: " + fieldQcIdx.get( "simulationMode" ) ) ;
+			// logger.debug( "strQc :: " + strQc ) ;
+			// logger.debug( "fieldQcIdx.get( \"simulationMode\" ) :: " + fieldQcIdx.get( "simulationMode" ) ) ;
 			
 			// TODO 시뮬레이션 모드
 			resultQcStr = "1" ;
@@ -440,8 +452,8 @@ public class QualityCode
 		String resultQcStr = "" ;
 		
 		try {
-			logger.debug( "strQc :: " + strQc ) ;
-			logger.debug( "fieldQcIdx.get( \"simulationMode\" ) :: " + fieldQcIdx.get( "simulationMode" ) ) ;
+			// logger.debug( "strQc :: " + strQc ) ;
+			// logger.debug( "fieldQcIdx.get( \"simulationMode\" ) :: " + fieldQcIdx.get( "simulationMode" ) ) ;
 			
 			// TODO 시뮬레이션 모드
 			resultQcStr = "1" ;
@@ -455,6 +467,7 @@ public class QualityCode
 		finally {
 			strQc = null ;
 			resultQcStr = null ;
+			strGatherFieldQc = null ;
 		}
 		
 		return resultStr ;

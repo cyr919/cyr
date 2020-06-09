@@ -70,8 +70,6 @@ public class ConnectivityMainRun
 			// 공통 프로퍼티(프로퍼티 파일에 있는 설정) 읽어서 static 변수에 저장
 			resultBool01 = commonProperties.setProperties( ) ;
 			
-			
-			
 			// connectivity 프로퍼티(db에 있는 mgp 설정) 읽어서 static 변수에 저장
 			resultBool02 = connectivityProperties.setConnectivityProperties( ) ;
 			
@@ -146,7 +144,7 @@ public class ConnectivityMainRun
 			// 처리 정지 처리
 			this.rabbitmqConnectionClose( ) ;
 			
-			// 처리  시작 처리
+			// 처리 시작 처리
 			this.rabbitmqConnectionOpen( ConnectivityProperties.STDV_INF ) ;
 			
 			// 리셋 완료 이벤트

@@ -46,7 +46,7 @@ public class DataGatherDao
 		String resultStr = "" ;
 		
 		try {
-			logger.info( "hmSetGatherData" ) ;
+			logger.debug( "hmSetGatherData" ) ;
 			
 			strKey = "MGP_SVDT" + "^" + dviceId ;
 			logger.debug( "strKey :: " + strKey ) ;
@@ -58,7 +58,7 @@ public class DataGatherDao
 			if( jedis.isConnected( ) ) {
 				resulBoolean = false ;
 				resultStr = jedis.hmset( strKey , redisSetDataMap ) ;
-				logger.trace( "resultStr :: " + resultStr ) ;
+				logger.debug( "resultStr :: " + resultStr ) ;
 				
 			}
 		}
@@ -77,7 +77,7 @@ public class DataGatherDao
 			}
 			jedis = null ;
 			jedisConnection = null ;
-			logger.info( "hmSetGatherData finally" ) ;
+			logger.debug( "hmSetGatherData finally" ) ;
 			
 		}
 		
@@ -92,7 +92,7 @@ public class DataGatherDao
 		MongoOperations mongoOps = null ;
 		
 		try {
-			logger.info( "insertGatherData" ) ;
+			logger.debug( "insertGatherData" ) ;
 			
 			mongoOps = mongodbConnection.getMongoTemplate( ) ;
 			mongoOps.insert( mongodbSetDataMap , "MGP_SDHS" ) ;
@@ -106,7 +106,7 @@ public class DataGatherDao
 			mongodbConnection = null ;
 			mongoOps = null ;
 			mongodbSetDataMap = null ;
-			logger.info( "insertGatherData finally" ) ;
+			logger.debug( "insertGatherData finally" ) ;
 			
 		}
 		

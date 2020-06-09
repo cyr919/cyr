@@ -36,7 +36,7 @@
 				<!-- <SizeBasedTriggeringPolicy size="1000" /> -->
 				<!-- 10MB 용량이 초과시 DefaultRolloverStrategy 정책만큼 넘버링 -->
 				<!-- <SizeBasedTriggeringPolicy size="10MB" /> -->
-				<SizeBasedTriggeringPolicy size="1MB" />
+				<SizeBasedTriggeringPolicy size="10MB" />
 			</Policies>
 			<!-- fileIndex="max"이므로 target file의 size가 1000 byte를 넘어가면, fileIndex가 1(min)인 history file에 백업 (fixed window strategy) -->
 			<!-- fileIndex 속성이 "nomax"로 설정되면 최소값 및 최대 값이 무시되고 파일 번호가 1 씩 증가하고 각 롤오버는 최대 파일 수없이 점차적으로 더 높은 값을 갖습니다. -->

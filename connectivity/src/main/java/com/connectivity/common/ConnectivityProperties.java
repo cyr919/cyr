@@ -39,7 +39,7 @@ public class ConnectivityProperties
 	public static HashMap< String , HashMap< String , Integer > > RECORD_QC_IDX = new HashMap< String , HashMap< String , Integer > >( ) ;
 	// 필드 퀄리티 코드 정보
 	public static HashMap< String , HashMap< String , Integer > > FIELD_QC_IDX = new HashMap< String , HashMap< String , Integer > >( ) ;
-
+	
 	public Boolean setConnectivityProperties( ) {
 		Boolean resultBool = true ;
 		

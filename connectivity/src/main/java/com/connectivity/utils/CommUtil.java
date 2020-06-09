@@ -514,7 +514,7 @@ public class CommUtil
 		try {
 			resultStringBuffer = new StringBuffer( source ) ;
 			
-			logger.debug( "resultStringBuffer.length( ) :: " + resultStringBuffer.length( ) ) ;
+			// logger.debug( "resultStringBuffer.length( ) :: " + resultStringBuffer.length( ) ) ;
 			
 			resultStringBuffer = resultStringBuffer.replace( startInt , endInt , object ) ;
 		}
