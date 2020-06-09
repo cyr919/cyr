@@ -58,65 +58,23 @@ public class QualityCode
 		
 	}
 	
-	// public HashMap< String , HashMap< String , Integer > > setFieldQcIdx( HashMap< String , HashMap< String , Object > > fieldQcInf ) {
-	//
-	// HashMap< String , HashMap< String , Integer > > resultFieldQcIdx = new HashMap< String , HashMap< String , Integer > >( ) ;
-	// HashMap< String , Integer > tempMap = new HashMap< String , Integer >( ) ;
-	// int startInt = 0 ;
-	// int endInt = 0 ;
-	//
-	// try {
-	// for( String keyStr : fieldQcInf.keySet( ) ) {
-	// logger.debug( "keyStr :: " + keyStr ) ;
-	// logger.debug( "fieldQcInf.get( " + keyStr + " ) :: " + fieldQcInf.get( keyStr ) ) ;
-	//
-	// startInt = Integer.parseInt( fieldQcInf.get( keyStr ).get( "ADR" ) + "" ) ;
-	// endInt = Integer.parseInt( fieldQcInf.get( keyStr ).get( "LEN" ) + "" ) + startInt ;
-	//
-	// logger.debug( "startInt :: " + startInt ) ;
-	// logger.debug( "endInt :: " + endInt ) ;
-	//
-	// tempMap.put( "startInt" , startInt ) ;
-	// tempMap.put( "endInt" , endInt ) ;
-	//
-	// resultFieldQcIdx.put( keyStr , tempMap ) ;
-	// }
-	//
-	// logger.debug( "resultFieldQcIdx :: " + resultFieldQcIdx ) ;
-	// }
-	// catch( Exception e ) {
-	// logger.error( e.getMessage( ) , e ) ;
-	// }
-	// finally {
-	// fieldQcInf = null ;
-	// }
-	//
-	// return resultFieldQcIdx ;
-	// }
-	
 	public String initRecordQualityCode( ) {
 		
-		return "9" ;
+		return "1" ;
 	}
 	
 	public String initFieldQualityCode( ) {
 		
-		return "98765432" ;
+		return "99999999" ;
 	}
 	
 	public int gatherRepresentData( String tempRecordQc , String resultFieldQc ) {
 		int resultInt = 0 ;
 		
-		int tempRecordQcInt = 0 ;
-		int resultFieldQcInt = 0 ;
-		
 		try {
-			
 			if( !commUtil.checkNull( tempRecordQc ) && !commUtil.checkNull( resultFieldQc ) ) {
-				tempRecordQcInt = Integer.parseInt( tempRecordQc ) ;
-				resultFieldQcInt = Integer.parseInt( resultFieldQc ) ;
 				
-				resultInt = tempRecordQcInt * resultFieldQcInt ;
+				resultInt = commUtil.multiplyData( tempRecordQc , resultFieldQc ) ;
 			}
 			else {
 				// false
@@ -130,8 +88,6 @@ public class QualityCode
 		finally {
 			tempRecordQc = null ;
 			resultFieldQc = null ;
-			tempRecordQcInt = 0 ;
-			resultFieldQcInt = 0 ;
 		}
 		
 		return resultInt ;
@@ -146,8 +102,8 @@ public class QualityCode
 			logger.debug( "strQc :: " + strQc ) ;
 			logger.debug( "fieldQcIdx.get( \"oldData\" ) :: " + fieldQcIdx.get( "oldData" ) ) ;
 			
-			// 계측 모드
-			resultQcStr = "!" ;
+			// TODO OldData
+			resultQcStr = "1" ;
 			
 			// 문자열 바꿔치키
 			resultStr = commUtil.idxReplace( strQc , fieldQcIdx.get( "oldData" ).get( "startInt" ) , fieldQcIdx.get( "oldData" ).get( "endInt" ) , resultQcStr ) ;
@@ -192,7 +148,6 @@ public class QualityCode
 					// gatherValStr < MIN || gatherValStr > MAX
 					// false
 					resultQcStr = "0" ;
-					
 				}
 				else {
 					// MIN <= gatherValStr <= MAX
@@ -236,7 +191,7 @@ public class QualityCode
 			logger.debug( "strQc :: " + strQc ) ;
 			logger.debug( "fieldQcIdx.get( \"measurementMode\" ) :: " + fieldQcIdx.get( "measurementMode" ) ) ;
 			
-			// 계측 모드
+			// 계측 모드 : true
 			resultQcStr = "1" ;
 			
 			// 문자열 바꿔치키
@@ -262,7 +217,7 @@ public class QualityCode
 			logger.debug( "strQc :: " + strQc ) ;
 			logger.debug( "fieldQcIdx.get( \"calculationMode\" ) :: " + fieldQcIdx.get( "calculationMode" ) ) ;
 			
-			// 연산 모드
+			// 연산 모드 : false
 			resultQcStr = "0" ;
 			
 			// 문자열 바꿔치키
@@ -288,8 +243,208 @@ public class QualityCode
 			logger.debug( "strQc :: " + strQc ) ;
 			logger.debug( "fieldQcIdx.get( \"simulationMode\" ) :: " + fieldQcIdx.get( "simulationMode" ) ) ;
 			
-			// 계측 모드
-			resultQcStr = "&" ;
+			// TODO 시뮬레이션 모드
+			resultQcStr = "1" ;
+			
+			// 문자열 바꿔치키
+			resultStr = commUtil.idxReplace( strQc , fieldQcIdx.get( "simulationMode" ).get( "startInt" ) , fieldQcIdx.get( "simulationMode" ).get( "endInt" ) , resultQcStr ) ;
+		}
+		catch( Exception e ) {
+			logger.error( e.getMessage( ) , e ) ;
+		}
+		finally {
+			strQc = null ;
+			resultQcStr = null ;
+		}
+		
+		return resultStr ;
+	}
+	
+	/**
+	 * <pre>
+	 * </pre>
+	 * 
+	 * @author cyr
+	 * @date 2020-06-09
+	 * @param strQc 연산 필드 QC 데이터
+	 * @param strGatherFieldQc 계측 데이터의 필드 QC 데이터
+	 * @return
+	 */
+	public String calculateOldData( String strQc , String strGatherFieldQc ) {
+		String resultStr = "" ;
+		
+		int resultInt = 0 ;
+		String strFieldQc = "" ;
+		
+		try {
+			logger.debug( "fieldQcIdx.get( \"oldData\" ) :: " + fieldQcIdx.get( "oldData" ) ) ;
+			logger.debug( "strQc :: " + strQc ) ;
+			logger.debug( "strGatherFieldQc :: " + strGatherFieldQc ) ;
+			
+			logger.debug( "substring test :: " + "12345678".substring( fieldQcIdx.get( "oldData" ).get( "startInt" ) , fieldQcIdx.get( "oldData" ).get( "endInt" ) ) ) ;
+			
+			// OldData
+			strFieldQc = strQc.substring( fieldQcIdx.get( "oldData" ).get( "startInt" ) , fieldQcIdx.get( "oldData" ).get( "endInt" ) ) ;
+			strGatherFieldQc = strGatherFieldQc.substring( fieldQcIdx.get( "oldData" ).get( "startInt" ) , fieldQcIdx.get( "oldData" ).get( "endInt" ) ) ;
+			
+			logger.debug( "strFieldQc :: " + strFieldQc ) ;
+			logger.debug( "strGatherFieldQc :: " + strGatherFieldQc ) ;
+			
+			resultInt = commUtil.multiplyData( strFieldQc , strGatherFieldQc ) ;
+			
+			// 문자열 바꿔치키
+			resultStr = commUtil.idxReplace( strQc , fieldQcIdx.get( "oldData" ).get( "startInt" ) , fieldQcIdx.get( "oldData" ).get( "endInt" ) , String.valueOf( resultInt ) ) ;
+		}
+		catch( Exception e ) {
+			logger.error( e.getMessage( ) , e ) ;
+		}
+		finally {
+			strQc = null ;
+			strGatherFieldQc = null ;
+			strFieldQc = null ;
+			resultInt = 0 ;
+		}
+		
+		return resultStr ;
+	}
+	
+	/**
+	 * <pre>
+	 * </pre>
+	 * 
+	 * @author cyr
+	 * @date 2020-06-09
+	 * @param strQc 연산 필드 QC 데이터
+	 * @param strGatherFieldQc 계측 데이터의 필드 QC 데이터
+	 * @return
+	 */
+	public String calculateOverFlow( String strQc , String strGatherFieldQc ) {
+		String resultStr = "" ;
+		
+		int resultInt = 0 ;
+		String strFieldQc = "" ;
+
+		try {
+			logger.debug( "fieldQcIdx.get( \"overFlow\" ) :: " + fieldQcIdx.get( "overFlow" ) ) ;
+			logger.debug( "strQc :: " + strQc ) ;
+			logger.debug( "strGatherFieldQc :: " + strGatherFieldQc ) ;
+			
+			logger.debug( "substring test :: " + "12345678".substring( fieldQcIdx.get( "overFlow" ).get( "startInt" ) , fieldQcIdx.get( "overFlow" ).get( "endInt" ) ) ) ;
+			
+			// OverFlow
+			strFieldQc = strQc.substring( fieldQcIdx.get( "overFlow" ).get( "startInt" ) , fieldQcIdx.get( "overFlow" ).get( "endInt" ) ) ;
+			strGatherFieldQc = strGatherFieldQc.substring( fieldQcIdx.get( "overFlow" ).get( "startInt" ) , fieldQcIdx.get( "overFlow" ).get( "endInt" ) ) ;
+			
+			logger.debug( "strFieldQc :: " + strFieldQc ) ;
+			logger.debug( "strGatherFieldQc :: " + strGatherFieldQc ) ;
+			
+			resultInt = commUtil.multiplyData( strFieldQc , strGatherFieldQc ) ;
+			
+			// 문자열 바꿔치키
+			resultStr = commUtil.idxReplace( strQc , fieldQcIdx.get( "overFlow" ).get( "startInt" ) , fieldQcIdx.get( "overFlow" ).get( "endInt" ) , String.valueOf( resultInt ) ) ;
+		}
+		catch( Exception e ) {
+			logger.error( e.getMessage( ) , e ) ;
+		}
+		finally {
+			strQc = null ;
+			strGatherFieldQc = null ;
+			strFieldQc = null ;
+			resultInt = 0 ;
+		}
+		
+		return resultStr ;
+	}
+	
+	public String calculateMeasurementMode( String strQc ) {
+		String resultStr = "" ;
+		
+		String resultQcStr = "" ;
+		
+		try {
+			logger.debug( "strQc :: " + strQc ) ;
+			logger.debug( "fieldQcIdx.get( \"measurementMode\" ) :: " + fieldQcIdx.get( "measurementMode" ) ) ;
+			
+			// 계측 모드 : false
+			resultQcStr = "0" ;
+			
+			// 문자열 바꿔치키
+			resultStr = commUtil.idxReplace( strQc , fieldQcIdx.get( "measurementMode" ).get( "startInt" ) , fieldQcIdx.get( "measurementMode" ).get( "endInt" ) , resultQcStr ) ;
+		}
+		catch( Exception e ) {
+			logger.error( e.getMessage( ) , e ) ;
+		}
+		finally {
+			strQc = null ;
+			resultQcStr = null ;
+		}
+		
+		return resultStr ;
+	}
+	
+	public String calculateCalculationMode( String strQc ) {
+		String resultStr = "" ;
+		
+		String resultQcStr = "" ;
+		
+		try {
+			logger.debug( "strQc :: " + strQc ) ;
+			logger.debug( "fieldQcIdx.get( \"calculationMode\" ) :: " + fieldQcIdx.get( "calculationMode" ) ) ;
+			
+			// 연산 모드 : true
+			resultQcStr = "1" ;
+			
+			// 문자열 바꿔치키
+			resultStr = commUtil.idxReplace( strQc , fieldQcIdx.get( "calculationMode" ).get( "startInt" ) , fieldQcIdx.get( "calculationMode" ).get( "endInt" ) , resultQcStr ) ;
+		}
+		catch( Exception e ) {
+			logger.error( e.getMessage( ) , e ) ;
+		}
+		finally {
+			strQc = null ;
+			resultQcStr = null ;
+		}
+		
+		return resultStr ;
+	}
+	
+	public String calculateInDeviceSimulationMode( String strQc ) {
+		String resultStr = "" ;
+		
+		String resultQcStr = "" ;
+		
+		try {
+			logger.debug( "strQc :: " + strQc ) ;
+			logger.debug( "fieldQcIdx.get( \"simulationMode\" ) :: " + fieldQcIdx.get( "simulationMode" ) ) ;
+			
+			// TODO 시뮬레이션 모드
+			resultQcStr = "1" ;
+			
+			// 문자열 바꿔치키
+			resultStr = commUtil.idxReplace( strQc , fieldQcIdx.get( "simulationMode" ).get( "startInt" ) , fieldQcIdx.get( "simulationMode" ).get( "endInt" ) , resultQcStr ) ;
+		}
+		catch( Exception e ) {
+			logger.error( e.getMessage( ) , e ) ;
+		}
+		finally {
+			strQc = null ;
+			resultQcStr = null ;
+		}
+		
+		return resultStr ;
+	}
+	
+	public String calculateBetweenDevicesSimulationMode( String strQc , String strGatherFieldQc ) {
+		String resultStr = "" ;
+		
+		String resultQcStr = "" ;
+		
+		try {
+			logger.debug( "strQc :: " + strQc ) ;
+			logger.debug( "fieldQcIdx.get( \"simulationMode\" ) :: " + fieldQcIdx.get( "simulationMode" ) ) ;
+			
+			// TODO 시뮬레이션 모드
+			resultQcStr = "1" ;
 			
 			// 문자열 바꿔치키
 			resultStr = commUtil.idxReplace( strQc , fieldQcIdx.get( "simulationMode" ).get( "startInt" ) , fieldQcIdx.get( "simulationMode" ).get( "endInt" ) , resultQcStr ) ;

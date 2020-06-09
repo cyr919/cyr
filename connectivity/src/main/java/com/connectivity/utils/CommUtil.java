@@ -495,6 +495,19 @@ public class CommUtil
 		return resultInt ;
 	}
 	
+	/**
+	 * <pre>
+	 * 문자열의 위치값으로 replace 한다.
+	 * </pre>
+	 * 
+	 * @author cyr
+	 * @date 2020-06-09
+	 * @param source 원본 문자열
+	 * @param startInt object가 변환될 시작 위치
+	 * @param endInt object가 변환될 종료 위치
+	 * @param object 변환할 문자열
+	 * @return
+	 */
 	public String idxReplace( String source , int startInt , int endInt , String object ) {
 		StringBuffer resultStringBuffer = null ;
 		
@@ -502,7 +515,7 @@ public class CommUtil
 			resultStringBuffer = new StringBuffer( source ) ;
 			
 			logger.debug( "resultStringBuffer.length( ) :: " + resultStringBuffer.length( ) ) ;
-
+			
 			resultStringBuffer = resultStringBuffer.replace( startInt , endInt , object ) ;
 		}
 		catch( Exception e ) {
@@ -516,6 +529,32 @@ public class CommUtil
 		}
 		
 		return( resultStringBuffer + "" ) ;
+	}
+	
+	public int multiplyData( String operandStr01 , String operandStr02 ) {
+		
+		int resultInt = 0 ;
+		
+		int operandInt01 = 0 ;
+		int operandInt02 = 0 ;
+		
+		try {
+			operandInt01 = Integer.parseInt( operandStr01 ) ;
+			operandInt02 = Integer.parseInt( operandStr02 ) ;
+			
+			resultInt = operandInt01 * operandInt02 ;
+		}
+		catch( Exception e ) {
+			logger.error( e.getMessage( ) , e ) ;
+		}
+		finally {
+			operandStr01 = null ;
+			operandStr02 = null ;
+			operandInt01 = 0 ;
+			operandInt02 = 0 ;
+		}
+		
+		return resultInt ;
 	}
 	
 }
