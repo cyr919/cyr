@@ -1,5 +1,7 @@
 https://realmojo.tistory.com/172
 
+
+- hash key의 모든 필드와 값을 가져옴
 HGETALL  MGP_STDV^stdv0002
 
 HGETALL MGP_PSST^Connectivity
@@ -7,4 +9,54 @@ HGETALL MGP_PSST^Connectivity
 HGETALL MGP_PSST^
 
 
+- hash key의 모든 필드 가져옴
+HKEYS MGP_SVDT^stdv0001
 
+- hash key의 모들 값을 가져옴
+HVALS MGP_SVDT^stdv0001
+
+
+- 저장된 데이터 키의 갯수
+DBSIZE
+
+- Key들을 pattern으로 조회
+
+모든 key 조회
+keys *   
+
+keys MGP_PSST*
+keys MGP_STDV*
+
+
+
+127.0.0.1:6379> keys *
+ 1) "MGP_PSST^Connectivity"
+ 2) "deviceKey02"
+ 3) "MGP_STDV^stdv0002"
+ 4) "MGP_SVDT^stdv0003"
+ 5) "MGP_SVDT^stdv0001"
+ 6) "deviceKey04"
+ 7) "conditions"
+ 8) "deviceKey01"
+ 9) "PCS02"
+10) "PCS01"
+11) "MGP_SVDT^stdv0006"
+12) "MGP_PSST^"
+13) "MGP_SVDT^stdv0004"
+14) "MGP_SVDT^stdv0002"
+15) "MGP_SVDT^stdv0005"
+16) "ESS"
+17) "deviceKey03"
+127.0.0.1:6379>
+
+
+- key의 데이터 삭제
+DEL 'deviceKey02'
+DEL 'deviceKey04'
+DEL 'conditions'
+DEL 'deviceKey01'
+DEL 'PCS02'
+DEL 'PCS01'
+DEL 'MGP_PSST^'
+DEL 'ESS'
+DEL 'deviceKey03'
