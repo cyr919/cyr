@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="EUC-KR">
+<title>Insert title here</title>
+<script src="../../js/jquery-1.11.2.min.js"></script>
+<style type="text/css">
+body {
+	width: 100%;
+	margin: 0px;
+	padding: 0px;
+}
+
+input.expression {
+	width: 100%;
+}
+
+table.expression {
+	width: 90%;
+}
+
+table.expression p {
+	display: inline;
+}
+</style>
+</head>
+<body>
+	<h2>연산식 등록 화면</h2>
+	<br>
+
+	<p>연산자</p>
+	<table>
+		<tr>
+			<td>함수 ::</td>
+			<td><input type="button" name="fuctionOper" value="AVG"> <input type="button" name="fuctionOper" value="SUM"> <input type="button" name="fuctionOper" value="MIN"> <input type="button" name="fuctionOper" value="MAX"></td>
+		</tr>
+		<tr>
+			<td>사칙연산 ::</td>
+			<td><input type="button" name="arithmeticOper" value="+"> <input type="button" name="arithmeticOper" value="-"> <input type="button" name="arithmeticOper" value="*"> <input type="button" name="arithmeticOper" value="/"></td>
+		</tr>
+	</table>
+	<br>
+
+
+	<p>피연산자</p>
+	<table>
+		<tr>
+			<td>A</td>
+			<td>MGP01</td>
+			<td>
+				<!-- <input type="button" name="operand" value="A"> --> <input type="text" name="operandView" value="A"> <input type="text" name="operandKey" value="MGP01">
+				<button name="operand">선택</button>
+			</td>
+		</tr>
+		<tr>
+			<td>B</td>
+			<td>MGP02</td>
+			<td><input type="text" name="operandView" value="B"> <input type="text" name="operandKey" value="MGP02">
+				<button name="operand">선택</button></td>
+		</tr>
+		<tr>
+			<td>C</td>
+			<td>MGP03</td>
+			<td><input type="text" name="operandView" value="C"> <input type="text" name="operandKey" value="MGP03">
+				<button name="operand">선택</button></td>
+		</tr>
+		<tr>
+			<td>D</td>
+			<td>MGP04</td>
+			<td><input type="text" name="operandView" value="D"> <input type="text" name="operandKey" value="MGP04">
+				<button name="operand">선택</button></td>
+		</tr>
+		<tr>
+			<td>E</td>
+			<td>MGP05</td>
+			<td><input type="text" name="operandView" value="E"> <input type="text" name="operandKey" value="MGP05">
+				<button name="operand">선택</button></td>
+		</tr>
+		<tr>
+			<td>F</td>
+			<td>MGP06</td>
+			<td><input type="text" name="operandView" value="F"> <input type="text" name="operandKey" value="MGP06">
+				<button name="operand">선택</button></td>
+		</tr>
+	</table>
+	<br>
+
+	<p>연산 식</p>
+	<table class="expression">
+		<tr>
+			<td>연산 유형 ::</td>
+			<td><input type="text" id="oprtTp" name="oprtTp"></td>
+		</tr>
+		<tr>
+			<td>화면용 ::</td>
+			<td><input type="text" class="expression" id="viewEx" name="viewEx"></td>
+		</tr>
+		<tr>
+			<td>처리용 ::</td>
+			<td><input type="text" class="expression" id="handlingEx" name="handlingEx"></td>
+		</tr>
+		<tr>
+			<td>삭제 ::</td>
+			<td><input type="button" id="deleteEx" name="deleteEx" value="delete"></td>
+		</tr>
+		<tr>
+			<td>연산식 확인 ::</td>
+			<td><input type="button" id="checkEx" name="checkEx" value="check">
+				<p id="resultMsg"></p></td>
+		</tr>
+	</table>
+
+
+</body>
+<script type="text/javascript">
+	$( document ).ready( function( ) {
+		console.log( "ready!" );
+		
+		$( 'input[name="deleteEx"]' ).on( "click" , function( ) {
+			console.log( "this" , this );
+			deleteExpression( this );
+		} );
+		$( 'input[name="checkEx"]' ).on( "click" , function( ) {
+			console.log( "this" , this );
+			checkExpression( this );
+		} );
+		$( 'input[name="fuctionOper"]' ).on( "click" , function( ) {
+			console.log( "this" , this );
+			selectOperator( this );
+		} );
+		$( 'input[name="arithmeticOper"]' ).on( "click" , function( ) {
+			console.log( "this" , this );
+			selectOperator( this );
+		} );
+		$( 'button[name="operand"]' ).on( "click" , function( ) {
+			console.log( "this" , this );
+			selectOperand( this );
+		} );
+		
+	} );
+	
+	var viewExArr = [ ];
+	var handlingExArr = [ ];
+	//fuctionOper 일때는 사용안함.
+	var tpExArr = [ ];
+	var operatorArr = [ ];
+	var operandViewArr = [ ];
+	var operandKeyArr = [ ];
+</script>
+<script type="text/javascript">
+	function getLastTpEx( ) {
+		var intIdx = 0;
+		var lastTpEx = "";
+		
+		try {
+			if( tpExArr.length > 0 ) {
+				intIdx = tpExArr.length - 1;
+				lastTpEx = tpExArr[ intIdx ];
+				
+			}
+		} catch( e ) {
+			console.log( "e" , e );
+		} finally {
+			intIdx = null;
+		}
+		
+		return lastTpEx;
+	}
+	function checkExpression( ) {
+		console.log( "checkExpression" );
+		var operatorTp = "";
+		var lastTpEx = "";
+		var checkMsg = "";
+		
+		try {
+			console.log( "tpExArr :: " + tpExArr );
+			
+			operatorTp = $( 'input[name="oprtTp"]' ).val( );
+			
+			if( operatorTp == 'arithmeticOper' ) {
+				lastTpEx = getLastTpEx( );
+				
+				if( lastTpEx == 'operand' ) {
+					checkMsg = '정상적인 연산식입니다.';
+				} else if( lastTpEx == 'operator' ) {
+					checkMsg = '형식에 벗어난 연산식입니다.';
+				}
+			} else if( operatorTp == 'fuctionOper' ) {
+				if( operandViewArr.length > 1 ) {
+					checkMsg = '정상적인 연산식입니다.';
+				} else {
+					checkMsg = '형식에 벗어난 연산식입니다.';
+				}
+			} else {
+				checkMsg = '연산식을 입력하세요.';
+			}
+			
+			console.log( "checkMsg :: " + checkMsg );
+			$( '#resultMsg' ).text( checkMsg );
+		} catch( e ) {
+			console.log( "e" , e );
+		} finally {
+			operatorTp = null;
+			lastTpEx = null;
+			checkMsg = null;
+		}
+	}
+	function deleteExpression( ) {
+		console.log( "deleteExpression" );
+		
+		try {
+			$( 'input[name="oprtTp"]' ).val( '' );
+			$( 'input[name="viewEx"]' ).val( '' );
+			$( 'input[name="handlingEx"]' ).val( '' );
+			viewExArr = [ ];
+			handlingExArr = [ ];
+			tpExArr = [ ];
+			operatorArr = [ ];
+			operandViewArr = [ ];
+			operandKeyArr = [ ];
+			
+		} catch( e ) {
+			console.log( "e" , e );
+		}
+	}
+	function selectOperand( thisObj ) {
+		console.log( "selectOperand" );
+		var operandViewVal = "";
+		var operandKeyVal = "";
+		var operatorTp = "";
+		var lastTpEx = "";
+		try {
+			operatorTp = $( 'input[name="oprtTp"]' ).val( );
+			
+			operandViewVal = $( thisObj ).parent( ).find( 'input[name="operandView"]' ).val( );
+			operandKeyVal = $( thisObj ).parent( ).find( 'input[name="operandKey"]' ).val( );
+			
+			console.log( "operandViewVal :: " + operandViewVal );
+			console.log( "operandKeyVal :: " + operandKeyVal );
+			
+			if( operatorTp == 'fuctionOper' ) {
+				// 함수 연산식
+				if( operatorArr.length > 0 ) {
+					// 선택된 함수가 있어야 한다.
+					operandViewArr.push( operandViewVal );
+					operandKeyArr.push( operandKeyVal );
+				}
+			} else {
+				// 사칙 연산식
+				if( tpExArr.length == 0 ) {
+					// 맨 처음에 선택된 피연산자일 경우
+					operatorTp = 'arithmeticOper';
+					$( 'input[name="oprtTp"]' ).val( operatorTp );
+					
+					tpExArr.push( 'operand' );
+					operandViewArr.push( operandViewVal );
+					operandKeyArr.push( operandKeyVal );
+					viewExArr.push( operandViewVal );
+					handlingExArr.push( operandKeyVal );
+					
+				} else {
+					lastTpEx = getLastTpEx( );
+					if( lastTpEx == 'operator' ) {
+						// 연산식에 가장 마지막에 추가된 것이 연산자이면 피연산자를 추가한다.
+						tpExArr.push( 'operand' );
+						operandViewArr.push( operandViewVal );
+						operandKeyArr.push( operandKeyVal );
+						viewExArr.push( operandViewVal );
+						handlingExArr.push( operandKeyVal );
+					} else {
+						// 연산식에 가장 마지막에 추가된 것이 피연산자이면 가장 마지막에 추가된 피연산자 삭제 후 선택된 피연산자를 추가한다.(피연산자 변경)
+						operandViewArr.pop( );
+						operandViewArr.push( operandViewVal );
+						operandKeyArr.pop( );
+						operandKeyArr.push( operandKeyVal );
+						viewExArr.pop( );
+						viewExArr.push( operandViewVal );
+						handlingExArr.pop( );
+						handlingExArr.push( operandKeyVal );
+					}
+					
+				}
+			}
+			
+			insertExpression( operatorTp );
+		} catch( e ) {
+			console.log( "e" , e );
+		} finally {
+			console.log( "operandViewArr :: " + operandViewArr );
+			console.log( "operandKeyArr :: " + operandKeyArr );
+			operandViewVal = null;
+			operandKeyVal = null;
+			operatorTp = null;
+			lastTpEx = null;
+			thisObj = null;
+		}
+	}
+	function selectOperator( thisObj ) {
+		console.log( "selectOperator" );
+		
+		var operatorInputTp = "";
+		var operatorTp = "";
+		var operatorVal = "";
+		var intIdx = 0;
+		var lastTpEx = "";
+		
+		try {
+			operatorInputTp = $( 'input[name="oprtTp"]' ).val( );
+			operatorTp = $( thisObj ).attr( "name" );
+			operatorVal = $( thisObj ).val( );
+			
+			// 연산자 클릭 시 기존 선택한 연산자가 없거나 기존에 선택한 연산자와 같은 유형의 연산자를 선택해야 한다.
+			if( operatorInputTp == "" || ( operatorInputTp == operatorTp ) ) {
+				if( operatorTp == 'fuctionOper' ) {
+					// 함수 처리
+					if( operatorArr.length == 0 ) {
+						// 연산식에 함수 연산자가 없으면 함수 연산자를 추가한다.
+						$( 'input[name="oprtTp"]' ).val( operatorTp );
+						operatorArr.push( operatorVal );
+					} else {
+						// 연산식에 함수 연산자가 있으면 기존 함수 연산자 삭제 후 선택된 연산자를 추가한다.(연산자 변경)
+						operatorArr = [ ];
+						operatorArr.push( operatorVal );
+					}
+					insertExpression( operatorTp );
+				} else {
+					// 사칙연산 처리
+					if( operandViewArr.length > 0 && tpExArr.length > 0 ) {
+						// 사칙연산 추가시 피 연산자 1개 이상 있어야 한다.
+						lastTpEx = getLastTpEx( );
+						
+						if( lastTpEx == 'operator' ) {
+							// 연산식에 제일 마지막에 추가된 것이 연산자면 기존 마지막 연삭자 삭제 후 새로 추가한다.(연산자 변경)
+							operatorArr.pop( );
+							operatorArr.push( operatorVal );
+							viewExArr.pop( );
+							viewExArr.push( operatorVal );
+							handlingExArr.pop( );
+							handlingExArr.push( operatorVal );
+						} else {
+							// 연산식에 제일 마지막에 추가된 것이 피연산자면 연산식에 연산자를 추가한다.
+							tpExArr.push( 'operator' );
+							operatorArr.push( operatorVal );
+							viewExArr.push( operatorVal );
+							handlingExArr.push( operatorVal );
+						}
+						insertExpression( operatorTp );
+					}
+				}
+			}//if( operatorInputTp == "" || ( operatorInputTp == operatorTp ) )
+			
+		} catch( e ) {
+			console.log( "e" , e );
+		} finally {
+			console.log( "operatorArr :: " + operatorArr );
+			operatorInputTp = null;
+			operatorTp = null;
+			operatorVal = null;
+			intIdx = null;
+			lastTpEx = null;
+			thisObj = null;
+		}
+	}
+	function insertExpression( operatorTp ) {
+		console.log( "insertExpression" );
+		var viewExStr = "";
+		var handlingExStr = "";
+		
+		var strOperator = "";
+		var strOperandView = "";
+		var strOperandKey = "";
+		var intIdx = 0;
+		var i = 0;
+		try {
+			console.log( "operatorTp :: " + operatorTp );
+			if( operatorTp == 'fuctionOper' ) {
+				// 함수 연산식
+				// 함수 추출
+				intIdx = operatorArr.length - 1;
+				strOperator = operatorArr[ intIdx ];
+				
+				console.log( "operatorArr :: " + operatorArr );
+				console.log( "intIdx :: " + intIdx );
+				console.log( "strOperator :: " + strOperator );
+				
+				// 피연산자 추출
+				for( i = 0 ; i < operandViewArr.length ; i++ ) {
+					if( i == 0 ) {
+						strOperandView = operandViewArr[ i ];
+						strOperandKey = "<" + operandKeyArr[ i ] + ">";
+					} else {
+						strOperandView = strOperandView + ' ,' + operandViewArr[ i ];
+						strOperandKey = strOperandKey + ' ,' + "<" + operandKeyArr[ i ] + ">";
+					}
+				}
+				
+				viewExStr = strOperator + "( " + strOperandView + " )";
+				handlingExStr = strOperator + "( " + strOperandKey + " )";
+				
+			} else if( operatorTp == 'arithmeticOper' ) {
+				// 사칙 연산식
+				
+				for( i = 0 ; i < viewExArr.length ; i++ ) {
+					if( i == 0 ) {
+						viewExStr = viewExArr[ i ];
+						handlingExStr = handlingExArr[ i ];
+					} else {
+						viewExStr = viewExStr + " " + viewExArr[ i ];
+						handlingExStr = handlingExStr + " " + handlingExArr[ i ];
+						
+					}
+				}
+			}
+			
+			$( 'input[name="viewEx"]' ).val( viewExStr );
+			$( 'input[name="handlingEx"]' ).val( handlingExStr );
+			
+		} catch( e ) {
+			console.log( "e" , e );
+		} finally {
+			operatorTp = null;
+			viewExStr = null;
+			handlingExStr = null;
+			strOperator = null;
+			strOperandView = null;
+			strOperandKey = null;
+			intIdx = null;
+			i = null;
+		}
+	}
+</script>
+</html>
