@@ -39,7 +39,7 @@ public class SettingManageDao
 		MongoOperations mongoOps = null ;
 		
 		Aggregation aggregation = null ;
-		AggregationResults< HashMap > results = null ;
+		AggregationResults< HashMap > aggregationResults = null ;
 		
 		MatchOperation MatchOperation01 = null ;
 		MatchOperation MatchOperation02 = null ;
@@ -67,8 +67,8 @@ public class SettingManageDao
 			
 			aggregation = Aggregation.newAggregation( MatchOperation01 , MatchOperation02 , MatchOperation03 , projectionOperation01 ) ;
 			
-			results = mongoOps.aggregate( aggregation , "MGP_STDV" , HashMap.class ) ;
-			resultList = results.getMappedResults( ) ;
+			aggregationResults = mongoOps.aggregate( aggregation , "MGP_STDV" , HashMap.class ) ;
+			resultList = aggregationResults.getMappedResults( ) ;
 			
 			logger.trace( "mongoOps :: " + mongoOps ) ;
 			logger.trace( "aggregation :: " + aggregation ) ;
@@ -83,7 +83,7 @@ public class SettingManageDao
 			mongoOps = null ;
 			
 			aggregation = null ;
-			results = null ;
+			aggregationResults = null ;
 			MatchOperation01 = null ;
 			MatchOperation02 = null ;
 			MatchOperation03 = null ;
@@ -98,7 +98,7 @@ public class SettingManageDao
 		return resultList ;
 	}
 	
-	public ArrayList< HashMap > selectFieldQualityCodeList( ) {
+	public ArrayList< HashMap > selectQualityCodeList( ) {
 		
 		ArrayList< HashMap > resultList = new ArrayList< HashMap >( ) ;
 		
@@ -107,7 +107,7 @@ public class SettingManageDao
 		Query query = new Query( ) ;
 		
 		try {
-			logger.debug( "selectFieldQualityCodeList" ) ;
+			logger.debug( "selectQualityCodeList" ) ;
 			
 			mongoOps = mongodbConnection.getMongoTemplate( ) ;
 			
@@ -128,10 +128,45 @@ public class SettingManageDao
 			mongoOps = null ;
 			query = null ;
 			
-			logger.debug( "selectFieldQualityCodeList finally" ) ;
+			logger.debug( "selectQualityCodeList finally" ) ;
 		}
 		
 		return resultList ;
 	}
 	
+	public ArrayList< HashMap > selectBetweenDevicesCalculateInfo( ) {
+		
+		ArrayList< HashMap > resultList = new ArrayList< HashMap >( ) ;
+		
+		MongodbConnection mongodbConnection = new MongodbConnection( ) ;
+		MongoOperations mongoOps = null ;
+		Query query = new Query( ) ;
+		
+		try {
+			logger.debug( "selectBetweenDevicesCalculateInfo" ) ;
+			
+			mongoOps = mongodbConnection.getMongoTemplate( ) ;
+			
+			// sql where
+			query.addCriteria( Criteria.where( "USE" ).is( "Y" ) ) ;
+			
+			resultList = ( ArrayList< HashMap > ) mongoOps.find( query , HashMap.class , "MGP_CLIF" ) ;
+			
+			logger.trace( "mongoOps :: " + mongoOps ) ;
+			logger.trace( "query :: " + query ) ;
+			logger.trace( "resultList :: " + resultList ) ;
+		}
+		catch( Exception e ) {
+			logger.error( e.getMessage( ) , e ) ;
+		}
+		finally {
+			mongodbConnection = null ;
+			mongoOps = null ;
+			query = null ;
+			
+			logger.debug( "selectBetweenDevicesCalculateInfo finally" ) ;
+		}
+		
+		return resultList ;
+	}
 }

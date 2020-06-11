@@ -37,13 +37,14 @@ public class SettingManage
 		SettingManage exe = new SettingManage( ) ;
 		
 		// exe.devicePropertiesSetting( ) ;
-		exe.qualityCodeInfoSetting( ) ;
+		// exe.qualityCodeInfoSetting( ) ;
+		exe.betweenDevicesCalculateInfoSetting( ) ;
 		
 	}
 	
 	public Boolean devicePropertiesSetting( ) {
 		
-		Boolean result = true ;
+		Boolean resultBool = true ;
 		logger.info( "devicePropertiesSetting" ) ;
 		
 		SettingManageDao settingManageDao = new SettingManageDao( ) ;
@@ -62,7 +63,7 @@ public class SettingManage
 		
 		String deviceId = "" ;
 		try {
-			result = false ;
+			resultBool = false ;
 			
 			// 데이터 조회
 			resultList = settingManageDao.selectInstallDeviceList( ) ;
@@ -119,10 +120,10 @@ public class SettingManage
 			ConnectivityProperties.STDV_INF = deviceInfo ;
 			ConnectivityProperties.STDV_DT_MDL_MAP = deviceDataModelMap ;
 			
-			result = true ;
+			resultBool = true ;
 		}
 		catch( Exception e ) {
-			result = false ;
+			resultBool = false ;
 			logger.error( e.getMessage( ) , e ) ;
 		}
 		finally {
@@ -134,12 +135,12 @@ public class SettingManage
 			deviceInfo = null ;
 		}
 		
-		return result ;
+		return resultBool ;
 	}
 	
 	public Boolean qualityCodeInfoSetting( ) {
 		
-		Boolean result = true ;
+		Boolean resultBool = true ;
 		logger.info( "qualityCodeInfoSetting" ) ;
 		
 		SettingManageDao settingManageDao = new SettingManageDao( ) ;
@@ -157,7 +158,7 @@ public class SettingManage
 		int endInt = 0 ;
 		
 		try {
-			resultList = settingManageDao.selectFieldQualityCodeList( ) ;
+			resultList = settingManageDao.selectQualityCodeList( ) ;
 			
 			for( i = 0 ; i < resultList.size( ) ; i++ ) {
 				logger.debug( "resultList.get( " + i + " ) :: " + resultList.get( i ) ) ;
@@ -197,7 +198,7 @@ public class SettingManage
 			
 		}
 		catch( Exception e ) {
-			result = false ;
+			resultBool = false ;
 			logger.error( e.getMessage( ) , e ) ;
 		}
 		finally {
@@ -212,7 +213,50 @@ public class SettingManage
 			endInt = 0 ;
 		}
 		
-		return result ;
+		return resultBool ;
+	}
+	
+	public Boolean betweenDevicesCalculateInfoSetting( ) {
+		Boolean resultBool = true ;
+		
+		SettingManageDao settingManageDao = new SettingManageDao( ) ;
+		ArrayList< HashMap > resultList = new ArrayList< HashMap >( ) ;
+		
+		ArrayList< HashMap< String , Object > > btwnDvCalInfoList = new ArrayList< HashMap< String , Object > >( ) ;
+		HashMap< String , Object > btwnDvCalInfoMap = new HashMap< String , Object >( ) ;
+		int i = 0 ;
+		
+		try {
+			resultList = settingManageDao.selectBetweenDevicesCalculateInfo( ) ;
+			
+			// logger.info( "resultList :: " + resultList ) ;
+			
+			for( i = 0 ; i < resultList.size( ) ; i++ ) {
+				logger.info( "resultList.get( " + i + " ) :: " + resultList.get( i ) ) ;
+				
+				btwnDvCalInfoMap = resultList.get( i ) ;
+				btwnDvCalInfoList.add( btwnDvCalInfoMap ) ;
+			}
+			logger.info( "btwnDvCalInfoList :: " + btwnDvCalInfoList ) ;
+			
+			ConnectivityProperties.BTWN_DV_CAL_INFO = btwnDvCalInfoList ;
+			
+		}
+		catch( Exception e ) {
+			resultBool = false ;
+			logger.error( e.getMessage( ) , e ) ;
+		}
+		finally {
+			settingManageDao = null ;
+			resultList = null ;
+			btwnDvCalInfoList = null ;
+			btwnDvCalInfoMap = null ;
+			i = 0 ;
+			
+			logger.info( "ConnectivityProperties.BTWN_DV_CAL_INFO :: " + ConnectivityProperties.BTWN_DV_CAL_INFO ) ;
+			// logger.info( "btwnDvCalInfoList :: " + btwnDvCalInfoList ) ;
+		}
+		return resultBool ;
 	}
 	
 }

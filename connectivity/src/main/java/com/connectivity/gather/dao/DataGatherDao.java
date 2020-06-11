@@ -11,6 +11,7 @@ import org.springframework.data.mongodb.core.MongoOperations ;
 
 import com.connectivity.config.JedisConnection ;
 import com.connectivity.config.MongodbConnection ;
+import com.connectivity.utils.CommUtil ;
 
 import redis.clients.jedis.Jedis ;
 
@@ -45,12 +46,18 @@ public class DataGatherDao
 		String strKey = "" ;
 		String resultStr = "" ;
 		
+		CommUtil commUtil = new CommUtil( ) ;
+		
 		try {
 			logger.debug( "hmSetGatherData" ) ;
 			
 			strKey = "MGP_SVDT" + "^" + dviceId ;
 			logger.debug( "strKey :: " + strKey ) ;
 			
+			// TODO redis now 같은거 있는지, db 저장되는 시간으로 처리
+			redisSetDataMap.put( "INS_DT" , commUtil.getFormatingNowDateTime( ) ) ;
+			
+			logger.debug( "redisSetDataMap :: " + redisSetDataMap ) ;
 			// resultStr = redisCommon.redisHmset( strKey , redisSetDataMap ) ;
 			
 			jedis = jedisConnection.getJedisPool( ).getResource( ) ;
@@ -71,7 +78,7 @@ public class DataGatherDao
 			dviceId = null ;
 			redisSetDataMap = null ;
 			resultStr = null ;
-			
+			commUtil = null ;
 			if( jedis != null ) {
 				jedis.close( ) ;
 			}
@@ -91,8 +98,17 @@ public class DataGatherDao
 		MongodbConnection mongodbConnection = new MongodbConnection( ) ;
 		MongoOperations mongoOps = null ;
 		
+		CommUtil commUtil = new CommUtil( ) ;
+		String saveDtmStr = "" ;
+		
 		try {
 			logger.debug( "insertGatherData" ) ;
+			
+			saveDtmStr = commUtil.getFormatingNowDateTime( ) ;
+			mongodbSetDataMap.put( "INS_DT" , saveDtmStr ) ;
+			mongodbSetDataMap.put( "INS_USR" , "Connectivity" ) ;
+			mongodbSetDataMap.put( "UPD_DT" , saveDtmStr ) ;
+			mongodbSetDataMap.put( "UPD_USR" , "Connectivity" ) ;
 			
 			mongoOps = mongodbConnection.getMongoTemplate( ) ;
 			mongoOps.insert( mongodbSetDataMap , "MGP_SDHS" ) ;
@@ -106,8 +122,11 @@ public class DataGatherDao
 			mongodbConnection = null ;
 			mongoOps = null ;
 			mongodbSetDataMap = null ;
-			logger.debug( "insertGatherData finally" ) ;
 			
+			commUtil = null ;
+			saveDtmStr = null ;
+			
+			logger.debug( "insertGatherData finally" ) ;
 		}
 		
 		return resulBoolean ;

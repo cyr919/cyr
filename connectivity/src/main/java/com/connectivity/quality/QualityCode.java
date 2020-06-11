@@ -39,10 +39,10 @@ public class QualityCode
 		this.recordQcIdx = ConnectivityProperties.RECORD_QC_IDX ;
 		this.fieldQcInf = ConnectivityProperties.FIELD_QC_INF ;
 		this.fieldQcIdx = ConnectivityProperties.FIELD_QC_IDX ;
-		logger.debug( "recordQcInf :: " + System.identityHashCode( recordQcInf ) ) ;
-		logger.debug( "fieldQcInf :: " + System.identityHashCode( fieldQcInf ) ) ;
-		logger.debug( "this.recordQcInf :: " + System.identityHashCode( this.recordQcInf ) ) ;
-		logger.debug( "this.fieldQcInf :: " + System.identityHashCode( this.fieldQcInf ) ) ;
+		// logger.debug( "recordQcInf :: " + System.identityHashCode( recordQcInf ) ) ;
+		// logger.debug( "fieldQcInf :: " + System.identityHashCode( fieldQcInf ) ) ;
+		// logger.debug( "this.recordQcInf :: " + System.identityHashCode( this.recordQcInf ) ) ;
+		// logger.debug( "this.fieldQcInf :: " + System.identityHashCode( this.fieldQcInf ) ) ;
 	}
 	
 	public QualityCode( HashMap< String , HashMap< String , Object > > recordQcInf , HashMap< String , HashMap< String , Integer > > recordQcIdx , HashMap< String , HashMap< String , Object > > fieldQcInf , HashMap< String , HashMap< String , Integer > > fieldQcIdx ) {
@@ -51,10 +51,10 @@ public class QualityCode
 		this.fieldQcInf = fieldQcInf ;
 		this.fieldQcIdx = fieldQcIdx ;
 		
-		logger.debug( "recordQcInf :: " + System.identityHashCode( recordQcInf ) ) ;
-		logger.debug( "fieldQcInf :: " + System.identityHashCode( fieldQcInf ) ) ;
-		logger.debug( "this.recordQcInf :: " + System.identityHashCode( this.recordQcInf ) ) ;
-		logger.debug( "this.fieldQcInf :: " + System.identityHashCode( this.fieldQcInf ) ) ;
+		// logger.debug( "recordQcInf :: " + System.identityHashCode( recordQcInf ) ) ;
+		// logger.debug( "fieldQcInf :: " + System.identityHashCode( fieldQcInf ) ) ;
+		// logger.debug( "this.recordQcInf :: " + System.identityHashCode( this.recordQcInf ) ) ;
+		// logger.debug( "this.fieldQcInf :: " + System.identityHashCode( this.fieldQcInf ) ) ;
 	}
 	
 	/**
@@ -188,7 +188,15 @@ public class QualityCode
 		}
 		finally {
 			strQc = null ;
+			gatherValStr = null ;
+			stdvDtMdlInfo = null ;
+			tempRecordQc = null ;
+			resultStr = null ;
+			resultTempRecordQc = 0 ;
 			resultQcStr = null ;
+			minData = null ;
+			maxData = null ;
+			valData = null ;
 		}
 		
 		return resultMap ;
@@ -256,7 +264,7 @@ public class QualityCode
 			// logger.debug( "fieldQcIdx.get( \"simulationMode\" ) :: " + fieldQcIdx.get( "simulationMode" ) ) ;
 			
 			// TODO 시뮬레이션 모드
-			resultQcStr = "1" ;
+			resultQcStr = "0" ;
 			
 			// 문자열 바꿔치키
 			resultStr = commUtil.idxReplace( strQc , fieldQcIdx.get( "simulationMode" ).get( "startInt" ) , fieldQcIdx.get( "simulationMode" ).get( "endInt" ) , resultQcStr ) ;
@@ -446,28 +454,51 @@ public class QualityCode
 		return resultStr ;
 	}
 	
+	/**
+	 * <pre>
+	 * </pre>
+	 * 
+	 * @author cyr
+	 * @date 2020-06-11
+	 * @param strQc 연산 필드 QC 데이터
+	 * @param strGatherFieldQc 계측 데이터의 필드 QC 데이터
+	 * @return
+	 */
 	public String calculateBetweenDevicesSimulationMode( String strQc , String strGatherFieldQc ) {
 		String resultStr = "" ;
 		
-		String resultQcStr = "" ;
+		int resultInt = 0 ;
+		String strFieldQc = "" ;
 		
 		try {
-			// logger.debug( "strQc :: " + strQc ) ;
-			// logger.debug( "fieldQcIdx.get( \"simulationMode\" ) :: " + fieldQcIdx.get( "simulationMode" ) ) ;
+			logger.debug( "strQc :: " + strQc ) ;
+			logger.debug( "fieldQcIdx.get( \"simulationMode\" ) :: " + fieldQcIdx.get( "simulationMode" ) ) ;
 			
-			// TODO 시뮬레이션 모드
-			resultQcStr = "1" ;
+			// 시뮬레이션 모드
+			// 하나라도 "1(시뮬레이션 데이터)" 이면 해당 QC는 "1(시뮬레이션 데이터)" 모두 "0(일반 모드)" 이면 "0(일반 모드)"이다.
+			strFieldQc = strQc.substring( fieldQcIdx.get( "simulationMode" ).get( "startInt" ) , fieldQcIdx.get( "simulationMode" ).get( "endInt" ) ) ;
+			strGatherFieldQc = strGatherFieldQc.substring( fieldQcIdx.get( "simulationMode" ).get( "startInt" ) , fieldQcIdx.get( "simulationMode" ).get( "endInt" ) ) ;
+			
+			logger.debug( "strFieldQc :: " + strFieldQc ) ;
+			logger.debug( "strGatherFieldQc :: " + strGatherFieldQc ) ;
+			
+			resultInt = commUtil.addData( strFieldQc , strGatherFieldQc ) ;
+			
+			if( resultInt > 1 ) {
+				resultInt = 1 ;
+			}
 			
 			// 문자열 바꿔치키
-			resultStr = commUtil.idxReplace( strQc , fieldQcIdx.get( "simulationMode" ).get( "startInt" ) , fieldQcIdx.get( "simulationMode" ).get( "endInt" ) , resultQcStr ) ;
+			resultStr = commUtil.idxReplace( strQc , fieldQcIdx.get( "simulationMode" ).get( "startInt" ) , fieldQcIdx.get( "simulationMode" ).get( "endInt" ) , String.valueOf( resultInt ) ) ;
 		}
 		catch( Exception e ) {
 			logger.error( e.getMessage( ) , e ) ;
 		}
 		finally {
 			strQc = null ;
-			resultQcStr = null ;
 			strGatherFieldQc = null ;
+			resultInt = 0 ;
+			strFieldQc = null ;
 		}
 		
 		return resultStr ;

@@ -87,7 +87,7 @@ public class DataGather extends QualityCode
 		HashMap< String , Object > resultMongodbDataMap = new HashMap< String , Object >( ) ;
 		
 		HashMap< String , HashMap< String , Object > > stdvDtMdlMap = new HashMap< String , HashMap< String , Object > >( ) ;
-		 HashMap< String , Object > stdvInfMap = new HashMap< String , Object >( ) ;
+		HashMap< String , Object > stdvInfMap = new HashMap< String , Object >( ) ;
 		BigDecimal tempBigDecimal = new BigDecimal( "0" ) ;
 		
 		String tempQcStr = "" ;
@@ -179,7 +179,6 @@ public class DataGather extends QualityCode
 			logger.debug( "resultCalCulDataMap :: " + resultCalCulDataMap ) ;
 			logger.debug( "연산 처리 후 끝 ::" ) ;
 			
-			
 			// redis 저장
 			
 			// redis 저장 데이터 만들기
@@ -207,8 +206,6 @@ public class DataGather extends QualityCode
 			resultRedisDataMap.putAll( resultCalCulDataMap ) ;
 			
 			// 저장 시간
-			// TODO redis now 같은거 있는지, db 저장되는 시간으로 처리
-			resultRedisDataMap.put( "INS_DT" , commUtil.getFormatingNowDateTime( ) ) ;
 			
 			logger.debug( "redis 저장 데이터 :: resultRedisDataMap :: " + resultRedisDataMap ) ;
 			
@@ -238,18 +235,13 @@ public class DataGather extends QualityCode
 			resultCalCulDataMap.putAll( resultDataMap ) ;
 			resultMongodbDataMap.put( "DT" , resultCalCulDataMap ) ;
 			
-			strTemp = commUtil.getFormatingNowDateTime( ) ;
-			resultMongodbDataMap.put( "INS_DT" , strTemp ) ;
-			resultMongodbDataMap.put( "INS_USR" , "Connectivity" ) ;
-			resultMongodbDataMap.put( "UPD_DT" , strTemp ) ;
-			resultMongodbDataMap.put( "UPD_USR" , "Connectivity" ) ;
 			
 			logger.debug( "mongodb 저장 데이터 :: resultMongodbDataMap :: " + resultMongodbDataMap ) ;
 			// logger.debug( "resultCalCulDataMap :: " + resultCalCulDataMap ) ;
 			// logger.debug( "resultDataMap :: " + resultDataMap ) ;
 			
 			// 계측 데이터 mongodb 저장처리
-			// dataGatherDao.insertGatherData( resultMongodbDataMap ) ;
+			 dataGatherDao.insertGatherData( resultMongodbDataMap ) ;
 			// TODO 이벤트 처리(thread 생성 후 거기서 처리하는 방안으로)
 			
 		}
@@ -274,8 +266,13 @@ public class DataGather extends QualityCode
 			resultMongodbDataMap = null ;
 			
 			stdvDtMdlMap = null ;
-			
+			stdvInfMap = null ;
 			tempBigDecimal = null ;
+			tempQcStr = null ;
+			gatherValStr = null ;
+			
+			resultRecordQc = null ;
+			tempFildQcMap = null ;
 			
 			logger.debug( "dataGathering finally :: " ) ;
 		}
@@ -346,8 +343,8 @@ public class DataGather extends QualityCode
 		
 		HashMap< String , String > resultHashMap = new HashMap< String , String >( ) ;
 		
-		BigDecimal tempResultBigDecimal = new BigDecimal( "0" ) ;
-		BigDecimal tempBigDecimal = new BigDecimal( "0" ) ;
+		BigDecimal resultBigDecimal = new BigDecimal( "0" ) ;
+		BigDecimal paramBigDecimal = new BigDecimal( "0" ) ;
 		BigDecimal scFctBigDecimal = new BigDecimal( "0" ) ;
 		BigDecimal avgBigDecimal = new BigDecimal( "0" ) ;
 		
@@ -367,11 +364,12 @@ public class DataGather extends QualityCode
 			// logger.info( "getCalculatingGatherData :: " ) ;
 			for( i = 0 ; i < calculInfoList.size( ) ; i++ ) {
 				
-				logger.debug( "calculInfoList.get( " + i + " ) :: " + calculInfoList.get( i ) ) ;
+				// logger.debug( "calculInfoList.get( " + i + " ) :: " + calculInfoList.get( i ) ) ;
 				// logger.debug( "calculInfoList.get( " + i + " ).get( \"MGP_KEY\" ) :: " + calculInfoList.get( i ).get( "MGP_KEY" ) ) ;
 				// logger.debug( "calculInfoList.get( " + i + " ).get( \"MGP_KEYS\" ) :: " + calculInfoList.get( i ).get( "MGP_KEYS" ) ) ;
 				// logger.debug( "calculInfoList.get( " + i + " ).get( \"OPER\" ) :: " + calculInfoList.get( i ).get( "OPER" ) ) ;
 				
+				// 소수 점 길이 처리 확인
 				if( commUtil.checkObjNull( calculInfoList.get( i ).get( "P_LEN" ) ) ) {
 					boolNullCheckPLen = true ;
 				}
@@ -380,43 +378,49 @@ public class DataGather extends QualityCode
 					intPLen = Integer.parseInt( ( calculInfoList.get( i ).get( "P_LEN" ) + "" ) ) ;
 				}
 				
+				// 피연산자 및 연산자 array 변환
 				stdIdxsArr = ( calculInfoList.get( i ).get( "MGP_KEYS" ) + "" ).split( "," ) ;
+				// TODO db 키명 변경 필요 -> OPRT
 				optrArr = ( calculInfoList.get( i ).get( "OPER" ) + "" ).split( "," ) ;
 				// logger.debug( "stdIdxsArr :: " + Arrays.toString( stdIdxsArr ) ) ;
 				// logger.debug( "optrArr :: " + Arrays.toString( optrArr ) ) ;
 				
+				// 함수 연산시 함수명 소문자 변환
+				// TODO db 키명 변경 필요 -> OPRT_TP
 				if( "002".equals( calculInfoList.get( i ).get( "OPER_TP" ) ) ) {
 					// 함수 스트링 소문자 변환
 					strFuncOptr = optrArr[ 0 ] ;
 					strFuncOptr = strFuncOptr.toLowerCase( ) ;
+					logger.debug( "strFuncOptr :: " + strFuncOptr ) ;
 				}
-				
+
+				// 연산 처리(사칙연산, sum, min, max)
 				for( j = 0 ; j < stdIdxsArr.length ; j++ ) {
 					
 					// logger.debug( "stdIdxsArr[ " + j + " ] :: " + stdIdxsArr[ j ] ) ;
 					// logger.debug( "gatherDataHashMap.get( stdIdxsArr[ " + j + " ] ) :: " + gatherDataHashMap.get( stdIdxsArr[ j ] ) ) ;
 					
-					tempBigDecimal = new BigDecimal( gatherDataHashMap.get( stdIdxsArr[ j ] ) ) ;
+					paramBigDecimal = new BigDecimal( gatherDataHashMap.get( stdIdxsArr[ j ] ) ) ;
 					// logger.debug( "tempBigDecimal :: " + j + " :: " + tempBigDecimal ) ;
 					
 					// logger.debug( "calculInfoList.get( i ).get( \"OPER_TP\" ) :: " + calculInfoList.get( i ).get( "OPER_TP" ) ) ;
 					if( "001".equals( calculInfoList.get( i ).get( "OPER_TP" ) ) ) {
 						// 사칙 연산
 						if( j == 0 ) {
-							tempResultBigDecimal = tempBigDecimal ;
+							resultBigDecimal = paramBigDecimal ;
 						}
 						else {
 							if( "*".equals( optrArr[ ( j - 1 ) ] ) ) {
-								tempResultBigDecimal = tempResultBigDecimal.multiply( tempBigDecimal ) ;
+								resultBigDecimal = resultBigDecimal.multiply( paramBigDecimal ) ;
 							}
 							else if( "+".equals( optrArr[ ( j - 1 ) ] ) ) {
-								tempResultBigDecimal = tempResultBigDecimal.add( tempBigDecimal ) ;
+								resultBigDecimal = resultBigDecimal.add( paramBigDecimal ) ;
 							}
 							else if( "-".equals( optrArr[ ( j - 1 ) ] ) ) {
-								tempResultBigDecimal = tempResultBigDecimal.subtract( tempBigDecimal ) ;
+								resultBigDecimal = resultBigDecimal.subtract( paramBigDecimal ) ;
 							}
 							else if( "/".equals( optrArr[ ( j - 1 ) ] ) ) {
-								tempResultBigDecimal = tempResultBigDecimal.divide( tempBigDecimal , intPLen , RoundingMode.DOWN ) ;
+								resultBigDecimal = resultBigDecimal.divide( paramBigDecimal , intPLen , RoundingMode.DOWN ) ;
 							}
 							// logger.debug( "tempResultBigDecimal :: " + j + " :: " + tempResultBigDecimal ) ;
 						}
@@ -425,20 +429,20 @@ public class DataGather extends QualityCode
 					else {
 						// 함수 연산
 						if( j == 0 ) {
-							tempResultBigDecimal = tempBigDecimal ;
+							resultBigDecimal = paramBigDecimal ;
 						}
 						else {
 							if( "sum".equals( strFuncOptr ) || "avg".equals( strFuncOptr ) ) {
-								tempResultBigDecimal = tempResultBigDecimal.add( tempBigDecimal ) ;
+								resultBigDecimal = resultBigDecimal.add( paramBigDecimal ) ;
 							}
 							else if( "min".equals( strFuncOptr ) ) {
-								if( tempBigDecimal.compareTo( tempResultBigDecimal ) == -1 ) {
-									tempResultBigDecimal = tempBigDecimal ;
+								if( paramBigDecimal.compareTo( resultBigDecimal ) == -1 ) {
+									resultBigDecimal = paramBigDecimal ;
 								}
 							}
 							else if( "max".equals( strFuncOptr ) ) {
-								if( tempBigDecimal.compareTo( tempResultBigDecimal ) == 1 ) {
-									tempResultBigDecimal = tempBigDecimal ;
+								if( paramBigDecimal.compareTo( resultBigDecimal ) == 1 ) {
+									resultBigDecimal = paramBigDecimal ;
 								}
 							}
 							
@@ -462,7 +466,6 @@ public class DataGather extends QualityCode
 					else {
 						resultQcStr = calculateOldData( resultQcStr , strGatherFieldQc ) ;
 						resultQcStr = calculateOverFlow( resultQcStr , strGatherFieldQc ) ;
-						
 					}
 					
 					// logger.debug( "resultQcStr :: " + resultQcStr ) ;
@@ -474,19 +477,19 @@ public class DataGather extends QualityCode
 				if( "avg".equals( strFuncOptr ) ) {
 					// stdIdxsArr.length
 					avgBigDecimal = new BigDecimal( String.valueOf( stdIdxsArr.length ) ) ;
-					tempResultBigDecimal = tempResultBigDecimal.divide( avgBigDecimal , intPLen , RoundingMode.DOWN ) ;
+					resultBigDecimal = resultBigDecimal.divide( avgBigDecimal , intPLen , RoundingMode.DOWN ) ;
 				}
 				
 				// 연산식 스케일 팩터 적용 - 스케일 팩터가 있는 것만 처리
 				if( !commUtil.checkObjNull( calculInfoList.get( i ).get( "SC_FCT" ) ) ) {
 					// 연산식 스케일 팩터 적용
 					scFctBigDecimal = commUtil.getBigdeciNumValue( ( calculInfoList.get( i ).get( "SC_FCT" ) + "" ) ) ;
-					tempResultBigDecimal = tempResultBigDecimal.multiply( scFctBigDecimal ) ;
+					resultBigDecimal = resultBigDecimal.multiply( scFctBigDecimal ) ;
 				}
 				// 연산식 데이터 소수점 처리 - 소수점 길이가 설정 된 것만 처리
 				if( boolNullCheckPLen == false ) {
 					// 연산식 데이터 소수점 처리
-					tempResultBigDecimal = commUtil.setScaleStringToBigDecimal( ( tempResultBigDecimal + "" ) , intPLen , 1 ) ;
+					resultBigDecimal = commUtil.setScaleStringToBigDecimal( ( resultBigDecimal + "" ) , intPLen , 1 ) ;
 				}
 				
 				// 장치내 연산 데이터 QC 적용
@@ -502,7 +505,7 @@ public class DataGather extends QualityCode
 				
 				// 연산 결과 값 추가
 				// logger.debug( "tempResultBigDecimal :: " + tempResultBigDecimal ) ;
-				resultHashMap.put( ( calculInfoList.get( i ).get( "MGP_KEY" ) + "" ) , extndEgovStringUtil.getStringFromNullAndObject( tempResultBigDecimal ) ) ;
+				resultHashMap.put( ( calculInfoList.get( i ).get( "MGP_KEY" ) + "" ) , extndEgovStringUtil.getStringFromNullAndObject( resultBigDecimal ) ) ;
 				// TODO 연산 필드 QC 값 추가
 				resultHashMap.put( ( calculInfoList.get( i ).get( "MGP_KEY" ) + "_Q" ) , resultQcStr ) ;
 				
@@ -518,8 +521,8 @@ public class DataGather extends QualityCode
 			gatherDataHashMap = null ;
 			calculInfoList = null ;
 			
-			tempResultBigDecimal = null ;
-			tempBigDecimal = null ;
+			resultBigDecimal = null ;
+			paramBigDecimal = null ;
 			stdIdxsArr = null ;
 			// logger.info( "getCalculatingGatherData finally:: " ) ;
 		} // finally

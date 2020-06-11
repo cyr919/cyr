@@ -4,6 +4,7 @@
 package com.connectivity.common ;
 
 import java.util.ArrayList ;
+import java.util.HashMap ;
 import java.util.List ;
 import java.util.Map ;
 
@@ -21,11 +22,12 @@ import redis.clients.jedis.Jedis ;
  * @author cyr
  * @date 2020-04-08
  */
-public class RedisCommon
+public class RedisCommon extends JedisConnection
 {
 	// Define a static logger variable so that it references the
 	// Logger instance named "MyApp".
-	private Logger logger = LogManager.getLogger( RedisCommon.class ) ;
+	// private Logger logger = LogManager.getLogger( RedisCommon.class ) ;
+	private static Logger logger = LogManager.getLogger( RedisCommon.class ) ;
 	// Logger logger = LogManager.getLogger( ) ;
 	
 	/**
@@ -39,23 +41,29 @@ public class RedisCommon
 	public static void main( String[ ] args ) {
 		// TODO Auto-generated method stub
 		
-		// RedisCommon exe = new RedisCommon( ) ;
-		//
-		// try {
-		// String resulString = exe.redisHget( "PCS01" , "BP" ) ;
-		//
-		// // logger.info( resulString ) ;
-		//
-		// Long resultLong = exe.redisHset( "PCS01" , "BP" , "100.23" ) ;
-		// resulString = exe.redisHget( "PCS01" , "BP" ) ;
-		//
-		// // logger.info( resultLong ) ;
-		// // logger.info( resulString ) ;
-		//
-		// }
-		// catch( Exception e ) {
-		// // logger.error( e.getMessage( ) , e ) ;
-		// }
+		CommonProperties commonProperties = new CommonProperties( ) ;
+		RedisCommon exe = new RedisCommon( ) ;
+		
+		try {
+			commonProperties.setProperties( ) ;
+			// String resulString = exe.redisHget( "PCS01" , "BP" ) ;
+			
+			// logger.info( resulString ) ;
+			
+			// Long resultLong = exe.redisHset( "PCS01" , "BP" , "100.23" ) ;
+			// resulString = exe.redisHget( "PCS01" , "BP" ) ;
+			
+			// logger.info( resultLong ) ;
+			// logger.info( resulString ) ;
+			
+			Map< String , String > resultMap = exe.redisHgetAll( "MGP_SVDT^stdv0002" ) ;
+			logger.info( "resultMap :: " + resultMap ) ;
+			
+		}
+		catch( Exception e ) {
+			e.printStackTrace( ) ;
+			// logger.error( e.getMessage( ) , e ) ;
+		}
 		
 	}
 	
@@ -77,10 +85,8 @@ public class RedisCommon
 		Long resultLong = 0L ;
 		Jedis jedis = null ;
 		
-		JedisConnection jedisConnection = new JedisConnection( ) ;
-		
 		try {
-			jedis = jedisConnection.getJedisPool( ).getResource( ) ;
+			jedis = getJedisPool( ).getResource( ) ;
 			
 			// logger.trace( "jedis.isConnected() :: " + jedis.isConnected( ) ) ;
 			if( jedis.isConnected( ) ) {
@@ -98,7 +104,6 @@ public class RedisCommon
 				jedis.close( ) ;
 			}
 			jedis = null ;
-			jedisConnection = null ;
 			
 		}
 		
@@ -122,10 +127,9 @@ public class RedisCommon
 		
 		String resultStr = "" ;
 		Jedis jedis = null ;
-		JedisConnection jedisConnection = new JedisConnection( ) ;
 		
 		try {
-			jedis = jedisConnection.getJedisPool( ).getResource( ) ;
+			jedis = getJedisPool( ).getResource( ) ;
 			
 			// logger.trace( "jedis.isConnected() :: " + jedis.isConnected( ) ) ;
 			if( jedis.isConnected( ) ) {
@@ -140,7 +144,6 @@ public class RedisCommon
 				jedis.close( ) ;
 			}
 			jedis = null ;
-			jedisConnection = null ;
 			
 		}
 		
@@ -165,10 +168,9 @@ public class RedisCommon
 		
 		String resultStr = "" ;
 		Jedis jedis = null ;
-		JedisConnection jedisConnection = new JedisConnection( ) ;
 		
 		try {
-			jedis = jedisConnection.getJedisPool( ).getResource( ) ;
+			jedis = getJedisPool( ).getResource( ) ;
 			
 			// logger.trace( "jedis.isConnected() :: " + jedis.isConnected( ) ) ;
 			if( jedis.isConnected( ) ) {
@@ -185,7 +187,6 @@ public class RedisCommon
 				jedis.close( ) ;
 			}
 			jedis = null ;
-			jedisConnection = null ;
 			
 		}
 		
@@ -197,10 +198,9 @@ public class RedisCommon
 		
 		List< String > resultList = new ArrayList< String >( ) ;
 		Jedis jedis = null ;
-		JedisConnection jedisConnection = new JedisConnection( ) ;
 		
 		try {
-			jedis = jedisConnection.getJedisPool( ).getResource( ) ;
+			jedis = getJedisPool( ).getResource( ) ;
 			
 			// logger.trace( "jedis.isConnected() :: " + jedis.isConnected( ) ) ;
 			if( jedis.isConnected( ) ) {
@@ -215,11 +215,37 @@ public class RedisCommon
 				jedis.close( ) ;
 			}
 			jedis = null ;
-			jedisConnection = null ;
 		}
 		
 		return resultList ;
 		
 	}
 	
+	public Map< String , String > redisHgetAll( String key ) throws Exception {
+		
+		// List< String > resultList = new ArrayList< String >( ) ;
+		Map< String , String > resultMap = new HashMap< String , String >( ) ;
+		
+		Jedis jedis = null ;
+		
+		try {
+			jedis = getJedisPool( ).getResource( ) ;
+			
+			// logger.trace( "jedis.isConnected() :: " + jedis.isConnected( ) ) ;
+			if( jedis.isConnected( ) ) {
+				resultMap = jedis.hgetAll( key ) ;
+			}
+		}
+		finally {
+			key = null ;
+			
+			if( jedis != null ) {
+				jedis.close( ) ;
+			}
+			jedis = null ;
+		}
+		
+		return resultMap ;
+		
+	}
 }

@@ -223,7 +223,6 @@ public class CommUtil
 		int i = 0 ;
 		
 		try {
-			
 			if( !checkNull( listHashMap ) ) {
 				for( i = 0 ; i < listHashMap.size( ) ; i++ ) {
 					logger.info( "listHashMap.get( " + i + " ).get( " + strKey + " ) :: " + listHashMap.get( i ).get( strKey ) ) ;
@@ -235,7 +234,6 @@ public class CommUtil
 					resultHashMap.put( ( listHashMap.get( i ).get( strKey ) + "" ) , tempHashMap ) ;
 				}
 			}
-			
 		}
 		catch( Exception e ) {
 			logger.error( e.getMessage( ) , e ) ;
@@ -557,4 +555,29 @@ public class CommUtil
 		return resultInt ;
 	}
 	
+	public int addData( String operandStr01 , String operandStr02 ) {
+		
+		int resultInt = 0 ;
+		
+		int operandInt01 = 0 ;
+		int operandInt02 = 0 ;
+		
+		try {
+			operandInt01 = Integer.parseInt( operandStr01 ) ;
+			operandInt02 = Integer.parseInt( operandStr02 ) ;
+			
+			resultInt = operandInt01 + operandInt02 ;
+		}
+		catch( Exception e ) {
+			logger.error( e.getMessage( ) , e ) ;
+		}
+		finally {
+			operandStr01 = null ;
+			operandStr02 = null ;
+			operandInt01 = 0 ;
+			operandInt02 = 0 ;
+		}
+		
+		return resultInt ;
+	}
 }
