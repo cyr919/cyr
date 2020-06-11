@@ -87,7 +87,7 @@ public class DataGather extends QualityCode
 		HashMap< String , Object > resultMongodbDataMap = new HashMap< String , Object >( ) ;
 		
 		HashMap< String , HashMap< String , Object > > stdvDtMdlMap = new HashMap< String , HashMap< String , Object > >( ) ;
-		
+		 HashMap< String , Object > stdvInfMap = new HashMap< String , Object >( ) ;
 		BigDecimal tempBigDecimal = new BigDecimal( "0" ) ;
 		
 		String tempQcStr = "" ;
@@ -114,8 +114,10 @@ public class DataGather extends QualityCode
 			
 			// 데이터 맵 정보 map 가지고 오기
 			stdvDtMdlMap = ConnectivityProperties.STDV_DT_MDL_MAP.get( strDviceId ) ;
+			stdvInfMap = ConnectivityProperties.STDV_INF.get( strDviceId ) ;
 			
 			logger.debug( "stdvDtMdlMap :: " + stdvDtMdlMap ) ;
+			logger.debug( "stdvInfMap :: " + stdvInfMap ) ;
 			// logger.debug( "ConnectivityProperties.STDV_DT_MDL.get( " + strDviceId + " ) :: " + ConnectivityProperties.STDV_DT_MDL.get( strDviceId ) ) ;
 			
 			// 레코드 QC 처리 관련 true 부터 시작한다.
@@ -228,6 +230,7 @@ public class DataGather extends QualityCode
 			resultMongodbDataMap.put( "YMD" , strTemp ) ;
 			resultMongodbDataMap.put( "DTM" , strDmt ) ;
 			resultMongodbDataMap.put( "STDV_ID" , strDviceId ) ;
+			resultMongodbDataMap.put( "STDV_TP" , stdvInfMap.get( "TP" ) ) ;
 			resultMongodbDataMap.put( "Q" , resultRecordQc ) ;
 			// logger.debug( "strTemp :: [" + strTemp +"]" ) ;
 			

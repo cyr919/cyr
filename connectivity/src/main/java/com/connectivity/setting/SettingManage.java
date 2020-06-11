@@ -84,6 +84,7 @@ public class SettingManage
 				
 				// 디바이스 기본정보 처리
 				tempMap.put( "_id" , resultList.get( i ).get( "_id" ) ) ;
+				tempMap.put( "TP" , resultList.get( i ).get( "TP" ) ) ;
 				tempMap.put( "SMLT" , resultList.get( i ).get( "SMLT" ) ) ;
 				tempMap.put( "QC" , resultList.get( i ).get( "QC" ) ) ;
 				tempMap.put( "SCR" , resultList.get( i ).get( "SCR" ) ) ;
