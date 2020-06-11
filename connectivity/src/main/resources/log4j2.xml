@@ -2,7 +2,8 @@
 <Configuration>
 	<Properties>
 		<Property name="projectName">Connectivity</Property>
-		<Property name="PatternLayoutStr">[%d{yyyy-MM-dd HH:mm:ss.SSS}] [${projectName}] [%-5level] [%c{1}] - %msg%n</Property>
+		<!-- <Property name="PatternLayoutStr">[%d{yyyy-MM-dd HH:mm:ss.SSS}] [${projectName}] [%-5level] [%c{1}] - %msg%n</Property> -->
+		<Property name="PatternLayoutStr">[%d{yyyy-MM-dd HH:mm:ss.SSS}] [${projectName}] [%-5level] [%c{1}] [%t] - %msg%n</Property>
 		<!-- <Property name="PatternLayoutStr">[%d{yyyy-MM-dd HH:mm:ss.SSS}] [${hostName}] [%t] %c{1} [%-5level] - %msg%n</Property> -->
 
 	</Properties>
