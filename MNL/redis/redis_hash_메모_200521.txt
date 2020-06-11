@@ -8,12 +8,25 @@ HGETALL MGP_PSST^Connectivity
 
 HGETALL MGP_PSST^
 
+HGETALL  MGP_SVDT^stdv0003
+
+HGETALL MGP_CLRT^MGP10000
+
+
 
 - hash key의 모든 필드 가져옴
 HKEYS MGP_SVDT^stdv0001
 
 - hash key의 모들 값을 가져옴
 HVALS MGP_SVDT^stdv0001
+
+
+
+HGETALL  MGP_SVDT^stdv0006
+HGETALL  MGP_SVDT^stdv0003
+
+
+
 
 
 - 저장된 데이터 키의 갯수
@@ -26,6 +39,7 @@ keys *
 
 keys MGP_PSST*
 keys MGP_STDV*
+keys MGP_SVDT*
 
 
 
@@ -60,3 +74,5 @@ DEL 'PCS01'
 DEL 'MGP_PSST^'
 DEL 'ESS'
 DEL 'deviceKey03'
+DEL 'MGP_STDV^stdv0002'
+
