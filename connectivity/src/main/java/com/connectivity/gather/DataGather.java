@@ -53,9 +53,9 @@ public class DataGather extends QualityCode
 		DataGather exe = new DataGather( ) ;
 		String testData = "" ;
 		
-		// // testData = "{\"STDV_ID\":\"stdv0004\",\"DATA\":{\"MGP040\":16,\"MGP041\":10,\"MGP044\":105,\"MGP023\":70,\"MGP045\":34,\"MGP042\":47,\"MGP043\":38,\"MGP026\":19,\"MGP048\":48,\"MGP027\":17,\"MGP049\":67,\"MGP024\":69,\"MGP046\":45,\"MGP025\":80,\"MGP047\":28,\"MGP039\":90,\"MGP051\":24,\"MGP030\":82,\"MGP052\":73,\"MGP050\":42,\"MGP033\":88,\"MGP055\":28,\"MGP034\":66,\"MGP056\":57,\"MGP031\":86,\"MGP053\":87,\"MGP032\":25,\"MGP054\":38,\"MGP037\":22,\"MGP038\":70,\"MGP035\":23,\"MGP057\":109,\"MGP036\":99,\"MGP028\":88,\"MGP029\":52},\"DMT\":\"2020-05-21 09:12:57.396\"}" ;
+		// testData = "{\"STDV_ID\":\"stdv0004\",\"DATA\":{\"MGP040\":16,\"MGP041\":10,\"MGP044\":105,\"MGP023\":70,\"MGP045\":34,\"MGP042\":47,\"MGP043\":38,\"MGP026\":19,\"MGP048\":48,\"MGP027\":17,\"MGP049\":67,\"MGP024\":69,\"MGP046\":45,\"MGP025\":80,\"MGP047\":28,\"MGP039\":90,\"MGP051\":24,\"MGP030\":82,\"MGP052\":73,\"MGP050\":42,\"MGP033\":88,\"MGP055\":28,\"MGP034\":66,\"MGP056\":57,\"MGP031\":86,\"MGP053\":87,\"MGP032\":25,\"MGP054\":38,\"MGP037\":22,\"MGP038\":70,\"MGP035\":23,\"MGP057\":109,\"MGP036\":99,\"MGP028\":88,\"MGP029\":52},\"DMT\":\"2020-05-21 09:12:57.396\"}" ;
 		// testData = "{\"STDV_ID\":\"stdv0002\",\"DATA\":{\"MGP022\":85,\"MGP021\":50},\"DMT\":\"2020-05-21 13:00:34.747\"}" ;
-		// // testData = "{\"STDV_ID\":\"stdv0001\",\"DATA\":{\"MGP011\":17,\"MGP001\":36,\"MGP012\":81,\"MGP020\":33,\"MGP010\":93,\"MGP004\":27,\"MGP015\":91,\"MGP005\":30,\"MGP016\":58,\"MGP002\":109,\"MGP013\":25,\"MGP003\":48,\"MGP014\":98,\"MGP008\":85,\"MGP019\":78,\"MGP009\":34,\"MGP006\":31,\"MGP017\":42,\"MGP007\":24,\"MGP018\":98},\"DMT\":\"2020-05-21 17:51:29.044\"}" ;
+		// testData = "{\"STDV_ID\":\"stdv0001\",\"DATA\":{\"MGP011\":17,\"MGP001\":36,\"MGP012\":81,\"MGP020\":33,\"MGP010\":93,\"MGP004\":27,\"MGP015\":91,\"MGP005\":30,\"MGP016\":58,\"MGP002\":109,\"MGP013\":25,\"MGP003\":48,\"MGP014\":98,\"MGP008\":85,\"MGP019\":78,\"MGP009\":34,\"MGP006\":31,\"MGP017\":42,\"MGP007\":24,\"MGP018\":98},\"DMT\":\"2020-05-21 17:51:29.044\"}" ;
 		// exe.dataGathering( testData ) ;
 		
 		// testData = "{\"STDV_ID\":\"stdv0004\",\"DATA\":{\"MGP040\":16,\"MGP041\":10,\"MGP044\":105,\"MGP023\":70,\"MGP045\":34,\"MGP042\":47,\"MGP043\":38,\"MGP026\":19,\"MGP048\":48,\"MGP027\":17,\"MGP049\":67,\"MGP024\":69,\"MGP046\":45,\"MGP025\":80,\"MGP047\":28,\"MGP039\":90,\"MGP051\":24,\"MGP030\":82,\"MGP052\":73,\"MGP050\":42,\"MGP033\":88,\"MGP055\":28,\"MGP034\":66,\"MGP056\":57,\"MGP031\":86,\"MGP053\":87,\"MGP032\":25,\"MGP054\":38,\"MGP037\":22,\"MGP038\":70,\"MGP035\":23,\"MGP057\":109,\"MGP036\":99,\"MGP028\":88,\"MGP029\":52},\"DMT\":\"2020-05-21 09:12:57.396\"}" ;
@@ -63,11 +63,11 @@ public class DataGather extends QualityCode
 		// testData = "{\"STDV_ID\":\"stdv0001\",\"DATA\":{\"MGP011\":17,\"MGP001\":36,\"MGP012\":81,\"MGP020\":33,\"MGP010\":93,\"MGP004\":27,\"MGP015\":91,\"MGP005\":30,\"MGP016\":58,\"MGP002\":109,\"MGP013\":25,\"MGP003\":48,\"MGP014\":98,\"MGP008\":85,\"MGP019\":78,\"MGP009\":34,\"MGP006\":31,\"MGP017\":42,\"MGP007\":24,\"MGP018\":98},\"DMT\":\"2020-05-21 17:51:29.044\"}" ;
 		exe.dataGathering( testData ) ;
 		
-		// testData = "{\"STDV_ID\":\"stdv0001\",\"DATA\":{\"MGP011\":17,\"MGP001\":36,\"MGP012\":81,\"MGP020\":33,\"MGP010\":93,\"MGP004\":27,\"MGP015\":91,\"MGP005\":30,\"MGP016\":58,\"MGP002\":109,\"MGP013\":25,\"MGP003\":48,\"MGP014\":98,\"MGP008\":85,\"MGP019\":78,\"MGP009\":34,\"MGP006\":31,\"MGP017\":42,\"MGP007\":24,\"MGP018\":98},\"DMT\":\"2020-05-21 17:51:29.044\"}" ;
-		// exe.dataGathering( testData ) ;
-		//
-		// testData = "{\"STDV_ID\":\"stdv0004\",\"DATA\":{\"MGP040\":16,\"MGP041\":10,\"MGP044\":105,\"MGP023\":70,\"MGP045\":34,\"MGP042\":47,\"MGP043\":38,\"MGP026\":19,\"MGP048\":48,\"MGP027\":17,\"MGP049\":67,\"MGP024\":69,\"MGP046\":45,\"MGP025\":80,\"MGP047\":28,\"MGP039\":90,\"MGP051\":24,\"MGP030\":82,\"MGP052\":73,\"MGP050\":42,\"MGP033\":88,\"MGP055\":28,\"MGP034\":66,\"MGP056\":57,\"MGP031\":86,\"MGP053\":87,\"MGP032\":25,\"MGP054\":38,\"MGP037\":22,\"MGP038\":70,\"MGP035\":23,\"MGP057\":109,\"MGP036\":99,\"MGP028\":88,\"MGP029\":52},\"DMT\":\"2020-05-21 09:12:57.396\"}" ;
-		// exe.dataGathering( testData ) ;
+		testData = "{\"STDV_ID\":\"stdv0001\",\"DATA\":{\"MGP011\":17,\"MGP001\":36,\"MGP012\":81,\"MGP020\":33,\"MGP010\":93,\"MGP004\":27,\"MGP015\":91,\"MGP005\":30,\"MGP016\":58,\"MGP002\":109,\"MGP013\":25,\"MGP003\":48,\"MGP014\":98,\"MGP008\":85,\"MGP019\":78,\"MGP009\":34,\"MGP006\":31,\"MGP017\":42,\"MGP007\":24,\"MGP018\":98},\"DMT\":\"2020-05-21 17:51:29.044\"}" ;
+		exe.dataGathering( testData ) ;
+		
+		testData = "{\"STDV_ID\":\"stdv0004\",\"DATA\":{\"MGP040\":16,\"MGP041\":10,\"MGP044\":105,\"MGP023\":70,\"MGP045\":34,\"MGP042\":47,\"MGP043\":38,\"MGP026\":19,\"MGP048\":48,\"MGP027\":17,\"MGP049\":67,\"MGP024\":69,\"MGP046\":45,\"MGP025\":80,\"MGP047\":28,\"MGP039\":90,\"MGP051\":24,\"MGP030\":82,\"MGP052\":73,\"MGP050\":42,\"MGP033\":88,\"MGP055\":28,\"MGP034\":66,\"MGP056\":57,\"MGP031\":86,\"MGP053\":87,\"MGP032\":25,\"MGP054\":38,\"MGP037\":22,\"MGP038\":70,\"MGP035\":23,\"MGP057\":109,\"MGP036\":99,\"MGP028\":88,\"MGP029\":52},\"DMT\":\"2020-05-21 09:12:57.396\"}" ;
+		exe.dataGathering( testData ) ;
 		
 	}
 	
@@ -235,13 +235,12 @@ public class DataGather extends QualityCode
 			resultCalCulDataMap.putAll( resultDataMap ) ;
 			resultMongodbDataMap.put( "DT" , resultCalCulDataMap ) ;
 			
-			
 			logger.debug( "mongodb 저장 데이터 :: resultMongodbDataMap :: " + resultMongodbDataMap ) ;
 			// logger.debug( "resultCalCulDataMap :: " + resultCalCulDataMap ) ;
 			// logger.debug( "resultDataMap :: " + resultDataMap ) ;
 			
 			// 계측 데이터 mongodb 저장처리
-			 dataGatherDao.insertGatherData( resultMongodbDataMap ) ;
+			dataGatherDao.insertGatherData( resultMongodbDataMap ) ;
 			// TODO 이벤트 처리(thread 생성 후 거기서 처리하는 방안으로)
 			
 		}
@@ -359,6 +358,7 @@ public class DataGather extends QualityCode
 		
 		String resultQcStr = "" ;
 		String strGatherFieldQc = "" ;
+		
 		try {
 			
 			// logger.info( "getCalculatingGatherData :: " ) ;
@@ -391,9 +391,9 @@ public class DataGather extends QualityCode
 					// 함수 스트링 소문자 변환
 					strFuncOptr = optrArr[ 0 ] ;
 					strFuncOptr = strFuncOptr.toLowerCase( ) ;
-					logger.debug( "strFuncOptr :: " + strFuncOptr ) ;
+					// logger.debug( "strFuncOptr :: " + strFuncOptr ) ;
 				}
-
+				
 				// 연산 처리(사칙연산, sum, min, max)
 				for( j = 0 ; j < stdIdxsArr.length ; j++ ) {
 					
@@ -520,11 +520,17 @@ public class DataGather extends QualityCode
 			j = 0 ;
 			gatherDataHashMap = null ;
 			calculInfoList = null ;
-			
 			resultBigDecimal = null ;
 			paramBigDecimal = null ;
+			scFctBigDecimal = null ;
+			avgBigDecimal = null ;
 			stdIdxsArr = null ;
-			// logger.info( "getCalculatingGatherData finally:: " ) ;
+			optrArr = null ;
+			strFuncOptr = null ;
+			intPLen = 0 ;
+			resultQcStr = null ;
+			strGatherFieldQc = null ;
+			logger.info( "getCalculatingGatherData finally:: " ) ;
 		} // finally
 		
 		return resultHashMap ;

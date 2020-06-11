@@ -31,6 +31,9 @@ public class ConditionReport implements Runnable
 	private String strProcessID = "" ;
 	private int intReportInterval = 0 ;
 	
+	private ConditionReportDao ConditionReportDao = new ConditionReportDao( ) ;
+	private CommUtil commUtil = new CommUtil( ) ;
+	
 	/**
 	 * @param intReportInterval 초 단위로 입력
 	 * @param strProcessID ProcessID(디비에서 읽어옴??)
@@ -86,9 +89,6 @@ public class ConditionReport implements Runnable
 	 */
 	public void runConditionSet( ) throws Exception {
 		
-		ConditionReportDao ConditionReportDao = new ConditionReportDao( ) ;
-		CommUtil commUtil = new CommUtil( ) ;
-		
 		String redisSetKey = "" ;
 		String strDateTime = "" ;
 		HashMap< String , String > redisSetDataMap = new HashMap< String , String >( ) ;
@@ -106,8 +106,6 @@ public class ConditionReport implements Runnable
 			ConditionReportDao.hmSetCondition( redisSetKey , redisSetDataMap ) ;
 		}
 		finally {
-			ConditionReportDao = null ;
-			commUtil = null ;
 			redisSetKey = null ;
 			strDateTime = null ;
 			redisSetDataMap = null ;
@@ -117,9 +115,6 @@ public class ConditionReport implements Runnable
 	}
 	
 	public void stopConditionSet( ) {
-		
-		ConditionReportDao ConditionReportDao = new ConditionReportDao( ) ;
-		CommUtil commUtil = new CommUtil( ) ;
 		
 		String redisSetKey = "" ;
 		String strDateTime = "" ;
@@ -136,8 +131,6 @@ public class ConditionReport implements Runnable
 			ConditionReportDao.hmSetCondition( redisSetKey , redisSetDataMap ) ;
 		}
 		finally {
-			ConditionReportDao = null ;
-			commUtil = null ;
 			redisSetKey = null ;
 			strDateTime = null ;
 			redisSetDataMap = null ;
