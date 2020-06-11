@@ -24,16 +24,18 @@ public class AdapterMainRun
 	 */
 	public static void main( String[ ] args ) {
 		
+		ConnectivityProperties connectivityProperties = null ;
+		AdapterMainRun exe = null ;
+		AdapterDataSimulTest adapterDataSimulTest = null ;
 		try {
+			connectivityProperties = new ConnectivityProperties( ) ;
+			exe = new AdapterMainRun( ) ;
 			
-			ConnectivityProperties connectivityProperties = new ConnectivityProperties( ) ;
 			connectivityProperties.setConnectivityProperties( ) ;
-			
-			AdapterMainRun exe = new AdapterMainRun( ) ;
 			
 			exe.getPubConnection( ) ;
 			
-			AdapterDataSimulTest adapterDataSimulTest = new AdapterDataSimulTest( ) ;
+			adapterDataSimulTest = new AdapterDataSimulTest( ) ;
 			Thread dsThread = new Thread( adapterDataSimulTest , "adapterDataSimulTestThread" ) ;
 			
 			dsThread.start( ) ;
@@ -43,7 +45,9 @@ public class AdapterMainRun
 			logger.error( e.getMessage( ) , e ) ;
 		}
 		finally {
-			
+			connectivityProperties = null ;
+			exe = null ;
+			adapterDataSimulTest = null ;
 		}
 		
 	}

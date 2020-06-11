@@ -115,6 +115,7 @@ public class AdapterDataGenerator implements Runnable
 			resultJsonObject = null ;
 			dataJsonObject = null ;
 			data2Connectivity = null ;
+			commUtil = null ;
 			
 			PropertyLoader.PROCESS_THREAD_CNT-- ;
 			setDemonLive( false ) ;

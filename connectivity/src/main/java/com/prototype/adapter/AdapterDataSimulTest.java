@@ -13,7 +13,7 @@ public class AdapterDataSimulTest implements Runnable
 	
 	// Define a static logger variable so that it references the
 	// Logger instance named "MyApp".
-	private  Logger logger = LogManager.getLogger( AdapterDataSimulTest.class ) ;
+	private Logger logger = LogManager.getLogger( AdapterDataSimulTest.class ) ;
 	// Logger logger = LogManager.getLogger( ) ;
 	
 	private boolean isDemonLive = false ;
@@ -22,6 +22,7 @@ public class AdapterDataSimulTest implements Runnable
 	public void run( ) {
 		
 		HashMap< String , HashMap< String , Object > > staticDiviceInfo = new HashMap< String , HashMap< String , Object > >( ) ;
+		AdapterDataGenerator adapterDataGenerator = null ;
 		try {
 			PropertyLoader.PROCESS_THREAD_CNT++ ;
 			
@@ -36,7 +37,7 @@ public class AdapterDataSimulTest implements Runnable
 				logger.debug( "staticDiviceInfo :: " + staticDiviceInfo ) ;
 				
 				for( String key : staticDiviceInfo.keySet( ) ) {
-					AdapterDataGenerator adapterDataGenerator = new AdapterDataGenerator( key ) ;
+					adapterDataGenerator = new AdapterDataGenerator( key ) ;
 					Thread dgThread = new Thread( adapterDataGenerator , "adapterDataGeneratorThread" ) ;
 					
 					dgThread.start( ) ;
@@ -55,7 +56,8 @@ public class AdapterDataSimulTest implements Runnable
 		finally {
 			setDemonLive( false ) ;
 			PropertyLoader.PROCESS_THREAD_CNT-- ;
-			
+			staticDiviceInfo = null ;
+			adapterDataGenerator = null ;
 		}
 		
 	}
