@@ -9,6 +9,7 @@ import org.apache.logging.log4j.LogManager ;
 import org.apache.logging.log4j.Logger ;
 
 import com.connectivity.common.RedisCommon ;
+import com.connectivity.utils.CommUtil ;
 
 /**
  * <pre>
@@ -27,7 +28,13 @@ public class ConditionReportDao
 		RedisCommon redisCommon = new RedisCommon( ) ;
 		String resultStr = "" ;
 		
+		String strDateTime = "" ;
+		CommUtil commUtil = new CommUtil( ) ;
 		try {
+			
+			strDateTime = commUtil.getFormatingNowDateTime( ) ;
+			redisSetDataMap.put( "LSDT" , strDateTime ) ;
+			
 			logger.debug( "redisSetKey :: " + redisSetKey ) ;
 			resultStr = redisCommon.redisHmset( redisSetKey , redisSetDataMap ) ;
 			logger.debug( "resultStr :: " + resultStr ) ;
@@ -40,6 +47,8 @@ public class ConditionReportDao
 			redisSetDataMap = null ;
 			redisCommon = null ;
 			resultStr = null ;
+			strDateTime = null ;
+			commUtil = null ;
 		}
 		
 		return resulBoolean ;

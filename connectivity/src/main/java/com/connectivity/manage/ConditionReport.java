@@ -32,7 +32,6 @@ public class ConditionReport implements Runnable
 	private int intReportInterval = 0 ;
 	
 	private ConditionReportDao ConditionReportDao = new ConditionReportDao( ) ;
-	private CommUtil commUtil = new CommUtil( ) ;
 	
 	/**
 	 * @param intReportInterval 초 단위로 입력
@@ -90,24 +89,19 @@ public class ConditionReport implements Runnable
 	public void runConditionSet( ) throws Exception {
 		
 		String redisSetKey = "" ;
-		String strDateTime = "" ;
 		HashMap< String , String > redisSetDataMap = new HashMap< String , String >( ) ;
 		try {
 			logger.debug( "runConditionSet :: " ) ;
 			
 			redisSetKey = "MGP_PSST" + "^" + strProcessID ;
 			
-			strDateTime = commUtil.getFormatingNowDateTime( ) ;
-			
 			redisSetDataMap.put( "PID" , strPID ) ;
 			redisSetDataMap.put( "STAT" , "RUN" ) ;
-			redisSetDataMap.put( "LSDT" , strDateTime ) ;
 			
 			ConditionReportDao.hmSetCondition( redisSetKey , redisSetDataMap ) ;
 		}
 		finally {
 			redisSetKey = null ;
-			strDateTime = null ;
 			redisSetDataMap = null ;
 		}
 		
@@ -117,22 +111,17 @@ public class ConditionReport implements Runnable
 	public void stopConditionSet( ) {
 		
 		String redisSetKey = "" ;
-		String strDateTime = "" ;
 		HashMap< String , String > redisSetDataMap = new HashMap< String , String >( ) ;
 		try {
 			redisSetKey = "MGP_PSST" + "^" + strProcessID ;
 			
-			strDateTime = commUtil.getFormatingNowDateTime( ) ;
-			
 			redisSetDataMap.put( "PID" , strPID ) ;
 			redisSetDataMap.put( "STAT" , "STOP" ) ;
-			redisSetDataMap.put( "LSDT" , strDateTime ) ;
 			
 			ConditionReportDao.hmSetCondition( redisSetKey , redisSetDataMap ) ;
 		}
 		finally {
 			redisSetKey = null ;
-			strDateTime = null ;
 			redisSetDataMap = null ;
 		}
 		
