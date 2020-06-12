@@ -67,7 +67,8 @@ public class BetweenDevicesCalculate extends QualityCode implements Runnable
 			BetweenDevicesCalculate exe = new BetweenDevicesCalculate( 10 ) ;
 			// exe.calculateBetweenDevicesData( ) ;
 			
-			Thread btwDvCalcuThread = new Thread( exe , "BetweenDevicesCalculate" ) ;
+			// Thread btwDvCalcuThread = new Thread( exe , "BetweenDevicesCalculate" ) ;
+			Thread btwDvCalcuThread = new Thread( exe ) ;
 			btwDvCalcuThread.start( ) ;
 			
 			Thread.sleep( 1 * 1000 ) ;
@@ -358,7 +359,8 @@ public class BetweenDevicesCalculate extends QualityCode implements Runnable
 				//// redis 저장 - 표준모델
 				betweenDevicesCalculateDao.hmSetBtwnDvCalculData( resultMgpKey , strDmt , ( resultBigDecimal + "" ) , resultQcStr ) ;
 				
-				// TODO redis 저장 - 표준모델
+				// TODO redis 저장 - AppIO 모델
+				// TODO 키 처리 추가
 				
 				// mongodb 저장 map 생성
 				resultRstMgpKeyDataMap = new HashMap< String , Object >( ) ;
@@ -374,10 +376,11 @@ public class BetweenDevicesCalculate extends QualityCode implements Runnable
 				// logger.debug( "resultRstDataMap :: " + resultRstDataMap ) ;
 			logger.debug( "strFirstDmt :: " + strFirstDmt ) ;
 			
-			// mongodb 저장 - thead 생성
+			// history 저장 및 이벤트 데이터 처리 thread 생성
 			// BetweenDevicesCalculateHistoryAndEvent historyAndEvent = new BetweenDevicesCalculateHistoryAndEvent( strFirstDmt , resultRstDataMap ) ;
 			historyAndEvent = new BetweenDevicesCalculateHistoryAndEvent( strFirstDmt , resultRstDataMap ) ;
-			historyAndEventThread = new Thread( historyAndEvent , "BetweenDevicesCalculateHistoryAndEvent" ) ;
+			// historyAndEventThread = new Thread( historyAndEvent , "BetweenDevicesCalculateHistoryAndEvent" ) ;
+			historyAndEventThread = new Thread( historyAndEvent ) ;
 			historyAndEventThread.start( ) ;
 			
 		}

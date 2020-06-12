@@ -48,9 +48,12 @@ public class BetweenDevicesCalculateHistoryAndEvent implements Runnable
 		try {
 			logger.debug( "BetweenDevicesCalculateHistoryAndEvent run" ) ;
 			ConnectivityProperties.PROCESS_THREAD_CNT++ ;
-			// mongodb 저장
+			
+			// mongodb 저장 - 표준 모델
 			logger.debug( "strFirstDmt :: " + strFirstDmt ) ;
 			betweenDevicesCalculateDao.insertBtwnDvCalculData( this.strFirstDmt , this.resultRstDataMap ) ;
+			
+			// TODO 이벤트 처리
 			
 		}
 		catch( Exception e ) {
@@ -58,6 +61,10 @@ public class BetweenDevicesCalculateHistoryAndEvent implements Runnable
 		}
 		finally {
 			betweenDevicesCalculateDao = null ;
+			
+			this.strFirstDmt = null ;
+			this.resultRstDataMap = null ;
+			
 			ConnectivityProperties.PROCESS_THREAD_CNT-- ;
 			logger.debug( "BetweenDevicesCalculateHistoryAndEvent run finally" ) ;
 		}
