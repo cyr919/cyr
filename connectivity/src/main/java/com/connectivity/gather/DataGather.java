@@ -84,7 +84,6 @@ public class DataGather extends QualityCode
 		HashMap< String , String > resultDataMap = new HashMap< String , String >( ) ;
 		HashMap< String , String > resultCalCulDataMap = new HashMap< String , String >( ) ;
 		HashMap< String , String > resultRedisDataMap = new HashMap< String , String >( ) ;
-		HashMap< String , Object > resultMongodbDataMap = new HashMap< String , Object >( ) ;
 		
 		HashMap< String , HashMap< String , Object > > stdvDtMdlMap = new HashMap< String , HashMap< String , Object > >( ) ;
 		HashMap< String , Object > stdvInfMap = new HashMap< String , Object >( ) ;
@@ -95,6 +94,9 @@ public class DataGather extends QualityCode
 		
 		String resultRecordQc = "" ;
 		HashMap< String , Object > tempFildQcMap = new HashMap< String , Object >( ) ;
+		
+		DataGatherHistoryAndEvent historyAndEvent = null ;
+		Thread historyAndEventThread = null ;
 		
 		try {
 			logger.debug( "dataGathering :: " ) ;
@@ -107,6 +109,7 @@ public class DataGather extends QualityCode
 			strDviceId = ( String ) jsonObject.get( "STDV_ID" ) ;
 			strDmt = ( String ) jsonObject.get( "DMT" ) ;
 			subDataJSONObject = ( JSONObject ) jsonObject.get( "DATA" ) ;
+			logger.debug( "dataGathering :: strDmt :: " + strDmt ) ;
 			
 			// logger.debug( "strDviceId :: " + strDviceId ) ;
 			// logger.debug( "strDmt :: " + strDmt ) ;
@@ -163,6 +166,8 @@ public class DataGather extends QualityCode
 				
 				// logger.debug( "tempQcStr ::" + tempQcStr ) ;
 				
+				// TODO AppIO 키 처리 추가
+				
 			} // subDataJSONObject.keySet( )
 			logger.debug( "계측 처리 후 ::" ) ;
 			logger.debug( "resultDataMap :: " + resultDataMap ) ;
@@ -205,43 +210,25 @@ public class DataGather extends QualityCode
 			// 연산 데이터 추가
 			resultRedisDataMap.putAll( resultCalCulDataMap ) ;
 			
-			// 저장 시간
-			
 			logger.debug( "redis 저장 데이터 :: resultRedisDataMap :: " + resultRedisDataMap ) ;
 			
-			// redis 데이터 저장 처리
+			// TODO redis 데이터 저장 처리 - appoi
+			
+			// redis 데이터 저장 처리 - 표준 모델
 			resultBool = dataGatherDao.hmSetGatherData( strDviceId , resultRedisDataMap ) ;
 			resultRedisDataMap = null ;
 			
 			// logger.debug( "resultCalCulDataMap :: " + resultCalCulDataMap ) ;
 			// logger.debug( "resultDataMap :: " + resultDataMap ) ;
 			
-			// mongodb 저장
+			// history 저장 및 이벤트 데이터 처리 thread 생성
+			logger.debug( "history 저장 및 이벤트 데이터 처리 thread 생성 :: " ) ;
 			
-			strTemp = strDmt.replaceAll( " " , "" ).replaceAll( "-" , "" ).replaceAll( ":" , "" ).replaceAll( "\\." , "" ) ;
-			// logger.debug( "strTemp :: " + strTemp ) ;
-			
-			resultMongodbDataMap.put( "_id" , ( strDviceId + "_" + strTemp ) ) ;
-			
-			strTemp = strDmt.split( " " )[ 0 ] ;
-			resultMongodbDataMap.put( "YMD" , strTemp ) ;
-			resultMongodbDataMap.put( "DTM" , strDmt ) ;
-			resultMongodbDataMap.put( "STDV_ID" , strDviceId ) ;
-			resultMongodbDataMap.put( "STDV_TP" , stdvInfMap.get( "TP" ) ) ;
-			resultMongodbDataMap.put( "Q" , resultRecordQc ) ;
-			// logger.debug( "strTemp :: [" + strTemp +"]" ) ;
-			
-			// 장치내 연산 데이터 및 계측 데이터
-			resultCalCulDataMap.putAll( resultDataMap ) ;
-			resultMongodbDataMap.put( "DT" , resultCalCulDataMap ) ;
-			
-			logger.debug( "mongodb 저장 데이터 :: resultMongodbDataMap :: " + resultMongodbDataMap ) ;
-			// logger.debug( "resultCalCulDataMap :: " + resultCalCulDataMap ) ;
-			// logger.debug( "resultDataMap :: " + resultDataMap ) ;
-			
-			// 계측 데이터 mongodb 저장처리
-			dataGatherDao.insertGatherData( resultMongodbDataMap ) ;
-			// TODO 이벤트 처리(thread 생성 후 거기서 처리하는 방안으로)
+			historyAndEvent = new DataGatherHistoryAndEvent( strDviceId , strDmt , resultRecordQc , ( stdvInfMap.get( "TP" ) + "" ) , resultDataMap , resultCalCulDataMap ) ;
+			// historyAndEventThread = new Thread( historyAndEvent , "DataGatherHistoryAndEvent" ) ;
+			historyAndEventThread = new Thread( historyAndEvent ) ;
+			historyAndEventThread.start( ) ;
+			logger.debug( "history 저장 및 이벤트 데이터 처리 thread 생성 :: 시작 완료 " ) ;
 			
 		}
 		catch( Exception e ) {
@@ -262,7 +249,6 @@ public class DataGather extends QualityCode
 			resultDataMap = null ;
 			resultCalCulDataMap = null ;
 			resultRedisDataMap = null ;
-			resultMongodbDataMap = null ;
 			
 			stdvDtMdlMap = null ;
 			stdvInfMap = null ;
@@ -272,6 +258,9 @@ public class DataGather extends QualityCode
 			
 			resultRecordQc = null ;
 			tempFildQcMap = null ;
+			
+			historyAndEvent = null ;
+			historyAndEventThread = null ;
 			
 			logger.debug( "dataGathering finally :: " ) ;
 		}
