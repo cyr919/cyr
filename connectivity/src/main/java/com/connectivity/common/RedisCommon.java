@@ -175,7 +175,7 @@ public class RedisCommon extends JedisConnection
 			// logger.trace( "jedis.isConnected() :: " + jedis.isConnected( ) ) ;
 			if( jedis.isConnected( ) ) {
 				resultStr = jedis.hmset( key , hash ) ;
-				logger.trace( "resultStr :: " + resultStr ) ;
+//				logger.trace( "resultStr :: " + resultStr ) ;
 				
 			}
 		}
