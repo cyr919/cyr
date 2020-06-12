@@ -6,7 +6,6 @@ package com.connectivity.calculate ;
 import java.math.BigDecimal ;
 import java.math.RoundingMode ;
 import java.util.ArrayList ;
-import java.util.Arrays ;
 import java.util.HashMap ;
 import java.util.Map ;
 
@@ -33,6 +32,8 @@ public class BetweenDevicesCalculate extends QualityCode implements Runnable
 	
 	private Logger logger = LogManager.getLogger( this.getClass( ) ) ;
 	
+	private boolean isDemonLive = true ;
+	private int intExeInterval = 0 ;
 	private BetweenDevicesCalculateDao betweenDevicesCalculateDao = new BetweenDevicesCalculateDao( ) ;
 	
 	/**
@@ -61,27 +62,73 @@ public class BetweenDevicesCalculate extends QualityCode implements Runnable
 			// TODO Auto-generated catch block
 			e.printStackTrace( ) ;
 		}
-		BetweenDevicesCalculate exe = new BetweenDevicesCalculate( ) ;
-		exe.calculateBetweenDevices( ) ;
 		
+		try {
+			BetweenDevicesCalculate exe = new BetweenDevicesCalculate( 10 ) ;
+			// exe.calculateBetweenDevicesData( ) ;
+			
+			Thread btwDvCalcuThread = new Thread( exe , "BetweenDevicesCalculate" ) ;
+			btwDvCalcuThread.start( ) ;
+			
+			Thread.sleep( 1 * 1000 ) ;
+			exe.setStopExeThread( ) ;
+		}
+		catch( InterruptedException e ) {
+			// TODO Auto-generated catch block
+			e.printStackTrace( ) ;
+		}
+		catch( Exception e ) {
+			e.printStackTrace( ) ;
+		}
+		
+	}
+	
+	public BetweenDevicesCalculate( int intExeInterval ) {
+		this.isDemonLive = true ;
+		// this.intExeInterval = ( intExeInterval * 1000 ) ;
+		this.intExeInterval = intExeInterval ;
+		return ;
 	}
 	
 	@Override
 	public void run( ) {
-		// TODO Auto-generated method stub
 		
 		try {
 			
+			logger.info( "BetweenDevicesCalculate run 시작" ) ;
+			
+			while( isDemonLive ) {
+				
+				calculateBetweenDevicesData( ) ;
+				
+				Thread.sleep( intExeInterval ) ;
+			}
+			
+			logger.info( "while 종료 :: isDemonLive :: " + isDemonLive ) ;
 		}
+		// catch( InterruptedException e ) {
+		// logger.info( "ConditionReport run 종료 요청 :: interrupt" ) ;
+		//
+		// logger.error( e.getMessage( ) , e ) ;
+		// }
 		catch( Exception e ) {
 			logger.error( e.getMessage( ) , e ) ;
 		}
 		finally {
+			logger.info( "BetweenDevicesCalculate run 종료" ) ;
 			
 		}
 	}
 	
-	public Boolean calculateBetweenDevices( ) {
+	public void setStopExeThread( ) throws Exception {
+		
+		logger.info( "BetweenDevicesCalculate run 종료 요청" ) ;
+		this.isDemonLive = false ;
+		
+		return ;
+	}
+	
+	public Boolean calculateBetweenDevicesData( ) {
 		
 		Boolean resultBool = true ;
 		
@@ -120,10 +167,13 @@ public class BetweenDevicesCalculate extends QualityCode implements Runnable
 		String delimitersStr = "" ;
 		String resultMgpKey = "" ;
 		
+		BetweenDevicesCalculateHistoryAndEvent historyAndEvent = null ;
+		Thread historyAndEventThread = null ;
+		
 		try {
 			delimitersStr = "," ;
 			
-			logger.debug( "calculateBetweenDevices" ) ;
+			logger.debug( "calculateBetweenDevicesData :: " ) ;
 			// 배치 시작 시간
 			strFirstDmt = commUtil.getFormatingNowDateTime( "yyyyMMddHHmmssSSS" ) ;
 			
@@ -132,18 +182,20 @@ public class BetweenDevicesCalculate extends QualityCode implements Runnable
 			
 			allDvGthrDt = betweenDevicesCalculateDao.getAllDevicesGatherData( stdvInfMap ) ;
 			
-			logger.debug( "stdvInfMap :: " + stdvInfMap ) ;
-			logger.debug( "allDvGthrDt :: " + allDvGthrDt ) ;
+			// logger.debug( "stdvInfMap :: " + stdvInfMap ) ;
+			// logger.debug( "allDvGthrDt :: " + allDvGthrDt ) ;
 			logger.debug( ":::::::::: 전체 디바이스 데이터 가져오기 ::::::::::" ) ;
+			
+			// TODO 시뮬레이션 여부 확인 및 변수 할당
 			
 			// 장치간 연산 데이터 생성
 			calculInfoList = ConnectivityProperties.BTWN_DV_CAL_INFO ;
 			for( i = 0 ; i < calculInfoList.size( ) ; i++ ) {
-				logger.debug( "btwnDvCalInfoList.get( " + i + " ) :: " + calculInfoList.get( i ) ) ;
+				// logger.debug( "btwnDvCalInfoList.get( " + i + " ) :: " + calculInfoList.get( i ) ) ;
 				
 				idxList = new ArrayList< HashMap< String , Object > >( ) ;
 				idxList = ( ArrayList< HashMap< String , Object > > ) calculInfoList.get( i ).get( "IDX_LIST" ) ;
-				logger.debug( "idxList :: " + idxList ) ;
+				// logger.debug( "idxList :: " + idxList ) ;
 				
 				// 소수 점 길이 처리 확인
 				if( commUtil.checkObjNull( calculInfoList.get( i ).get( "P_LEN" ) ) ) {
@@ -156,19 +208,19 @@ public class BetweenDevicesCalculate extends QualityCode implements Runnable
 				
 				// 피연산자 및 연산자 array 변환
 				optrArr = ( calculInfoList.get( i ).get( "OPRT" ) + "" ).split( "," ) ;
-				logger.debug( "optrArr :: " + Arrays.toString( optrArr ) ) ;
+				// logger.debug( "optrArr :: " + Arrays.toString( optrArr ) ) ;
 				
 				// 함수 연산시 함수명 소문자 변환
 				if( "002".equals( calculInfoList.get( i ).get( "OPRT_TP" ) ) ) {
 					// 함수 스트링 소문자 변환
 					strFuncOptr = optrArr[ 0 ] ;
 					strFuncOptr = strFuncOptr.toLowerCase( ) ;
-					logger.debug( "strFuncOptr :: " + strFuncOptr ) ;
+					// logger.debug( "strFuncOptr :: " + strFuncOptr ) ;
 				}
 				
 				// 연산 처리(사칙연산, sum, min, max)
 				for( j = 0 ; j < idxList.size( ) ; j++ ) {
-					logger.debug( "idxList.get( " + j + " ) :: " + idxList.get( j ) ) ;
+					// logger.debug( "idxList.get( " + j + " ) :: " + idxList.get( j ) ) ;
 					
 					// 피연산 Value
 					paramValue = allDvGthrDt.get( idxList.get( j ).get( "STDV_ID" ) ).get( idxList.get( j ).get( "MGP_KEY" ) ) ;
@@ -187,9 +239,9 @@ public class BetweenDevicesCalculate extends QualityCode implements Runnable
 					}
 					
 					paramBigDecimal = new BigDecimal( paramValue ) ;
-					logger.debug( "tempBigDecimal :: " + j + " :: " + paramBigDecimal ) ;
+					// logger.debug( "tempBigDecimal :: " + j + " :: " + paramBigDecimal ) ;
 					
-					logger.debug( "calculInfoList.get( i ).get( \"OPRT_TP\" ) :: " + calculInfoList.get( i ).get( "OPRT_TP" ) ) ;
+					// logger.debug( "calculInfoList.get( i ).get( \"OPRT_TP\" ) :: " + calculInfoList.get( i ).get( "OPRT_TP" ) ) ;
 					if( "001".equals( calculInfoList.get( i ).get( "OPRT_TP" ) ) ) {
 						// 사칙 연산
 						if( j == 0 ) {
@@ -245,7 +297,7 @@ public class BetweenDevicesCalculate extends QualityCode implements Runnable
 					
 					// strGatherFieldQc = gatherDataHashMap.get( ( stdIdxsArr[ j ] + "_Q" ) ) + "" ;
 					strGatherFieldQc = allDvGthrDt.get( idxList.get( j ).get( "STDV_ID" ) ).get( ( idxList.get( j ).get( "MGP_KEY" ) + "_Q" ) ) ;
-					logger.debug( "strGatherFieldQc :: " + j + " :: " + strGatherFieldQc ) ;
+					// logger.debug( "strGatherFieldQc :: " + j + " :: " + strGatherFieldQc ) ;
 					
 					if( j == 0 ) {
 						// 연산 필드 QC 맨 처음 피연산자의 QC 값을 가진다. 임시 값
@@ -270,11 +322,11 @@ public class BetweenDevicesCalculate extends QualityCode implements Runnable
 					resultBigDecimal = resultBigDecimal.divide( avgBigDecimal , intPLen , RoundingMode.DOWN ) ;
 				}
 				
-				logger.debug( "resultBigDecimal :: " + i + " :: " + resultBigDecimal ) ;
+				// logger.debug( "resultBigDecimal :: " + i + " :: " + resultBigDecimal ) ;
 				
 				// 연산식 스케일 팩터 적용 - 스케일 팩터가 있는 것만 처리
 				if( !commUtil.checkObjNull( calculInfoList.get( i ).get( "SC_FCT" ) ) ) {
-					logger.debug( "calculInfoList.get( i ).get( \"SC_FCT\" ) :: " + i + " :: " + calculInfoList.get( i ).get( "SC_FCT" ) ) ;
+					// logger.debug( "calculInfoList.get( i ).get( \"SC_FCT\" ) :: " + i + " :: " + calculInfoList.get( i ).get( "SC_FCT" ) ) ;
 					// 연산식 스케일 팩터 적용
 					scFctBigDecimal = commUtil.getBigdeciNumValue( ( calculInfoList.get( i ).get( "SC_FCT" ) + "" ) ) ;
 					resultBigDecimal = resultBigDecimal.multiply( scFctBigDecimal ) ;
@@ -286,25 +338,27 @@ public class BetweenDevicesCalculate extends QualityCode implements Runnable
 				}
 				// 장치내 연산 데이터 QC 적용
 				// TODO 연산 필드 QC 처리 : 계측 모드, 연산 모드
-				logger.debug( "::::: 연산 QC 적용 계측 모드, 연산 모드 :::::" ) ;
+				// logger.debug( "::::: 연산 QC 적용 계측 모드, 연산 모드 :::::" ) ;
 				resultQcStr = calculateMeasurementMode( resultQcStr ) ;
 				resultQcStr = calculateCalculationMode( resultQcStr ) ;
 				
-				logger.debug( "tempResultBigDecimal :: " + i + " :: " + resultBigDecimal ) ;
-				logger.debug( "resultQcStr :: " + i + " :: " + resultQcStr ) ;
-				logger.debug( "resultKsStr :: " + i + " :: " + resultKsStr ) ;
-				logger.debug( "resultVsStr :: " + i + " :: " + resultVsStr ) ;
-				logger.debug( "calculInfoList.get( i ).get( \"MGP_KEY\" ) :: " + i + " :: " + calculInfoList.get( i ).get( "MGP_KEY" ) ) ;
+				// logger.debug( "tempResultBigDecimal :: " + i + " :: " + resultBigDecimal ) ;
+				// logger.debug( "resultQcStr :: " + i + " :: " + resultQcStr ) ;
+				// logger.debug( "resultKsStr :: " + i + " :: " + resultKsStr ) ;
+				// logger.debug( "resultVsStr :: " + i + " :: " + resultVsStr ) ;
+				// logger.debug( "calculInfoList.get( i ).get( \"MGP_KEY\" ) :: " + i + " :: " + calculInfoList.get( i ).get( "MGP_KEY" ) ) ;
 				
 				// 연산 결과 MGP KEY 가져오기
 				resultMgpKey = calculInfoList.get( i ).get( "MGP_KEY" ) + "" ;
-				logger.debug( "resultMgpKey :: " + i + " :: " + resultMgpKey ) ;
+				// logger.debug( "resultMgpKey :: " + i + " :: " + resultMgpKey ) ;
 				
 				// 데이터 생성 시간
 				strDmt = commUtil.getFormatingNowDateTime( "yyyyMMddHHmmssSSS" ) ;
 				
-				//// redis 저장
+				//// redis 저장 - 표준모델
 				betweenDevicesCalculateDao.hmSetBtwnDvCalculData( resultMgpKey , strDmt , ( resultBigDecimal + "" ) , resultQcStr ) ;
+				
+				// TODO redis 저장 - 표준모델
 				
 				// mongodb 저장 map 생성
 				resultRstMgpKeyDataMap = new HashMap< String , Object >( ) ;
@@ -313,14 +367,18 @@ public class BetweenDevicesCalculate extends QualityCode implements Runnable
 				resultRstMgpKeyDataMap.put( "Q" , resultQcStr ) ;
 				resultRstMgpKeyDataMap.put( "KS" , resultKsStr ) ;
 				resultRstMgpKeyDataMap.put( "VS" , resultVsStr ) ;
-				logger.debug( "resultRstMgpKeyDataMap :: " + i + " :: " + resultRstMgpKeyDataMap ) ;
+				// logger.debug( "resultRstMgpKeyDataMap :: " + i + " :: " + resultRstMgpKeyDataMap ) ;
 				
 				resultRstDataMap.put( resultMgpKey , resultRstMgpKeyDataMap ) ;
 			} // for( i = 0 ; i < btwnDvCalInfoList.size( ) ; i++ )
-			logger.debug( "resultRstDataMap :: " + i + " :: " + resultRstDataMap ) ;
+				// logger.debug( "resultRstDataMap :: " + resultRstDataMap ) ;
+			logger.debug( "strFirstDmt :: " + strFirstDmt ) ;
 			
-			// mongodb 저장
-			betweenDevicesCalculateDao.insertBtwnDvCalculData( strFirstDmt , resultRstDataMap ) ;
+			// mongodb 저장 - thead 생성
+			// BetweenDevicesCalculateHistoryAndEvent historyAndEvent = new BetweenDevicesCalculateHistoryAndEvent( strFirstDmt , resultRstDataMap ) ;
+			historyAndEvent = new BetweenDevicesCalculateHistoryAndEvent( strFirstDmt , resultRstDataMap ) ;
+			historyAndEventThread = new Thread( historyAndEvent , "BetweenDevicesCalculateHistoryAndEvent" ) ;
+			historyAndEventThread.start( ) ;
 			
 		}
 		catch( Exception e ) {
@@ -355,7 +413,9 @@ public class BetweenDevicesCalculate extends QualityCode implements Runnable
 			paramKey = null ;
 			delimitersStr = null ;
 			resultMgpKey = null ;
-			logger.debug( "calculateBetweenDevices finally" ) ;
+			
+			historyAndEvent = null ;
+			logger.debug( "calculateBetweenDevicesData finally :: " ) ;
 		}
 		
 		return resultBool ;

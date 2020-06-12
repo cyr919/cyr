@@ -39,12 +39,12 @@ public class BetweenDevicesCalculateDao
 		try {
 			
 			for( String keyStr : stdvInfMap.keySet( ) ) {
-				logger.debug( "keyStr :: " + keyStr ) ;
+//				logger.debug( "keyStr :: " + keyStr ) ;
 				hashKeyStr = "MGP_SVDT^" + keyStr ;
 				
 				dvGthrDtMap = redisCommon.redisHgetAll( hashKeyStr ) ;
-				logger.debug( "hashKeyStr :: " + hashKeyStr ) ;
-				logger.debug( "dvGthrDtMap :: " + dvGthrDtMap ) ;
+//				logger.debug( "hashKeyStr :: " + hashKeyStr ) ;
+//				logger.debug( "dvGthrDtMap :: " + dvGthrDtMap ) ;
 				
 				resultMap.put( keyStr , dvGthrDtMap ) ;
 			}
@@ -74,10 +74,10 @@ public class BetweenDevicesCalculateDao
 		CommUtil commUtil = new CommUtil( ) ;
 		
 		try {
-			logger.debug( "hmSetBtwnDvCalculData" ) ;
+//			logger.debug( "hmSetBtwnDvCalculData" ) ;
 			
 			strKey = "MGP_CLRT" + "^" + mgpKeyStr ;
-			logger.debug( "strKey :: " + strKey ) ;
+//			logger.debug( "strKey :: " + strKey ) ;
 			
 			redisSetDataMap.put( "ID" , idStr ) ;
 			redisSetDataMap.put( "V" , valStr ) ;
@@ -102,7 +102,7 @@ public class BetweenDevicesCalculateDao
 			redisCommon = null ;
 			commUtil = null ;
 			
-			logger.debug( "hmSetBtwnDvCalculData finally" ) ;
+//			logger.debug( "hmSetBtwnDvCalculData finally" ) ;
 		}
 		
 		return resulBoolean ;

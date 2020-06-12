@@ -471,16 +471,16 @@ public class QualityCode
 		String strFieldQc = "" ;
 		
 		try {
-			logger.debug( "strQc :: " + strQc ) ;
-			logger.debug( "fieldQcIdx.get( \"simulationMode\" ) :: " + fieldQcIdx.get( "simulationMode" ) ) ;
+//			logger.debug( "strQc :: " + strQc ) ;
+//			logger.debug( "fieldQcIdx.get( \"simulationMode\" ) :: " + fieldQcIdx.get( "simulationMode" ) ) ;
 			
 			// 시뮬레이션 모드
 			// 하나라도 "1(시뮬레이션 데이터)" 이면 해당 QC는 "1(시뮬레이션 데이터)" 모두 "0(일반 모드)" 이면 "0(일반 모드)"이다.
 			strFieldQc = strQc.substring( fieldQcIdx.get( "simulationMode" ).get( "startInt" ) , fieldQcIdx.get( "simulationMode" ).get( "endInt" ) ) ;
 			strGatherFieldQc = strGatherFieldQc.substring( fieldQcIdx.get( "simulationMode" ).get( "startInt" ) , fieldQcIdx.get( "simulationMode" ).get( "endInt" ) ) ;
 			
-			logger.debug( "strFieldQc :: " + strFieldQc ) ;
-			logger.debug( "strGatherFieldQc :: " + strGatherFieldQc ) ;
+//			logger.debug( "strFieldQc :: " + strFieldQc ) ;
+//			logger.debug( "strGatherFieldQc :: " + strGatherFieldQc ) ;
 			
 			resultInt = commUtil.addData( strFieldQc , strGatherFieldQc ) ;
 			
