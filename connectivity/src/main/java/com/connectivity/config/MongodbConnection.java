@@ -37,6 +37,7 @@ public class MongodbConnection
 	public MongoClient getMongoClient( ) {
 		
 		if( mongoClient == null ) {
+			logger.debug( "setMongoClient" );
 			mongoClient = setMongoClient( ) ;
 		}
 		
