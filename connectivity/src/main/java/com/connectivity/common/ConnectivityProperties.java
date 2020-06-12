@@ -22,6 +22,11 @@ public class ConnectivityProperties
 {
 	private Logger logger = LogManager.getLogger( this.getClass( ) ) ;
 	
+	// 처리중인 쓰레드 수(계측, 장치간 연산, 이벤트 등)
+	public static int PROCESS_THREAD_CNT = 0 ;
+
+	
+	
 	//// 설치 디바이스 정보
 	// 기본 정보
 	public static HashMap< String , HashMap< String , Object > > STDV_INF = new HashMap< String , HashMap< String , Object > >( ) ;
