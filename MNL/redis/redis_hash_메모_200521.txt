@@ -42,6 +42,12 @@ keys MGP_STDV*
 keys MGP_SVDT*
 
 
+keys MGP_CLRT*
+
+
+HGETALL  MGP_CLRT^MGP10126
+
+
 
 127.0.0.1:6379> keys *
  1) "MGP_PSST^Connectivity"
