@@ -30,7 +30,7 @@ public class Command2ModuleReceiver implements Runnable
 {
 	// Define a static logger variable so that it references the
 	// Logger instance named "MyApp".
-	private static final Logger logger = LogManager.getLogger( Command2ModuleReceiver.class ) ;
+	private Logger logger = LogManager.getLogger( this.getClass( ) ) ;
 	// Logger logger = LogManager.getLogger( ) ;
 	
 	private String TASK_QUEUE_NAME = "Command2Module" ;
@@ -38,6 +38,74 @@ public class Command2ModuleReceiver implements Runnable
 	private ConnectionFactory connectionFactory = null ;
 	private Connection connection = null ;
 	private Channel channel = null ;
+	
+	public Command2ModuleReceiver( ConnectionFactory connectionFactory ) {
+		
+		this.connectionFactory = connectionFactory ;
+		
+		logger.info( "connectionFactory :: " + connectionFactory ) ;
+		
+	}
+	
+	@Override
+	public void run( ) {
+		// TODO Auto-generated method stub
+		
+		// ConnectionFactory factory = new ConnectionFactory( ) ;
+		// factory.setHost( "192.168.56.105" ) ;
+		// factory.setUsername( "admin" ) ;
+		// factory.setPassword( "admin" ) ;
+		
+		ConnectionFactory factory = this.connectionFactory ;
+		
+		logger.info( "this.connectionFactory :: " + this.connectionFactory ) ;
+		
+		try {
+			this.connection = factory.newConnection( ) ;
+			this.channel = this.connection.createChannel( ) ;
+			
+			this.channel.queueDeclare( TASK_QUEUE_NAME , true , false , false , null ) ;
+			logger.info( " [*] Waiting for messages. To exit press CTRL+C" ) ;
+			
+			this.channel.basicQos( 1 ) ;
+			
+			final Consumer consumer = new DefaultConsumer( this.channel ) {
+				@Override
+				public void handleDelivery( String consumerTag , Envelope envelope , AMQP.BasicProperties properties , byte[ ] body ) throws IOException {
+					
+					String message = new String( body , "UTF-8" ) ;
+					
+					logger.info( " [x] Received '" + message + "'" ) ;
+					try {
+						
+						doWork( message , channel , envelope ) ;
+						
+					}
+					catch( Exception e ) {
+						logger.error( e.getMessage( ) , e ) ;
+					}
+					finally {
+						logger.info( " [x] Done" ) ;
+						message = null ;
+					}
+				}
+			} ;
+			
+			logger.info( "==========this.channel.basicConsume( TASK_QUEUE_NAME , false , consumer ) ;" ) ;
+			this.channel.basicConsume( TASK_QUEUE_NAME , false , consumer ) ;
+			
+		}
+		catch( Exception e ) {
+			logger.error( e.getMessage( ) , e ) ;
+			
+		}
+		finally {
+			factory = null ;
+			logger.info( "run finally" ) ;
+		}
+		
+		return ;
+	}
 	
 	// private static void doWork( String strSubMessage , Channel channel , Envelope envelope ) throws Exception {
 	public void doWork( String strSubMessage , Channel channel , Envelope envelope ) {
@@ -102,74 +170,6 @@ public class Command2ModuleReceiver implements Runnable
 			jsonUtil = null ;
 			strSubMessage = null ;
 			exe = null ;
-		}
-		
-		return ;
-	}
-	
-	public Command2ModuleReceiver( ConnectionFactory connectionFactory , String param ) {
-		
-		this.connectionFactory = connectionFactory ;
-		
-		logger.info( "connectionFactory :: " + connectionFactory ) ;
-		
-	}
-	
-	@Override
-	public void run( ) {
-		// TODO Auto-generated method stub
-		
-		// ConnectionFactory factory = new ConnectionFactory( ) ;
-		// factory.setHost( "192.168.56.105" ) ;
-		// factory.setUsername( "admin" ) ;
-		// factory.setPassword( "admin" ) ;
-		
-		ConnectionFactory factory = this.connectionFactory ;
-		
-		logger.info( "this.connectionFactory :: " + this.connectionFactory ) ;
-		
-		try {
-			this.connection = factory.newConnection( ) ;
-			this.channel = this.connection.createChannel( ) ;
-			
-			this.channel.queueDeclare( TASK_QUEUE_NAME , true , false , false , null ) ;
-			logger.info( " [*] Waiting for messages. To exit press CTRL+C" ) ;
-			
-			this.channel.basicQos( 1 ) ;
-			
-			final Consumer consumer = new DefaultConsumer( this.channel ) {
-				@Override
-				public void handleDelivery( String consumerTag , Envelope envelope , AMQP.BasicProperties properties , byte[ ] body ) throws IOException {
-					
-					String message = new String( body , "UTF-8" ) ;
-					
-					logger.info( " [x] Received '" + message + "'" ) ;
-					try {
-						
-						doWork( message , channel , envelope ) ;
-						
-					}
-					catch( Exception e ) {
-						logger.error( e.getMessage( ) , e ) ;
-					}
-					finally {
-						logger.info( " [x] Done" ) ;
-						message = null ;
-					}
-				}
-			} ;
-			
-			logger.info( "==========this.channel.basicConsume( TASK_QUEUE_NAME , false , consumer ) ;" ) ;
-			this.channel.basicConsume( TASK_QUEUE_NAME , false , consumer ) ;
-			
-		}
-		catch( Exception e ) {
-			logger.error( e.getMessage( ) , e ) ;
-			
-		}
-		finally {
-			factory = null ;
-			logger.info( "run finally" ) ;
 		}
 		
 		return ;
