@@ -8,6 +8,7 @@ import org.apache.logging.log4j.Logger ;
 import com.connectivity.common.CommonProperties ;
 import com.connectivity.common.ConnectivityProperties ;
 import com.connectivity.config.RabbitmqConnection ;
+import com.connectivity.control.receiver.Control2ConnectivityReceiver ;
 import com.connectivity.gather.receiver.Data2ConnectivityReceiver ;
 import com.connectivity.manage.ConditionReport ;
 import com.connectivity.manage.receiver.Command2ModuleReceiver ;
@@ -17,12 +18,18 @@ public class ConnectivityMainRun
 {
 	// Define a static logger variable so that it references the
 	// Logger instance named "MyApp".
-	private static final Logger logger = LogManager.getLogger( ConnectivityMainRun.class ) ;
+	static final Logger logger = LogManager.getLogger( ConnectivityMainRun.class ) ;
 	// Logger logger = LogManager.getLogger( ) ;
 	
+	// rabbitMQ sub 관련
+	// 모듈 제어
 	public static Command2ModuleReceiver command2ModuleReceiver = null ;
-	public static Data2ConnectivityReceiver[ ] data2ConnectivityArr = null ;
+	// 디바이스 데이터 계측
+	public static Data2ConnectivityReceiver[ ] data2ConnectivityReceiverArr = null ;
+	// 디바이스 제어
+	public static Control2ConnectivityReceiver control2ConnectivityReceiver = null ;
 	
+	// 상태 보고 관련
 	public static ConditionReport conditionReport = null ;
 	public static Thread ctThread = null ;
 	
@@ -90,7 +97,8 @@ public class ConnectivityMainRun
 				// TODO 프로세스 아이디 처리필요
 				// 상태보고 thread 실행
 				conditionReport = new ConditionReport( 10 , "Connectivity" , ( currentPid + "" ) ) ;
-				ctThread = new Thread( conditionReport , "conditionReport-Thread" ) ;
+				// ctThread = new Thread( conditionReport , "conditionReport-Thread" ) ;
+				ctThread = new Thread( conditionReport ) ;
 				ctThread.start( ) ;
 				
 				// TODO 기동 이벤트 추가 필요
@@ -187,6 +195,7 @@ public class ConnectivityMainRun
 		RabbitmqConnection rabbitmqConnection = new RabbitmqConnection( ) ;
 		
 		Thread cmThread = null ;
+		Thread ccThread = null ;
 		Thread[ ] dcThread = null ;
 		
 		ConnectionFactory factory = null ;
@@ -201,15 +210,21 @@ public class ConnectivityMainRun
 			
 			factory = rabbitmqConnection.getConnectionFactory( ) ;
 			
-			// service hub
-			command2ModuleReceiver = new Command2ModuleReceiver( factory , "Command2ModuleReceiver" ) ;
-			cmThread = new Thread( command2ModuleReceiver , "command2ModuleReceiver-Thread" ) ;
+			// service hub 모듈 제어
+			command2ModuleReceiver = new Command2ModuleReceiver( factory ) ;
+			// cmThread = new Thread( command2ModuleReceiver , "command2ModuleReceiver-Thread" ) ;
+			cmThread = new Thread( command2ModuleReceiver ) ;
 			cmThread.start( ) ;
 			
+			// 디바이스 제어
+			control2ConnectivityReceiver = new Control2ConnectivityReceiver( factory ) ;
+			ccThread = new Thread( control2ConnectivityReceiver ) ;
+			ccThread.start( ) ;
+			
 			// multi thread 실행(rabbitmq 수신 connection)
-			// adaptor
+			// adaptor 디바이스 계측
 			threadCnt = staticDiviceInfo.size( ) ;
-			data2ConnectivityArr = new Data2ConnectivityReceiver[ threadCnt ] ;
+			data2ConnectivityReceiverArr = new Data2ConnectivityReceiver[ threadCnt ] ;
 			dcThread = new Thread[ threadCnt ] ;
 			
 			int cntMapKey = 0 ;
@@ -219,14 +234,17 @@ public class ConnectivityMainRun
 				
 				System.out.println( String.format( "키 : %s, 값 : %s" , key , staticDiviceInfo.get( key ) ) ) ;
 				
-				data2ConnectivityArr[ cntMapKey ] = new Data2ConnectivityReceiver( factory , ( key ) ) ;
+				data2ConnectivityReceiverArr[ cntMapKey ] = new Data2ConnectivityReceiver( factory , ( key ) ) ;
 				
-				dcThread[ cntMapKey ] = new Thread( data2ConnectivityArr[ cntMapKey ] , ( "data2Connectivity-Thread-" + key ) ) ;
+				// dcThread[ cntMapKey ] = new Thread( data2ConnectivityReceiverArr[ cntMapKey ] , ( "data2Connectivity-Thread-" + key ) ) ;
+				dcThread[ cntMapKey ] = new Thread( data2ConnectivityReceiverArr[ cntMapKey ] ) ;
 				dcThread[ cntMapKey ].start( ) ;
 				cntMapKey = cntMapKey + 1 ;
 			}
 			
 			logger.info( "staticDiviceInfo :: " + staticDiviceInfo ) ;
+			
+			// rabbitmq PUB connection
 			
 		}
 		finally {
@@ -244,21 +262,25 @@ public class ConnectivityMainRun
 		int i = 0 ;
 		try {
 			
-			// 플랫폼 제어 rabbitmq connection 종료
+			// 모듈 제어 rabbitmq connection 종료
 			command2ModuleReceiver.connectionClose( ) ;
 			
+			// 디바이스 제어 rabbitmq connection 종료
+			control2ConnectivityReceiver.connectionClose( ) ;
+			
 			// 데이터 계측 rabbitmq connection 종료
-			if( data2ConnectivityArr != null ) {
+			if( data2ConnectivityReceiverArr != null ) {
 				
-				logger.info( "data2ConnectivityArr.length :: " + data2ConnectivityArr.length ) ;
+				logger.info( "data2ConnectivityArr.length :: " + data2ConnectivityReceiverArr.length ) ;
 				
-				for( i = 0 ; i < data2ConnectivityArr.length ; i++ ) {
+				for( i = 0 ; i < data2ConnectivityReceiverArr.length ; i++ ) {
 					
-					data2ConnectivityArr[ i ].connectionClose( ) ;
+					data2ConnectivityReceiverArr[ i ].connectionClose( ) ;
 				}
 			}
 			ConnectivityMainRun.command2ModuleReceiver = null ;
-			ConnectivityMainRun.data2ConnectivityArr = null ;
+			ConnectivityMainRun.control2ConnectivityReceiver = null ;
+			ConnectivityMainRun.data2ConnectivityReceiverArr = null ;
 			
 		}
 		finally {
