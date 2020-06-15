@@ -9,7 +9,6 @@ import org.apache.logging.log4j.LogManager ;
 import org.apache.logging.log4j.Logger ;
 
 import com.connectivity.manage.dao.ConditionReportDao ;
-import com.connectivity.utils.CommUtil ;
 
 /**
  * <pre>
@@ -22,7 +21,7 @@ public class ConditionReport implements Runnable
 {
 	// Define a static logger variable so that it references the
 	// Logger instance named "MyApp".
-	Logger logger = LogManager.getLogger( ConditionReport.class ) ;
+	private Logger logger = LogManager.getLogger( this.getClass( ) ) ;
 	// Logger logger = LogManager.getLogger( ) ;
 	
 	private boolean isDemonLive = true ;
