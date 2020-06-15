@@ -14,6 +14,9 @@ import com.rabbitmq.client.ConnectionFactory ;
 
 /**
  * <pre>
+ * connection을 공유한다.
+ * 다만 하나의 connection으로 하게되면 모든 처리가 하나의 connection에서 이루어지기 때문에 성능상의 이유로
+ * 각 기능에 따라서 connection을 각 1개씩 열어 놓는다.
  * </pre>
  *
  * @author cyr
