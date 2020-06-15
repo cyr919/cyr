@@ -87,6 +87,10 @@ public class Data2ConnectivityReceiver implements Runnable
 					try {
 						doWork( message ) ;
 					}
+					catch( Exception e ) {
+						logger.error( e.getMessage( ) , e ) ;
+						
+					}
 					finally {
 						channel.basicAck( envelope.getDeliveryTag( ) , false ) ;
 						message = null ;
