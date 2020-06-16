@@ -34,7 +34,6 @@ public class DataGather extends QualityCode
 	
 	public static void main( String[ ] args ) {
 		ConnectivityProperties connectivityProperties = new ConnectivityProperties( ) ;
-		connectivityProperties.setConnectivityProperties( ) ;
 		
 		CommonProperties commonProperties = new CommonProperties( ) ;
 		JedisConnection jedisConnection = new JedisConnection( ) ;
@@ -42,6 +41,7 @@ public class DataGather extends QualityCode
 		
 		try {
 			commonProperties.setProperties( ) ;
+			connectivityProperties.setConnectivityProperties( ) ;
 			jedisConnection.getJedisPool( ) ;
 			mongodbConnection.getMongoClient( ) ;
 		}
