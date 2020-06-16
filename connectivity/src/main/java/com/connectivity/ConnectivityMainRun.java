@@ -7,6 +7,8 @@ import org.apache.logging.log4j.Logger ;
 
 import com.connectivity.common.CommonProperties ;
 import com.connectivity.common.ConnectivityProperties ;
+import com.connectivity.config.JedisConnection ;
+import com.connectivity.config.MongodbConnection ;
 import com.connectivity.config.RabbitmqConnection ;
 import com.connectivity.control.receiver.Control2ConnectivityReceiver ;
 import com.connectivity.gather.receiver.Data2ConnectivityReceiver ;
@@ -31,7 +33,7 @@ public class ConnectivityMainRun
 	
 	// 상태 보고 관련
 	public static ConditionReport conditionReport = null ;
-	public static Thread ctThread = null ;
+	public static Thread crThread = null ;
 	
 	public static void main( String[ ] args ) {
 		
@@ -60,6 +62,8 @@ public class ConnectivityMainRun
 		
 		CommonProperties commonProperties = new CommonProperties( ) ;
 		ConnectivityProperties connectivityProperties = new ConnectivityProperties( ) ;
+		JedisConnection jedisConnection = new JedisConnection( ) ;
+		MongodbConnection mongodbConnection = new MongodbConnection( ) ;
 		
 		Boolean resultBool01 = true ;
 		Boolean resultBool02 = true ;
@@ -75,16 +79,22 @@ public class ConnectivityMainRun
 			// 받은 이벤트 이력 부모 아이디가 없으면 빈 값으로 처리
 			
 			// 공통 프로퍼티(프로퍼티 파일에 있는 설정) 읽어서 static 변수에 저장
-			resultBool01 = commonProperties.setProperties( ) ;
-			
-			// connectivity 프로퍼티(db에 있는 mgp 설정) 읽어서 static 변수에 저장
-			resultBool02 = connectivityProperties.setConnectivityProperties( ) ;
+			if( commonProperties.setProperties( ) ) {
+				// connectivity 프로퍼티(db에 있는 mgp 설정) 읽어서 static 변수에 저장
+				if( connectivityProperties.setConnectivityProperties( ) ) {
+					jedisConnection.getJedisPool( ) ;
+					mongodbConnection.getMongoClient( ) ;
+					
+					resultBool01 = true ;
+					resultBool02 = true ;
+				}
+			}
 			
 			if( resultBool01 && resultBool02 ) {
 				
 				logger.info( "ConnectivityProperties.STDV_INF :: " + ConnectivityProperties.STDV_INF ) ;
 				
-				// rabbitmqConnection 연결
+				//// rabbitmqConnection 연결
 				// 설치 디바이스 수 많큼 queue connection이 실행된다.
 				this.rabbitmqConnectionOpen( ConnectivityProperties.STDV_INF ) ;
 				
@@ -97,9 +107,11 @@ public class ConnectivityMainRun
 				// TODO 프로세스 아이디 처리필요
 				// 상태보고 thread 실행
 				conditionReport = new ConditionReport( 10 , "Connectivity" , ( currentPid + "" ) ) ;
-				// ctThread = new Thread( conditionReport , "conditionReport-Thread" ) ;
-				ctThread = new Thread( conditionReport ) ;
-				ctThread.start( ) ;
+				// crThread = new Thread( conditionReport , "conditionReport-Thread" ) ;
+				crThread = new Thread( conditionReport ) ;
+				crThread.start( ) ;
+				
+				//// 장치간 연산
 				
 				// TODO 기동 이벤트 추가 필요
 				logger.info( "connectivityRun 성공" ) ;
@@ -111,7 +123,13 @@ public class ConnectivityMainRun
 		}
 		finally {
 			strEventID = null ;
-			
+			commonProperties = null ;
+			connectivityProperties = null ;
+			jedisConnection = null ;
+			mongodbConnection = null ;
+			resultBool01 = null ;
+			resultBool02 = null ;
+			currentPid = 0L ;
 		}
 		
 		return ;
@@ -122,13 +140,15 @@ public class ConnectivityMainRun
 		try {
 			// 중지 이벤트
 			
+			// rabbitmq connection 종료
 			this.rabbitmqConnectionClose( ) ;
 			
+			//// 장치간 연산 중지
 			// 중간에 다른 처리 넣기
 			
 			// 상태 보고 중지
 			conditionReport.setStopReport( ) ;
-			ctThread.interrupt( ) ;
+			crThread.interrupt( ) ;
 			
 			logger.info( "connectivityStop 성공" ) ;
 		}
@@ -194,9 +214,9 @@ public class ConnectivityMainRun
 		
 		RabbitmqConnection rabbitmqConnection = new RabbitmqConnection( ) ;
 		
-		Thread cmThread = null ;
-		Thread ccThread = null ;
-		Thread[ ] dcThread = null ;
+		Thread c2mThread = null ;
+		Thread c2cThread = null ;
+		Thread[ ] d2cThread = null ;
 		
 		ConnectionFactory factory = null ;
 		int threadCnt = 0 ;
@@ -213,19 +233,19 @@ public class ConnectivityMainRun
 			// service hub 모듈 제어
 			command2ModuleReceiver = new Command2ModuleReceiver( factory ) ;
 			// cmThread = new Thread( command2ModuleReceiver , "command2ModuleReceiver-Thread" ) ;
-			cmThread = new Thread( command2ModuleReceiver ) ;
-			cmThread.start( ) ;
+			c2mThread = new Thread( command2ModuleReceiver ) ;
+			c2mThread.start( ) ;
 			
 			// 디바이스 제어
 			control2ConnectivityReceiver = new Control2ConnectivityReceiver( factory ) ;
-			ccThread = new Thread( control2ConnectivityReceiver ) ;
-			ccThread.start( ) ;
+			c2cThread = new Thread( control2ConnectivityReceiver ) ;
+			c2cThread.start( ) ;
 			
 			// multi thread 실행(rabbitmq 수신 connection)
 			// adaptor 디바이스 계측
 			threadCnt = staticDiviceInfo.size( ) ;
 			data2ConnectivityReceiverArr = new Data2ConnectivityReceiver[ threadCnt ] ;
-			dcThread = new Thread[ threadCnt ] ;
+			d2cThread = new Thread[ threadCnt ] ;
 			
 			int cntMapKey = 0 ;
 			
@@ -237,20 +257,27 @@ public class ConnectivityMainRun
 				data2ConnectivityReceiverArr[ cntMapKey ] = new Data2ConnectivityReceiver( factory , ( key ) ) ;
 				
 				// dcThread[ cntMapKey ] = new Thread( data2ConnectivityReceiverArr[ cntMapKey ] , ( "data2Connectivity-Thread-" + key ) ) ;
-				dcThread[ cntMapKey ] = new Thread( data2ConnectivityReceiverArr[ cntMapKey ] ) ;
-				dcThread[ cntMapKey ].start( ) ;
+				d2cThread[ cntMapKey ] = new Thread( data2ConnectivityReceiverArr[ cntMapKey ] ) ;
+				d2cThread[ cntMapKey ].start( ) ;
 				cntMapKey = cntMapKey + 1 ;
 			}
 			
 			logger.info( "staticDiviceInfo :: " + staticDiviceInfo ) ;
 			
 			// rabbitmq PUB connection
+			rabbitmqConnection.getDeviceControlConnection( ) ;
+			rabbitmqConnection.getEventConnection( ) ;
 			
 		}
 		finally {
+			rabbitmqConnection = null ;
 			factory = null ;
 			threadCnt = 0 ;
 			i = 0 ;
+			
+			// c2mThread = null ;
+			// c2cThread = null ;
+			// d2cThread = null ;
 		}
 		
 	}
@@ -259,6 +286,7 @@ public class ConnectivityMainRun
 		
 		logger.info( "================rabbitmqConnectionClose================" ) ;
 		
+		RabbitmqConnection rabbitmqConnection = new RabbitmqConnection( ) ;
 		int i = 0 ;
 		try {
 			
@@ -282,9 +310,12 @@ public class ConnectivityMainRun
 			ConnectivityMainRun.control2ConnectivityReceiver = null ;
 			ConnectivityMainRun.data2ConnectivityReceiverArr = null ;
 			
+			// rabbitmq PUB connection 종료
+			rabbitmqConnection.closePubConnection( ) ;
 		}
 		finally {
 			i = 0 ;
+			rabbitmqConnection = null ;
 		}
 		
 		return ;
