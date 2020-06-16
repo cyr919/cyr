@@ -24,8 +24,14 @@ public class ConnectivityProperties
 	
 	// 처리중인 쓰레드 수(계측, 장치간 연산, 이벤트 등)
 	public static int PROCESS_THREAD_CNT = 0 ;
-
 	
+	//// 사이트 정보
+	// 장치간 연산 주기
+	public static String SITE_TRM_CAL = "" ;
+	// 시뮬레이션 모드 여부
+	public static String SITE_SMLT = "" ;
+	// 시뮬레이션 모드 설정 사용자 ID
+	public static String SITE_SMLT_USR = "" ;
 	
 	//// 설치 디바이스 정보
 	// 기본 정보
@@ -36,6 +42,7 @@ public class ConnectivityProperties
 	public static HashMap< String , HashMap< String , HashMap< String , Object > > > STDV_DT_MDL_MAP = new HashMap< String , HashMap< String , HashMap< String , Object > > >( ) ;
 	// 장치내 연산정보
 	public static HashMap< String , ArrayList< HashMap< String , Object > > > STDV_CAL_INF = new HashMap< String , ArrayList< HashMap< String , Object > > >( ) ;
+	
 	//// 퀄리티 코드 정보
 	// 레코드 퀄리티 코드 정보
 	public static HashMap< String , HashMap< String , Object > > RECORD_QC_INF = new HashMap< String , HashMap< String , Object > >( ) ;
@@ -45,6 +52,7 @@ public class ConnectivityProperties
 	public static HashMap< String , HashMap< String , Integer > > RECORD_QC_IDX = new HashMap< String , HashMap< String , Integer > >( ) ;
 	// 필드 퀄리티 코드 위치 정보
 	public static HashMap< String , HashMap< String , Integer > > FIELD_QC_IDX = new HashMap< String , HashMap< String , Integer > >( ) ;
+	
 	//// 장치간 연산정보
 	public static ArrayList< HashMap< String , Object > > BTWN_DV_CAL_INFO = new ArrayList< HashMap< String , Object > >( ) ;
 	
@@ -60,10 +68,12 @@ public class ConnectivityProperties
 		try {
 			resultBool = false ;
 			
-			if( settingManage.devicePropertiesSetting( ) ) {
-				if( settingManage.qualityCodeInfoSetting( ) ) {
-					if( settingManage.betweenDevicesCalculateInfoSetting( ) ) {
-						resultBool = true ;
+			if( settingManage.siteInfoSetting( ) ) {
+				if( settingManage.devicePropertiesSetting( ) ) {
+					if( settingManage.qualityCodeInfoSetting( ) ) {
+						if( settingManage.betweenDevicesCalculateInfoSetting( ) ) {
+							resultBool = true ;
+						}
 					}
 				}
 			}

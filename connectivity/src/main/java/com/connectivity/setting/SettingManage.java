@@ -38,7 +38,8 @@ public class SettingManage
 		
 		// exe.devicePropertiesSetting( ) ;
 		// exe.qualityCodeInfoSetting( ) ;
-		exe.betweenDevicesCalculateInfoSetting( ) ;
+		// exe.betweenDevicesCalculateInfoSetting( ) ;
+		exe.siteInfoSetting( ) ;
 		
 	}
 	
@@ -115,6 +116,7 @@ public class SettingManage
 			logger.info( "deviceDataModelMap :: " + deviceDataModelMap ) ;
 			logger.info( "deviceCalInfo :: " + deviceCalInfo ) ;
 			
+			// static 변수에 데이터 넣기
 			ConnectivityProperties.STDV_DT_MDL = deviceDataModel ;
 			ConnectivityProperties.STDV_CAL_INF = deviceCalInfo ;
 			ConnectivityProperties.STDV_INF = deviceInfo ;
@@ -190,6 +192,7 @@ public class SettingManage
 			logger.info( "fieldQcIdx :: " + fieldQcIdx ) ;
 			logger.info( "recordQcIdx :: " + recordQcIdx ) ;
 			
+			// static 변수에 데이터 넣기
 			ConnectivityProperties.FIELD_QC_INF = fieldQcInf ;
 			ConnectivityProperties.RECORD_QC_INF = recordQcInf ;
 			
@@ -239,6 +242,7 @@ public class SettingManage
 			}
 			logger.info( "btwnDvCalInfoList :: " + btwnDvCalInfoList ) ;
 			
+			// static 변수에 데이터 넣기
 			ConnectivityProperties.BTWN_DV_CAL_INFO = btwnDvCalInfoList ;
 			
 		}
@@ -256,6 +260,44 @@ public class SettingManage
 			logger.info( "ConnectivityProperties.BTWN_DV_CAL_INFO :: " + ConnectivityProperties.BTWN_DV_CAL_INFO ) ;
 			// logger.info( "btwnDvCalInfoList :: " + btwnDvCalInfoList ) ;
 		}
+		return resultBool ;
+	}
+	
+	public Boolean siteInfoSetting( ) {
+		Boolean resultBool = true ;
+		
+		SettingManageDao settingManageDao = new SettingManageDao( ) ;
+		HashMap< String , Object > siteInfoMap = new HashMap< String , Object >( ) ;
+		HashMap< String , Object > siteInfoTrmMap = new HashMap< String , Object >( ) ;
+		
+		try {
+			// 사이트 정보 조회
+			siteInfoMap = settingManageDao.selectSiteInfo( ) ;
+			// 사이트 장치간연산 정보 조회
+			siteInfoTrmMap = ( HashMap< String , Object > ) siteInfoMap.get( "TRM" ) ;
+			logger.debug( "siteInfoTrmMap :: " + siteInfoTrmMap ) ;
+			
+			// static 변수에 데이터 넣기
+			ConnectivityProperties.SITE_SMLT = siteInfoMap.get( "SMLT" ) + "" ;
+			ConnectivityProperties.SITE_SMLT_USR = siteInfoMap.get( "SMLT_USR" ) + "" ;
+			
+			ConnectivityProperties.SITE_TRM_CAL = siteInfoTrmMap.get( "CAL" ) + "" ;
+			
+			logger.debug( "SITE_SMLT :: " + ConnectivityProperties.SITE_SMLT ) ;
+			logger.debug( "SITE_SMLT_USR :: " + ConnectivityProperties.SITE_SMLT_USR ) ;
+			logger.debug( "SITE_TRM_CAL :: " + ConnectivityProperties.SITE_TRM_CAL ) ;
+			
+		}
+		catch( Exception e ) {
+			resultBool = false ;
+			logger.error( e.getMessage( ) , e ) ;
+		}
+		finally {
+			settingManageDao = null;
+			siteInfoMap = null;
+			siteInfoTrmMap = null;
+		}
+		
 		return resultBool ;
 	}
 	

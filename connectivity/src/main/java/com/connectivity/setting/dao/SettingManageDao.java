@@ -169,4 +169,38 @@ public class SettingManageDao
 		
 		return resultList ;
 	}
+	
+	public HashMap< String , Object > selectSiteInfo( ) {
+		
+		HashMap< String , Object > resultMap = new HashMap< String , Object >( ) ;
+		
+		MongodbConnection mongodbConnection = new MongodbConnection( ) ;
+		MongoOperations mongoOps = null ;
+		Query query = new Query( ) ;
+		
+		try {
+			
+			logger.debug( "selectSiteInfo" ) ;
+			
+			mongoOps = mongodbConnection.getMongoTemplate( ) ;
+			
+			resultMap = mongoOps.findOne( query , HashMap.class , "MGP_SITE" ) ;
+			
+			logger.trace( "mongoOps :: " + mongoOps ) ;
+			logger.trace( "resultMap :: " + resultMap ) ;
+			
+		}
+		catch( Exception e ) {
+			logger.error( e.getMessage( ) , e ) ;
+		}
+		finally {
+			mongodbConnection = null ;
+			mongoOps = null ;
+			query = null ;
+			logger.debug( "selectSiteInfo finally" ) ;
+		}
+		
+		return resultMap ;
+	}
+	
 }
