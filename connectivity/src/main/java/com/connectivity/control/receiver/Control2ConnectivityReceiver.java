@@ -108,6 +108,7 @@ public class Control2ConnectivityReceiver implements Runnable
 			
 			logger.info( "doWork :: strSubMessage :: " + strSubMessage ) ;
 			
+			Thread.sleep( 5*1000 );
 		}
 		catch( Exception e ) {
 			resultBool = false ;
