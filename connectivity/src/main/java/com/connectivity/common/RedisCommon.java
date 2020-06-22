@@ -175,7 +175,7 @@ public class RedisCommon extends JedisConnection
 			// logger.trace( "jedis.isConnected() :: " + jedis.isConnected( ) ) ;
 			if( jedis.isConnected( ) ) {
 				resultStr = jedis.hmset( key , hash ) ;
-//				logger.trace( "resultStr :: " + resultStr ) ;
+				// logger.trace( "resultStr :: " + resultStr ) ;
 				
 			}
 		}
@@ -193,6 +193,42 @@ public class RedisCommon extends JedisConnection
 		return resultStr ;
 		
 	}
+	
+	// public String redisHmsetList( List< Map< String , Object > > listData ) throws Exception {
+	//
+	// String resultStr = "" ;
+	// Jedis jedis = null ;
+	// // String key , Map< String , String > hash
+	// int i = 0 ;
+	// try {
+	// jedis = getJedisPool( ).getResource( ) ;
+	//
+	// // logger.trace( "jedis.isConnected() :: " + jedis.isConnected( ) ) ;
+	// if( jedis.isConnected( ) ) {
+	//
+	// for( i = 0 ; i < listData.size( ) ; i++ ) {
+	//
+	//// resultStr = jedis.hmset( listKey.get( i ) , listData.get( i ) ) ;
+	//
+	// }
+	//
+	// // logger.trace( "resultStr :: " + resultStr ) ;
+	//
+	// }
+	// }
+	// finally {
+	// listData = null ;
+	//
+	// if( jedis != null ) {
+	// jedis.close( ) ;
+	// }
+	// jedis = null ;
+	//
+	// }
+	//
+	// return resultStr ;
+	//
+	// }
 	
 	public List< String > redisHmget( String key , String ... fields ) throws Exception {
 		
