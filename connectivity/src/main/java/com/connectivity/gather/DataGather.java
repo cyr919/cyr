@@ -87,7 +87,6 @@ public class DataGather extends QualityCode
 		
 		String strDviceId = "" ;
 		String strDmt = "" ;
-		String strTemp = "" ;
 		JsonUtil jsonUtil = new JsonUtil( ) ;
 		JSONObject jsonObject = new JSONObject( ) ;
 		JSONObject subDataJSONObject = new JSONObject( ) ;
@@ -160,7 +159,7 @@ public class DataGather extends QualityCode
 				strMgpKey = stdvDtMdlList.get( i ).get( "MGP_KEY" ) + "" ;
 				
 				// 시뮬레이션 값 치환 또는 스케일 팩터 적용
-				if( "Y".equals( stdvDtMdlList.get( i ).get( "SMLT" ) ) ) {
+				if( "Y".equals( strSiteSmlt ) && "Y".equals( stdvDtMdlList.get( i ).get( "SMLT" ) ) ) {
 					// 시뮬레이션 값 적용
 					gatherValStr = ( stdvDtMdlList.get( i ).get( "SMLT" ) + "" ) ;
 				}
@@ -209,7 +208,6 @@ public class DataGather extends QualityCode
 			logger.debug( "계측 처리 후 끝 ::" ) ;
 			
 			logger.debug( "계측 이벤트 처리 gatherDataEventList :: " + gatherDataEventList ) ;
-
 			
 			// TODO 계측 레코드 데이터 QC 확인
 			logger.debug( "계측 레코드 데이터 QC :: resultRecordQc :: " + resultRecordQc ) ;
@@ -241,11 +239,12 @@ public class DataGather extends QualityCode
 			// redis 데이터 생성 - Appio 데이터 모델
 			if( !commUtil.checkNull( appioMapperList ) ) {
 				for( i = 0 ; i < appioMapperList.size( ) ; i++ ) {
-					// logger.debug( "appioMapperList.get( " + i + " ) :: " + appioMapperList.get( i ) ) ;
-					
-					strPointIdx = ( appioMapperList.get( i ).get( "POINT_IDX" ) + "" ) ;
-					strMgpKey = ( appioMapperList.get( i ).get( "MGP_KEY" ) + "" ) ;
-					
+					 logger.debug( "appioMapperList.get( " + i + " ) :: " + appioMapperList.get( i ) ) ;
+					// appIO Point Idx
+					strPointIdx = ( appioMapperList.get( i ).get( "TG_ID" ) + "" ) ;
+					// MGP_KEY
+					strMgpKey = ( appioMapperList.get( i ).get( "SO_KEY" ) + "" ) ;
+					// map 형태인 redis 저장 데이터로 처리한다.
 					resultAppioDataMap.put( strPointIdx , resultRedisDataMap.get( strMgpKey ) ) ;
 				}
 			}
@@ -282,227 +281,229 @@ public class DataGather extends QualityCode
 			
 			strDviceId = null ;
 			strDmt = null ;
-			strTemp = null ;
 			jsonUtil = null ;
 			jsonObject = null ;
 			subDataJSONObject = null ;
-			// TODO 일단 hashmap으로 해보고 object 변환시 좀 오래 걸리는거같으면 바꾸기
 			resultDataMap = null ;
 			resultCalCulDataMap = null ;
 			resultRedisDataMap = null ;
-			
-			// stdvDtMdlMap = null ;
+			resultAppioDataMap = null ;
+			stdvDtMdlList = null ;
+			appioMapperList = null ;
 			stdvInfMap = null ;
 			tempBigDecimal = null ;
 			tempQcStr = null ;
 			gatherValStr = null ;
-			
+			strMgpKey = null ;
+			strPointIdx = null ;
 			resultRecordQc = null ;
 			tempFildQcMap = null ;
-			
+			gatherDataEventList = null ;
+			gatherDataEventMap = null ;
 			historyAndEvent = null ;
 			historyAndEventThread = null ;
-			
+			commonDao = null ;
+			i = 0 ;
 			logger.debug( "dataGathering finally :: " ) ;
 		}
 		
 		return resultBool ;
 	}
 	
-//	public Boolean dataGathering_1( String strJsonData ) {
-//		Boolean resultBool = true ;
-//		
-//		String strDviceId = "" ;
-//		String strDmt = "" ;
-//		String strTemp = "" ;
-//		JsonUtil jsonUtil = new JsonUtil( ) ;
-//		JSONObject jsonObject = new JSONObject( ) ;
-//		JSONObject subDataJSONObject = new JSONObject( ) ;
-//		// TODO 일단 hashmap으로 해보고 object 변환시 좀 오래 걸리는거같으면 바꾸기
-//		HashMap< String , String > resultDataMap = new HashMap< String , String >( ) ;
-//		HashMap< String , String > resultCalCulDataMap = new HashMap< String , String >( ) ;
-//		HashMap< String , String > resultRedisDataMap = new HashMap< String , String >( ) ;
-//		
-//		HashMap< String , HashMap< String , Object > > stdvDtMdlMap = new HashMap< String , HashMap< String , Object > >( ) ;
-//		HashMap< String , Object > stdvInfMap = new HashMap< String , Object >( ) ;
-//		BigDecimal tempBigDecimal = new BigDecimal( "0" ) ;
-//		
-//		String tempQcStr = "" ;
-//		String gatherValStr = "" ;
-//		
-//		String resultRecordQc = "" ;
-//		HashMap< String , Object > tempFildQcMap = new HashMap< String , Object >( ) ;
-//		
-//		DataGatherHistoryAndEvent historyAndEvent = null ;
-//		Thread historyAndEventThread = null ;
-//		
-//		try {
-//			logger.debug( "dataGathering :: " ) ;
-//			logger.debug( "수신된 데이터 :: " + strJsonData ) ;
-//			
-//			// 수집된 json data 파싱
-//			jsonObject = jsonUtil.getJSONObjectFromString( ( strJsonData + "" ) ) ;
-//			
-//			// 디바이스 아이디와 계측 시간 추출
-//			strDviceId = ( String ) jsonObject.get( "STDV_ID" ) ;
-//			strDmt = ( String ) jsonObject.get( "DMT" ) ;
-//			subDataJSONObject = ( JSONObject ) jsonObject.get( "DATA" ) ;
-//			logger.debug( "dataGathering :: strDmt :: " + strDmt ) ;
-//			
-//			// logger.debug( "strDviceId :: " + strDviceId ) ;
-//			// logger.debug( "strDmt :: " + strDmt ) ;
-//			// logger.debug( "subDataJSONObject :: " + subDataJSONObject ) ;
-//			
-//			// 데이터 맵 정보 map 가지고 오기
-//			stdvDtMdlMap = ConnectivityProperties.STDV_DT_MDL_MAP.get( strDviceId ) ;
-//			stdvInfMap = ConnectivityProperties.STDV_INF.get( strDviceId ) ;
-//			
-//			logger.debug( "stdvDtMdlMap :: " + stdvDtMdlMap ) ;
-//			logger.debug( "stdvInfMap :: " + stdvInfMap ) ;
-//			// logger.debug( "ConnectivityProperties.STDV_DT_MDL.get( " + strDviceId + " ) :: " + ConnectivityProperties.STDV_DT_MDL.get( strDviceId ) ) ;
-//			
-//			// 레코드 QC 처리 관련 true 부터 시작한다.
-//			resultRecordQc = initRecordQualityCode( ) ;
-//			
-//			// 수집된 계측 데이터 처리
-//			for( Object key : subDataJSONObject.keySet( ) ) {
-//				// logger.debug( "key :: " + key ) ;
-//				// logger.debug( "subDataJSONObject.get( key ) :: " + subDataJSONObject.get( key ) ) ;
-//				// logger.debug( "stdvDtMdlMap.get( key ) :: " + stdvDtMdlMap.get( key ) ) ;
-//				
-//				// 시뮬레이션 값 치환 또는 스케일 팩터 적용
-//				if( "Y".equals( stdvDtMdlMap.get( key ).get( "SMLT" ) ) ) {
-//					
-//					// 시뮬레이션 값 적용
-//					gatherValStr = ( stdvDtMdlMap.get( key ).get( "SMLT_V" ) + "" ) ;
-//				}
-//				else {
-//					// 스케일 팩터 값 적용
-//					tempBigDecimal = applyScaleFactor( subDataJSONObject.get( key ) , stdvDtMdlMap.get( key ).get( "SC_FCT" ) ) ;
-//					gatherValStr = extndEgovStringUtil.getStringFromNullAndObject( tempBigDecimal ) ;
-//				}
-//				resultDataMap.put( ( key + "" ) , gatherValStr ) ;
-//				
-//				//// TODO 계측 필드 데이터 QC 적용
-//				// 초기값
-//				tempQcStr = initFieldQualityCode( ) ;
-//				//// 계측 필드 QC 적용
-//				// OldData 필드 QC 레코드 QC 같이 확인
-//				tempQcStr = gatherOldData( tempQcStr ) ;
-//				
-//				// OverFlow 필드 QC 레코드 QC 같이 확인
-//				tempFildQcMap = gatherOverFlow( tempQcStr , gatherValStr , stdvDtMdlMap.get( key ) , resultRecordQc ) ;
-//				tempQcStr = tempFildQcMap.get( "resultFieldQc" ) + "" ;
-//				resultRecordQc = tempFildQcMap.get( "resultTempRecordQc" ) + "" ;
-//				
-//				tempQcStr = gatherMeasurementMode( tempQcStr ) ;
-//				tempQcStr = gatherCalculationMode( tempQcStr ) ;
-//				tempQcStr = gatherSimulationMode( tempQcStr ) ;
-//				
-//				resultDataMap.put( ( key + "_Q" ) , tempQcStr ) ;
-//				//// 계측 필드 데이터 QC 적용
-//				
-//				// logger.debug( "tempQcStr ::" + tempQcStr ) ;
-//				
-//			} // subDataJSONObject.keySet( )
-//			logger.debug( "계측 처리 후 ::" ) ;
-//			logger.debug( "resultDataMap :: " + resultDataMap ) ;
-//			logger.debug( "계측 처리 후 끝 ::" ) ;
-//			
-//			// TODO 계측 레코드 데이터 QC 확인
-//			logger.debug( "계측 레코드 데이터 QC :: resultRecordQc :: " + resultRecordQc ) ;
-//			
-//			// 장치내 연산 데이터 생성 + 장치내 연산 데이터 필드 QC 적용
-//			// 연산 정보 가지고 오기
-//			resultCalCulDataMap = getCalculatingGatherData( resultDataMap , ConnectivityProperties.STDV_CAL_INF.get( strDviceId ) ) ;
-//			
-//			logger.debug( "연산 처리 후 ::" ) ;
-//			logger.debug( "resultCalCulDataMap :: " + resultCalCulDataMap ) ;
-//			logger.debug( "연산 처리 후 끝 ::" ) ;
-//			
-//			// redis 저장
-//			
-//			// redis 저장 데이터 만들기
-//			// 계측 데이터 확인
-//			// 설정 된 데이터 맵을 기준으로 app io 저장 여부를 확인한다.
-//			for( Object key : stdvDtMdlMap.keySet( ) ) {
-//				
-//				// logger.debug( "stdvDtMdlMap.get( " + ( key + "" ) + " ).get( \"APP_IO\" ) :: [" + stdvDtMdlMap.get( ( key + "" ) ).get( "APP_IO" ) + "]" ) ;
-//				// logger.debug( "checkObjNull :: " + ( !commUtil.checkObjNull( stdvDtMdlMap.get( ( key + "" ) ).get( "APP_IO" ) ) ) ) ;
-//				// logger.debug( "equals :: " + ( "1".equals( stdvDtMdlMap.get( ( key + "" ) ).get( "APP_IO" ) + "" ) ) ) ;
-//				
-//				if( !commUtil.checkObjNull( stdvDtMdlMap.get( ( key + "" ) ).get( "APP_IO" ) ) && "1".equals( stdvDtMdlMap.get( ( key + "" ) ).get( "APP_IO" ) + "" ) ) {
-//					// app io 저장 여부가 1 이면 redis에 저장될 데이터이다. 해당 되는 계측 데이터와 필드 QC를 redis 저장 map에 추가한다.
-//					
-//					// logger.debug( "APP_IO 저장 대상 :: " + ( key + "" ) ) ;
-//					resultRedisDataMap.put( ( key + "" ) , extndEgovStringUtil.getStringFromNullAndObject( resultDataMap.get( ( key + "" ) ) ) ) ;
-//					resultRedisDataMap.put( ( key + "_Q" ) , extndEgovStringUtil.getStringFromNullAndObject( resultDataMap.get( ( key + "_Q" ) ) ) ) ;
-//				}
-//			} // stdvDtMdlMap.keySet( )
-//				// 아이디/계측시간 추가
-//			resultRedisDataMap.put( "ID" , strDmt ) ;
-//			// 레코드 QC 추가
-//			resultRedisDataMap.put( "Q" , resultRecordQc ) ;
-//			// 연산 데이터 추가
-//			resultRedisDataMap.putAll( resultCalCulDataMap ) ;
-//			
-//			logger.debug( "redis 저장 데이터 :: resultRedisDataMap :: " + resultRedisDataMap ) ;
-//			
-//			// TODO redis 데이터 저장 처리 - appoi
-//			
-//			// redis 데이터 저장 처리 - 표준 모델
-//			resultBool = dataGatherDao.hmSetGatherData( strDviceId , resultRedisDataMap ) ;
-//			resultRedisDataMap = null ;
-//			
-//			// logger.debug( "resultCalCulDataMap :: " + resultCalCulDataMap ) ;
-//			// logger.debug( "resultDataMap :: " + resultDataMap ) ;
-//			
-//			// history 저장 및 이벤트 데이터 처리 thread 생성
-//			logger.debug( "history 저장 및 이벤트 데이터 처리 thread 생성 :: " ) ;
-//			
-//			historyAndEvent = new DataGatherHistoryAndEvent( strDviceId , strDmt , resultRecordQc , ( stdvInfMap.get( "TP" ) + "" ) , strSiteSmlt , strSiteSmltUsr , resultDataMap , resultCalCulDataMap ) ;
-//			// historyAndEventThread = new Thread( historyAndEvent , "DataGatherHistoryAndEvent" ) ;
-//			historyAndEventThread = new Thread( historyAndEvent ) ;
-//			historyAndEventThread.start( ) ;
-//			logger.debug( "history 저장 및 이벤트 데이터 처리 thread 생성 :: 시작 완료 " ) ;
-//			
-//		}
-//		catch( Exception e ) {
-//			resultBool = false ;
-//			logger.error( e.getMessage( ) , e ) ;
-//		}
-//		finally {
-//			
-//			strJsonData = null ;
-//			
-//			strDviceId = null ;
-//			strDmt = null ;
-//			strTemp = null ;
-//			jsonUtil = null ;
-//			jsonObject = null ;
-//			subDataJSONObject = null ;
-//			// TODO 일단 hashmap으로 해보고 object 변환시 좀 오래 걸리는거같으면 바꾸기
-//			resultDataMap = null ;
-//			resultCalCulDataMap = null ;
-//			resultRedisDataMap = null ;
-//			
-//			stdvDtMdlMap = null ;
-//			stdvInfMap = null ;
-//			tempBigDecimal = null ;
-//			tempQcStr = null ;
-//			gatherValStr = null ;
-//			
-//			resultRecordQc = null ;
-//			tempFildQcMap = null ;
-//			
-//			historyAndEvent = null ;
-//			historyAndEventThread = null ;
-//			
-//			logger.debug( "dataGathering finally :: " ) ;
-//		}
-//		
-//		return resultBool ;
-//	}
+	// public Boolean dataGathering_1( String strJsonData ) {
+	// Boolean resultBool = true ;
+	//
+	// String strDviceId = "" ;
+	// String strDmt = "" ;
+	// String strTemp = "" ;
+	// JsonUtil jsonUtil = new JsonUtil( ) ;
+	// JSONObject jsonObject = new JSONObject( ) ;
+	// JSONObject subDataJSONObject = new JSONObject( ) ;
+	// // TODO 일단 hashmap으로 해보고 object 변환시 좀 오래 걸리는거같으면 바꾸기
+	// HashMap< String , String > resultDataMap = new HashMap< String , String >( ) ;
+	// HashMap< String , String > resultCalCulDataMap = new HashMap< String , String >( ) ;
+	// HashMap< String , String > resultRedisDataMap = new HashMap< String , String >( ) ;
+	//
+	// HashMap< String , HashMap< String , Object > > stdvDtMdlMap = new HashMap< String , HashMap< String , Object > >( ) ;
+	// HashMap< String , Object > stdvInfMap = new HashMap< String , Object >( ) ;
+	// BigDecimal tempBigDecimal = new BigDecimal( "0" ) ;
+	//
+	// String tempQcStr = "" ;
+	// String gatherValStr = "" ;
+	//
+	// String resultRecordQc = "" ;
+	// HashMap< String , Object > tempFildQcMap = new HashMap< String , Object >( ) ;
+	//
+	// DataGatherHistoryAndEvent historyAndEvent = null ;
+	// Thread historyAndEventThread = null ;
+	//
+	// try {
+	// logger.debug( "dataGathering :: " ) ;
+	// logger.debug( "수신된 데이터 :: " + strJsonData ) ;
+	//
+	// // 수집된 json data 파싱
+	// jsonObject = jsonUtil.getJSONObjectFromString( ( strJsonData + "" ) ) ;
+	//
+	// // 디바이스 아이디와 계측 시간 추출
+	// strDviceId = ( String ) jsonObject.get( "STDV_ID" ) ;
+	// strDmt = ( String ) jsonObject.get( "DMT" ) ;
+	// subDataJSONObject = ( JSONObject ) jsonObject.get( "DATA" ) ;
+	// logger.debug( "dataGathering :: strDmt :: " + strDmt ) ;
+	//
+	// // logger.debug( "strDviceId :: " + strDviceId ) ;
+	// // logger.debug( "strDmt :: " + strDmt ) ;
+	// // logger.debug( "subDataJSONObject :: " + subDataJSONObject ) ;
+	//
+	// // 데이터 맵 정보 map 가지고 오기
+	// stdvDtMdlMap = ConnectivityProperties.STDV_DT_MDL_MAP.get( strDviceId ) ;
+	// stdvInfMap = ConnectivityProperties.STDV_INF.get( strDviceId ) ;
+	//
+	// logger.debug( "stdvDtMdlMap :: " + stdvDtMdlMap ) ;
+	// logger.debug( "stdvInfMap :: " + stdvInfMap ) ;
+	// // logger.debug( "ConnectivityProperties.STDV_DT_MDL.get( " + strDviceId + " ) :: " + ConnectivityProperties.STDV_DT_MDL.get( strDviceId ) ) ;
+	//
+	// // 레코드 QC 처리 관련 true 부터 시작한다.
+	// resultRecordQc = initRecordQualityCode( ) ;
+	//
+	// // 수집된 계측 데이터 처리
+	// for( Object key : subDataJSONObject.keySet( ) ) {
+	// // logger.debug( "key :: " + key ) ;
+	// // logger.debug( "subDataJSONObject.get( key ) :: " + subDataJSONObject.get( key ) ) ;
+	// // logger.debug( "stdvDtMdlMap.get( key ) :: " + stdvDtMdlMap.get( key ) ) ;
+	//
+	// // 시뮬레이션 값 치환 또는 스케일 팩터 적용
+	// if( "Y".equals( stdvDtMdlMap.get( key ).get( "SMLT" ) ) ) {
+	//
+	// // 시뮬레이션 값 적용
+	// gatherValStr = ( stdvDtMdlMap.get( key ).get( "SMLT_V" ) + "" ) ;
+	// }
+	// else {
+	// // 스케일 팩터 값 적용
+	// tempBigDecimal = applyScaleFactor( subDataJSONObject.get( key ) , stdvDtMdlMap.get( key ).get( "SC_FCT" ) ) ;
+	// gatherValStr = extndEgovStringUtil.getStringFromNullAndObject( tempBigDecimal ) ;
+	// }
+	// resultDataMap.put( ( key + "" ) , gatherValStr ) ;
+	//
+	// //// TODO 계측 필드 데이터 QC 적용
+	// // 초기값
+	// tempQcStr = initFieldQualityCode( ) ;
+	// //// 계측 필드 QC 적용
+	// // OldData 필드 QC 레코드 QC 같이 확인
+	// tempQcStr = gatherOldData( tempQcStr ) ;
+	//
+	// // OverFlow 필드 QC 레코드 QC 같이 확인
+	// tempFildQcMap = gatherOverFlow( tempQcStr , gatherValStr , stdvDtMdlMap.get( key ) , resultRecordQc ) ;
+	// tempQcStr = tempFildQcMap.get( "resultFieldQc" ) + "" ;
+	// resultRecordQc = tempFildQcMap.get( "resultTempRecordQc" ) + "" ;
+	//
+	// tempQcStr = gatherMeasurementMode( tempQcStr ) ;
+	// tempQcStr = gatherCalculationMode( tempQcStr ) ;
+	// tempQcStr = gatherSimulationMode( tempQcStr ) ;
+	//
+	// resultDataMap.put( ( key + "_Q" ) , tempQcStr ) ;
+	// //// 계측 필드 데이터 QC 적용
+	//
+	// // logger.debug( "tempQcStr ::" + tempQcStr ) ;
+	//
+	// } // subDataJSONObject.keySet( )
+	// logger.debug( "계측 처리 후 ::" ) ;
+	// logger.debug( "resultDataMap :: " + resultDataMap ) ;
+	// logger.debug( "계측 처리 후 끝 ::" ) ;
+	//
+	// // TODO 계측 레코드 데이터 QC 확인
+	// logger.debug( "계측 레코드 데이터 QC :: resultRecordQc :: " + resultRecordQc ) ;
+	//
+	// // 장치내 연산 데이터 생성 + 장치내 연산 데이터 필드 QC 적용
+	// // 연산 정보 가지고 오기
+	// resultCalCulDataMap = getCalculatingGatherData( resultDataMap , ConnectivityProperties.STDV_CAL_INF.get( strDviceId ) ) ;
+	//
+	// logger.debug( "연산 처리 후 ::" ) ;
+	// logger.debug( "resultCalCulDataMap :: " + resultCalCulDataMap ) ;
+	// logger.debug( "연산 처리 후 끝 ::" ) ;
+	//
+	// // redis 저장
+	//
+	// // redis 저장 데이터 만들기
+	// // 계측 데이터 확인
+	// // 설정 된 데이터 맵을 기준으로 app io 저장 여부를 확인한다.
+	// for( Object key : stdvDtMdlMap.keySet( ) ) {
+	//
+	// // logger.debug( "stdvDtMdlMap.get( " + ( key + "" ) + " ).get( \"APP_IO\" ) :: [" + stdvDtMdlMap.get( ( key + "" ) ).get( "APP_IO" ) + "]" ) ;
+	// // logger.debug( "checkObjNull :: " + ( !commUtil.checkObjNull( stdvDtMdlMap.get( ( key + "" ) ).get( "APP_IO" ) ) ) ) ;
+	// // logger.debug( "equals :: " + ( "1".equals( stdvDtMdlMap.get( ( key + "" ) ).get( "APP_IO" ) + "" ) ) ) ;
+	//
+	// if( !commUtil.checkObjNull( stdvDtMdlMap.get( ( key + "" ) ).get( "APP_IO" ) ) && "1".equals( stdvDtMdlMap.get( ( key + "" ) ).get( "APP_IO" ) + "" ) ) {
+	// // app io 저장 여부가 1 이면 redis에 저장될 데이터이다. 해당 되는 계측 데이터와 필드 QC를 redis 저장 map에 추가한다.
+	//
+	// // logger.debug( "APP_IO 저장 대상 :: " + ( key + "" ) ) ;
+	// resultRedisDataMap.put( ( key + "" ) , extndEgovStringUtil.getStringFromNullAndObject( resultDataMap.get( ( key + "" ) ) ) ) ;
+	// resultRedisDataMap.put( ( key + "_Q" ) , extndEgovStringUtil.getStringFromNullAndObject( resultDataMap.get( ( key + "_Q" ) ) ) ) ;
+	// }
+	// } // stdvDtMdlMap.keySet( )
+	// // 아이디/계측시간 추가
+	// resultRedisDataMap.put( "ID" , strDmt ) ;
+	// // 레코드 QC 추가
+	// resultRedisDataMap.put( "Q" , resultRecordQc ) ;
+	// // 연산 데이터 추가
+	// resultRedisDataMap.putAll( resultCalCulDataMap ) ;
+	//
+	// logger.debug( "redis 저장 데이터 :: resultRedisDataMap :: " + resultRedisDataMap ) ;
+	//
+	// // TODO redis 데이터 저장 처리 - appoi
+	//
+	// // redis 데이터 저장 처리 - 표준 모델
+	// resultBool = dataGatherDao.hmSetGatherData( strDviceId , resultRedisDataMap ) ;
+	// resultRedisDataMap = null ;
+	//
+	// // logger.debug( "resultCalCulDataMap :: " + resultCalCulDataMap ) ;
+	// // logger.debug( "resultDataMap :: " + resultDataMap ) ;
+	//
+	// // history 저장 및 이벤트 데이터 처리 thread 생성
+	// logger.debug( "history 저장 및 이벤트 데이터 처리 thread 생성 :: " ) ;
+	//
+	// historyAndEvent = new DataGatherHistoryAndEvent( strDviceId , strDmt , resultRecordQc , ( stdvInfMap.get( "TP" ) + "" ) , strSiteSmlt , strSiteSmltUsr , resultDataMap , resultCalCulDataMap ) ;
+	// // historyAndEventThread = new Thread( historyAndEvent , "DataGatherHistoryAndEvent" ) ;
+	// historyAndEventThread = new Thread( historyAndEvent ) ;
+	// historyAndEventThread.start( ) ;
+	// logger.debug( "history 저장 및 이벤트 데이터 처리 thread 생성 :: 시작 완료 " ) ;
+	//
+	// }
+	// catch( Exception e ) {
+	// resultBool = false ;
+	// logger.error( e.getMessage( ) , e ) ;
+	// }
+	// finally {
+	//
+	// strJsonData = null ;
+	//
+	// strDviceId = null ;
+	// strDmt = null ;
+	// strTemp = null ;
+	// jsonUtil = null ;
+	// jsonObject = null ;
+	// subDataJSONObject = null ;
+	// // TODO 일단 hashmap으로 해보고 object 변환시 좀 오래 걸리는거같으면 바꾸기
+	// resultDataMap = null ;
+	// resultCalCulDataMap = null ;
+	// resultRedisDataMap = null ;
+	//
+	// stdvDtMdlMap = null ;
+	// stdvInfMap = null ;
+	// tempBigDecimal = null ;
+	// tempQcStr = null ;
+	// gatherValStr = null ;
+	//
+	// resultRecordQc = null ;
+	// tempFildQcMap = null ;
+	//
+	// historyAndEvent = null ;
+	// historyAndEventThread = null ;
+	//
+	// logger.debug( "dataGathering finally :: " ) ;
+	// }
+	//
+	// return resultBool ;
+	// }
 	
 	/**
 	 * <pre>

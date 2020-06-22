@@ -48,14 +48,17 @@ public class DataGatherDao
 		try {
 			logger.debug( "hmSetGatherData" ) ;
 			
-			strKey = "MGP_SVDT" + "^" + dviceId ;
-//			logger.debug( "strKey :: " + strKey ) ;
-			
-			// TODO redis now 같은거 있는지, db 저장되는 시간으로 처리
-			redisSetDataMap.put( "INS_DT" , commUtil.getFormatingNowDateTime( ) ) ;
-			
-//			logger.debug( "redisSetDataMap :: " + redisSetDataMap ) ;
-			resultStr = redisCommon.redisHmset( strKey , redisSetDataMap ) ;
+			if( !commUtil.checkNull( redisSetDataMap ) ) {
+				strKey = "MGP_SVDT" + "^" + dviceId ;
+				// logger.debug( "strKey :: " + strKey ) ;
+				
+				// TODO redis now 같은거 있는지, db 저장되는 시간으로 처리
+				redisSetDataMap.put( "INS_DT" , commUtil.getFormatingNowDateTime( ) ) ;
+				
+				// logger.debug( "redisSetDataMap :: " + redisSetDataMap ) ;
+				resultStr = redisCommon.redisHmset( strKey , redisSetDataMap ) ;
+				
+			}
 			
 		}
 		catch( Exception e ) {
@@ -144,14 +147,17 @@ public class DataGatherDao
 		try {
 			logger.debug( "insertGatherData" ) ;
 			
-			saveDtmStr = commUtil.getFormatingNowDateTime( ) ;
-			mongodbSetDataMap.put( "INS_DT" , saveDtmStr ) ;
-			mongodbSetDataMap.put( "INS_USR" , "Connectivity" ) ;
-			mongodbSetDataMap.put( "UPD_DT" , saveDtmStr ) ;
-			mongodbSetDataMap.put( "UPD_USR" , "Connectivity" ) ;
-			
-			mongoOps = mongodbConnection.getMongoTemplate( ) ;
-			mongoOps.insert( mongodbSetDataMap , "MGP_SDHS" ) ;
+			if( !commUtil.checkNull( mongodbSetDataMap ) ) {
+				
+				saveDtmStr = commUtil.getFormatingNowDateTime( ) ;
+				mongodbSetDataMap.put( "INS_DT" , saveDtmStr ) ;
+				mongodbSetDataMap.put( "INS_USR" , "Connectivity" ) ;
+				mongodbSetDataMap.put( "UPD_DT" , saveDtmStr ) ;
+				mongodbSetDataMap.put( "UPD_USR" , "Connectivity" ) ;
+				
+				mongoOps = mongodbConnection.getMongoTemplate( ) ;
+				mongoOps.insert( mongodbSetDataMap , "MGP_SDHS" ) ;
+			}
 			
 		}
 		catch( Exception e ) {
