@@ -34,27 +34,34 @@ public class ConnectivityProperties
 	public static String SITE_SMLT_USR = "" ;
 	
 	//// 설치 디바이스 정보
-	// 기본 정보
+	// 기본 정보(디바이스 아이디, 기본 정보)
 	public static HashMap< String , HashMap< String , Object > > STDV_INF = new HashMap< String , HashMap< String , Object > >( ) ;
-	// 저장(공통)데이터모델
+	// 저장(공통)데이터모델(디바이스 아이디, 저장(공통)데이터모델 리스트)
 	public static HashMap< String , ArrayList< HashMap< String , Object > > > STDV_DT_MDL = new HashMap< String , ArrayList< HashMap< String , Object > > >( ) ;
-	// 저장(공통)데이터모델 list -> map
-	public static HashMap< String , HashMap< String , HashMap< String , Object > > > STDV_DT_MDL_MAP = new HashMap< String , HashMap< String , HashMap< String , Object > > >( ) ;
-	// 장치내 연산정보
+	// 저장(공통)데이터모델 list -> map(디바이스 아이디, < mgp_key, 저장(공통)데이터모델 맵 >)
+//	public static HashMap< String , HashMap< String , HashMap< String , Object > > > STDV_DT_MDL_MAP = new HashMap< String , HashMap< String , HashMap< String , Object > > >( ) ;
+	// 장치내 연산정보(디바이스 아이디, 장치내 연산정보)
 	public static HashMap< String , ArrayList< HashMap< String , Object > > > STDV_CAL_INF = new HashMap< String , ArrayList< HashMap< String , Object > > >( ) ;
 	
 	//// 퀄리티 코드 정보
-	// 레코드 퀄리티 코드 정보
+	// 레코드 퀄리티 코드 정보(메소드, 레코드 퀄리티 코드 정보)
 	public static HashMap< String , HashMap< String , Object > > RECORD_QC_INF = new HashMap< String , HashMap< String , Object > >( ) ;
-	// 필드 퀄리티 코드 정보
+	// 필드 퀄리티 코드 정보(메소드, 레코드 퀄리티 코드 정보)
 	public static HashMap< String , HashMap< String , Object > > FIELD_QC_INF = new HashMap< String , HashMap< String , Object > >( ) ;
-	// 레코드 퀄리티 코드 위치 정보
+	// 레코드 퀄리티 코드 위치 정보(메소드, 퀄리티 코드 위치 정보)
 	public static HashMap< String , HashMap< String , Integer > > RECORD_QC_IDX = new HashMap< String , HashMap< String , Integer > >( ) ;
-	// 필드 퀄리티 코드 위치 정보
+	// 필드 퀄리티 코드 위치 정보(메소드, 퀄리티 코드 위치 정보)
 	public static HashMap< String , HashMap< String , Integer > > FIELD_QC_IDX = new HashMap< String , HashMap< String , Integer > >( ) ;
 	
-	//// 장치간 연산정보
+	//// 장치간 연산정보(장치간 연산정보 리스트)
 	public static ArrayList< HashMap< String , Object > > BTWN_DV_CAL_INFO = new ArrayList< HashMap< String , Object > >( ) ;
+	
+	//// 맵퍼 정보
+	// APPIO - 계측 데이터(+ 장치내 연산)(디바이스 아이디, <MGP_KEY, APPIO point index>)
+	public static HashMap< String , ArrayList< HashMap< String , Object > > > APPIO_MAPPER_SDHS = new HashMap< String , ArrayList< HashMap< String , Object > > >( ) ;
+	// APPIO - 장치간 연산 데이터(MGP_KEY, APPIO point index)
+//	public static ArrayList< HashMap< String , Object > > APPIO_MAPPER_CRHS = new ArrayList< HashMap< String , Object > >( ) ;
+	public static HashMap< String , String > APPIO_MAPPER_CRHS = new HashMap< String , String >( ) ;
 	
 	public Boolean setConnectivityProperties( ) {
 		Boolean resultBool = true ;
@@ -72,7 +79,11 @@ public class ConnectivityProperties
 				if( settingManage.devicePropertiesSetting( ) ) {
 					if( settingManage.qualityCodeInfoSetting( ) ) {
 						if( settingManage.betweenDevicesCalculateInfoSetting( ) ) {
-							resultBool = true ;
+							if( settingManage.appioMappingInfoDeviceDataSetting( ) ) {
+								if( settingManage.appioMappingInfoBetweenDevicesCalculatingDataSetting( ) ) {
+									resultBool = true ;
+								}
+							}
 						}
 					}
 				}
@@ -84,6 +95,7 @@ public class ConnectivityProperties
 		}
 		finally {
 			settingManage = null ;
+			logger.debug( "resultBool :: " + resultBool ) ;
 		}
 		
 		logger.debug( "STDV_DT_MDL :: " + STDV_DT_MDL ) ;

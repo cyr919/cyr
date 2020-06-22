@@ -38,15 +38,24 @@ public class SettingManage
 		
 		// exe.devicePropertiesSetting( ) ;
 		// exe.qualityCodeInfoSetting( ) ;
-		// exe.betweenDevicesCalculateInfoSetting( ) ;
-		exe.siteInfoSetting( ) ;
-		
+		exe.betweenDevicesCalculateInfoSetting( ) ;
+		// exe.siteInfoSetting( ) ;
+		// exe.appioMappingInfoBetweenDevicesCalculatingDataSetting( ) ;
+		// exe.appioMappingInfoDeviceDataSetting( ) ;
 	}
 	
+	/**
+	 * <pre>
+	 * 디바이스 정보 셋팅
+	 * </pre>
+	 * 
+	 * @author cyr
+	 * @date 2020-06-18
+	 * @return
+	 */
 	public Boolean devicePropertiesSetting( ) {
 		
 		Boolean resultBool = true ;
-		logger.info( "devicePropertiesSetting" ) ;
 		
 		SettingManageDao settingManageDao = new SettingManageDao( ) ;
 		
@@ -60,11 +69,11 @@ public class SettingManage
 		CommUtil commUtil = new CommUtil( ) ;
 		HashMap< String , HashMap< String , Object > > tempMapFromList = new HashMap< String , HashMap< String , Object > >( ) ;
 		
-		HashMap< String , HashMap< String , HashMap< String , Object > > > deviceDataModelMap = new HashMap< String , HashMap< String , HashMap< String , Object > > >( ) ;
+		// HashMap< String , HashMap< String , HashMap< String , Object > > > deviceDataModelMap = new HashMap< String , HashMap< String , HashMap< String , Object > > >( ) ;
 		
 		String deviceId = "" ;
 		try {
-			resultBool = false ;
+			logger.info( "devicePropertiesSetting" ) ;
 			
 			// 데이터 조회
 			resultList = settingManageDao.selectInstallDeviceList( ) ;
@@ -75,54 +84,55 @@ public class SettingManage
 			// 저장(공통) 데이터 모델
 			// 장치내 연산정보
 			
-			for( int i = 0 ; i < resultList.size( ) ; i++ ) {
+			if( resultList != null ) {
 				
-				logger.info( "resultList.get( " + i + " ) :: " + resultList.get( i ) ) ;
-				logger.info( "resultList.get( " + i + " ).get( \"_id\" ) :: " + resultList.get( i ).get( "_id" ) ) ;
-				logger.info( "resultList.get( " + i + " ).get( \"DT_MDL\" ) :: " + resultList.get( i ).get( "DT_MDL" ) ) ;
-				logger.info( "resultList.get( " + i + " ).get( \"CAL_INF\" ) :: " + resultList.get( i ).get( "CAL_INF" ) ) ;
+				for( int i = 0 ; i < resultList.size( ) ; i++ ) {
+					
+					logger.info( "resultList.get( " + i + " ) :: " + resultList.get( i ) ) ;
+					logger.info( "resultList.get( " + i + " ).get( \"_id\" ) :: " + resultList.get( i ).get( "_id" ) ) ;
+					logger.info( "resultList.get( " + i + " ).get( \"DT_MDL\" ) :: " + resultList.get( i ).get( "DT_MDL" ) ) ;
+					logger.info( "resultList.get( " + i + " ).get( \"CAL_INF\" ) :: " + resultList.get( i ).get( "CAL_INF" ) ) ;
+					
+					deviceId = resultList.get( i ).get( "_id" ) + "" ;
+					
+					// 디바이스 기본정보 처리
+					tempMap.put( "_id" , resultList.get( i ).get( "_id" ) ) ;
+					tempMap.put( "TP" , resultList.get( i ).get( "TP" ) ) ;
+					tempMap.put( "SMLT" , resultList.get( i ).get( "SMLT" ) ) ;
+					tempMap.put( "QC" , resultList.get( i ).get( "QC" ) ) ;
+					tempMap.put( "SCR" , resultList.get( i ).get( "SCR" ) ) ;
+					tempMap.put( "DVIF_ID" , resultList.get( i ).get( "DVIF_ID" ) ) ;
+					tempMap.put( "ADPT_ID" , resultList.get( i ).get( "ADPT_ID" ) ) ;
+					
+					deviceInfo.put( deviceId , tempMap ) ;
+					
+					// 데이터 모델 처리
+					tempList = new ArrayList< HashMap< String , Object > >( ) ;
+					tempList.addAll( ( ArrayList< HashMap< String , Object > > ) resultList.get( i ).get( "DT_MDL" ) ) ;
+					
+					deviceDataModel.put( deviceId , tempList ) ;
+					
+					// // 데이터 모델 list -> map
+					// tempMapFromList = commUtil.getHashMapFromListHashMap( tempList , "MGP_KEY" ) ;
+					// deviceDataModelMap.put( deviceId , tempMapFromList ) ;
+					
+					// 장치 내 연산 처리
+					tempList = new ArrayList< HashMap< String , Object > >( ) ;
+					tempList.addAll( ( ArrayList< HashMap< String , Object > > ) resultList.get( i ).get( "CAL_INF" ) ) ;
+					
+					deviceCalInfo.put( deviceId , tempList ) ;
+					
+				}
+				logger.info( "deviceDataModel :: " + deviceDataModel ) ;
+				// logger.info( "deviceDataModelMap :: " + deviceDataModelMap ) ;
+				logger.info( "deviceCalInfo :: " + deviceCalInfo ) ;
 				
-				deviceId = resultList.get( i ).get( "_id" ) + "" ;
-				
-				// 디바이스 기본정보 처리
-				tempMap.put( "_id" , resultList.get( i ).get( "_id" ) ) ;
-				tempMap.put( "TP" , resultList.get( i ).get( "TP" ) ) ;
-				tempMap.put( "SMLT" , resultList.get( i ).get( "SMLT" ) ) ;
-				tempMap.put( "QC" , resultList.get( i ).get( "QC" ) ) ;
-				tempMap.put( "SCR" , resultList.get( i ).get( "SCR" ) ) ;
-				tempMap.put( "DVIF_ID" , resultList.get( i ).get( "DVIF_ID" ) ) ;
-				tempMap.put( "ADPT_ID" , resultList.get( i ).get( "ADPT_ID" ) ) ;
-				
-				deviceInfo.put( deviceId , tempMap ) ;
-				
-				// 데이터 모델 처리
-				tempList = new ArrayList< HashMap< String , Object > >( ) ;
-				tempList.addAll( ( ArrayList< HashMap< String , Object > > ) resultList.get( i ).get( "DT_MDL" ) ) ;
-				
-				deviceDataModel.put( deviceId , tempList ) ;
-				
-				// 데이터 모델 list -> map
-				tempMapFromList = commUtil.getHashMapFromListHashMap( tempList , "MGP_KEY" ) ;
-				deviceDataModelMap.put( deviceId , tempMapFromList ) ;
-				
-				// 장치 내 연산 처리
-				tempList = new ArrayList< HashMap< String , Object > >( ) ;
-				tempList.addAll( ( ArrayList< HashMap< String , Object > > ) resultList.get( i ).get( "CAL_INF" ) ) ;
-				
-				deviceCalInfo.put( deviceId , tempList ) ;
-				
+				// static 변수에 데이터 넣기
+				ConnectivityProperties.STDV_DT_MDL = deviceDataModel ;
+				ConnectivityProperties.STDV_CAL_INF = deviceCalInfo ;
+				ConnectivityProperties.STDV_INF = deviceInfo ;
+				// ConnectivityProperties.STDV_DT_MDL_MAP = deviceDataModelMap ;
 			}
-			logger.info( "deviceDataModel :: " + deviceDataModel ) ;
-			logger.info( "deviceDataModelMap :: " + deviceDataModelMap ) ;
-			logger.info( "deviceCalInfo :: " + deviceCalInfo ) ;
-			
-			// static 변수에 데이터 넣기
-			ConnectivityProperties.STDV_DT_MDL = deviceDataModel ;
-			ConnectivityProperties.STDV_CAL_INF = deviceCalInfo ;
-			ConnectivityProperties.STDV_INF = deviceInfo ;
-			ConnectivityProperties.STDV_DT_MDL_MAP = deviceDataModelMap ;
-			
-			resultBool = true ;
 		}
 		catch( Exception e ) {
 			resultBool = false ;
@@ -130,11 +140,11 @@ public class SettingManage
 		}
 		finally {
 			settingManageDao = null ;
-			logger.info( "devicePropertiesSetting finally" ) ;
 			
 			deviceDataModel = null ;
 			deviceCalInfo = null ;
 			deviceInfo = null ;
+			logger.info( "devicePropertiesSetting finally" ) ;
 		}
 		
 		return resultBool ;
@@ -161,44 +171,45 @@ public class SettingManage
 		
 		try {
 			resultList = settingManageDao.selectQualityCodeList( ) ;
-			
-			for( i = 0 ; i < resultList.size( ) ; i++ ) {
-				logger.debug( "resultList.get( " + i + " ) :: " + resultList.get( i ) ) ;
+			if( resultList != null ) {
 				
-				startInt = Integer.parseInt( resultList.get( i ).get( "ADR" ) + "" ) ;
-				endInt = Integer.parseInt( resultList.get( i ).get( "LEN" ) + "" ) + startInt ;
-				
-				tempMap = new HashMap< String , Integer >( ) ;
-				tempMap.put( "startInt" , startInt ) ;
-				tempMap.put( "endInt" , endInt ) ;
-				
-				if( "QTC01".equals( resultList.get( i ).get( "TP" ) + "" ) ) {
-					// 레코드 QC
-					recordQcInf.put( ( resultList.get( i ).get( "MTHD" ) + "" ) , resultList.get( i ) ) ;
+				for( i = 0 ; i < resultList.size( ) ; i++ ) {
+					logger.debug( "resultList.get( " + i + " ) :: " + resultList.get( i ) ) ;
 					
-					// 레코드 index QC
-					recordQcIdx.put( ( resultList.get( i ).get( "MTHD" ) + "" ) , tempMap ) ;
-				}
-				else if( "QTC02".equals( resultList.get( i ).get( "TP" ) + "" ) ) {
-					// 필드 QC
-					fieldQcInf.put( ( resultList.get( i ).get( "MTHD" ) + "" ) , resultList.get( i ) ) ;
+					startInt = Integer.parseInt( resultList.get( i ).get( "ADR" ) + "" ) ;
+					endInt = Integer.parseInt( resultList.get( i ).get( "LEN" ) + "" ) + startInt ;
 					
-					// 필드 index QC
-					fieldQcIdx.put( ( resultList.get( i ).get( "MTHD" ) + "" ) , tempMap ) ;
+					tempMap = new HashMap< String , Integer >( ) ;
+					tempMap.put( "startInt" , startInt ) ;
+					tempMap.put( "endInt" , endInt ) ;
+					
+					if( "QTC01".equals( resultList.get( i ).get( "TP" ) + "" ) ) {
+						// 레코드 QC
+						recordQcInf.put( ( resultList.get( i ).get( "MTHD" ) + "" ) , resultList.get( i ) ) ;
+						
+						// 레코드 index QC
+						recordQcIdx.put( ( resultList.get( i ).get( "MTHD" ) + "" ) , tempMap ) ;
+					}
+					else if( "QTC02".equals( resultList.get( i ).get( "TP" ) + "" ) ) {
+						// 필드 QC
+						fieldQcInf.put( ( resultList.get( i ).get( "MTHD" ) + "" ) , resultList.get( i ) ) ;
+						
+						// 필드 index QC
+						fieldQcIdx.put( ( resultList.get( i ).get( "MTHD" ) + "" ) , tempMap ) ;
+					}
 				}
+				logger.info( "fieldQcInf :: " + fieldQcInf ) ;
+				logger.info( "recordQcInf :: " + recordQcInf ) ;
+				logger.info( "fieldQcIdx :: " + fieldQcIdx ) ;
+				logger.info( "recordQcIdx :: " + recordQcIdx ) ;
+				
+				// static 변수에 데이터 넣기
+				ConnectivityProperties.FIELD_QC_INF = fieldQcInf ;
+				ConnectivityProperties.RECORD_QC_INF = recordQcInf ;
+				
+				ConnectivityProperties.FIELD_QC_IDX = fieldQcIdx ;
+				ConnectivityProperties.RECORD_QC_IDX = recordQcIdx ;
 			}
-			logger.info( "fieldQcInf :: " + fieldQcInf ) ;
-			logger.info( "recordQcInf :: " + recordQcInf ) ;
-			logger.info( "fieldQcIdx :: " + fieldQcIdx ) ;
-			logger.info( "recordQcIdx :: " + recordQcIdx ) ;
-			
-			// static 변수에 데이터 넣기
-			ConnectivityProperties.FIELD_QC_INF = fieldQcInf ;
-			ConnectivityProperties.RECORD_QC_INF = recordQcInf ;
-			
-			ConnectivityProperties.FIELD_QC_IDX = fieldQcIdx ;
-			ConnectivityProperties.RECORD_QC_IDX = recordQcIdx ;
-			
 		}
 		catch( Exception e ) {
 			resultBool = false ;
@@ -233,17 +244,19 @@ public class SettingManage
 			resultList = settingManageDao.selectBetweenDevicesCalculateInfo( ) ;
 			
 			// logger.info( "resultList :: " + resultList ) ;
-			
-			for( i = 0 ; i < resultList.size( ) ; i++ ) {
-				logger.info( "resultList.get( " + i + " ) :: " + resultList.get( i ) ) ;
+			if( resultList != null ) {
 				
-				btwnDvCalInfoMap = resultList.get( i ) ;
-				btwnDvCalInfoList.add( btwnDvCalInfoMap ) ;
+				for( i = 0 ; i < resultList.size( ) ; i++ ) {
+					logger.info( "resultList.get( " + i + " ) :: " + resultList.get( i ) ) ;
+					
+					btwnDvCalInfoMap = resultList.get( i ) ;
+					btwnDvCalInfoList.add( btwnDvCalInfoMap ) ;
+				}
+				logger.info( "btwnDvCalInfoList :: " + btwnDvCalInfoList ) ;
+				
+				// static 변수에 데이터 넣기
+				ConnectivityProperties.BTWN_DV_CAL_INFO = btwnDvCalInfoList ;
 			}
-			logger.info( "btwnDvCalInfoList :: " + btwnDvCalInfoList ) ;
-			
-			// static 변수에 데이터 넣기
-			ConnectivityProperties.BTWN_DV_CAL_INFO = btwnDvCalInfoList ;
 			
 		}
 		catch( Exception e ) {
@@ -293,12 +306,159 @@ public class SettingManage
 			logger.error( e.getMessage( ) , e ) ;
 		}
 		finally {
-			settingManageDao = null;
-			siteInfoMap = null;
-			siteInfoTrmMap = null;
+			settingManageDao = null ;
+			siteInfoMap = null ;
+			siteInfoTrmMap = null ;
 		}
 		
 		return resultBool ;
 	}
+	
+	public Boolean appioMappingInfoDeviceDataSetting( ) {
+		Boolean resultBool = true ;
+		
+		SettingManageDao settingManageDao = new SettingManageDao( ) ;
+		ArrayList< HashMap > resultList = new ArrayList< HashMap >( ) ;
+		
+		HashMap< String , ArrayList< HashMap< String , Object > > > appioMapperSdhsMap = new HashMap< String , ArrayList< HashMap< String , Object > > >( ) ;
+		ArrayList< HashMap< String , Object > > appioMapperList = new ArrayList< HashMap< String , Object > >( ) ;
+		HashMap< String , Object > appioMapperSubMap = new HashMap< String , Object >( ) ;
+		int i = 0 ;
+		
+		try {
+			resultList = settingManageDao.selectAppioMappingInfoDeviceData( ) ;
+			
+			if( resultList != null ) {
+				for( i = 0 ; i < resultList.size( ) ; i++ ) {
+					logger.debug( "resultList.get( " + i + " ) :: " + resultList.get( i ) ) ;
+					// SO_ID 가 디바이스 아이디가 된다.
+					if( appioMapperSdhsMap.get( ( resultList.get( i ).get( "SO_ID" ) + "" ) ) != null ) {
+						// appioMapperSdhsMap.get( ( resultList.get( i ).get( "SO_ID" ) + "" ) ).put( ( resultList.get( i ).get( "SO_KEY" ) + "" ) , resultList.get( i ).get( "TG_ID" ) ) ;
+						
+						appioMapperSubMap = new HashMap< String , Object >( ) ;
+						appioMapperSubMap.put( "MGP_KEY" , resultList.get( i ).get( "SO_KEY" ) ) ;
+						appioMapperSubMap.put( "POINT_IDX" , resultList.get( i ).get( "TG_ID" ) ) ;
+						
+						appioMapperSdhsMap.get( ( resultList.get( i ).get( "SO_ID" ) + "" ) ).add( appioMapperSubMap ) ;
+						
+					}
+					else {
+						appioMapperSubMap = new HashMap< String , Object >( ) ;
+						appioMapperSubMap.put( "MGP_KEY" , resultList.get( i ).get( "SO_KEY" ) ) ;
+						appioMapperSubMap.put( "POINT_IDX" , resultList.get( i ).get( "TG_ID" ) ) ;
+						
+						appioMapperList = new ArrayList< HashMap< String , Object > >( ) ;
+						appioMapperList.add( appioMapperSubMap ) ;
+						
+						appioMapperSdhsMap.put( ( resultList.get( i ).get( "SO_ID" ) + "" ) , appioMapperList ) ;
+					}
+					
+				}
+				ConnectivityProperties.APPIO_MAPPER_SDHS = appioMapperSdhsMap ;
+			}
+			logger.debug( "appioMapperSdhsMap :: " + appioMapperSdhsMap ) ;
+			
+		}
+		catch( Exception e ) {
+			resultBool = false ;
+			logger.error( e.getMessage( ) , e ) ;
+		}
+		finally {
+			settingManageDao = null ;
+			i = 0 ;
+			resultList = null ;
+			appioMapperSdhsMap = null ;
+			appioMapperList = null ;
+			appioMapperSubMap = null ;
+		}
+		
+		return resultBool ;
+	}
+	
+	public Boolean appioMappingInfoBetweenDevicesCalculatingDataSetting( ) {
+		Boolean resultBool = true ;
+		
+		SettingManageDao settingManageDao = new SettingManageDao( ) ;
+		ArrayList< HashMap > resultList = new ArrayList< HashMap >( ) ;
+		ArrayList< HashMap< String , Object > > appioMapperCrhsList = new ArrayList< HashMap< String , Object > >( ) ;
+		HashMap< String , Object > appioMapperCrhsSubMap = new HashMap< String , Object >( ) ;
+		HashMap< String , String > appioMapperCrhsMap = new HashMap< String , String >( ) ;
+		
+		int i = 0 ;
+		
+		try {
+			resultList = settingManageDao.selectAppioMappingInfoBetweenDevicesCalculatingData( ) ;
+			
+			appioMapperCrhsMap = new HashMap< String , String >( ) ;
+			if( resultList != null ) {
+				for( i = 0 ; i < resultList.size( ) ; i++ ) {
+					logger.debug( "resultList.get( " + i + " ) :: " + resultList.get( i ) ) ;
+					appioMapperCrhsMap.put( ( resultList.get( i ).get( "SO_KEY" ) + "" ) , ( resultList.get( i ).get( "TG_ID" ) + "" ) ) ;
+				}
+				
+				ConnectivityProperties.APPIO_MAPPER_CRHS = appioMapperCrhsMap ;
+			}
+			logger.debug( "appioMapperCrhsList :: " + appioMapperCrhsList ) ;
+			
+		}
+		catch( Exception e ) {
+			resultBool = false ;
+			logger.error( e.getMessage( ) , e ) ;
+		}
+		finally {
+			settingManageDao = null ;
+			resultList = null ;
+			appioMapperCrhsList = null ;
+			appioMapperCrhsSubMap = null ;
+			i = 0 ;
+			
+		}
+		
+		return resultBool ;
+	}
+	
+	// public Boolean appioMappingInfoBetweenDevicesCalculatingDataSetting( ) {
+	// Boolean resultBool = true ;
+	//
+	// SettingManageDao settingManageDao = new SettingManageDao( ) ;
+	// ArrayList< HashMap > resultList = new ArrayList< HashMap >( ) ;
+	// ArrayList< HashMap< String , Object > > appioMapperCrhsList = new ArrayList< HashMap< String , Object > >( ) ;
+	// HashMap< String , Object > appioMapperCrhsSubMap = new HashMap< String , Object >( ) ;
+	// int i = 0 ;
+	//
+	// try {
+	// resultList = settingManageDao.selectAppioMappingInfoBetweenDevicesCalculatingData( ) ;
+	//
+	// if( resultList != null ) {
+	// for( i = 0 ; i < resultList.size( ) ; i++ ) {
+	// logger.debug( "resultList.get( " + i + " ) :: " + resultList.get( i ) ) ;
+	// appioMapperCrhsSubMap = new HashMap< String , Object >( ) ;
+	// appioMapperCrhsSubMap.put( ( resultList.get( i ).get( "SO_KEY" ) + "" ) , resultList.get( i ).get( "TG_ID" ) ) ;
+	////
+	//// appioMapperCrhsSubMap.put( "MGP_KEY" , resultList.get( i ).get( "SO_KEY" ) ) ;
+	//// appioMapperCrhsSubMap.put( "POINT_IDX" , resultList.get( i ).get( "TG_ID" ) ) ;
+	// appioMapperCrhsList.add( appioMapperCrhsSubMap ) ;
+	// }
+	//
+	// ConnectivityProperties.APPIO_MAPPER_CRHS = appioMapperCrhsList ;
+	// }
+	// logger.debug( "appioMapperCrhsList :: " + appioMapperCrhsList ) ;
+	//
+	// }
+	// catch( Exception e ) {
+	// resultBool = false ;
+	// logger.error( e.getMessage( ) , e ) ;
+	// }
+	// finally {
+	// settingManageDao = null ;
+	// resultList = null ;
+	// appioMapperCrhsList = null ;
+	// appioMapperCrhsSubMap = null ;
+	// i = 0 ;
+	//
+	// }
+	//
+	// return resultBool ;
+	// }
 	
 }

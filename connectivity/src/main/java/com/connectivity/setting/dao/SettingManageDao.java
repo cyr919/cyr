@@ -31,6 +31,17 @@ public class SettingManageDao
 {
 	private Logger logger = LogManager.getLogger( this.getClass( ) ) ;
 	
+	/**
+	 * 
+	 * <pre>
+	 * 설치 디바이스 정보 조회
+	 * 사용여부 Y, 디바이스 데이터 모델 중 사용여부 Y인 데이터
+	 * </pre>
+	 * 
+	 * @author cyr
+	 * @date 2020-06-18
+	 * @return
+	 */
 	public List< HashMap > selectInstallDeviceList( ) {
 		
 		List< HashMap > resultList = new ArrayList< HashMap >( ) ;
@@ -43,21 +54,19 @@ public class SettingManageDao
 		
 		MatchOperation MatchOperation01 = null ;
 		MatchOperation MatchOperation02 = null ;
-		MatchOperation MatchOperation03 = null ;
 		ProjectionOperation projectionOperation01 = null ;
 		FilterAggregationExpression filterAggregationExpression = null ;
 		HashMap< String , Object > filterCondMap = new HashMap< String , Object >( ) ;
 		List< Object > condList = new ArrayList< Object >( ) ;
 		
 		try {
-			logger.debug( "springMongodbDataTest01" ) ;
+			logger.debug( "selectInstallDeviceList" ) ;
 			
 			mongoOps = mongodbConnection.getMongoTemplate( ) ;
 			
 			// sql where
 			MatchOperation01 = Aggregation.match( Criteria.where( "USE" ).is( "Y" ) ) ;
-			MatchOperation02 = Aggregation.match( Criteria.where( "DT_MDL" ).exists( true ) ) ;
-			MatchOperation03 = Aggregation.match( Criteria.where( "DT_MDL.USE" ).is( "Y" ) ) ;
+			MatchOperation02 = Aggregation.match( Criteria.where( "DT_MDL.USE" ).is( "Y" ) ) ;
 			
 			condList.add( "$$this.USE" ) ;
 			condList.add( "Y" ) ;
@@ -65,7 +74,7 @@ public class SettingManageDao
 			filterAggregationExpression = new FilterAggregationExpression( "$DT_MDL" , filterCondMap ) ;
 			projectionOperation01 = Aggregation.project( "_id" , "SITE_ID" , "DVIF_ID" , "NM" , "TP" , "SMLT" , "ADPT_ID" , "USE" , "TRM" , "QC" , "CAL_INF" ).and( filterAggregationExpression ).as( "DT_MDL" ) ;
 			
-			aggregation = Aggregation.newAggregation( MatchOperation01 , MatchOperation02 , MatchOperation03 , projectionOperation01 ) ;
+			aggregation = Aggregation.newAggregation( MatchOperation01 , MatchOperation02  , projectionOperation01 ) ;
 			
 			aggregationResults = mongoOps.aggregate( aggregation , "MGP_STDV" , HashMap.class ) ;
 			resultList = aggregationResults.getMappedResults( ) ;
@@ -86,18 +95,27 @@ public class SettingManageDao
 			aggregationResults = null ;
 			MatchOperation01 = null ;
 			MatchOperation02 = null ;
-			MatchOperation03 = null ;
 			projectionOperation01 = null ;
 			filterAggregationExpression = null ;
 			filterCondMap = null ;
 			condList = null ;
 			
-			logger.debug( "springMongodbDataTest01 finally" ) ;
+			logger.debug( "selectInstallDeviceList finally" ) ;
 		}
 		
 		return resultList ;
 	}
 	
+	/**
+	 * 
+	 * <pre>
+	 * 퀄리티 코드 정보 조회
+	 * </pre>
+	 * 
+	 * @author cyr
+	 * @date 2020-06-18
+	 * @return
+	 */
 	public ArrayList< HashMap > selectQualityCodeList( ) {
 		
 		ArrayList< HashMap > resultList = new ArrayList< HashMap >( ) ;
@@ -134,6 +152,16 @@ public class SettingManageDao
 		return resultList ;
 	}
 	
+	/**
+	 * 
+	 * <pre>
+	 * 장치간 연산 정보 조회
+	 * </pre>
+	 * 
+	 * @author cyr
+	 * @date 2020-06-18
+	 * @return
+	 */
 	public ArrayList< HashMap > selectBetweenDevicesCalculateInfo( ) {
 		
 		ArrayList< HashMap > resultList = new ArrayList< HashMap >( ) ;
@@ -170,6 +198,16 @@ public class SettingManageDao
 		return resultList ;
 	}
 	
+	/**
+	 * 
+	 * <pre>
+	 * 사이트 정보 조회
+	 * </pre>
+	 * 
+	 * @author cyr
+	 * @date 2020-06-18
+	 * @return
+	 */
 	public HashMap< String , Object > selectSiteInfo( ) {
 		
 		HashMap< String , Object > resultMap = new HashMap< String , Object >( ) ;
@@ -202,5 +240,93 @@ public class SettingManageDao
 		
 		return resultMap ;
 	}
+
+
+	/**
+	 * 
+	 * <pre>
+	 * app io 맵핑 정보 조회 - 계측 데이터 관련
+	 * </pre>
+	 * 
+	 * @author cyr
+	 * @date 2020-06-18
+	 * @return
+	 */
+	public ArrayList< HashMap > selectAppioMappingInfoDeviceData( ) {
+		
+		ArrayList< HashMap > resultList = new ArrayList< HashMap >( ) ;
+		
+		MongodbConnection mongodbConnection = new MongodbConnection( ) ;
+		MongoOperations mongoOps = null ;
+		Query query = new Query( ) ;
+		
+		try {
+			logger.debug( "selectAppioMappingInfoDeviceData" ) ;
+			
+			mongoOps = mongodbConnection.getMongoTemplate( ) ;
+			
+			// sql where
+			query.addCriteria( Criteria.where( "USE" ).is( "Y" ) ) ;
+			query.addCriteria( Criteria.where( "MP_TP" ).is( "APPIO" ) ) ;
+			query.addCriteria( Criteria.where( "DT_TP" ).is( "meter" ) ) ;
+			query.addCriteria( Criteria.where( "SO_COL" ).is( "MGP_SDHS" ) ) ;
+			
+			resultList = ( ArrayList< HashMap > ) mongoOps.find( query , HashMap.class , "MGP_MPPR" ) ;
+			
+			logger.trace( "mongoOps :: " + mongoOps ) ;
+			logger.trace( "query :: " + query ) ;
+			logger.trace( "resultList :: " + resultList ) ;
+		}
+		catch( Exception e ) {
+			logger.error( e.getMessage( ) , e ) ;
+		}
+		finally {
+			mongodbConnection = null ;
+			mongoOps = null ;
+			query = null ;
+			
+			logger.debug( "selectAppioMappingInfoDeviceData finally" ) ;
+		}
+		
+		return resultList ;
+	}	
 	
+public ArrayList< HashMap > selectAppioMappingInfoBetweenDevicesCalculatingData( ) {
+		
+		ArrayList< HashMap > resultList = new ArrayList< HashMap >( ) ;
+		
+		MongodbConnection mongodbConnection = new MongodbConnection( ) ;
+		MongoOperations mongoOps = null ;
+		Query query = new Query( ) ;
+		
+		try {
+			logger.debug( "selectAppioMappingInfoBetweenDevicesCalculatingData" ) ;
+			
+			mongoOps = mongodbConnection.getMongoTemplate( ) ;
+			
+			// sql where
+			query.addCriteria( Criteria.where( "USE" ).is( "Y" ) ) ;
+			query.addCriteria( Criteria.where( "MP_TP" ).is( "APPIO" ) ) ;
+			query.addCriteria( Criteria.where( "DT_TP" ).is( "meter" ) ) ;
+			query.addCriteria( Criteria.where( "SO_COL" ).is( "MGP_CRHS" ) ) ;
+			
+			resultList = ( ArrayList< HashMap > ) mongoOps.find( query , HashMap.class , "MGP_MPPR" ) ;
+			
+			logger.trace( "mongoOps :: " + mongoOps ) ;
+			logger.trace( "query :: " + query ) ;
+			logger.trace( "resultList :: " + resultList ) ;
+		}
+		catch( Exception e ) {
+			logger.error( e.getMessage( ) , e ) ;
+		}
+		finally {
+			mongodbConnection = null ;
+			mongoOps = null ;
+			query = null ;
+			
+			logger.debug( "selectAppioMappingInfoBetweenDevicesCalculatingData finally" ) ;
+		}
+		
+		return resultList ;
+	}	
 }
