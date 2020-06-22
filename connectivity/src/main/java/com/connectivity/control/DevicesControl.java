@@ -150,6 +150,8 @@ public class DevicesControl
 			logger.debug( "strSiteSmlt :: " + strSiteSmlt ) ;
 			logger.debug( "strSiteSmltUsr :: " + strSiteSmltUsr ) ;
 			
+			// 시뮬레이션 시작 이벤트 처리
+			
 			ctrlList = ( List< HashMap< String , Object > > ) deviceCtrlInfo.get( "CTRL_LIST" ) ;
 			
 			for( i = 0 ; i < ctrlList.size( ) ; i++ ) {
@@ -157,7 +159,7 @@ public class DevicesControl
 				
 				// 시뮬레이션 이벤트 처리
 			}
-			
+			// 시뮬레이션 완료 이벤트 처리
 		}
 		catch( Exception e ) {
 			resultBool = false ;
@@ -211,7 +213,6 @@ public class DevicesControl
 			
 			rabbitmqCommon.rabbitmqCommonSender( rabbitmqConnection.getDeviceControlConnection( ) , "Control2Adapter" , msgJsonObject ) ;
 			
-			// TODO 디바이스 제어 명령 이벤트 전송??
 		}
 		catch( Exception e ) {
 			resultBool = false ;
