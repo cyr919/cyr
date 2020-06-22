@@ -1,0 +1,18 @@
+
+1q2w3e4r5t%$#@!
+
+----------------------------------------
+
+redis-cli
+
+----------------------------------------
+
+HGETALL  MGP_STDV^stdv0002
+
+HGETALL MGP_PSST^Connectivity
+
+HGETALL MGP_CLRT^MGP10000
+
+HGETALL MGP_APMD
+
+
