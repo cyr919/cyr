@@ -46,18 +46,21 @@ public class BetweenDevicesCalculateDao
 		
 		RedisCommon redisCommon = new RedisCommon( ) ;
 		String hashKeyStr = "" ;
+		CommUtil commUtil = new CommUtil( ) ;
 		
 		try {
-			
-			for( String keyStr : stdvInfMap.keySet( ) ) {
-				// logger.debug( "keyStr :: " + keyStr ) ;
-				hashKeyStr = "MGP_SVDT^" + keyStr ;
+			if( !commUtil.checkNull( stdvInfMap ) ) {
 				
-				dvGthrDtMap = redisCommon.redisHgetAll( hashKeyStr ) ;
-				// logger.debug( "hashKeyStr :: " + hashKeyStr ) ;
-				// logger.debug( "dvGthrDtMap :: " + dvGthrDtMap ) ;
-				
-				resultMap.put( keyStr , dvGthrDtMap ) ;
+				for( String keyStr : stdvInfMap.keySet( ) ) {
+					// logger.debug( "keyStr :: " + keyStr ) ;
+					hashKeyStr = "MGP_SVDT^" + keyStr ;
+					
+					dvGthrDtMap = redisCommon.redisHgetAll( hashKeyStr ) ;
+					// logger.debug( "hashKeyStr :: " + hashKeyStr ) ;
+					// logger.debug( "dvGthrDtMap :: " + dvGthrDtMap ) ;
+					
+					resultMap.put( keyStr , dvGthrDtMap ) ;
+				}
 			}
 		}
 		catch( Exception e ) {
@@ -156,7 +159,7 @@ public class BetweenDevicesCalculateDao
 		try {
 			logger.debug( "hmSetBtwnDvCalculData" ) ;
 			
-			if( commUtil.checkNull( redisDataList ) ) {
+			if( !commUtil.checkNull( redisDataList ) ) {
 				for( int i = 0 ; i < redisDataList.size( ) ; i++ ) {
 					
 					// logger.debug( "hmSetBtwnDvCalculData" ) ;
@@ -276,15 +279,17 @@ public class BetweenDevicesCalculateDao
 		
 		try {
 			logger.debug( "insertBtwnDvCalculData" ) ;
-			
-			saveDtmStr = commUtil.getFormatingNowDateTime( ) ;
-			mongodbSetDataMap.put( "INS_DT" , saveDtmStr ) ;
-			mongodbSetDataMap.put( "INS_USR" , "Connectivity" ) ;
-			mongodbSetDataMap.put( "UPD_DT" , saveDtmStr ) ;
-			mongodbSetDataMap.put( "UPD_USR" , "Connectivity" ) ;
-			
-			mongoOps = mongodbConnection.getMongoTemplate( ) ;
-			mongoOps.insert( mongodbSetDataMap , "MGP_CRHS" ) ;
+			if( !commUtil.checkNull( mongodbSetDataMap ) ) {
+				
+				saveDtmStr = commUtil.getFormatingNowDateTime( ) ;
+				mongodbSetDataMap.put( "INS_DT" , saveDtmStr ) ;
+				mongodbSetDataMap.put( "INS_USR" , "Connectivity" ) ;
+				mongodbSetDataMap.put( "UPD_DT" , saveDtmStr ) ;
+				mongodbSetDataMap.put( "UPD_USR" , "Connectivity" ) ;
+				
+				mongoOps = mongodbConnection.getMongoTemplate( ) ;
+				mongoOps.insert( mongodbSetDataMap , "MGP_CRHS" ) ;
+			}
 			
 		}
 		catch( Exception e ) {

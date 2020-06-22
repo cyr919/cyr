@@ -336,16 +336,16 @@ public class SettingManage
 						// appioMapperSdhsMap.get( ( resultList.get( i ).get( "SO_ID" ) + "" ) ).put( ( resultList.get( i ).get( "SO_KEY" ) + "" ) , resultList.get( i ).get( "TG_ID" ) ) ;
 						
 						appioMapperSubMap = new HashMap< String , Object >( ) ;
-						appioMapperSubMap.put( "MGP_KEY" , resultList.get( i ).get( "SO_KEY" ) ) ;
-						appioMapperSubMap.put( "POINT_IDX" , resultList.get( i ).get( "TG_ID" ) ) ;
+						appioMapperSubMap.put( "SO_KEY" , resultList.get( i ).get( "SO_KEY" ) ) ;
+						appioMapperSubMap.put( "TG_ID" , resultList.get( i ).get( "TG_ID" ) ) ;
 						
 						appioMapperSdhsMap.get( ( resultList.get( i ).get( "SO_ID" ) + "" ) ).add( appioMapperSubMap ) ;
 						
 					}
 					else {
 						appioMapperSubMap = new HashMap< String , Object >( ) ;
-						appioMapperSubMap.put( "MGP_KEY" , resultList.get( i ).get( "SO_KEY" ) ) ;
-						appioMapperSubMap.put( "POINT_IDX" , resultList.get( i ).get( "TG_ID" ) ) ;
+						appioMapperSubMap.put( "SO_KEY" , resultList.get( i ).get( "SO_KEY" ) ) ;
+						appioMapperSubMap.put( "TG_ID" , resultList.get( i ).get( "TG_ID" ) ) ;
 						
 						appioMapperList = new ArrayList< HashMap< String , Object > >( ) ;
 						appioMapperList.add( appioMapperSubMap ) ;
@@ -375,48 +375,6 @@ public class SettingManage
 		return resultBool ;
 	}
 	
-	public Boolean appioMappingInfoBetweenDevicesCalculatingDataSetting( ) {
-		Boolean resultBool = true ;
-		
-		SettingManageDao settingManageDao = new SettingManageDao( ) ;
-		ArrayList< HashMap > resultList = new ArrayList< HashMap >( ) ;
-		ArrayList< HashMap< String , Object > > appioMapperCrhsList = new ArrayList< HashMap< String , Object > >( ) ;
-		HashMap< String , Object > appioMapperCrhsSubMap = new HashMap< String , Object >( ) ;
-		HashMap< String , String > appioMapperCrhsMap = new HashMap< String , String >( ) ;
-		
-		int i = 0 ;
-		
-		try {
-			resultList = settingManageDao.selectAppioMappingInfoBetweenDevicesCalculatingData( ) ;
-			
-			appioMapperCrhsMap = new HashMap< String , String >( ) ;
-			if( resultList != null ) {
-				for( i = 0 ; i < resultList.size( ) ; i++ ) {
-					logger.debug( "resultList.get( " + i + " ) :: " + resultList.get( i ) ) ;
-					appioMapperCrhsMap.put( ( resultList.get( i ).get( "SO_KEY" ) + "" ) , ( resultList.get( i ).get( "TG_ID" ) + "" ) ) ;
-				}
-				
-				ConnectivityProperties.APPIO_MAPPER_CRHS = appioMapperCrhsMap ;
-			}
-			logger.debug( "appioMapperCrhsList :: " + appioMapperCrhsList ) ;
-			
-		}
-		catch( Exception e ) {
-			resultBool = false ;
-			logger.error( e.getMessage( ) , e ) ;
-		}
-		finally {
-			settingManageDao = null ;
-			resultList = null ;
-			appioMapperCrhsList = null ;
-			appioMapperCrhsSubMap = null ;
-			i = 0 ;
-			
-		}
-		
-		return resultBool ;
-	}
-	
 	// public Boolean appioMappingInfoBetweenDevicesCalculatingDataSetting( ) {
 	// Boolean resultBool = true ;
 	//
@@ -424,23 +382,21 @@ public class SettingManage
 	// ArrayList< HashMap > resultList = new ArrayList< HashMap >( ) ;
 	// ArrayList< HashMap< String , Object > > appioMapperCrhsList = new ArrayList< HashMap< String , Object > >( ) ;
 	// HashMap< String , Object > appioMapperCrhsSubMap = new HashMap< String , Object >( ) ;
+	// HashMap< String , String > appioMapperCrhsMap = new HashMap< String , String >( ) ;
+	//
 	// int i = 0 ;
 	//
 	// try {
 	// resultList = settingManageDao.selectAppioMappingInfoBetweenDevicesCalculatingData( ) ;
 	//
+	// appioMapperCrhsMap = new HashMap< String , String >( ) ;
 	// if( resultList != null ) {
 	// for( i = 0 ; i < resultList.size( ) ; i++ ) {
 	// logger.debug( "resultList.get( " + i + " ) :: " + resultList.get( i ) ) ;
-	// appioMapperCrhsSubMap = new HashMap< String , Object >( ) ;
-	// appioMapperCrhsSubMap.put( ( resultList.get( i ).get( "SO_KEY" ) + "" ) , resultList.get( i ).get( "TG_ID" ) ) ;
-	////
-	//// appioMapperCrhsSubMap.put( "MGP_KEY" , resultList.get( i ).get( "SO_KEY" ) ) ;
-	//// appioMapperCrhsSubMap.put( "POINT_IDX" , resultList.get( i ).get( "TG_ID" ) ) ;
-	// appioMapperCrhsList.add( appioMapperCrhsSubMap ) ;
+	// appioMapperCrhsMap.put( ( resultList.get( i ).get( "SO_KEY" ) + "" ) , ( resultList.get( i ).get( "TG_ID" ) + "" ) ) ;
 	// }
 	//
-	// ConnectivityProperties.APPIO_MAPPER_CRHS = appioMapperCrhsList ;
+	// ConnectivityProperties.APPIO_MAPPER_CRHS = appioMapperCrhsMap ;
 	// }
 	// logger.debug( "appioMapperCrhsList :: " + appioMapperCrhsList ) ;
 	//
@@ -460,5 +416,50 @@ public class SettingManage
 	//
 	// return resultBool ;
 	// }
+	
+	public Boolean appioMappingInfoBetweenDevicesCalculatingDataSetting( ) {
+		Boolean resultBool = true ;
+		
+		SettingManageDao settingManageDao = new SettingManageDao( ) ;
+		ArrayList< HashMap > resultList = new ArrayList< HashMap >( ) ;
+		ArrayList< HashMap< String , Object > > appioMapperCrhsList = new ArrayList< HashMap< String , Object > >( ) ;
+		HashMap< String , Object > appioMapperCrhsSubMap = new HashMap< String , Object >( ) ;
+		int i = 0 ;
+		
+		try {
+			resultList = settingManageDao.selectAppioMappingInfoBetweenDevicesCalculatingData( ) ;
+			
+			if( resultList != null ) {
+				for( i = 0 ; i < resultList.size( ) ; i++ ) {
+					logger.debug( "resultList.get( " + i + " ) :: " + resultList.get( i ) ) ;
+					appioMapperCrhsSubMap = new HashMap< String , Object >( ) ;
+					
+					// appioMapperCrhsSubMap.put( ( resultList.get( i ).get( "SO_KEY" ) + "" ) , resultList.get( i ).get( "TG_ID" ) ) ;
+					
+					appioMapperCrhsSubMap.put( "SO_KEY" , resultList.get( i ).get( "SO_KEY" ) ) ;
+					appioMapperCrhsSubMap.put( "TG_ID" , resultList.get( i ).get( "TG_ID" ) ) ;
+					appioMapperCrhsList.add( appioMapperCrhsSubMap ) ;
+				}
+				
+				ConnectivityProperties.APPIO_MAPPER_CRHS = appioMapperCrhsList ;
+			}
+			logger.debug( "appioMapperCrhsList :: " + appioMapperCrhsList ) ;
+			
+		}
+		catch( Exception e ) {
+			resultBool = false ;
+			logger.error( e.getMessage( ) , e ) ;
+		}
+		finally {
+			settingManageDao = null ;
+			resultList = null ;
+			appioMapperCrhsList = null ;
+			appioMapperCrhsSubMap = null ;
+			i = 0 ;
+			
+		}
+		
+		return resultBool ;
+	}
 	
 }

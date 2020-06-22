@@ -20,6 +20,7 @@ import com.connectivity.config.JedisConnection ;
 import com.connectivity.config.MongodbConnection ;
 import com.connectivity.quality.QualityCode ;
 import com.connectivity.utils.CommUtil ;
+import com.connectivity.utils.ExtndEgovStringUtil ;
 
 /**
  * <pre>
@@ -178,18 +179,23 @@ public class BetweenDevicesCalculate extends QualityCode implements Runnable
 		String resultQcStr = "" ;
 		String strGatherFieldQc = "" ;
 		
+		String resultValStr = "" ;
 		String resultKsStr = "" ;
 		String resultVsStr = "" ;
 		String paramValue = "" ;
 		String paramKey = "" ;
 		String delimitersStr = "" ;
 		String resultMgpKey = "" ;
+		String strMgpKey = "" ;
+		String strPointIdx = "" ;
 		
-		HashMap< String , String > appioMapperMap = new HashMap< String , String >( ) ;
+		// HashMap< String , String > appioMapperMap = new HashMap< String , String >( ) ;
+		ArrayList< HashMap< String , Object > > appioMapperList = new ArrayList< HashMap< String , Object > >( ) ;
 		
 		BetweenDevicesCalculateHistoryAndEvent historyAndEvent = null ;
 		Thread historyAndEventThread = null ;
 		CommonDao commonDao = new CommonDao( ) ;
+		ExtndEgovStringUtil extndEgovStringUtil = new ExtndEgovStringUtil( ) ;
 		
 		try {
 			logger.debug( "calculateBetweenDevicesData :: " ) ;
@@ -201,11 +207,11 @@ public class BetweenDevicesCalculate extends QualityCode implements Runnable
 			// 전체 설치 디바이스 정보 조회(redis)
 			stdvInfMap = ConnectivityProperties.STDV_INF ;
 			
-			appioMapperMap = ConnectivityProperties.APPIO_MAPPER_CRHS ;
+			appioMapperList = ConnectivityProperties.APPIO_MAPPER_CRHS ;
 			
 			allDvGthrDt = betweenDevicesCalculateDao.getAllDevicesGatherData( stdvInfMap ) ;
 			
-			logger.debug( "appioMapperMap :: " + appioMapperMap ) ;
+			logger.debug( "appioMapperList :: " + appioMapperList ) ;
 			// logger.debug( "stdvInfMap :: " + stdvInfMap ) ;
 			// logger.debug( "allDvGthrDt :: " + allDvGthrDt ) ;
 			logger.debug( ":::::::::: 전체 디바이스 데이터 가져오기 ::::::::::" ) ;
@@ -379,10 +385,13 @@ public class BetweenDevicesCalculate extends QualityCode implements Runnable
 				// 데이터 생성 시간
 				strDmt = commUtil.getFormatingNowDateTime( "yyyyMMddHHmmssSSS" ) ;
 				
+				// 연산 결과 string 변환
+				resultValStr = extndEgovStringUtil.getStringFromNullAndObject( resultBigDecimal ) ;
+				
 				//// redis - 표준모델 데이터 생성
 				resultRedisDataMap = new HashMap< String , String >( ) ;
 				resultRedisDataMap.put( "ID" , strDmt ) ;
-				resultRedisDataMap.put( "V" , ( resultBigDecimal + "" ) ) ;
+				resultRedisDataMap.put( "V" , resultValStr ) ;
 				resultRedisDataMap.put( "Q" , resultQcStr ) ;
 				resultRedisDataMap.put( "MGP_KEY" , resultMgpKey ) ;
 				
@@ -402,29 +411,44 @@ public class BetweenDevicesCalculate extends QualityCode implements Runnable
 				
 				resultRstDataMap.put( resultMgpKey , resultRstMgpKeyDataMap ) ;
 				
-				// Appio 모델 데이터 저장 - redis 저장
-				// logger.debug( "resultMgpKey :: " + i + " :: " + resultMgpKey ) ;
-				if( !commUtil.checkNull( appioMapperMap ) ) {
-					if( !commUtil.checkNull( appioMapperMap.get( resultMgpKey ) ) ) {
-						// logger.debug( "appioMapperMap.get( resultMgpKey ) :: " + i + " :: " + appioMapperMap.get( resultMgpKey ) ) ;
-						resultAppioDataMap.put( appioMapperMap.get( resultMgpKey ) , ( resultBigDecimal + "" ) ) ;
-					}
-				}
+				// // Appio 모델 데이터 저장 - redis 저장
+				// // logger.debug( "resultMgpKey :: " + i + " :: " + resultMgpKey ) ;
+				// if( !commUtil.checkNull( appioMapperMap ) ) {
+				// if( !commUtil.checkNull( appioMapperMap.get( resultMgpKey ) ) ) {
+				// // logger.debug( "appioMapperMap.get( resultMgpKey ) :: " + i + " :: " + appioMapperMap.get( resultMgpKey ) ) ;
+				// resultAppioDataMap.put( appioMapperMap.get( resultMgpKey ) , ( resultBigDecimal + "" ) ) ;
+				// }
+				// }
 				
 			} // for( i = 0 ; i < btwnDvCalInfoList.size( ) ; i++ )
 			
 			// logger.debug( "resultRstDataMap :: " + resultRstDataMap ) ;
-			logger.debug( "resultAppioDataMap :: " + resultAppioDataMap ) ;
 			logger.debug( "strFirstDmt :: " + strFirstDmt ) ;
 			
 			// redis 저장 - AppIO 모델
-			if( !commUtil.checkNull( resultAppioDataMap ) ) {
-				logger.debug( "resultAppioDataMap :: 저장처리  :: " ) ;
-				commonDao.hmSetAppioData( resultAppioDataMap ) ;
+			// AppIO 모델 데이터 생성
+			if( !commUtil.checkNull( appioMapperList ) ) {
+				for( i = 0 ; i < appioMapperList.size( ) ; i++ ) {
+					logger.debug( "appioMapperList.get( " + i + " ) :: " + appioMapperList.get( i ) ) ;
+					// appIO Point Idx
+					strPointIdx = ( appioMapperList.get( i ).get( "TG_ID" ) + "" ) ;
+					// MGP_KEY
+					strMgpKey = ( appioMapperList.get( i ).get( "SO_KEY" ) + "" ) ;
+					
+					resultRstMgpKeyDataMap = new HashMap< String , Object >( ) ;
+					resultRstMgpKeyDataMap = ( HashMap< String , Object > ) resultRstDataMap.get( strMgpKey ) ;
+					
+					// map 형태인 mongodb 저장 데이터로 처리한다.
+					resultAppioDataMap.put( strPointIdx , ( resultRstMgpKeyDataMap.get( "V" ) + "" ) ) ;
+				}
 			}
+			// AppIO 모델 데이터 redis 저장
+			logger.debug( "resultAppioDataMap :: " + resultAppioDataMap ) ;
+			resultBool = commonDao.hmSetAppioData( resultAppioDataMap ) ;
+			resultAppioDataMap = null ;
 			
 			//// redis 저장 - 표준모델
-			betweenDevicesCalculateDao.hmSetBtwnDvCalculData( resultRedisDataList ) ;
+			resultBool = betweenDevicesCalculateDao.hmSetBtwnDvCalculData( resultRedisDataList ) ;
 			
 			logger.debug( "strSiteSmlt :: " + strSiteSmlt ) ;
 			logger.debug( "strSiteSmltUsr :: " + strSiteSmltUsr ) ;

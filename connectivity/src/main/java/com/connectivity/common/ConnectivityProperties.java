@@ -39,7 +39,7 @@ public class ConnectivityProperties
 	// 저장(공통)데이터모델(디바이스 아이디, 저장(공통)데이터모델 리스트)
 	public static HashMap< String , ArrayList< HashMap< String , Object > > > STDV_DT_MDL = new HashMap< String , ArrayList< HashMap< String , Object > > >( ) ;
 	// 저장(공통)데이터모델 list -> map(디바이스 아이디, < mgp_key, 저장(공통)데이터모델 맵 >)
-//	public static HashMap< String , HashMap< String , HashMap< String , Object > > > STDV_DT_MDL_MAP = new HashMap< String , HashMap< String , HashMap< String , Object > > >( ) ;
+	// public static HashMap< String , HashMap< String , HashMap< String , Object > > > STDV_DT_MDL_MAP = new HashMap< String , HashMap< String , HashMap< String , Object > > >( ) ;
 	// 장치내 연산정보(디바이스 아이디, 장치내 연산정보)
 	public static HashMap< String , ArrayList< HashMap< String , Object > > > STDV_CAL_INF = new HashMap< String , ArrayList< HashMap< String , Object > > >( ) ;
 	
@@ -60,8 +60,8 @@ public class ConnectivityProperties
 	// APPIO - 계측 데이터(+ 장치내 연산)(디바이스 아이디, <MGP_KEY, APPIO point index>)
 	public static HashMap< String , ArrayList< HashMap< String , Object > > > APPIO_MAPPER_SDHS = new HashMap< String , ArrayList< HashMap< String , Object > > >( ) ;
 	// APPIO - 장치간 연산 데이터(MGP_KEY, APPIO point index)
-//	public static ArrayList< HashMap< String , Object > > APPIO_MAPPER_CRHS = new ArrayList< HashMap< String , Object > >( ) ;
-	public static HashMap< String , String > APPIO_MAPPER_CRHS = new HashMap< String , String >( ) ;
+	public static ArrayList< HashMap< String , Object > > APPIO_MAPPER_CRHS = new ArrayList< HashMap< String , Object > >( ) ;
+	// public static HashMap< String , String > APPIO_MAPPER_CRHS = new HashMap< String , String >( ) ;
 	
 	public Boolean setConnectivityProperties( ) {
 		Boolean resultBool = true ;

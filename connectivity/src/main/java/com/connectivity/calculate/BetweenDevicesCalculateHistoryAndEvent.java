@@ -52,7 +52,7 @@ public class BetweenDevicesCalculateHistoryAndEvent implements Runnable
 		BetweenDevicesCalculateDao betweenDevicesCalculateDao = new BetweenDevicesCalculateDao( ) ;
 		
 		HashMap< String , Object > resultMongodbDataMap = new HashMap< String , Object >( ) ;
-
+		
 		try {
 			logger.debug( "BetweenDevicesCalculateHistoryAndEvent run" ) ;
 			ConnectivityProperties.PROCESS_THREAD_CNT++ ;
