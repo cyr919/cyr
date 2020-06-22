@@ -16,6 +16,15 @@ import com.connectivity.manage.ConditionReport ;
 import com.connectivity.manage.receiver.Command2ModuleReceiver ;
 import com.rabbitmq.client.ConnectionFactory ;
 
+/**
+ *
+ * <pre>
+ * connectivity 기동
+ * </pre>
+ *
+ * @author cyr
+ * @date 2020-06-18
+ */
 public class ConnectivityMainRun
 {
 	// Define a static logger variable so that it references the
@@ -58,6 +67,16 @@ public class ConnectivityMainRun
 		
 	}
 	
+	/**
+	 * 
+	 * <pre>
+	 * connectivity 기동
+	 * </pre>
+	 * 
+	 * @author cyr
+	 * @date 2020-06-18
+	 * @param strEventID 이벤트 히스토리 id
+	 */
 	public void connectivityRun( String strEventID ) {
 		
 		CommonProperties commonProperties = new CommonProperties( ) ;
@@ -87,6 +106,8 @@ public class ConnectivityMainRun
 					
 					resultBool01 = true ;
 					resultBool02 = true ;
+					
+					// db에 있는 로그 설정정보 조회하여 로그 정보 변경.
 				}
 			}
 			
@@ -135,6 +156,16 @@ public class ConnectivityMainRun
 		return ;
 	}
 	
+	/**
+	 * 
+	 * <pre>
+	 * connectivity 중지
+	 * </pre>
+	 * 
+	 * @author cyr
+	 * @date 2020-06-18
+	 * @param strEventID 이벤트 히스토리 id
+	 */
 	public void connectivityStop( String strEventID ) {
 		logger.info( "strEventID :: " + strEventID ) ;
 		try {
@@ -165,6 +196,16 @@ public class ConnectivityMainRun
 		
 	}
 	
+	/**
+	 * 
+	 * <pre>
+	 * connectivity reset
+	 * </pre>
+	 * 
+	 * @author cyr
+	 * @date 2020-06-18
+	 * @param strEventID 이벤트 히스토리 id
+	 */
 	public void connectivityReset( String strEventID ) {
 		
 		logger.info( "strEventID :: " + strEventID ) ;
@@ -210,6 +251,18 @@ public class ConnectivityMainRun
 		
 	}
 	
+	/**
+	 * 
+	 * <pre>
+	 * connectivity의 모든
+	 * rabbitMQ connection 연결
+	 * </pre>
+	 * 
+	 * @author cyr
+	 * @date 2020-06-18
+	 * @param staticDiviceInfo 설치 디바이스 정보
+	 * @throws Exception
+	 */
 	public void rabbitmqConnectionOpen( HashMap< String , HashMap< String , Object > > staticDiviceInfo ) throws Exception {
 		
 		RabbitmqConnection rabbitmqConnection = new RabbitmqConnection( ) ;
@@ -282,6 +335,17 @@ public class ConnectivityMainRun
 		
 	}
 	
+	/**
+	 * 
+	 * <pre>
+	 * connectivity의 모든
+	 * rabbitMQ connection 종료
+	 * </pre>
+	 * 
+	 * @author cyr
+	 * @date 2020-06-18
+	 * @throws Exception
+	 */
 	public void rabbitmqConnectionClose( ) throws Exception {
 		
 		logger.info( "================rabbitmqConnectionClose================" ) ;
