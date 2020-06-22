@@ -15,6 +15,7 @@ import org.apache.logging.log4j.Logger ;
 import com.connectivity.calculate.dao.BetweenDevicesCalculateDao ;
 import com.connectivity.common.CommonProperties ;
 import com.connectivity.common.ConnectivityProperties ;
+import com.connectivity.common.dao.CommonDao ;
 import com.connectivity.config.JedisConnection ;
 import com.connectivity.config.MongodbConnection ;
 import com.connectivity.quality.QualityCode ;
@@ -22,6 +23,7 @@ import com.connectivity.utils.CommUtil ;
 
 /**
  * <pre>
+ * 장치간 연산
  * </pre>
  *
  * @author cyr
@@ -46,17 +48,18 @@ public class BetweenDevicesCalculate extends QualityCode implements Runnable
 	 */
 	public static void main( String[ ] args ) {
 		// TODO Auto-generated method stub
-		ConnectivityProperties connectivityProperties = new ConnectivityProperties( ) ;
-		connectivityProperties.setConnectivityProperties( ) ;
 		
 		CommonProperties commonProperties = new CommonProperties( ) ;
 		JedisConnection jedisConnection = new JedisConnection( ) ;
 		MongodbConnection mongodbConnection = new MongodbConnection( ) ;
+		ConnectivityProperties connectivityProperties = new ConnectivityProperties( ) ;
 		
 		try {
 			commonProperties.setProperties( ) ;
 			jedisConnection.getJedisPool( ) ;
 			mongodbConnection.getMongoClient( ) ;
+			
+			connectivityProperties.setConnectivityProperties( ) ;
 		}
 		catch( Exception e ) {
 			// TODO Auto-generated catch block
@@ -65,19 +68,19 @@ public class BetweenDevicesCalculate extends QualityCode implements Runnable
 		
 		try {
 			BetweenDevicesCalculate exe = new BetweenDevicesCalculate( 10 ) ;
-			// exe.calculateBetweenDevicesData( ) ;
+			exe.calculateBetweenDevicesData( ) ;
 			
-			// Thread btwDvCalcuThread = new Thread( exe , "BetweenDevicesCalculate" ) ;
-			Thread btwDvCalcuThread = new Thread( exe ) ;
-			btwDvCalcuThread.start( ) ;
-			
-			Thread.sleep( 1 * 1000 ) ;
-			exe.setStopExeThread( ) ;
+			// // Thread btwDvCalcuThread = new Thread( exe , "BetweenDevicesCalculate" ) ;
+			// Thread btwDvCalcuThread = new Thread( exe ) ;
+			// btwDvCalcuThread.start( ) ;
+			//
+			// Thread.sleep( 1 * 1000 ) ;
+			// exe.setStopExeThread( ) ;
 		}
-		catch( InterruptedException e ) {
-			// TODO Auto-generated catch block
-			e.printStackTrace( ) ;
-		}
+		// catch( InterruptedException e ) {
+		// // TODO Auto-generated catch block
+		// e.printStackTrace( ) ;
+		// }
 		catch( Exception e ) {
 			e.printStackTrace( ) ;
 		}
@@ -129,6 +132,15 @@ public class BetweenDevicesCalculate extends QualityCode implements Runnable
 		return ;
 	}
 	
+	/**
+	 * <pre>
+	 * 장치간 연산 처리
+	 * </pre>
+	 * 
+	 * @author cyr
+	 * @date 2020-06-22
+	 * @return
+	 */
 	public Boolean calculateBetweenDevicesData( ) {
 		
 		Boolean resultBool = true ;
@@ -151,8 +163,13 @@ public class BetweenDevicesCalculate extends QualityCode implements Runnable
 		BigDecimal scFctBigDecimal = new BigDecimal( "0" ) ;
 		BigDecimal avgBigDecimal = new BigDecimal( "0" ) ;
 		
+		ArrayList< HashMap< String , String > > resultRedisDataList = new ArrayList< HashMap< String , String > >( ) ;
+		HashMap< String , String > resultRedisDataMap = new HashMap< String , String >( ) ;
+		
 		HashMap< String , Object > resultRstDataMap = new HashMap< String , Object >( ) ;
 		HashMap< String , Object > resultRstMgpKeyDataMap = new HashMap< String , Object >( ) ;
+		// AppIO 저장 데이터
+		HashMap< String , String > resultAppioDataMap = new HashMap< String , String >( ) ;
 		
 		String[ ] optrArr = new String[ 0 ] ;
 		String strFuncOptr = "" ;
@@ -168,21 +185,27 @@ public class BetweenDevicesCalculate extends QualityCode implements Runnable
 		String delimitersStr = "" ;
 		String resultMgpKey = "" ;
 		
+		HashMap< String , String > appioMapperMap = new HashMap< String , String >( ) ;
+		
 		BetweenDevicesCalculateHistoryAndEvent historyAndEvent = null ;
 		Thread historyAndEventThread = null ;
+		CommonDao commonDao = new CommonDao( ) ;
 		
 		try {
+			logger.debug( "calculateBetweenDevicesData :: " ) ;
 			delimitersStr = "," ;
 			
-			logger.debug( "calculateBetweenDevicesData :: " ) ;
 			// 배치 시작 시간
 			strFirstDmt = commUtil.getFormatingNowDateTime( "yyyyMMddHHmmssSSS" ) ;
 			
 			// 전체 설치 디바이스 정보 조회(redis)
 			stdvInfMap = ConnectivityProperties.STDV_INF ;
 			
+			appioMapperMap = ConnectivityProperties.APPIO_MAPPER_CRHS ;
+			
 			allDvGthrDt = betweenDevicesCalculateDao.getAllDevicesGatherData( stdvInfMap ) ;
 			
+			logger.debug( "appioMapperMap :: " + appioMapperMap ) ;
 			// logger.debug( "stdvInfMap :: " + stdvInfMap ) ;
 			// logger.debug( "allDvGthrDt :: " + allDvGthrDt ) ;
 			logger.debug( ":::::::::: 전체 디바이스 데이터 가져오기 ::::::::::" ) ;
@@ -192,7 +215,7 @@ public class BetweenDevicesCalculate extends QualityCode implements Runnable
 			// 장치간 연산 데이터 생성
 			calculInfoList = ConnectivityProperties.BTWN_DV_CAL_INFO ;
 			for( i = 0 ; i < calculInfoList.size( ) ; i++ ) {
-				// logger.debug( "btwnDvCalInfoList.get( " + i + " ) :: " + calculInfoList.get( i ) ) ;
+				logger.debug( "btwnDvCalInfoList.get( " + i + " ) :: " + calculInfoList.get( i ) ) ;
 				
 				idxList = new ArrayList< HashMap< String , Object > >( ) ;
 				idxList = ( ArrayList< HashMap< String , Object > > ) calculInfoList.get( i ).get( "IDX_LIST" ) ;
@@ -356,11 +379,17 @@ public class BetweenDevicesCalculate extends QualityCode implements Runnable
 				// 데이터 생성 시간
 				strDmt = commUtil.getFormatingNowDateTime( "yyyyMMddHHmmssSSS" ) ;
 				
-				//// redis 저장 - 표준모델
-				betweenDevicesCalculateDao.hmSetBtwnDvCalculData( resultMgpKey , strDmt , ( resultBigDecimal + "" ) , resultQcStr ) ;
+				//// redis - 표준모델 데이터 생성
+				resultRedisDataMap = new HashMap< String , String >( ) ;
+				resultRedisDataMap.put( "ID" , strDmt ) ;
+				resultRedisDataMap.put( "V" , ( resultBigDecimal + "" ) ) ;
+				resultRedisDataMap.put( "Q" , resultQcStr ) ;
+				resultRedisDataMap.put( "MGP_KEY" , resultMgpKey ) ;
 				
-				// TODO redis 저장 - AppIO 모델
-				// TODO 키 처리 추가
+				resultRedisDataList.add( resultRedisDataMap ) ;
+				
+				// //// redis 저장 - 표준모델
+				// betweenDevicesCalculateDao.hmSetBtwnDvCalculData( resultMgpKey , strDmt , ( resultBigDecimal + "" ) , resultQcStr ) ;
 				
 				// mongodb 저장 map 생성
 				resultRstMgpKeyDataMap = new HashMap< String , Object >( ) ;
@@ -372,13 +401,37 @@ public class BetweenDevicesCalculate extends QualityCode implements Runnable
 				// logger.debug( "resultRstMgpKeyDataMap :: " + i + " :: " + resultRstMgpKeyDataMap ) ;
 				
 				resultRstDataMap.put( resultMgpKey , resultRstMgpKeyDataMap ) ;
+				
+				// Appio 모델 데이터 저장 - redis 저장
+				// logger.debug( "resultMgpKey :: " + i + " :: " + resultMgpKey ) ;
+				if( !commUtil.checkNull( appioMapperMap ) ) {
+					if( !commUtil.checkNull( appioMapperMap.get( resultMgpKey ) ) ) {
+						// logger.debug( "appioMapperMap.get( resultMgpKey ) :: " + i + " :: " + appioMapperMap.get( resultMgpKey ) ) ;
+						resultAppioDataMap.put( appioMapperMap.get( resultMgpKey ) , ( resultBigDecimal + "" ) ) ;
+					}
+				}
+				
 			} // for( i = 0 ; i < btwnDvCalInfoList.size( ) ; i++ )
-				// logger.debug( "resultRstDataMap :: " + resultRstDataMap ) ;
+			
+			// logger.debug( "resultRstDataMap :: " + resultRstDataMap ) ;
+			logger.debug( "resultAppioDataMap :: " + resultAppioDataMap ) ;
 			logger.debug( "strFirstDmt :: " + strFirstDmt ) ;
+			
+			// redis 저장 - AppIO 모델
+			if( !commUtil.checkNull( resultAppioDataMap ) ) {
+				logger.debug( "resultAppioDataMap :: 저장처리  :: " ) ;
+				commonDao.hmSetAppioData( resultAppioDataMap ) ;
+			}
+			
+			//// redis 저장 - 표준모델
+			betweenDevicesCalculateDao.hmSetBtwnDvCalculData( resultRedisDataList ) ;
+			
+			logger.debug( "strSiteSmlt :: " + strSiteSmlt ) ;
+			logger.debug( "strSiteSmltUsr :: " + strSiteSmltUsr ) ;
 			
 			// history 저장 및 이벤트 데이터 처리 thread 생성
 			// BetweenDevicesCalculateHistoryAndEvent historyAndEvent = new BetweenDevicesCalculateHistoryAndEvent( strFirstDmt , resultRstDataMap ) ;
-			historyAndEvent = new BetweenDevicesCalculateHistoryAndEvent( strFirstDmt , resultRstDataMap ) ;
+			historyAndEvent = new BetweenDevicesCalculateHistoryAndEvent( strFirstDmt , resultRstDataMap , strSiteSmlt , strSiteSmltUsr ) ;
 			// historyAndEventThread = new Thread( historyAndEvent , "BetweenDevicesCalculateHistoryAndEvent" ) ;
 			historyAndEventThread = new Thread( historyAndEvent ) ;
 			historyAndEventThread.start( ) ;
