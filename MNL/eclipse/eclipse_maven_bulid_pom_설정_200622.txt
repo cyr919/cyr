@@ -1,0 +1,19 @@
+
+--
+
+실행가능한 jar 파일 만들 때 사용한 라이브러리 jar 
+jar안의 lib 폴더에 추가하기
+
+https://stackoverflow.com/questions/11758594/how-do-i-put-all-required-jar-files-in-a-library-folder-inside-the-final-jar-fil
+
+
+
+
+
+
+
+--
+
+
+
+https://beyondj2ee.wordpress.com/2012/07/11/maven%EC%97%90%EC%84%9C-%EC%9D%98%EC%A1%B4-%EB%9D%BC%EC%9D%B4%EB%B8%8C%EB%9F%AC%EB%A6%AC%EB%93%A4-%EA%B0%99%EC%9D%B4-%ED%8C%A8%ED%82%A4%EC%A7%95-%ED%95%98%EA%B8%B0/
