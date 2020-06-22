@@ -14,6 +14,7 @@ import com.connectivity.utils.CommUtil ;
 
 /**
  * <pre>
+ * QualityCode
  * </pre>
  *
  * @author cyr
@@ -32,6 +33,9 @@ public class QualityCode
 	private HashMap< String , HashMap< String , Integer > > fieldQcIdx = new HashMap< String , HashMap< String , Integer > >( ) ;
 	private HashMap< String , HashMap< String , Integer > > recordQcIdx = new HashMap< String , HashMap< String , Integer > >( ) ;
 	
+	public String strSiteSmlt = "" ;
+	public String strSiteSmltUsr = "" ;
+	
 	private CommUtil commUtil = new CommUtil( ) ;
 	
 	public QualityCode( ) {
@@ -39,23 +43,25 @@ public class QualityCode
 		this.recordQcIdx = ConnectivityProperties.RECORD_QC_IDX ;
 		this.fieldQcInf = ConnectivityProperties.FIELD_QC_INF ;
 		this.fieldQcIdx = ConnectivityProperties.FIELD_QC_IDX ;
-		// logger.debug( "recordQcInf :: " + System.identityHashCode( recordQcInf ) ) ;
-		// logger.debug( "fieldQcInf :: " + System.identityHashCode( fieldQcInf ) ) ;
-		// logger.debug( "this.recordQcInf :: " + System.identityHashCode( this.recordQcInf ) ) ;
-		// logger.debug( "this.fieldQcInf :: " + System.identityHashCode( this.fieldQcInf ) ) ;
+		this.strSiteSmlt = ConnectivityProperties.SITE_SMLT ;
+		this.strSiteSmltUsr = ConnectivityProperties.SITE_SMLT_USR ;
+		logger.debug( "recordQcInf :: " + System.identityHashCode( recordQcInf ) ) ;
+		logger.debug( "fieldQcInf :: " + System.identityHashCode( fieldQcInf ) ) ;
+		logger.debug( "this.recordQcInf :: " + System.identityHashCode( this.recordQcInf ) ) ;
+		logger.debug( "this.fieldQcInf :: " + System.identityHashCode( this.fieldQcInf ) ) ;
 	}
 	
-	public QualityCode( HashMap< String , HashMap< String , Object > > recordQcInf , HashMap< String , HashMap< String , Integer > > recordQcIdx , HashMap< String , HashMap< String , Object > > fieldQcInf , HashMap< String , HashMap< String , Integer > > fieldQcIdx ) {
-		this.recordQcInf = recordQcInf ;
-		this.recordQcIdx = recordQcIdx ;
-		this.fieldQcInf = fieldQcInf ;
-		this.fieldQcIdx = fieldQcIdx ;
-		
-		// logger.debug( "recordQcInf :: " + System.identityHashCode( recordQcInf ) ) ;
-		// logger.debug( "fieldQcInf :: " + System.identityHashCode( fieldQcInf ) ) ;
-		// logger.debug( "this.recordQcInf :: " + System.identityHashCode( this.recordQcInf ) ) ;
-		// logger.debug( "this.fieldQcInf :: " + System.identityHashCode( this.fieldQcInf ) ) ;
-	}
+	// public QualityCode( HashMap< String , HashMap< String , Object > > recordQcInf , HashMap< String , HashMap< String , Integer > > recordQcIdx , HashMap< String , HashMap< String , Object > > fieldQcInf , HashMap< String , HashMap< String , Integer > > fieldQcIdx ) {
+	// this.recordQcInf = recordQcInf ;
+	// this.recordQcIdx = recordQcIdx ;
+	// this.fieldQcInf = fieldQcInf ;
+	// this.fieldQcIdx = fieldQcIdx ;
+	//
+	// // logger.debug( "recordQcInf :: " + System.identityHashCode( recordQcInf ) ) ;
+	// // logger.debug( "fieldQcInf :: " + System.identityHashCode( fieldQcInf ) ) ;
+	// // logger.debug( "this.recordQcInf :: " + System.identityHashCode( this.recordQcInf ) ) ;
+	// // logger.debug( "this.fieldQcInf :: " + System.identityHashCode( this.fieldQcInf ) ) ;
+	// }
 	
 	/**
 	 * <pre>
@@ -70,16 +76,45 @@ public class QualityCode
 		
 	}
 	
+	/**
+	 * <pre>
+	 * Record QC 초기 값
+	 * </pre>
+	 * 
+	 * @author cyr
+	 * @date 2020-06-18
+	 * @return
+	 */
 	public String initRecordQualityCode( ) {
 		
 		return "1" ;
 	}
 	
+	/**
+	 * <pre>
+	 * Field QC 초기 값
+	 * </pre>
+	 * 
+	 * @author cyr
+	 * @date 2020-06-18
+	 * @return
+	 */
 	public String initFieldQualityCode( ) {
 		
 		return "99999999" ;
 	}
 	
+	/**
+	 * <pre>
+	 * 대표 QC 처리
+	 * </pre>
+	 * 
+	 * @author cyr
+	 * @date 2020-06-18
+	 * @param tempRecordQc
+	 * @param resultFieldQc
+	 * @return
+	 */
 	public int gatherRepresentData( String tempRecordQc , String resultFieldQc ) {
 		int resultInt = 0 ;
 		
@@ -131,7 +166,21 @@ public class QualityCode
 		return resultStr ;
 	}
 	
-	public HashMap< String , Object > gatherOverFlow( String strQc , String gatherValStr , HashMap< String , Object > stdvDtMdlInfo , String tempRecordQc ) {
+	/**
+	 * <pre>
+	 * 계측 필드 QC 처리
+	 * OverFlow QC 확인 및 결과 데이터로 변경, 레코드 QC 같이 확인
+	 * </pre>
+	 * 
+	 * @author cyr
+	 * @date 2020-06-18
+	 * @param strQc 해당 mgp 키의 QC
+	 * @param gatherValStr 계측 데이터
+	 * @param stdvDtMdlInfo 디바이스 데이터 모델에서 해당 mgp 키의 정보
+	 * @param tempRecordQc 임시 레코드 QC
+	 * @return 계측 데이터의 필드 QC 결과 및 임시 레코드 QC
+	 */
+	public HashMap< String , Object > gatherOverFlow( String strQc , String gatherValStr , HashMap< String , Object > stdvDtMdlInfo , String tempRecordQc , HashMap< String , Object > gatherDataEventMap ) {
 		
 		HashMap< String , Object > resultMap = new HashMap< String , Object >( ) ;
 		
@@ -143,11 +192,13 @@ public class QualityCode
 		BigDecimal maxData = null ;
 		BigDecimal valData = null ;
 		
+		HashMap< String , Object > eventDataMap = new HashMap< String , Object >( ) ;
+		
 		try {
-			// logger.debug( "strQc :: " + strQc ) ;
-			// logger.debug( "gatherValStr :: " + gatherValStr ) ;
-			// logger.debug( "stdvDtMdlInfo :: " + stdvDtMdlInfo ) ;
-			// logger.debug( "fieldQcIdx.get( \"overFlow\" ) :: " + fieldQcIdx.get( "overFlow" ) ) ;
+			logger.debug( "strQc :: " + strQc ) ;
+			logger.debug( "gatherValStr :: " + gatherValStr ) ;
+			logger.debug( "stdvDtMdlInfo :: " + stdvDtMdlInfo ) ;
+			logger.debug( "fieldQcIdx.get( \"overFlow\" ) :: " + fieldQcIdx.get( "overFlow" ) ) ;
 			
 			// OverFlow
 			
@@ -160,6 +211,14 @@ public class QualityCode
 					// gatherValStr < MIN || gatherValStr > MAX
 					// false
 					resultQcStr = "0" ;
+					
+					// 이벤트 데이터 추가
+					eventDataMap.put( "minData" , minData ) ;
+					eventDataMap.put( "maxData" , maxData ) ;
+					eventDataMap.put( "valData" , valData ) ;
+					
+					gatherDataEventMap.put( "OverFlowEvent" , true ) ;
+					gatherDataEventMap.put( "OverFlowEventDT" , eventDataMap ) ;
 				}
 				else {
 					// MIN <= gatherValStr <= MAX
@@ -197,6 +256,8 @@ public class QualityCode
 			minData = null ;
 			maxData = null ;
 			valData = null ;
+			eventDataMap = null ;
+			gatherDataEventMap = null ;
 		}
 		
 		return resultMap ;
@@ -254,6 +315,16 @@ public class QualityCode
 		return resultStr ;
 	}
 	
+	/**
+	 * <pre>
+	 * 계측시 시뮬레이션 모드 QC 처리
+	 * </pre>
+	 * 
+	 * @author cyr
+	 * @date 2020-06-18
+	 * @param strQc 필드 QC(처리중인)
+	 * @return
+	 */
 	public String gatherSimulationMode( String strQc ) {
 		String resultStr = "" ;
 		
@@ -262,9 +333,17 @@ public class QualityCode
 		try {
 			// logger.debug( "strQc :: " + strQc ) ;
 			// logger.debug( "fieldQcIdx.get( \"simulationMode\" ) :: " + fieldQcIdx.get( "simulationMode" ) ) ;
+			// logger.debug( "this.strSiteSmlt :: " + this.strSiteSmlt ) ;
 			
-			// TODO 시뮬레이션 모드
-			resultQcStr = "0" ;
+			// 시뮬레이션 모드
+			if( "Y".equals( strSiteSmlt ) ) {
+				// true
+				resultQcStr = "1" ;
+			}
+			else {
+				// false
+				resultQcStr = "0" ;
+			}
 			
 			// 문자열 바꿔치키
 			resultStr = commUtil.idxReplace( strQc , fieldQcIdx.get( "simulationMode" ).get( "startInt" ) , fieldQcIdx.get( "simulationMode" ).get( "endInt" ) , resultQcStr ) ;
@@ -437,8 +516,15 @@ public class QualityCode
 			// logger.debug( "strQc :: " + strQc ) ;
 			// logger.debug( "fieldQcIdx.get( \"simulationMode\" ) :: " + fieldQcIdx.get( "simulationMode" ) ) ;
 			
-			// TODO 시뮬레이션 모드
-			resultQcStr = "1" ;
+			// 시뮬레이션 모드
+			if( "Y".equals( strSiteSmlt ) ) {
+				// true
+				resultQcStr = "1" ;
+			}
+			else {
+				// false
+				resultQcStr = "0" ;
+			}
 			
 			// 문자열 바꿔치키
 			resultStr = commUtil.idxReplace( strQc , fieldQcIdx.get( "simulationMode" ).get( "startInt" ) , fieldQcIdx.get( "simulationMode" ).get( "endInt" ) , resultQcStr ) ;
@@ -471,16 +557,16 @@ public class QualityCode
 		String strFieldQc = "" ;
 		
 		try {
-//			logger.debug( "strQc :: " + strQc ) ;
-//			logger.debug( "fieldQcIdx.get( \"simulationMode\" ) :: " + fieldQcIdx.get( "simulationMode" ) ) ;
+			// logger.debug( "strQc :: " + strQc ) ;
+			// logger.debug( "fieldQcIdx.get( \"simulationMode\" ) :: " + fieldQcIdx.get( "simulationMode" ) ) ;
 			
 			// 시뮬레이션 모드
 			// 하나라도 "1(시뮬레이션 데이터)" 이면 해당 QC는 "1(시뮬레이션 데이터)" 모두 "0(일반 모드)" 이면 "0(일반 모드)"이다.
 			strFieldQc = strQc.substring( fieldQcIdx.get( "simulationMode" ).get( "startInt" ) , fieldQcIdx.get( "simulationMode" ).get( "endInt" ) ) ;
 			strGatherFieldQc = strGatherFieldQc.substring( fieldQcIdx.get( "simulationMode" ).get( "startInt" ) , fieldQcIdx.get( "simulationMode" ).get( "endInt" ) ) ;
 			
-//			logger.debug( "strFieldQc :: " + strFieldQc ) ;
-//			logger.debug( "strGatherFieldQc :: " + strGatherFieldQc ) ;
+			// logger.debug( "strFieldQc :: " + strFieldQc ) ;
+			// logger.debug( "strGatherFieldQc :: " + strGatherFieldQc ) ;
 			
 			resultInt = commUtil.addData( strFieldQc , strGatherFieldQc ) ;
 			
