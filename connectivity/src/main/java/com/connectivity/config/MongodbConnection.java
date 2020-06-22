@@ -11,6 +11,7 @@ import org.apache.logging.log4j.Logger ;
 import org.bson.Document ;
 import org.springframework.data.mongodb.core.MongoTemplate ;
 
+import com.connectivity.common.CommonProperties ;
 import com.mongodb.ConnectionString ;
 import com.mongodb.client.MongoClient ;
 import com.mongodb.client.MongoClients ;
@@ -37,7 +38,7 @@ public class MongodbConnection
 	public MongoClient getMongoClient( ) {
 		
 		if( mongoClient == null ) {
-			logger.debug( "setMongoClient" );
+			logger.debug( "setMongoClient" ) ;
 			mongoClient = setMongoClient( ) ;
 		}
 		
@@ -49,18 +50,36 @@ public class MongodbConnection
 		
 		ConnectionString connectionString = null ;
 		String strMongoClientURI = "" ;
-		String host = "192.168.56.105" ;
-		String port = "27017" ;
+		// String host = "192.168.56.105" ;
+		// String port = "27017" ;
+		String host = "" ;
+		String port = "" ;
 		
-		String dbName = "hsmgp" ;
-		String dbUser = "hsmgp" ;
-		String dbPwd = "1q2w3e4r5t!@#$%" ;
+		// String dbName = "hsmgp" ;
+		// String dbUser = "hsmgp" ;
+		// String dbPwd = "1q2w3e4r5t!@#$%" ;
+		String dbName = "" ;
+		String dbUser = "" ;
+		String dbPwd = "" ;
 		String encodedPwd = "" ;
 		
 		/*
 		 * Imp. Note - 1. Developers will need to encode the 'auth_user' or the 'auth_pwd' string if it contains the <code>:</code> or the <code>@</code> symbol. If not, the code will throw the <code>java.lang.IllegalArgumentException</code>. 2. If the 'auth_user' or the 'auth_pwd' string does not contain the <code>:</code> or the <code>@</code> symbol, we can skip the encoding step.
 		 */
 		try {
+			logger.debug( "CommonProperties.MONGODB_IP :: " + CommonProperties.MONGODB_IP );
+			logger.debug( "CommonProperties.MONGODB_PORT :: " + CommonProperties.MONGODB_PORT );
+			logger.debug( "CommonProperties.MONGODB_DATABASE :: " + CommonProperties.MONGODB_DATABASE );
+			
+			host = CommonProperties.MONGODB_IP ;
+			port = CommonProperties.MONGODB_PORT ;
+			dbName = CommonProperties.MONGODB_DATABASE ;
+			dbUser = CommonProperties.MONGODB_USERNAME ;
+			dbPwd = CommonProperties.MONGODB_PASSWORD ;
+			
+			
+			
+			
 			encodedPwd = URLEncoder.encode( dbPwd , "UTF-8" ) ;
 		}
 		catch( UnsupportedEncodingException e ) {
