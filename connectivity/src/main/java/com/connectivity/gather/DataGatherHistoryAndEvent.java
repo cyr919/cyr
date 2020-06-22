@@ -91,7 +91,7 @@ public class DataGatherHistoryAndEvent implements Runnable
 			strTemp = strDmt.replaceAll( " " , "" ).replaceAll( "-" , "" ).replaceAll( ":" , "" ).replaceAll( "\\." , "" ) ;
 			// logger.debug( "strTemp :: " + strTemp ) ;
 			
-			resultMongodbDataMap.put( "_id" , ( strDviceId + "_" + strTemp ) ) ;
+//			resultMongodbDataMap.put( "_id" , ( strDviceId + "_" + strTemp ) ) ;
 			
 			// strStdvTp = stdvInfMap.get( "TP" ) ;
 			
