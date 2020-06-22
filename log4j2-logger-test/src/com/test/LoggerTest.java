@@ -38,13 +38,13 @@ public class LoggerTest
 		
 		exe.testLog( ) ;
 		main.testLog( ) ;
-//		change.changeLoggerSetting( "com.test" , Level.INFO , "2KB" ) ;
+		change.changeLoggerSetting( "com.test" , Level.INFO , "2KB" ) ;
 		
-		change.changeLoggerSettingRollingFileAppender( "3KB" ) ;
-		change.changeLoggerLevel(  "com.test" , Level.INFO ) ;
+//		change.changeLoggerSettingRollingFileAppender( "3KB" ) ;
+//		change.changeLoggerLevel(  "com.test" , Level.INFO ) ;
 		exe.testLog( ) ;
 		main.testLog( ) ;
-		change.changeLoggerLevel(  Level.ERROR ) ;
+//		change.changeLoggerLevel(  Level.ERROR ) ;
 
 //		change.changeLoggerRootSetting( Level.ERROR , "4KB" ) ;
 		

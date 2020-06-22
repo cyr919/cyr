@@ -464,7 +464,7 @@ public class LoggerChange
 			// Appender appender = RollingFileAppender.createAppender( "./log/" + strProjecNm + ".log" , "./log/" + strProjecNm + ".log.%d{yyyy-MM-dd}.%i" , "true" , "rollingFile" , "true" , "1024" , null , policy , strategy , layout , null , null , null , null , config ) ;
 			appender = RollingFileAppender.newBuilder( ).setName( "rollingFile" )
 							.withFileName( "./log/" + strProjecNm + ".log" )
-							.withFilePattern( "./log/" + strProjecNm + ".log.%d{yyyy-MM-dd}.%i" )
+							.withFilePattern( "./log/" + strProjecNm + ".%d{yyyy-MM-dd}.%i.log" )
 							.withAppend( true ).withBufferedIo( true ).withBufferSize( 1024 )
 							.setLayout( layout ).withPolicy( policy ).withStrategy( strategy ).build( ) ;
 			
