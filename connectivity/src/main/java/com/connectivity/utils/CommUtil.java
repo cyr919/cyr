@@ -371,7 +371,7 @@ public class CommUtil
 	 * @return Boolean
 	 * @date 2019. 8. 5.
 	 */
-	public Boolean checkNull( HashMap< String , Object > param ) {
+	public Boolean checkNull( HashMap< ? , ? > param ) {
 		Boolean resultBoll = true ;
 		
 		try {
