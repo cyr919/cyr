@@ -49,12 +49,12 @@ public class DataGatherDao
 			logger.debug( "hmSetGatherData" ) ;
 			
 			strKey = "MGP_SVDT" + "^" + dviceId ;
-			logger.debug( "strKey :: " + strKey ) ;
+//			logger.debug( "strKey :: " + strKey ) ;
 			
 			// TODO redis now 같은거 있는지, db 저장되는 시간으로 처리
 			redisSetDataMap.put( "INS_DT" , commUtil.getFormatingNowDateTime( ) ) ;
 			
-			logger.debug( "redisSetDataMap :: " + redisSetDataMap ) ;
+//			logger.debug( "redisSetDataMap :: " + redisSetDataMap ) ;
 			resultStr = redisCommon.redisHmset( strKey , redisSetDataMap ) ;
 			
 		}

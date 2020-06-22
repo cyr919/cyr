@@ -31,7 +31,9 @@ public class DataGatherHistoryAndEvent implements Runnable
 	private String strDmt = "" ;
 	private String strRecordQc = "" ;
 	private String strStdvTp = "" ;
-	
+	private String strSiteSmlt = "" ;
+	private String strSiteSmltUsr = "" ;
+
 	/**
 	 * @param strDviceId 설치 디바이스 아이디
 	 * @param strDmt 계측 시간
@@ -40,7 +42,17 @@ public class DataGatherHistoryAndEvent implements Runnable
 	 * @param resultDataMap 계측 데이터
 	 * @param resultCalCulDataMap 장치내 연산 데이터
 	 */
-	public DataGatherHistoryAndEvent( String strDviceId , String strDmt , String strRecordQc , String strStdvTp , HashMap< String , String > resultDataMap , HashMap< String , String > resultCalCulDataMap ) {
+	/**
+	 * @param strDviceId 설치 디바이스 아이디
+	 * @param strDmt 계측 시간
+	 * @param strRecordQc 레코드 QC 정보
+	 * @param strStdvTp 설치 디바이스 유형
+	 * @param strSiteSmlt 사이트 시뮬레이션 모드
+	 * @param strSiteSmltUsr 사이트 시뮬레이션 모드 변경자
+	 * @param resultDataMap 계측 데이터
+	 * @param resultCalCulDataMap 장치내 연산 데이터
+	 */
+	public DataGatherHistoryAndEvent( String strDviceId , String strDmt , String strRecordQc , String strStdvTp , String strSiteSmlt, String strSiteSmltUsr , HashMap< String , String > resultDataMap , HashMap< String , String > resultCalCulDataMap ) {
 		
 		try {
 			this.resultDataMap = resultDataMap ;
@@ -49,6 +61,8 @@ public class DataGatherHistoryAndEvent implements Runnable
 			this.strDmt = strDmt ;
 			this.strRecordQc = strRecordQc ;
 			this.strStdvTp = strStdvTp ;
+			this.strSiteSmlt = strSiteSmlt ;
+			this.strSiteSmltUsr = strSiteSmltUsr ;
 		}
 		finally {
 			resultDataMap = null ;
@@ -87,6 +101,15 @@ public class DataGatherHistoryAndEvent implements Runnable
 			resultMongodbDataMap.put( "STDV_ID" , strDviceId ) ;
 			resultMongodbDataMap.put( "STDV_TP" , strStdvTp ) ;
 			resultMongodbDataMap.put( "Q" , strRecordQc ) ;
+			// 시뮬레이션 모드 정보 추가
+			if( "Y".equals( this.strSiteSmlt ) ) {
+				resultMongodbDataMap.put( "SMLT" , "Y" ) ;
+				resultMongodbDataMap.put( "SMLT_USR" , this.strSiteSmltUsr ) ;
+			}
+			else {
+				resultMongodbDataMap.put( "SMLT" , "N" ) ;
+			}
+			
 			// logger.debug( "strTemp :: [" + strTemp +"]" ) ;
 			
 			// 장치내 연산 데이터 및 계측 데이터
@@ -99,7 +122,10 @@ public class DataGatherHistoryAndEvent implements Runnable
 			
 			// 계측 데이터 mongodb 저장처리
 			dataGatherDao.insertGatherData( resultMongodbDataMap ) ;
-			// TODO 이벤트 처리(thread 생성 후 거기서 처리하는 방안으로)
+			// TODO 이벤트 처리
+			
+			
+			
 		}
 		catch( Exception e ) {
 			logger.error( e.getMessage( ) , e ) ;
