@@ -175,6 +175,15 @@ public class Command2ModuleReceiver implements Runnable
 		return ;
 	}
 	
+	/**
+	 * 
+	 * <pre>
+	 * 해당 Receiver의 connection 종료
+	 * </pre>
+	 * 
+	 * @author cyr
+	 * @date 2020-06-18
+	 */
 	public void connectionClose( ) {
 		
 		try {

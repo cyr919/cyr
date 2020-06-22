@@ -137,6 +137,15 @@ public class Data2ConnectivityReceiver implements Runnable
 		return resultBool ;
 	}
 	
+	/**
+	 * 
+	 * <pre>
+	 * 해당 Receiver의 connection 종료
+	 * </pre>
+	 * 
+	 * @author cyr
+	 * @date 2020-06-18
+	 */
 	public void connectionClose( ) {
 		
 		try {

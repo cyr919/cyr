@@ -17,12 +17,16 @@ import com.rabbitmq.client.Consumer ;
 import com.rabbitmq.client.DefaultConsumer ;
 import com.rabbitmq.client.Envelope ;
 
+
 /**
+ *
  * <pre>
+ * rabbitMQ Receiver
+ * Control2Connectivity queue 
  * </pre>
  *
  * @author cyr
- * @date 2020-06-15
+ * @date 2020-06-18
  */
 public class Control2ConnectivityReceiver implements Runnable
 {
@@ -121,6 +125,15 @@ public class Control2ConnectivityReceiver implements Runnable
 		return resultBool ;
 	}
 	
+	/**
+	 * 
+	 * <pre>
+	 * 해당 Receiver의 connection 종료
+	 * </pre>
+	 * 
+	 * @author cyr
+	 * @date 2020-06-18
+	 */
 	public void connectionClose( ) {
 		
 		try {
