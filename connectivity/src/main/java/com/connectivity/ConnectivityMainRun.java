@@ -1,6 +1,7 @@
 package com.connectivity ;
 
 import java.util.HashMap ;
+import java.util.Map ;
 
 import org.apache.logging.log4j.LogManager ;
 import org.apache.logging.log4j.Logger ;
@@ -263,7 +264,7 @@ public class ConnectivityMainRun
 	 * @param staticDiviceInfo 설치 디바이스 정보
 	 * @throws Exception
 	 */
-	public void rabbitmqConnectionOpen( HashMap< String , HashMap< String , Object > > staticDiviceInfo ) throws Exception {
+	public void rabbitmqConnectionOpen( Map< String , Map< String , Object > > staticDiviceInfo ) throws Exception {
 		
 		RabbitmqConnection rabbitmqConnection = new RabbitmqConnection( ) ;
 		

@@ -7,6 +7,7 @@ import java.time.LocalDateTime ;
 import java.time.format.DateTimeFormatter ;
 import java.util.HashMap ;
 import java.util.List ;
+import java.util.Map ;
 
 import org.apache.logging.log4j.LogManager ;
 import org.apache.logging.log4j.Logger ;
@@ -371,7 +372,7 @@ public class CommUtil
 	 * @return Boolean
 	 * @date 2019. 8. 5.
 	 */
-	public Boolean checkNull( HashMap< ? , ? > param ) {
+	public Boolean checkNull( Map< ? , ? > param ) {
 		Boolean resultBoll = true ;
 		
 		try {
@@ -390,7 +391,7 @@ public class CommUtil
 		
 	}
 	
-	public Boolean checkNullHashMap( HashMap< String , ? > param ) {
+	public Boolean checkNullHashMap( Map< String , ? > param ) {
 		Boolean resultBoll = true ;
 		
 		try {

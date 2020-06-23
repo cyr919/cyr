@@ -1,6 +1,7 @@
 package com.prototype.adapter ;
 
 import java.util.HashMap ;
+import java.util.Map ;
 
 import org.apache.logging.log4j.LogManager ;
 import org.apache.logging.log4j.Logger ;
@@ -21,7 +22,7 @@ public class AdapterDataSimulTest implements Runnable
 	@Override
 	public void run( ) {
 		
-		HashMap< String , HashMap< String , Object > > staticDiviceInfo = new HashMap< String , HashMap< String , Object > >( ) ;
+		Map< String , Map< String , Object > > staticDiviceInfo = new HashMap< String , Map<String,Object> >( );
 		AdapterDataGenerator adapterDataGenerator = null ;
 		try {
 			PropertyLoader.PROCESS_THREAD_CNT++ ;

@@ -5,6 +5,7 @@ import java.math.RoundingMode ;
 import java.util.ArrayList ;
 import java.util.HashMap ;
 import java.util.List ;
+import java.util.Map ;
 
 import org.apache.logging.log4j.LogManager ;
 import org.apache.logging.log4j.Logger ;
@@ -35,11 +36,11 @@ public class DataGather extends QualityCode
 	private DataGatherDao dataGatherDao = new DataGatherDao( ) ;
 	
 	public static void main( String[ ] args ) {
-		ConnectivityProperties connectivityProperties = new ConnectivityProperties( ) ;
 		
 		CommonProperties commonProperties = new CommonProperties( ) ;
 		JedisConnection jedisConnection = new JedisConnection( ) ;
 		MongodbConnection mongodbConnection = new MongodbConnection( ) ;
+		ConnectivityProperties connectivityProperties = new ConnectivityProperties( ) ;
 		
 		try {
 			commonProperties.setProperties( ) ;
@@ -61,12 +62,17 @@ public class DataGather extends QualityCode
 		// exe.dataGathering( testData ) ;
 		
 		// testData = "{\"STDV_ID\":\"stdv0004\",\"DATA\":{\"MGP040\":16,\"MGP041\":10,\"MGP044\":105,\"MGP023\":70,\"MGP045\":34,\"MGP042\":47,\"MGP043\":38,\"MGP026\":19,\"MGP048\":48,\"MGP027\":17,\"MGP049\":67,\"MGP024\":69,\"MGP046\":45,\"MGP025\":80,\"MGP047\":28,\"MGP039\":90,\"MGP051\":24,\"MGP030\":82,\"MGP052\":73,\"MGP050\":42,\"MGP033\":88,\"MGP055\":28,\"MGP034\":66,\"MGP056\":57,\"MGP031\":86,\"MGP053\":87,\"MGP032\":25,\"MGP054\":38,\"MGP037\":22,\"MGP038\":70,\"MGP035\":23,\"MGP057\":109,\"MGP036\":99,\"MGP028\":88,\"MGP029\":52},\"DMT\":\"2020-05-21 09:12:57.396\"}" ;
-		testData = "{\"STDV_ID\":\"stdv0002\",\"DATA\":{\"MGP022\":85,\"MGP021\":50000000},\"DMT\":\"2020-05-21 13:00:34.747\"}" ;
+		testData = "{\"STDV_ID\":\"stdv0002\",\"DATA\":{\"MGP022\":85,\"MGP021\":5000000},\"DMT\":\"2020-05-21 13:00:34.747\"}" ;
 		// testData = "{\"STDV_ID\":\"stdv0001\",\"DATA\":{\"MGP011\":17,\"MGP001\":36,\"MGP012\":81,\"MGP020\":33,\"MGP010\":93,\"MGP004\":27,\"MGP015\":91,\"MGP005\":30,\"MGP016\":58,\"MGP002\":109,\"MGP013\":25,\"MGP003\":48,\"MGP014\":98,\"MGP008\":85,\"MGP019\":78,\"MGP009\":34,\"MGP006\":31,\"MGP017\":42,\"MGP007\":24,\"MGP018\":98},\"DMT\":\"2020-05-21 17:51:29.044\"}" ;
 		exe.dataGathering( testData ) ;
 		//
 		// testData = "{\"STDV_ID\":\"stdv0001\",\"DATA\":{\"MGP011\":17,\"MGP001\":36,\"MGP012\":81,\"MGP020\":33,\"MGP010\":93,\"MGP004\":27,\"MGP015\":91,\"MGP005\":30,\"MGP016\":58,\"MGP002\":109,\"MGP013\":25,\"MGP003\":48,\"MGP014\":98,\"MGP008\":85,\"MGP019\":78,\"MGP009\":34,\"MGP006\":31,\"MGP017\":42,\"MGP007\":24,\"MGP018\":98},\"DMT\":\"2020-05-21 17:51:29.044\"}" ;
-		// exe.dataGathering( testData ) ;
+		testData = "{\"STDV_ID\":\"stdv0002\",\"DATA\":{\"MGP022\":85,\"MGP021\":5000000},\"DMT\":\"2020-05-21 13:00:34.747\"}" ;
+		exe.dataGathering( testData ) ;
+		testData = "{\"STDV_ID\":\"stdv0002\",\"DATA\":{\"MGP022\":85,\"MGP021\":5000000},\"DMT\":\"2020-05-21 13:00:34.747\"}" ;
+		exe.dataGathering( testData ) ;
+		testData = "{\"STDV_ID\":\"stdv0002\",\"DATA\":{\"MGP022\":85,\"MGP021\":5000000},\"DMT\":\"2020-05-21 13:00:34.747\"}" ;
+		exe.dataGathering( testData ) ;
 		//
 		// testData = "{\"STDV_ID\":\"stdv0004\",\"DATA\":{\"MGP040\":16,\"MGP041\":10,\"MGP044\":105,\"MGP023\":70,\"MGP045\":34,\"MGP042\":47,\"MGP043\":38,\"MGP026\":19,\"MGP048\":48,\"MGP027\":17,\"MGP049\":67,\"MGP024\":69,\"MGP046\":45,\"MGP025\":80,\"MGP047\":28,\"MGP039\":90,\"MGP051\":24,\"MGP030\":82,\"MGP052\":73,\"MGP050\":42,\"MGP033\":88,\"MGP055\":28,\"MGP034\":66,\"MGP056\":57,\"MGP031\":86,\"MGP053\":87,\"MGP032\":25,\"MGP054\":38,\"MGP037\":22,\"MGP038\":70,\"MGP035\":23,\"MGP057\":109,\"MGP036\":99,\"MGP028\":88,\"MGP029\":52},\"DMT\":\"2020-05-21 09:12:57.396\"}" ;
 		// exe.dataGathering( testData ) ;
@@ -100,10 +106,10 @@ public class DataGather extends QualityCode
 		// AppIO 저장 데이터
 		HashMap< String , String > resultAppioDataMap = new HashMap< String , String >( ) ;
 		
-		ArrayList< HashMap< String , Object > > stdvDtMdlList = new ArrayList< HashMap< String , Object > >( ) ;
+		List< Map< String , Object > > stdvDtMdlList = new ArrayList< Map< String , Object > >( ) ;
 		// HashMap< String , HashMap< String , Object > > stdvDtMdlMap = new HashMap< String , HashMap< String , Object > >( ) ;
-		ArrayList< HashMap< String , Object > > appioMapperList = new ArrayList< HashMap< String , Object > >( ) ;
-		HashMap< String , Object > stdvInfMap = new HashMap< String , Object >( ) ;
+		List< Map< String , Object > > appioMapperList = new ArrayList< Map< String , Object > >( ) ;
+		Map< String , Object > stdvInfMap = new HashMap< String , Object >( ) ;
 		BigDecimal tempBigDecimal = new BigDecimal( "0" ) ;
 		int i = 0 ;
 		String tempQcStr = "" ;
@@ -112,6 +118,7 @@ public class DataGather extends QualityCode
 		String strPointIdx = "" ;
 		
 		String resultRecordQc = "" ;
+		String resultOldDataQc = "" ;
 		HashMap< String , Object > tempFildQcMap = new HashMap< String , Object >( ) ;
 		
 		ArrayList< HashMap< String , Object > > gatherDataEventList = new ArrayList< HashMap< String , Object > >( ) ;
@@ -122,7 +129,7 @@ public class DataGather extends QualityCode
 		CommonDao commonDao = new CommonDao( ) ;
 		
 		try {
-			logger.debug( "dataGathering :: " ) ;
+			logger.debug( "dataGathering ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: " ) ;
 			logger.debug( "수신된 데이터 :: " + strJsonData ) ;
 			
 			// 수집된 json data 파싱
@@ -152,6 +159,13 @@ public class DataGather extends QualityCode
 			// 레코드 QC 처리 관련 true 부터 시작한다.
 			resultRecordQc = initRecordQualityCode( ) ;
 			
+			// Old Data 필드 QC 판단 - 계측 시간 관련 된 내용이기에 각 필드마다 데이터를 판단할 필요 없음.
+			resultOldDataQc = gatherOldDataQC( strDmt , strDviceId ) ;
+			// OldData 필드 QC 레코드 QC 확인
+			resultRecordQc = gatherRepresentData( resultRecordQc , resultOldDataQc ) + "" ;
+			logger.debug( "resultOldDataQc :: " + resultOldDataQc ) ;
+			logger.debug( "resultRecordQc :: " + resultRecordQc ) ;
+			
 			for( i = 0 ; i < stdvDtMdlList.size( ) ; i++ ) {
 				// logger.debug( "stdvDtMdlList.get( " + i + " ) :: " + stdvDtMdlList.get( i ) ) ;
 				// logger.debug( "stdvDtMdlList.get( " + i + " ).get( \"MGP_KEY\" ) :: " + stdvDtMdlList.get( i ).get( "MGP_KEY" ) ) ;
@@ -177,9 +191,10 @@ public class DataGather extends QualityCode
 				
 				// 이벤트 정보 저장 map
 				gatherDataEventMap = new HashMap< String , Object >( ) ;
+				
 				//// 계측 필드 QC 적용
-				// OldData 필드 QC 레코드 QC 같이 확인
-				tempQcStr = gatherOldData( tempQcStr ) ;
+				// OldData 필드 QC 적용 , 위에서 판단한 old qc를 필드 qc에 추가 한다.
+				tempQcStr = gatherOldDataApplyField( tempQcStr , resultOldDataQc ) ;
 				
 				// OverFlow 필드 QC 레코드 QC 같이 확인
 				tempFildQcMap = gatherOverFlow( tempQcStr , gatherValStr , stdvDtMdlList.get( i ) , resultRecordQc , gatherDataEventMap ) ;
@@ -239,7 +254,7 @@ public class DataGather extends QualityCode
 			// redis 데이터 생성 - Appio 데이터 모델
 			if( !commUtil.checkNull( appioMapperList ) ) {
 				for( i = 0 ; i < appioMapperList.size( ) ; i++ ) {
-					 logger.debug( "appioMapperList.get( " + i + " ) :: " + appioMapperList.get( i ) ) ;
+					logger.debug( "appioMapperList.get( " + i + " ) :: " + appioMapperList.get( i ) ) ;
 					// appIO Point Idx
 					strPointIdx = ( appioMapperList.get( i ).get( "TG_ID" ) + "" ) ;
 					// MGP_KEY
@@ -304,7 +319,8 @@ public class DataGather extends QualityCode
 			historyAndEventThread = null ;
 			commonDao = null ;
 			i = 0 ;
-			logger.debug( "dataGathering finally :: " ) ;
+			logger.debug( "dataGathering finally ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: " ) ;
+			
 		}
 		
 		return resultBool ;
@@ -568,7 +584,7 @@ public class DataGather extends QualityCode
 	 * @param calculInfoList 장치 내 연산 설정 정보
 	 * @return
 	 */
-	public HashMap< String , String > getCalculatingGatherData( HashMap< String , String > gatherDataHashMap , List< HashMap< String , Object > > calculInfoList ) {
+	public HashMap< String , String > getCalculatingGatherData( Map< String , String > gatherDataHashMap , List< Map< String , Object > > calculInfoList ) {
 		
 		HashMap< String , String > resultHashMap = new HashMap< String , String >( ) ;
 		

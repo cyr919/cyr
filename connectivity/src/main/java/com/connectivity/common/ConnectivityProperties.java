@@ -4,7 +4,9 @@
 package com.connectivity.common ;
 
 import java.util.ArrayList ;
-import java.util.HashMap ;
+import java.util.List ;
+import java.util.Map ;
+import java.util.concurrent.ConcurrentHashMap ;
 
 import org.apache.logging.log4j.LogManager ;
 import org.apache.logging.log4j.Logger ;
@@ -18,7 +20,7 @@ import com.connectivity.setting.SettingManage ;
  * @author cyr
  * @date 2020-05-19
  */
-public class ConnectivityProperties
+public final class ConnectivityProperties
 {
 	private Logger logger = LogManager.getLogger( this.getClass( ) ) ;
 	
@@ -35,32 +37,38 @@ public class ConnectivityProperties
 	
 	//// 설치 디바이스 정보
 	// 기본 정보(디바이스 아이디, 기본 정보)
-	public static HashMap< String , HashMap< String , Object > > STDV_INF = new HashMap< String , HashMap< String , Object > >( ) ;
+	public static Map< String , Map< String , Object > > STDV_INF = new ConcurrentHashMap< String , Map< String , Object > >( ) ;
 	// 저장(공통)데이터모델(디바이스 아이디, 저장(공통)데이터모델 리스트)
-	public static HashMap< String , ArrayList< HashMap< String , Object > > > STDV_DT_MDL = new HashMap< String , ArrayList< HashMap< String , Object > > >( ) ;
+	public static Map< String , List< Map< String , Object > > > STDV_DT_MDL = new ConcurrentHashMap< String , List< Map< String , Object > > >( ) ;
 	// 저장(공통)데이터모델 list -> map(디바이스 아이디, < mgp_key, 저장(공통)데이터모델 맵 >)
 	// public static HashMap< String , HashMap< String , HashMap< String , Object > > > STDV_DT_MDL_MAP = new HashMap< String , HashMap< String , HashMap< String , Object > > >( ) ;
 	// 장치내 연산정보(디바이스 아이디, 장치내 연산정보)
-	public static HashMap< String , ArrayList< HashMap< String , Object > > > STDV_CAL_INF = new HashMap< String , ArrayList< HashMap< String , Object > > >( ) ;
+	public static Map< String , List< Map< String , Object > > > STDV_CAL_INF = new ConcurrentHashMap< String , List< Map< String , Object > > >( ) ;
+	// 저장 주기 체크 설정(디바이스 아이디 , 저장주기 체크 횟수 )
+	public static Map< String , Integer > DATA_SAVE_CYCLE_CHECK = new ConcurrentHashMap< String , Integer >( ) ;
 	
 	//// 퀄리티 코드 정보
 	// 레코드 퀄리티 코드 정보(메소드, 레코드 퀄리티 코드 정보)
-	public static HashMap< String , HashMap< String , Object > > RECORD_QC_INF = new HashMap< String , HashMap< String , Object > >( ) ;
+	public static Map< String , Map< String , Object > > RECORD_QC_INF = new ConcurrentHashMap< String , Map< String , Object > >( ) ;
 	// 필드 퀄리티 코드 정보(메소드, 레코드 퀄리티 코드 정보)
-	public static HashMap< String , HashMap< String , Object > > FIELD_QC_INF = new HashMap< String , HashMap< String , Object > >( ) ;
+	public static Map< String , Map< String , Object > > FIELD_QC_INF = new ConcurrentHashMap< String , Map< String , Object > >( ) ;
 	// 레코드 퀄리티 코드 위치 정보(메소드, 퀄리티 코드 위치 정보)
-	public static HashMap< String , HashMap< String , Integer > > RECORD_QC_IDX = new HashMap< String , HashMap< String , Integer > >( ) ;
+	public static Map< String , Map< String , Integer > > RECORD_QC_IDX = new ConcurrentHashMap< String , Map< String , Integer > >( ) ;
 	// 필드 퀄리티 코드 위치 정보(메소드, 퀄리티 코드 위치 정보)
-	public static HashMap< String , HashMap< String , Integer > > FIELD_QC_IDX = new HashMap< String , HashMap< String , Integer > >( ) ;
+	public static Map< String , Map< String , Integer > > FIELD_QC_IDX = new ConcurrentHashMap< String , Map< String , Integer > >( ) ;
+	// Old Data QC 체크 저장 정보 - 최근 계측 시간(디바이스 아이디 , 가장 최근 계측 시간(lastGatherDtM))
+	public static Map< String , String > LAST_GATHER_DTM = new ConcurrentHashMap< String , String >( ) ;
+	// Old Data QC 체크 저장 정보 - old 데이터 중복 횟수(디바이스 아이디 , old data 중복 횟수(OldDataDuplCnt))
+	public static Map< String , Integer > OLD_DATA_QC_CHECK = new ConcurrentHashMap< String , Integer >( ) ;
 	
 	//// 장치간 연산정보(장치간 연산정보 리스트)
-	public static ArrayList< HashMap< String , Object > > BTWN_DV_CAL_INFO = new ArrayList< HashMap< String , Object > >( ) ;
+	public static List< Map< String , Object > > BTWN_DV_CAL_INFO = new ArrayList< Map< String , Object > >( ) ;
 	
 	//// 맵퍼 정보
 	// APPIO - 계측 데이터(+ 장치내 연산)(디바이스 아이디, <MGP_KEY, APPIO point index>)
-	public static HashMap< String , ArrayList< HashMap< String , Object > > > APPIO_MAPPER_SDHS = new HashMap< String , ArrayList< HashMap< String , Object > > >( ) ;
+	public static Map< String , List< Map< String , Object > > > APPIO_MAPPER_SDHS = new ConcurrentHashMap< String , List< Map< String , Object > > >( ) ;
 	// APPIO - 장치간 연산 데이터(MGP_KEY, APPIO point index)
-	public static ArrayList< HashMap< String , Object > > APPIO_MAPPER_CRHS = new ArrayList< HashMap< String , Object > >( ) ;
+	public static List< Map< String , Object > > APPIO_MAPPER_CRHS = new ArrayList< Map< String , Object > >( ) ;
 	// public static HashMap< String , String > APPIO_MAPPER_CRHS = new HashMap< String , String >( ) ;
 	
 	public Boolean setConnectivityProperties( ) {
@@ -81,7 +89,10 @@ public class ConnectivityProperties
 						if( settingManage.betweenDevicesCalculateInfoSetting( ) ) {
 							if( settingManage.appioMappingInfoDeviceDataSetting( ) ) {
 								if( settingManage.appioMappingInfoBetweenDevicesCalculatingDataSetting( ) ) {
-									resultBool = true ;
+									if( settingManage.deviceCheckPropertiesSetting( ) ) {
+										
+										resultBool = true ;
+									}
 								}
 							}
 						}
@@ -103,6 +114,116 @@ public class ConnectivityProperties
 		logger.debug( "STDV_INF :: " + STDV_INF ) ;
 		
 		return resultBool ;
+	}
+	
+	/**
+	 * <pre>
+	 * deviceId 의 old data Qc check 횟수를 리턴한다.
+	 * </pre>
+	 * 
+	 * @author cyr
+	 * @date 2020-06-23
+	 * @param deviceId
+	 * @return
+	 */
+	public Integer getStdvOldDataQcCheckCnt( String deviceId ) {
+		
+		Integer resultInt = 0 ;
+		try {
+			resultInt = OLD_DATA_QC_CHECK.get( deviceId ) ;
+		}
+		catch( Exception e ) {
+			logger.error( e.getMessage( ) , e ) ;
+		}
+		finally {
+			deviceId = null ;
+		}
+		
+		return resultInt ;
+	}
+	
+	/**
+	 * <pre>
+	 * deviceId 의 old data Qc check 횟수에 1을 더한 후 그 결과값을 리턴한다.
+	 * </pre>
+	 * 
+	 * @author cyr
+	 * @date 2020-06-23
+	 * @param deviceId
+	 * @return
+	 */
+	public Integer addOneAndGetStdvOldDataQcCheckCnt( String strDviceId ) {
+		Integer resultInt = 0 ;
+		
+		try {
+			OLD_DATA_QC_CHECK.put( strDviceId , ( OLD_DATA_QC_CHECK.get( strDviceId ) + 1 ) ) ;
+			resultInt = OLD_DATA_QC_CHECK.get( strDviceId ) ;
+		}
+		catch( Exception e ) {
+			logger.error( e.getMessage( ) , e ) ;
+		}
+		finally {
+			strDviceId = null ;
+		}
+		
+		return resultInt ;
+	}
+	
+	public Integer setZeroAndGetStdvOldDataQcCheckCnt( String strDviceId ) {
+		Integer resultInt = 0 ;
+		
+		try {
+			if( 0 != OLD_DATA_QC_CHECK.get( strDviceId ) ) {
+				OLD_DATA_QC_CHECK.put( strDviceId , 0 ) ;
+			}
+			resultInt = OLD_DATA_QC_CHECK.get( strDviceId ) ;
+		}
+		catch( Exception e ) {
+			logger.error( e.getMessage( ) , e ) ;
+		}
+		finally {
+			strDviceId = null ;
+		}
+		
+		return resultInt ;
+	}
+	
+	public Integer CompareGatherDtmBeforeAndAfter( String strGatherDmt , String strDviceId ) {
+		Integer resultInt = 0 ;
+		
+		String strLastGatherDmt = "" ;
+		
+		try {
+			
+			logger.debug( "strGatherDmt :: " + strGatherDmt ) ;
+			logger.debug( "deviceId :: " + strDviceId ) ;
+			
+			strLastGatherDmt = LAST_GATHER_DTM.get( strDviceId ) ;
+			logger.debug( "strLastGatherDmt :: " + strLastGatherDmt ) ;
+			
+			if( strGatherDmt.equals( strLastGatherDmt ) ) {
+				// 현재 계측 시간과 이전 계측 시간이 같을 경우
+				resultInt = addOneAndGetStdvOldDataQcCheckCnt( strDviceId ) ;
+			}
+			else {
+				// 현재 계측 시간과 이전 계측 시간이 다를
+				resultInt = setZeroAndGetStdvOldDataQcCheckCnt( strDviceId ) ;
+				LAST_GATHER_DTM.put( strDviceId , strGatherDmt ) ;
+			}
+			
+			logger.debug( "LAST_GATHER_DTM :: " + LAST_GATHER_DTM ) ;
+			logger.debug( "OLD_DATA_QC_CHECK :: " + OLD_DATA_QC_CHECK ) ;
+		}
+		catch( Exception e ) {
+			logger.error( e.getMessage( ) , e ) ;
+		}
+		finally {
+			strGatherDmt = null ;
+			strDviceId = null ;
+			strLastGatherDmt = null ;
+		}
+		
+		return resultInt ;
 	}
 	
 }

@@ -5,6 +5,7 @@ package com.connectivity.control ;
 
 import java.util.HashMap ;
 import java.util.List ;
+import java.util.Map ;
 
 import org.apache.logging.log4j.LogManager ;
 import org.apache.logging.log4j.Logger ;
@@ -184,7 +185,7 @@ public class DevicesControl
 		RabbitmqConnection rabbitmqConnection = new RabbitmqConnection( ) ;
 		RabbitmqCommon rabbitmqCommon = new RabbitmqCommon( ) ;
 		JSONObject msgJsonObject = null ;
-		HashMap< String , Object > deviceInfoMap = new HashMap< String , Object >( ) ;
+		Map< String , Object > deviceInfoMap = new HashMap< String , Object >( ) ;
 		
 		String strStdvId = "" ;
 		String strAdptId = "" ;

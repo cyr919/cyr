@@ -5,6 +5,7 @@ import java.time.format.DateTimeFormatter ;
 import java.util.ArrayList ;
 import java.util.HashMap ;
 import java.util.List ;
+import java.util.Map ;
 
 import org.apache.logging.log4j.LogManager ;
 import org.apache.logging.log4j.Logger ;
@@ -34,7 +35,7 @@ public class AdapterDataGenerator implements Runnable
 		int intVal = 0 ;
 		
 		HashMap< String , Object > dataHashMap = new HashMap<>( ) ;
-		List< HashMap< String , Object > > dtList = new ArrayList<>( ) ;
+		List< Map< String , Object > > dtList = new ArrayList< Map<String,Object> >( ) ;
 		int j = 0 ;
 		
 		LocalDateTime nowLocalDateTime = null ;

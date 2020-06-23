@@ -46,13 +46,13 @@ public class SettingManage
 		
 		SettingManage exe = new SettingManage( ) ;
 		
-		exe.devicePropertiesSetting( ) ;
+		// exe.devicePropertiesSetting( ) ;
 		// exe.qualityCodeInfoSetting( ) ;
 		// exe.betweenDevicesCalculateInfoSetting( ) ;
 		// exe.siteInfoSetting( ) ;
 		// exe.appioMappingInfoBetweenDevicesCalculatingDataSetting( ) ;
-		// exe.appioMappingInfoDeviceDataSetting( ) ;
-		// exe.deviceCheckPropertiesSetting( ) ;
+		 exe.appioMappingInfoDeviceDataSetting( ) ;
+//		exe.deviceCheckPropertiesSetting( ) ;
 		
 	}
 	
@@ -73,10 +73,10 @@ public class SettingManage
 		
 		List< HashMap > resultList = new ArrayList< HashMap >( ) ;
 		HashMap< String , Object > tempMap = new HashMap< String , Object >( ) ;
-		List< Map< String , Object > > tempList = new ArrayList< Map< String , Object > >( ) ;
-		Map< String , Map< String , Object > > deviceInfo = new HashMap< String , Map< String , Object > >( ) ;
-		Map< String , List< Map< String , Object > > > deviceDataModel = new HashMap< String , List< Map< String , Object > > >( ) ;
-		Map< String , List< Map< String , Object > > > deviceCalInfo = new HashMap< String , List< Map< String , Object > > >( ) ;
+		List< Map< String , Object > > tempList = new ArrayList< Map<String,Object> >( ) ;
+		Map< String , Map< String , Object > > deviceInfo = new HashMap< String , Map<String,Object> >( );
+		Map< String ,  List< Map< String , Object > > > deviceDataModel = new HashMap< String , List<Map<String,Object>> >( );
+		Map< String ,  List< Map< String , Object > > > deviceCalInfo = new HashMap< String , List<Map<String,Object>> >( ) ;
 		
 		// HashMap< String , HashMap< String , Object > > tempMapFromList = new HashMap< String , HashMap< String , Object > >( ) ;
 		
@@ -119,17 +119,18 @@ public class SettingManage
 					deviceInfo.put( deviceId , tempMap ) ;
 					
 					// 데이터 모델 처리
-					tempList = new ArrayList< Map< String , Object > >( ) ;
+					tempList = new ArrayList< Map<String,Object> >( );
 					tempList.addAll( ( ArrayList< HashMap< String , Object > > ) resultList.get( i ).get( "DT_MDL" ) ) ;
 					
 					deviceDataModel.put( deviceId , tempList ) ;
+					
 					
 					// // 데이터 모델 list -> map
 					// tempMapFromList = commUtil.getHashMapFromListHashMap( tempList , "MGP_KEY" ) ;
 					// deviceDataModelMap.put( deviceId , tempMapFromList ) ;
 					
 					// 장치 내 연산 처리
-					tempList = new ArrayList< Map< String , Object > >( ) ;
+					tempList = new ArrayList< Map<String,Object> >( );
 					tempList.addAll( ( ArrayList< HashMap< String , Object > > ) resultList.get( i ).get( "CAL_INF" ) ) ;
 					
 					deviceCalInfo.put( deviceId , tempList ) ;
@@ -140,15 +141,9 @@ public class SettingManage
 				logger.info( "deviceCalInfo :: " + deviceCalInfo ) ;
 				
 				// static 변수에 데이터 넣기
-				synchronized( ConnectivityProperties.STDV_DT_MDL ) {
-					ConnectivityProperties.STDV_DT_MDL = deviceDataModel ;
-				}
-				synchronized( ConnectivityProperties.STDV_CAL_INF ) {
-					ConnectivityProperties.STDV_CAL_INF = deviceCalInfo ;
-				}
-				synchronized( ConnectivityProperties.STDV_INF ) {
-					ConnectivityProperties.STDV_INF = deviceInfo ;
-				}
+				ConnectivityProperties.STDV_DT_MDL = deviceDataModel ;
+				ConnectivityProperties.STDV_CAL_INF = deviceCalInfo ;
+				ConnectivityProperties.STDV_INF = deviceInfo ;
 				// ConnectivityProperties.STDV_DT_MDL_MAP = deviceDataModelMap ;
 			}
 		}
@@ -181,10 +176,10 @@ public class SettingManage
 		SettingManageDao settingManageDao = new SettingManageDao( ) ;
 		
 		ArrayList< HashMap > resultList = new ArrayList< HashMap >( ) ;
-		Map< String , Map< String , Object > > fieldQcInf = new HashMap< String , Map< String , Object > >( ) ;
-		Map< String , Map< String , Object > > recordQcInf = new HashMap< String , Map< String , Object > >( ) ;
-		Map< String , Map< String , Integer > > fieldQcIdx = new HashMap< String , Map< String , Integer > >( ) ;
-		Map< String , Map< String , Integer > > recordQcIdx = new HashMap< String , Map< String , Integer > >( ) ;
+		Map< String , Map< String , Object > > fieldQcInf = new HashMap< String , Map<String,Object> >( );
+		Map< String , Map< String , Object > > recordQcInf = new HashMap< String , Map<String,Object> >( );
+		Map< String , Map< String , Integer > > fieldQcIdx = new HashMap< String , Map<String,Integer> >( );
+		Map< String , Map< String , Integer > > recordQcIdx = new HashMap< String , Map<String,Integer> >( );
 		
 		int i = 0 ;
 		
@@ -227,19 +222,11 @@ public class SettingManage
 				logger.info( "recordQcIdx :: " + recordQcIdx ) ;
 				
 				// static 변수에 데이터 넣기
-				synchronized( ConnectivityProperties.FIELD_QC_INF ) {
-					ConnectivityProperties.FIELD_QC_INF = fieldQcInf ;
-				}
-				synchronized( ConnectivityProperties.RECORD_QC_INF ) {
-					ConnectivityProperties.RECORD_QC_INF = recordQcInf ;
-				}
+				ConnectivityProperties.FIELD_QC_INF = fieldQcInf ;
+				ConnectivityProperties.RECORD_QC_INF = recordQcInf ;
 				
-				synchronized( ConnectivityProperties.FIELD_QC_IDX ) {
-					ConnectivityProperties.FIELD_QC_IDX = fieldQcIdx ;
-				}
-				synchronized( ConnectivityProperties.RECORD_QC_IDX ) {
-					ConnectivityProperties.RECORD_QC_IDX = recordQcIdx ;
-				}
+				ConnectivityProperties.FIELD_QC_IDX = fieldQcIdx ;
+				ConnectivityProperties.RECORD_QC_IDX = recordQcIdx ;
 			}
 		}
 		catch( Exception e ) {
@@ -267,7 +254,7 @@ public class SettingManage
 		SettingManageDao settingManageDao = new SettingManageDao( ) ;
 		ArrayList< HashMap > resultList = new ArrayList< HashMap >( ) ;
 		
-		List< Map< String , Object > > btwnDvCalInfoList = new ArrayList< Map< String , Object > >( ) ;
+		List< Map< String , Object > > btwnDvCalInfoList = new ArrayList< Map<String,Object> >( ) ;
 		HashMap< String , Object > btwnDvCalInfoMap = new HashMap< String , Object >( ) ;
 		int i = 0 ;
 		
@@ -286,9 +273,7 @@ public class SettingManage
 				logger.info( "btwnDvCalInfoList :: " + btwnDvCalInfoList ) ;
 				
 				// static 변수에 데이터 넣기
-				synchronized( ConnectivityProperties.BTWN_DV_CAL_INFO ) {
-					ConnectivityProperties.BTWN_DV_CAL_INFO = btwnDvCalInfoList ;
-				}
+				ConnectivityProperties.BTWN_DV_CAL_INFO = btwnDvCalInfoList ;
 			}
 			
 		}
@@ -324,15 +309,10 @@ public class SettingManage
 			logger.debug( "siteInfoTrmMap :: " + siteInfoTrmMap ) ;
 			
 			// static 변수에 데이터 넣기
-			synchronized( ConnectivityProperties.SITE_SMLT ) {
-				ConnectivityProperties.SITE_SMLT = siteInfoMap.get( "SMLT" ) + "" ;
-			}
-			synchronized( ConnectivityProperties.SITE_SMLT_USR ) {
-				ConnectivityProperties.SITE_SMLT_USR = siteInfoMap.get( "SMLT_USR" ) + "" ;
-			}
-			synchronized( ConnectivityProperties.SITE_TRM_CAL ) {
-				ConnectivityProperties.SITE_TRM_CAL = siteInfoTrmMap.get( "CAL" ) + "" ;
-			}
+			ConnectivityProperties.SITE_SMLT = siteInfoMap.get( "SMLT" ) + "" ;
+			ConnectivityProperties.SITE_SMLT_USR = siteInfoMap.get( "SMLT_USR" ) + "" ;
+			
+			ConnectivityProperties.SITE_TRM_CAL = siteInfoTrmMap.get( "CAL" ) + "" ;
 			
 			logger.debug( "SITE_SMLT :: " + ConnectivityProperties.SITE_SMLT ) ;
 			logger.debug( "SITE_SMLT_USR :: " + ConnectivityProperties.SITE_SMLT_USR ) ;
@@ -358,8 +338,8 @@ public class SettingManage
 		SettingManageDao settingManageDao = new SettingManageDao( ) ;
 		ArrayList< HashMap > resultList = new ArrayList< HashMap >( ) ;
 		
-		Map< String , List< Map< String , Object > > > appioMapperSdhsMap = new HashMap< String , List< Map< String , Object > > >( ) ;
-		List< Map< String , Object > > appioMapperList = new ArrayList< Map< String , Object > >( ) ;
+		Map< String , List< Map< String , Object > > > appioMapperSdhsMap = new HashMap< String , List<Map<String,Object>> >( ) ;
+		List< Map< String , Object > > appioMapperList = new ArrayList< Map<String,Object> >( );
 		HashMap< String , Object > appioMapperSubMap = new HashMap< String , Object >( ) ;
 		int i = 0 ;
 		
@@ -385,17 +365,14 @@ public class SettingManage
 						appioMapperSubMap.put( "SO_KEY" , resultList.get( i ).get( "SO_KEY" ) ) ;
 						appioMapperSubMap.put( "TG_ID" , resultList.get( i ).get( "TG_ID" ) ) ;
 						
-						appioMapperList = new ArrayList< Map< String , Object > >( ) ;
+						appioMapperList = new ArrayList< Map<String,Object> >( );
 						appioMapperList.add( appioMapperSubMap ) ;
 						
 						appioMapperSdhsMap.put( ( resultList.get( i ).get( "SO_ID" ) + "" ) , appioMapperList ) ;
 					}
 					
 				}
-				synchronized( ConnectivityProperties.APPIO_MAPPER_SDHS ) {
-					ConnectivityProperties.APPIO_MAPPER_SDHS = appioMapperSdhsMap ;
-				}
-				
+				ConnectivityProperties.APPIO_MAPPER_SDHS = appioMapperSdhsMap ;
 			}
 			logger.debug( "appioMapperSdhsMap :: " + appioMapperSdhsMap ) ;
 			
@@ -463,7 +440,7 @@ public class SettingManage
 		
 		SettingManageDao settingManageDao = new SettingManageDao( ) ;
 		ArrayList< HashMap > resultList = new ArrayList< HashMap >( ) ;
-		List< Map< String , Object > > appioMapperCrhsList = new ArrayList< Map< String , Object > >( ) ;
+		List< Map< String , Object > > appioMapperCrhsList = new ArrayList< Map<String,Object> >( );
 		HashMap< String , Object > appioMapperCrhsSubMap = new HashMap< String , Object >( ) ;
 		int i = 0 ;
 		
@@ -482,9 +459,7 @@ public class SettingManage
 					appioMapperCrhsList.add( appioMapperCrhsSubMap ) ;
 				}
 				
-				synchronized( ConnectivityProperties.APPIO_MAPPER_CRHS ) {
-					ConnectivityProperties.APPIO_MAPPER_CRHS = appioMapperCrhsList ;
-				}
+				ConnectivityProperties.APPIO_MAPPER_CRHS = appioMapperCrhsList ;
 			}
 			logger.debug( "appioMapperCrhsList :: " + appioMapperCrhsList ) ;
 			
@@ -536,15 +511,9 @@ public class SettingManage
 			logger.info( "oldDataQcCheck :: " + oldDataQcCheck ) ;
 			logger.info( "lastGatherDtm :: " + lastGatherDtm ) ;
 			
-			synchronized (ConnectivityProperties.LAST_GATHER_DTM) {
-				ConnectivityProperties.LAST_GATHER_DTM = lastGatherDtm ;
-			}
-			synchronized (ConnectivityProperties.OLD_DATA_QC_CHECK) {
-				ConnectivityProperties.OLD_DATA_QC_CHECK = oldDataQcCheck ;
-			}
-			synchronized (ConnectivityProperties.DATA_SAVE_CYCLE_CHECK) {
-				ConnectivityProperties.DATA_SAVE_CYCLE_CHECK = dataSaveCycleCheckMap ;
-			}
+			ConnectivityProperties.LAST_GATHER_DTM = lastGatherDtm ;
+			ConnectivityProperties.OLD_DATA_QC_CHECK = oldDataQcCheck ;
+			ConnectivityProperties.DATA_SAVE_CYCLE_CHECK = dataSaveCycleCheckMap ;
 			
 		}
 		catch( Exception e ) {

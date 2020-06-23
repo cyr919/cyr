@@ -7,6 +7,7 @@ import java.math.BigDecimal ;
 import java.math.RoundingMode ;
 import java.util.ArrayList ;
 import java.util.HashMap ;
+import java.util.List ;
 import java.util.Map ;
 
 import org.apache.logging.log4j.LogManager ;
@@ -146,13 +147,13 @@ public class BetweenDevicesCalculate extends QualityCode implements Runnable
 		
 		Boolean resultBool = true ;
 		
-		HashMap< String , HashMap< String , Object > > stdvInfMap = new HashMap< String , HashMap< String , Object > >( ) ;
+		Map< String , Map< String , Object > > stdvInfMap = new HashMap< String , Map< String , Object > >( ) ;
 		// 장치 간 연산 정보
-		ArrayList< HashMap< String , Object > > calculInfoList = new ArrayList< HashMap< String , Object > >( ) ;
+		List< Map< String , Object > > calculInfoList = new ArrayList< Map< String , Object > >( ) ;
 		int i = 0 ;
 		int j = 0 ;
 		
-		HashMap< String , Map< String , String > > allDvGthrDt = new HashMap< String , Map< String , String > >( ) ;
+		Map< String , Map< String , String > > allDvGthrDt = new HashMap< String , Map< String , String > >( ) ;
 		
 		String strFirstDmt = "" ;
 		String strDmt = "" ;
@@ -190,7 +191,7 @@ public class BetweenDevicesCalculate extends QualityCode implements Runnable
 		String strPointIdx = "" ;
 		
 		// HashMap< String , String > appioMapperMap = new HashMap< String , String >( ) ;
-		ArrayList< HashMap< String , Object > > appioMapperList = new ArrayList< HashMap< String , Object > >( ) ;
+		List< Map< String , Object > > appioMapperList = new ArrayList< Map< String , Object > >( ) ;
 		
 		BetweenDevicesCalculateHistoryAndEvent historyAndEvent = null ;
 		Thread historyAndEventThread = null ;

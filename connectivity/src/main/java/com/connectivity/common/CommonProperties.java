@@ -15,7 +15,7 @@ import com.connectivity.utils.PropertyLoader ;
  * @author cyr
  * @date 2020-04-23
  */
-public class CommonProperties
+public final class CommonProperties
 {
 	// Define a static logger variable so that it references the
 	// Logger instance named "MyApp".

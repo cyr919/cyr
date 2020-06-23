@@ -39,7 +39,7 @@ public class BetweenDevicesCalculateDao
 	 * @param stdvInfMap
 	 * @return
 	 */
-	public HashMap< String , Map< String , String > > getAllDevicesGatherData( HashMap< String , HashMap< String , Object > > stdvInfMap ) {
+	public HashMap< String , Map< String , String > > getAllDevicesGatherData( Map< String , Map< String , Object > > stdvInfMap ) {
 		HashMap< String , Map< String , String > > resultMap = new HashMap< String , Map< String , String > >( ) ;
 		
 		Map< String , String > dvGthrDtMap = new HashMap< String , String >( ) ;
