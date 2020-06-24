@@ -99,6 +99,7 @@ public class DataGather extends QualityCode
 		// TODO 일단 hashmap으로 해보고 object 변환시 좀 오래 걸리는거같으면 바꾸기
 		// 계측 처리 데이터
 		HashMap< String , String > resultDataMap = new HashMap< String , String >( ) ;
+		HashMap< String , String > resultHistoryDataMap = new HashMap< String , String >( ) ;
 		// 장치간 연산 처리 데이터
 		HashMap< String , String > resultCalCulDataMap = new HashMap< String , String >( ) ;
 		// 레디스 저장 데이터
@@ -122,7 +123,7 @@ public class DataGather extends QualityCode
 		String resultOldDataQc = "" ;
 		HashMap< String , Object > tempFildQcMap = new HashMap< String , Object >( ) ;
 		
-		ArrayList< HashMap< String , Object > > gatherDataEventList = new ArrayList< HashMap< String , Object > >( ) ;
+		List< Map< String , Object > > gatherDataEventList = new ArrayList< Map< String , Object > >( ) ;
 		HashMap< String , Object > gatherDataEventMap = new HashMap< String , Object >( ) ;
 		DataGatherHistoryAndEvent historyAndEvent = null ;
 		Thread historyAndEventThread = null ;
@@ -176,7 +177,7 @@ public class DataGather extends QualityCode
 			logger.debug( "resultRecordQc :: " + resultRecordQc ) ;
 			
 			for( i = 0 ; i < stdvDtMdlList.size( ) ; i++ ) {
-				// logger.debug( "stdvDtMdlList.get( " + i + " ) :: " + stdvDtMdlList.get( i ) ) ;
+				logger.debug( "stdvDtMdlList.get( " + i + " ) :: " + stdvDtMdlList.get( i ) ) ;
 				// logger.debug( "stdvDtMdlList.get( " + i + " ).get( \"MGP_KEY\" ) :: " + stdvDtMdlList.get( i ).get( "MGP_KEY" ) ) ;
 				
 				strMgpKey = stdvDtMdlList.get( i ).get( "MGP_KEY" ) + "" ;
@@ -191,10 +192,13 @@ public class DataGather extends QualityCode
 					tempBigDecimal = applyScaleFactor( subDataJSONObject.get( strMgpKey ) , stdvDtMdlList.get( i ).get( "SC_FCT" ) ) ;
 					gatherValStr = extndEgovStringUtil.getStringFromNullAndObject( tempBigDecimal ) ;
 				}
+				
+				// TODO unit convert factor 적용
+				
 				// 계측 처리맵에 추가
 				resultDataMap.put( ( strMgpKey + "" ) , gatherValStr ) ;
 				
-				//// TODO 계측 필드 데이터 QC 적용
+				//// 계측 필드 데이터 QC 적용
 				// 초기값
 				tempQcStr = initFieldQualityCode( ) ;
 				
@@ -224,11 +228,18 @@ public class DataGather extends QualityCode
 				// 계측 처리맵에 필드 QC 추가
 				resultDataMap.put( ( strMgpKey + "_Q" ) , tempQcStr ) ;
 				
+				if( "1".equals( stdvDtMdlList.get( i ).get( "HST" ) + "" ) ) {
+					// 이력 저장 데이터 생성
+					resultHistoryDataMap.put( ( strMgpKey + "" ) , gatherValStr ) ;
+					resultHistoryDataMap.put( ( strMgpKey + "_Q" ) , tempQcStr ) ;
+				}
+				
 				// logger.debug( "tempQcStr ::" + tempQcStr ) ;
 			}
 			
 			logger.debug( "계측 처리 후 ::" ) ;
 			logger.debug( "resultDataMap :: " + resultDataMap ) ;
+			logger.debug( "resultHistoryDataMap :: " + resultHistoryDataMap ) ;
 			logger.debug( "계측 처리 후 끝 ::" ) ;
 			
 			logger.debug( "계측 이벤트 처리 gatherDataEventList :: " + gatherDataEventList ) ;
@@ -288,7 +299,7 @@ public class DataGather extends QualityCode
 			//// history 저장 및 이벤트 데이터 처리 thread 생성
 			logger.debug( "history 저장 및 이벤트 데이터 처리 thread 생성 :: " ) ;
 			
-			historyAndEvent = new DataGatherHistoryAndEvent( strDviceId , strDmt , resultRecordQc , ( stdvInfMap.get( "TP" ) + "" ) , strSiteSmlt , strSiteSmltUsr , resultDataMap , resultCalCulDataMap ) ;
+			historyAndEvent = new DataGatherHistoryAndEvent( strDviceId , strDmt , resultRecordQc , ( stdvInfMap.get( "TP" ) + "" ) , strSiteSmlt , strSiteSmltUsr , resultHistoryDataMap , resultCalCulDataMap , gatherDataEventList ) ;
 			// historyAndEventThread = new Thread( historyAndEvent , "DataGatherHistoryAndEvent" ) ;
 			historyAndEventThread = new Thread( historyAndEvent ) ;
 			historyAndEventThread.start( ) ;

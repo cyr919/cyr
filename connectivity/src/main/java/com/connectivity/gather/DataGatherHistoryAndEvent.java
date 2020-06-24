@@ -3,13 +3,17 @@
  */
 package com.connectivity.gather ;
 
+import java.util.ArrayList ;
 import java.util.HashMap ;
+import java.util.List ;
+import java.util.Map ;
 
 import org.apache.logging.log4j.LogManager ;
 import org.apache.logging.log4j.Logger ;
 
 import com.connectivity.common.ConnectivityProperties ;
 import com.connectivity.gather.dao.DataGatherDao ;
+import com.connectivity.utils.CommUtil ;
 
 /**
  * <pre>
@@ -25,7 +29,7 @@ public class DataGatherHistoryAndEvent implements Runnable
 	private Logger logger = LogManager.getLogger( this.getClass( ) ) ;
 	// Logger logger = LogManager.getLogger( ) ;
 	
-	private HashMap< String , String > resultDataMap = new HashMap< String , String >( ) ;
+	private HashMap< String , String > resultHistoryDataMap = new HashMap< String , String >( ) ;
 	private HashMap< String , String > resultCalCulDataMap = new HashMap< String , String >( ) ;
 	private String strDviceId = "" ;
 	private String strDmt = "" ;
@@ -33,15 +37,8 @@ public class DataGatherHistoryAndEvent implements Runnable
 	private String strStdvTp = "" ;
 	private String strSiteSmlt = "" ;
 	private String strSiteSmltUsr = "" ;
-
-	/**
-	 * @param strDviceId 설치 디바이스 아이디
-	 * @param strDmt 계측 시간
-	 * @param strRecordQc 레코드 QC 정보
-	 * @param strStdvTp 설치 디바이스 유형
-	 * @param resultDataMap 계측 데이터
-	 * @param resultCalCulDataMap 장치내 연산 데이터
-	 */
+	private List< Map< String , Object > > gatherDataEventList = new ArrayList< Map< String , Object > >( ) ;
+	
 	/**
 	 * @param strDviceId 설치 디바이스 아이디
 	 * @param strDmt 계측 시간
@@ -49,13 +46,14 @@ public class DataGatherHistoryAndEvent implements Runnable
 	 * @param strStdvTp 설치 디바이스 유형
 	 * @param strSiteSmlt 사이트 시뮬레이션 모드
 	 * @param strSiteSmltUsr 사이트 시뮬레이션 모드 변경자
-	 * @param resultDataMap 계측 데이터
+	 * @param resultHistoryDataMap 계측 데이터 중 이력 저장 데이터
 	 * @param resultCalCulDataMap 장치내 연산 데이터
 	 */
-	public DataGatherHistoryAndEvent( String strDviceId , String strDmt , String strRecordQc , String strStdvTp , String strSiteSmlt, String strSiteSmltUsr , HashMap< String , String > resultDataMap , HashMap< String , String > resultCalCulDataMap ) {
+	public DataGatherHistoryAndEvent( String strDviceId , String strDmt , String strRecordQc , String strStdvTp , String strSiteSmlt , String strSiteSmltUsr , HashMap< String , String > resultHistoryDataMap , HashMap< String , String > resultCalCulDataMap , List< Map< String , Object > > gatherDataEventList ) {
 		
 		try {
-			this.resultDataMap = resultDataMap ;
+			this.gatherDataEventList = gatherDataEventList ;
+			this.resultHistoryDataMap = resultHistoryDataMap ;
 			this.resultCalCulDataMap = resultCalCulDataMap ;
 			this.strDviceId = strDviceId ;
 			this.strDmt = strDmt ;
@@ -65,7 +63,7 @@ public class DataGatherHistoryAndEvent implements Runnable
 			this.strSiteSmltUsr = strSiteSmltUsr ;
 		}
 		finally {
-			resultDataMap = null ;
+			resultHistoryDataMap = null ;
 			resultCalCulDataMap = null ;
 			strDviceId = null ;
 			strDmt = null ;
@@ -81,6 +79,8 @@ public class DataGatherHistoryAndEvent implements Runnable
 		String strTemp = "" ;
 		DataGatherDao dataGatherDao = new DataGatherDao( ) ;
 		
+		CommUtil commUtil = new CommUtil( ) ;
+		int i = 0 ;
 		try {
 			
 			logger.debug( "DataGatherHistoryAndEvent run :: strDmt :: " + strDmt ) ;
@@ -91,7 +91,7 @@ public class DataGatherHistoryAndEvent implements Runnable
 			strTemp = strDmt.replaceAll( " " , "" ).replaceAll( "-" , "" ).replaceAll( ":" , "" ).replaceAll( "\\." , "" ) ;
 			// logger.debug( "strTemp :: " + strTemp ) ;
 			
-//			resultMongodbDataMap.put( "_id" , ( strDviceId + "_" + strTemp ) ) ;
+			// resultMongodbDataMap.put( "_id" , ( strDviceId + "_" + strTemp ) ) ;
 			
 			// strStdvTp = stdvInfMap.get( "TP" ) ;
 			
@@ -113,7 +113,7 @@ public class DataGatherHistoryAndEvent implements Runnable
 			// logger.debug( "strTemp :: [" + strTemp +"]" ) ;
 			
 			// 장치내 연산 데이터 및 계측 데이터
-			resultCalCulDataMap.putAll( resultDataMap ) ;
+			resultCalCulDataMap.putAll( resultHistoryDataMap ) ;
 			resultMongodbDataMap.put( "DT" , resultCalCulDataMap ) ;
 			
 			logger.debug( "mongodb 저장 데이터 :: resultMongodbDataMap :: " + resultMongodbDataMap ) ;
@@ -122,9 +122,14 @@ public class DataGatherHistoryAndEvent implements Runnable
 			
 			// 계측 데이터 mongodb 저장처리
 			dataGatherDao.insertGatherData( resultMongodbDataMap ) ;
+			
 			// TODO 이벤트 처리
-			
-			
+			if( !commUtil.checkNull( gatherDataEventList ) ) {
+				for( i = 0 ; i < gatherDataEventList.size( ) ; i++ ) {
+					logger.debug( "gatherDataEventList.get( " + i + " ) :: " + gatherDataEventList.get( i ) ) ;
+					
+				}
+			}
 			
 		}
 		catch( Exception e ) {
@@ -136,7 +141,8 @@ public class DataGatherHistoryAndEvent implements Runnable
 			strTemp = null ;
 			dataGatherDao = null ;
 			
-			this.resultDataMap = null ;
+			this.gatherDataEventList = null ;
+			this.resultHistoryDataMap = null ;
 			this.resultCalCulDataMap = null ;
 			this.strDviceId = null ;
 			this.strDmt = null ;
