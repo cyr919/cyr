@@ -116,6 +116,43 @@ public final class ConnectivityProperties
 		return resultBool ;
 	}
 	
+	public synchronized void addOneProcessThreadCnt( ) {
+		
+		try {
+			ConnectivityProperties.PROCESS_THREAD_CNT++ ;
+		}
+		catch( Exception e ) {
+			logger.error( e.getMessage( ) , e ) ;
+		}
+		return ;
+	}
+	
+	public synchronized void subtractOneProcessThreadCnt( ) {
+		try {
+			ConnectivityProperties.PROCESS_THREAD_CNT-- ;
+		}
+		catch( Exception e ) {
+			logger.error( e.getMessage( ) , e ) ;
+		}
+		return ;
+	}
+	
+	public Integer getProcessThreadCnt( ) {
+		Integer resultInt = 0 ;
+		
+		try {
+			resultInt = ConnectivityProperties.PROCESS_THREAD_CNT ;
+		}
+		catch( Exception e ) {
+			logger.error( e.getMessage( ) , e ) ;
+		}
+		finally {
+			
+		}
+		
+		return resultInt ;
+	}
+	
 	/**
 	 * <pre>
 	 * deviceId 의 old data Qc check 횟수를 리턴한다.
@@ -188,6 +225,19 @@ public final class ConnectivityProperties
 		return resultInt ;
 	}
 	
+	/**
+	 * <pre>
+	 * 최신 계측 데이터 계측시간과 바로 전 계측 시간을 비교한 후 
+	 * 같을 경우 old data qc 체크 수에 1을 더하고 
+	 * 다르면  old data qc 체크 수를 0으로 변경한 후 최근 계측 시간 정보에 최신 계측 시간을 put 한다.
+	 * </pre>
+	 * 
+	 * @author cyr
+	 * @date 2020-06-24
+	 * @param strGatherDmt 최신 계측 데이터 계측 시간
+	 * @param strDviceId 설치디바이스 아이디
+	 * @return
+	 */
 	public Integer CompareGatherDtmBeforeAndAfter( String strGatherDmt , String strDviceId ) {
 		Integer resultInt = 0 ;
 		
@@ -224,6 +274,39 @@ public final class ConnectivityProperties
 		}
 		
 		return resultInt ;
+	}
+	
+	public Integer addOneAndGetStdvDataSaveCycleCheckCnt( String strDviceId ) {
+		Integer resultInt = 0 ;
+		
+		try {
+			DATA_SAVE_CYCLE_CHECK.put( strDviceId , ( DATA_SAVE_CYCLE_CHECK.get( strDviceId ) + 1 ) ) ;
+			resultInt = DATA_SAVE_CYCLE_CHECK.get( strDviceId ) ;
+		}
+		catch( Exception e ) {
+			logger.error( e.getMessage( ) , e ) ;
+		}
+		finally {
+			strDviceId = null ;
+		}
+		
+		return resultInt ;
+	}
+	
+	public void setZeroStdvDataSaveCycleCheckCnt( String strDviceId ) {
+		
+		try {
+			DATA_SAVE_CYCLE_CHECK.put( strDviceId , 0 ) ;
+			
+		}
+		catch( Exception e ) {
+			logger.error( e.getMessage( ) , e ) ;
+		}
+		finally {
+			strDviceId = null ;
+		}
+		
+		return ;
 	}
 	
 }

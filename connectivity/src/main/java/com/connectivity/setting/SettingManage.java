@@ -73,6 +73,7 @@ public class SettingManage
 		
 		List< HashMap > resultList = new ArrayList< HashMap >( ) ;
 		HashMap< String , Object > tempMap = new HashMap< String , Object >( ) ;
+		HashMap< String , Object > tempTrmMap = new HashMap< String , Object >( ) ;
 		List< Map< String , Object > > tempList = new ArrayList< Map< String , Object > >( ) ;
 		Map< String , Map< String , Object > > deviceInfo = new HashMap< String , Map< String , Object > >( ) ;
 		Map< String , List< Map< String , Object > > > deviceDataModel = new HashMap< String , List< Map< String , Object > > >( ) ;
@@ -97,7 +98,6 @@ public class SettingManage
 			// 장치내 연산정보
 			
 			if( resultList != null ) {
-				
 				for( i = 0 ; i < resultList.size( ) ; i++ ) {
 					
 					logger.info( "resultList.get( " + i + " ) :: " + resultList.get( i ) ) ;
@@ -106,6 +106,9 @@ public class SettingManage
 					logger.info( "resultList.get( " + i + " ).get( \"CAL_INF\" ) :: " + resultList.get( i ).get( "CAL_INF" ) ) ;
 					
 					deviceId = resultList.get( i ).get( "_id" ) + "" ;
+					
+					tempTrmMap = ( HashMap< String , Object > ) resultList.get( i ).get( "TRM" ) ;
+					
 					
 					// 디바이스 기본정보 처리
 					tempMap = new HashMap< String , Object >( );
@@ -116,6 +119,7 @@ public class SettingManage
 					tempMap.put( "SCR" , resultList.get( i ).get( "SCR" ) ) ;
 					tempMap.put( "DVIF_ID" , resultList.get( i ).get( "DVIF_ID" ) ) ;
 					tempMap.put( "ADPT_ID" , resultList.get( i ).get( "ADPT_ID" ) ) ;
+					tempMap.put( "TRM_SV" , tempTrmMap.get( "SV" ) ) ;
 					
 					deviceInfo.put( deviceId , tempMap ) ;
 					
@@ -154,6 +158,8 @@ public class SettingManage
 				}
 				// ConnectivityProperties.STDV_DT_MDL_MAP = deviceDataModelMap ;
 			}
+			
+			
 		}
 		catch( Exception e ) {
 			resultBool = false ;
@@ -168,7 +174,7 @@ public class SettingManage
 			deviceDataModel = null ;
 			deviceCalInfo = null ;
 			deviceId = null ;
-			
+			tempTrmMap = null ;
 			i = 0 ;
 			logger.info( "devicePropertiesSetting finally" ) ;
 		}

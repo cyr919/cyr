@@ -52,10 +52,11 @@ public class BetweenDevicesCalculateHistoryAndEvent implements Runnable
 		BetweenDevicesCalculateDao betweenDevicesCalculateDao = new BetweenDevicesCalculateDao( ) ;
 		
 		HashMap< String , Object > resultMongodbDataMap = new HashMap< String , Object >( ) ;
-		
+		ConnectivityProperties connectivityProperties = new ConnectivityProperties( ) ;
+
 		try {
 			logger.debug( "BetweenDevicesCalculateHistoryAndEvent run" ) ;
-			ConnectivityProperties.PROCESS_THREAD_CNT++ ;
+			connectivityProperties.addOneProcessThreadCnt( );
 			
 			// mongodb 저장 - 표준 모델
 			logger.debug( "strFirstDmt :: " + strFirstDmt ) ;
@@ -81,12 +82,13 @@ public class BetweenDevicesCalculateHistoryAndEvent implements Runnable
 			logger.error( e.getMessage( ) , e ) ;
 		}
 		finally {
+			connectivityProperties.subtractOneProcessThreadCnt( );
+			
 			betweenDevicesCalculateDao = null ;
 			
 			this.strFirstDmt = null ;
 			this.resultRstDataMap = null ;
 			
-			ConnectivityProperties.PROCESS_THREAD_CNT-- ;
 			logger.debug( "BetweenDevicesCalculateHistoryAndEvent run finally" ) ;
 		}
 	}
