@@ -108,10 +108,11 @@ public class SettingManage
 					deviceId = resultList.get( i ).get( "_id" ) + "" ;
 					
 					// 디바이스 기본정보 처리
-					tempMap.put( "_id" , resultList.get( i ).get( "_id" ) ) ;
+					tempMap = new HashMap< String , Object >( );
+					tempMap.put( "_id" , deviceId ) ;
 					tempMap.put( "TP" , resultList.get( i ).get( "TP" ) ) ;
 					tempMap.put( "SMLT" , resultList.get( i ).get( "SMLT" ) ) ;
-					tempMap.put( "QC" , resultList.get( i ).get( "QC" ) ) ;
+					tempMap.put( "SKIP" , resultList.get( i ).get( "SKIP" ) ) ;
 					tempMap.put( "SCR" , resultList.get( i ).get( "SCR" ) ) ;
 					tempMap.put( "DVIF_ID" , resultList.get( i ).get( "DVIF_ID" ) ) ;
 					tempMap.put( "ADPT_ID" , resultList.get( i ).get( "ADPT_ID" ) ) ;
@@ -119,6 +120,7 @@ public class SettingManage
 					deviceInfo.put( deviceId , tempMap ) ;
 					
 					// 데이터 모델 처리
+					// TODO unit converter facter 추가 기능 개발
 					tempList = new ArrayList< Map< String , Object > >( ) ;
 					tempList.addAll( ( ArrayList< HashMap< String , Object > > ) resultList.get( i ).get( "DT_MDL" ) ) ;
 					
@@ -138,6 +140,7 @@ public class SettingManage
 				logger.info( "deviceDataModel :: " + deviceDataModel ) ;
 				// logger.info( "deviceDataModelMap :: " + deviceDataModelMap ) ;
 				logger.info( "deviceCalInfo :: " + deviceCalInfo ) ;
+				logger.info( "deviceInfo :: " + deviceInfo ) ;
 				
 				// static 변수에 데이터 넣기
 				synchronized( ConnectivityProperties.STDV_DT_MDL ) {

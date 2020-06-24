@@ -67,12 +67,12 @@ public class DataGather extends QualityCode
 		exe.dataGathering( testData ) ;
 		//
 		// testData = "{\"STDV_ID\":\"stdv0001\",\"DATA\":{\"MGP011\":17,\"MGP001\":36,\"MGP012\":81,\"MGP020\":33,\"MGP010\":93,\"MGP004\":27,\"MGP015\":91,\"MGP005\":30,\"MGP016\":58,\"MGP002\":109,\"MGP013\":25,\"MGP003\":48,\"MGP014\":98,\"MGP008\":85,\"MGP019\":78,\"MGP009\":34,\"MGP006\":31,\"MGP017\":42,\"MGP007\":24,\"MGP018\":98},\"DMT\":\"2020-05-21 17:51:29.044\"}" ;
-		testData = "{\"STDV_ID\":\"stdv0002\",\"DATA\":{\"MGP022\":85,\"MGP021\":5000000},\"DMT\":\"2020-05-21 13:00:34.747\"}" ;
-		exe.dataGathering( testData ) ;
-		testData = "{\"STDV_ID\":\"stdv0002\",\"DATA\":{\"MGP022\":85,\"MGP021\":5000000},\"DMT\":\"2020-05-21 13:00:34.747\"}" ;
-		exe.dataGathering( testData ) ;
-		testData = "{\"STDV_ID\":\"stdv0002\",\"DATA\":{\"MGP022\":85,\"MGP021\":5000000},\"DMT\":\"2020-05-21 13:00:34.747\"}" ;
-		exe.dataGathering( testData ) ;
+		// testData = "{\"STDV_ID\":\"stdv0002\",\"DATA\":{\"MGP022\":85,\"MGP021\":5000000},\"DMT\":\"2020-05-21 13:00:34.747\"}" ;
+		// exe.dataGathering( testData ) ;
+		// testData = "{\"STDV_ID\":\"stdv0002\",\"DATA\":{\"MGP022\":85,\"MGP021\":5000000},\"DMT\":\"2020-05-21 13:00:34.747\"}" ;
+		// exe.dataGathering( testData ) ;
+		// testData = "{\"STDV_ID\":\"stdv0002\",\"DATA\":{\"MGP022\":85,\"MGP021\":5000000},\"DMT\":\"2020-05-21 13:00:34.747\"}" ;
+		// exe.dataGathering( testData ) ;
 		//
 		// testData = "{\"STDV_ID\":\"stdv0004\",\"DATA\":{\"MGP040\":16,\"MGP041\":10,\"MGP044\":105,\"MGP023\":70,\"MGP045\":34,\"MGP042\":47,\"MGP043\":38,\"MGP026\":19,\"MGP048\":48,\"MGP027\":17,\"MGP049\":67,\"MGP024\":69,\"MGP046\":45,\"MGP025\":80,\"MGP047\":28,\"MGP039\":90,\"MGP051\":24,\"MGP030\":82,\"MGP052\":73,\"MGP050\":42,\"MGP033\":88,\"MGP055\":28,\"MGP034\":66,\"MGP056\":57,\"MGP031\":86,\"MGP053\":87,\"MGP032\":25,\"MGP054\":38,\"MGP037\":22,\"MGP038\":70,\"MGP035\":23,\"MGP057\":109,\"MGP036\":99,\"MGP028\":88,\"MGP029\":52},\"DMT\":\"2020-05-21 09:12:57.396\"}" ;
 		// exe.dataGathering( testData ) ;
@@ -105,7 +105,8 @@ public class DataGather extends QualityCode
 		HashMap< String , String > resultRedisDataMap = new HashMap< String , String >( ) ;
 		// AppIO 저장 데이터
 		HashMap< String , String > resultAppioDataMap = new HashMap< String , String >( ) ;
-		
+		// 장치내 연산 정보
+		List< Map< String , Object > > stdvCalInfList = new ArrayList< Map< String , Object > >( ) ;
 		List< Map< String , Object > > stdvDtMdlList = new ArrayList< Map< String , Object > >( ) ;
 		// HashMap< String , HashMap< String , Object > > stdvDtMdlMap = new HashMap< String , HashMap< String , Object > >( ) ;
 		List< Map< String , Object > > appioMapperList = new ArrayList< Map< String , Object > >( ) ;
@@ -128,6 +129,8 @@ public class DataGather extends QualityCode
 		
 		CommonDao commonDao = new CommonDao( ) ;
 		
+		String strDviceSkip = "" ;
+		
 		try {
 			logger.debug( "dataGathering ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: " ) ;
 			logger.debug( "수신된 데이터 :: " + strJsonData ) ;
@@ -141,7 +144,7 @@ public class DataGather extends QualityCode
 			subDataJSONObject = ( JSONObject ) jsonObject.get( "DATA" ) ;
 			logger.debug( "dataGathering :: strDmt :: " + strDmt ) ;
 			
-			// logger.debug( "strDviceId :: " + strDviceId ) ;
+			logger.debug( "strDviceId :: " + strDviceId ) ;
 			// logger.debug( "strDmt :: " + strDmt ) ;
 			// logger.debug( "subDataJSONObject :: " + subDataJSONObject ) ;
 			
@@ -153,14 +156,20 @@ public class DataGather extends QualityCode
 			// 계측 Appio 정보
 			appioMapperList = ConnectivityProperties.APPIO_MAPPER_SDHS.get( strDviceId ) ;
 			// logger.debug( "stdvDtMdlMap :: " + stdvDtMdlMap ) ;
-			// logger.debug( "stdvInfMap :: " + stdvInfMap ) ;
+			logger.debug( "stdvInfMap :: " + stdvInfMap ) ;
 			// logger.debug( "ConnectivityProperties.STDV_DT_MDL.get( " + strDviceId + " ) :: " + ConnectivityProperties.STDV_DT_MDL.get( strDviceId ) ) ;
+			
+			stdvCalInfList = ConnectivityProperties.STDV_CAL_INF.get( strDviceId ) ;
+			strDviceSkip = stdvInfMap.get( "SKIP" ) + "" ;
+			
+			logger.debug( "strDviceSkip :: " + strDviceSkip ) ;
+			logger.debug( "ConnectivityProperties.STDV_INF :: " + ConnectivityProperties.STDV_INF ) ;
 			
 			// 레코드 QC 처리 관련 true 부터 시작한다.
 			resultRecordQc = initRecordQualityCode( ) ;
 			
 			// Old Data 필드 QC 판단 - 계측 시간 관련 된 내용이기에 각 필드마다 데이터를 판단할 필요 없음.
-			resultOldDataQc = gatherOldDataQC( strDmt , strDviceId ) ;
+			resultOldDataQc = gatherOldDataQC( strDmt , strDviceId , strDviceSkip ) ;
 			// OldData 필드 QC 레코드 QC 확인
 			resultRecordQc = gatherRepresentData( resultRecordQc , resultOldDataQc ) + "" ;
 			logger.debug( "resultOldDataQc :: " + resultOldDataQc ) ;
@@ -197,7 +206,7 @@ public class DataGather extends QualityCode
 				tempQcStr = gatherOldDataApplyField( tempQcStr , resultOldDataQc ) ;
 				
 				// OverFlow 필드 QC 레코드 QC 같이 확인
-				tempFildQcMap = gatherOverFlow( tempQcStr , gatherValStr , stdvDtMdlList.get( i ) , resultRecordQc , gatherDataEventMap ) ;
+				tempFildQcMap = gatherOverFlow( tempQcStr , gatherValStr , stdvDtMdlList.get( i ) , resultRecordQc , gatherDataEventMap , strDviceSkip ) ;
 				tempQcStr = tempFildQcMap.get( "resultFieldQc" ) + "" ;
 				resultRecordQc = tempFildQcMap.get( "resultTempRecordQc" ) + "" ;
 				
@@ -208,9 +217,9 @@ public class DataGather extends QualityCode
 					gatherDataEventList.add( gatherDataEventMap ) ;
 				}
 				
-				tempQcStr = gatherMeasurementMode( tempQcStr ) ;
-				tempQcStr = gatherCalculationMode( tempQcStr ) ;
-				tempQcStr = gatherSimulationMode( tempQcStr ) ;
+				tempQcStr = gatherMeasurementMode( tempQcStr , strDviceSkip ) ;
+				tempQcStr = gatherCalculationMode( tempQcStr , strDviceSkip ) ;
+				tempQcStr = gatherSimulationMode( tempQcStr , strDviceSkip ) ;
 				
 				// 계측 처리맵에 필드 QC 추가
 				resultDataMap.put( ( strMgpKey + "_Q" ) , tempQcStr ) ;
@@ -229,7 +238,7 @@ public class DataGather extends QualityCode
 			
 			// 장치내 연산 데이터 생성 + 장치내 연산 데이터 필드 QC 적용
 			// 연산 정보 가지고 오기
-			resultCalCulDataMap = getCalculatingGatherData( resultDataMap , ConnectivityProperties.STDV_CAL_INF.get( strDviceId ) ) ;
+			resultCalCulDataMap = getCalculatingGatherData( resultDataMap , stdvCalInfList ) ;
 			
 			logger.debug( "연산 처리 후 ::" ) ;
 			logger.debug( "resultCalCulDataMap :: " + resultCalCulDataMap ) ;

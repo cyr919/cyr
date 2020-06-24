@@ -72,7 +72,7 @@ public class SettingManageDao
 			condList.add( "Y" ) ;
 			filterCondMap.put( "$eq" , condList ) ;
 			filterAggregationExpression = new FilterAggregationExpression( "$DT_MDL" , filterCondMap ) ;
-			projectionOperation01 = Aggregation.project( "_id" , "SITE_ID" , "DVIF_ID" , "NM" , "TP" , "SMLT" , "ADPT_ID" , "USE" , "TRM" , "QC" , "CAL_INF" ).and( filterAggregationExpression ).as( "DT_MDL" ) ;
+			projectionOperation01 = Aggregation.project( "_id" , "SITE_ID" , "DVIF_ID" , "NM" , "TP" , "SMLT" , "ADPT_ID" , "USE" , "TRM" , "SKIP" , "SCR" , "CAL_INF" ).and( filterAggregationExpression ).as( "DT_MDL" ) ;
 			
 			aggregation = Aggregation.newAggregation( MatchOperation01 , MatchOperation02  , projectionOperation01 ) ;
 			
