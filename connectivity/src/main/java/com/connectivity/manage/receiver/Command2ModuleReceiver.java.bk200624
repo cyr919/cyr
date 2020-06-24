@@ -5,9 +5,10 @@ import java.util.concurrent.TimeoutException ;
 
 import org.apache.logging.log4j.LogManager ;
 import org.apache.logging.log4j.Logger ;
+import org.json.simple.JSONObject ;
 
-import com.connectivity.common.ConnectivityProperties ;
-import com.connectivity.manage.ModuleCommand ;
+import com.connectivity.ConnectivityMainRun ;
+import com.connectivity.utils.JsonUtil ;
 import com.rabbitmq.client.AMQP ;
 import com.rabbitmq.client.Channel ;
 import com.rabbitmq.client.Connection ;
@@ -72,32 +73,20 @@ public class Command2ModuleReceiver implements Runnable
 				@Override
 				public void handleDelivery( String consumerTag , Envelope envelope , AMQP.BasicProperties properties , byte[ ] body ) throws IOException {
 					
-					String message = "" ;
-					ConnectivityProperties connectivityProperties = new ConnectivityProperties( ) ;
+					String message = new String( body , "UTF-8" ) ;
 					
+					logger.info( " [x] Received '" + message + "'" ) ;
 					try {
-						logger.info( "Command2ModuleReceiver handleDelivery" ) ;
-						connectivityProperties.addOneProcessThreadCnt( ) ;
 						
-						message = new String( body , "UTF-8" ) ;
-						logger.info( " [x] Received '" + message + "'" ) ;
-						
-						channel.basicAck( envelope.getDeliveryTag( ) , false ) ;
-						doWork( message ) ;
+						doWork( message , channel , envelope ) ;
 						
 					}
 					catch( Exception e ) {
 						logger.error( e.getMessage( ) , e ) ;
 					}
 					finally {
-						connectivityProperties.subtractOneProcessThreadCnt( ) ;
+						logger.info( " [x] Done" ) ;
 						message = null ;
-						connectivityProperties = null ;
-						consumerTag = null ;
-						envelope = null ;
-						properties = null ;
-						body = null ;
-						logger.info( "Command2ModuleReceiver handleDelivery finally" ) ;
 					}
 				}
 			} ;
@@ -119,25 +108,75 @@ public class Command2ModuleReceiver implements Runnable
 	}
 	
 	// private static void doWork( String strSubMessage , Channel channel , Envelope envelope ) throws Exception {
-	public void doWork( String strSubMessage ) {
+	public void doWork( String strSubMessage , Channel channel , Envelope envelope ) {
 		
-		ModuleCommand moduleCommand = new ModuleCommand( ) ;
+		JsonUtil jsonUtil = new JsonUtil( ) ;
+		ConnectivityMainRun exe = new ConnectivityMainRun( ) ;
+		
+		JSONObject msgJSONObject = new JSONObject( ) ;
+		String strCommandLower = "" ;
+		// String strEventID = "" ;
 		
 		try {
-			moduleCommand.exeModuleCommand( strSubMessage ) ;
+			
+			logger.info( "strSubMessage :: " + strSubMessage ) ;
+			
+			Thread.sleep( 5 * 1000 ) ;
+			
+			msgJSONObject = jsonUtil.getJSONObjectFromString( strSubMessage ) ;
+			
+			logger.info( "msgJSONObject.get( \"COMMAND\" ) :: " + msgJSONObject.get( "COMMAND" ) ) ;
+			
+			strCommandLower = msgJSONObject.get( "COMMAND" ) + "" ;
+			strCommandLower = strCommandLower.toLowerCase( ) ;
+			
+			// ack 날리기, channel 이 끊어 진 후에는 기존 채널이 아니게 되므로 수신 되면 ack를 날리고 실패시 이벤트 처리(성공/실패시) 이벤트 처리해야함.
+			channel.basicAck( envelope.getDeliveryTag( ) , false ) ;
+			
+			if( "reset".equals( strCommandLower ) ) {
+				////////////////////////////////////////////
+				// reset
+				logger.info( "::::::::::::::::::connectivityReset ::::::::::::::::" ) ;
+				logger.info( "::::::::::::::::::connectivityReset ::::::::::::::::" ) ;
+				logger.info( "::::::::::::::::::connectivityReset ::::::::::::::::" ) ;
+				
+				exe.connectivityReset( "event-reset" ) ;
+				
+			}
+			else if( "DeviceSimulationReset".equals( strCommandLower ) ) {
+				////////////////////////////////////////////
+				// device simulation data reset
+				
+			}
+			else {
+				////////////////////////////////////////////
+				// stop
+				logger.info( "::::::::::::::::::connectivityStop ::::::::::::::::" ) ;
+				logger.info( "::::::::::::::::::connectivityStop ::::::::::::::::" ) ;
+				logger.info( "::::::::::::::::::connectivityStop ::::::::::::::::" ) ;
+				
+				exe.connectivityStop( "event-stop" ) ;
+				
+			}
+			
+		}
+		catch( InterruptedException _ignored ) {
+			Thread.currentThread( ).interrupt( ) ;
 		}
 		catch( Exception e ) {
 			logger.error( e.getMessage( ) , e ) ;
 		}
 		finally {
+			jsonUtil = null ;
 			strSubMessage = null ;
-			moduleCommand = null ;
+			exe = null ;
 		}
 		
 		return ;
 	}
 	
 	/**
+	 * 
 	 * <pre>
 	 * 해당 Receiver의 connection 종료
 	 * </pre>

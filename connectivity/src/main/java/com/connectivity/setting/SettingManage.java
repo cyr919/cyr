@@ -109,9 +109,8 @@ public class SettingManage
 					
 					tempTrmMap = ( HashMap< String , Object > ) resultList.get( i ).get( "TRM" ) ;
 					
-					
 					// 디바이스 기본정보 처리
-					tempMap = new HashMap< String , Object >( );
+					tempMap = new HashMap< String , Object >( ) ;
 					tempMap.put( "_id" , deviceId ) ;
 					tempMap.put( "TP" , resultList.get( i ).get( "TP" ) ) ;
 					tempMap.put( "SMLT" , resultList.get( i ).get( "SMLT" ) ) ;
@@ -158,7 +157,6 @@ public class SettingManage
 				}
 				// ConnectivityProperties.STDV_DT_MDL_MAP = deviceDataModelMap ;
 			}
-			
 			
 		}
 		catch( Exception e ) {
@@ -545,13 +543,13 @@ public class SettingManage
 			logger.info( "oldDataQcCheck :: " + oldDataQcCheck ) ;
 			logger.info( "lastGatherDtm :: " + lastGatherDtm ) ;
 			
-			synchronized (ConnectivityProperties.LAST_GATHER_DTM) {
+			synchronized( ConnectivityProperties.LAST_GATHER_DTM ) {
 				ConnectivityProperties.LAST_GATHER_DTM = lastGatherDtm ;
 			}
-			synchronized (ConnectivityProperties.OLD_DATA_QC_CHECK) {
+			synchronized( ConnectivityProperties.OLD_DATA_QC_CHECK ) {
 				ConnectivityProperties.OLD_DATA_QC_CHECK = oldDataQcCheck ;
 			}
-			synchronized (ConnectivityProperties.DATA_SAVE_CYCLE_CHECK) {
+			synchronized( ConnectivityProperties.DATA_SAVE_CYCLE_CHECK ) {
 				ConnectivityProperties.DATA_SAVE_CYCLE_CHECK = dataSaveCycleCheckMap ;
 			}
 			

@@ -1,11 +1,11 @@
 package com.connectivity ;
 
-import java.util.HashMap ;
 import java.util.Map ;
 
 import org.apache.logging.log4j.LogManager ;
 import org.apache.logging.log4j.Logger ;
 
+import com.connectivity.calculate.BetweenDevicesCalculateExecute ;
 import com.connectivity.common.CommonProperties ;
 import com.connectivity.common.ConnectivityProperties ;
 import com.connectivity.config.JedisConnection ;
@@ -18,7 +18,6 @@ import com.connectivity.manage.receiver.Command2ModuleReceiver ;
 import com.rabbitmq.client.ConnectionFactory ;
 
 /**
- *
  * <pre>
  * connectivity 기동
  * </pre>
@@ -45,6 +44,10 @@ public class ConnectivityMainRun
 	public static ConditionReport conditionReport = null ;
 	public static Thread crThread = null ;
 	
+	// 장치간 연산
+	public static BetweenDevicesCalculateExecute betweenDevicesCalculateExecute = null ;
+	public static Thread btwDvCalcuExeThread = null ;
+	
 	public static void main( String[ ] args ) {
 		
 		ConnectivityMainRun exe = new ConnectivityMainRun( ) ;
@@ -69,7 +72,6 @@ public class ConnectivityMainRun
 	}
 	
 	/**
-	 * 
 	 * <pre>
 	 * connectivity 기동
 	 * </pre>
@@ -89,6 +91,7 @@ public class ConnectivityMainRun
 		Boolean resultBool02 = true ;
 		long currentPid = 0L ;
 		logger.info( "strEventID :: " + strEventID ) ;
+		
 		try {
 			
 			resultBool01 = false ;
@@ -100,10 +103,11 @@ public class ConnectivityMainRun
 			
 			// 공통 프로퍼티(프로퍼티 파일에 있는 설정) 읽어서 static 변수에 저장
 			if( commonProperties.setProperties( ) ) {
+				jedisConnection.getJedisPool( ) ;
+				mongodbConnection.getMongoClient( ) ;
+				
 				// connectivity 프로퍼티(db에 있는 mgp 설정) 읽어서 static 변수에 저장
 				if( connectivityProperties.setConnectivityProperties( ) ) {
-					jedisConnection.getJedisPool( ) ;
-					mongodbConnection.getMongoClient( ) ;
 					
 					resultBool01 = true ;
 					resultBool02 = true ;
@@ -131,9 +135,15 @@ public class ConnectivityMainRun
 				conditionReport = new ConditionReport( 10 , "Connectivity" , ( currentPid + "" ) ) ;
 				// crThread = new Thread( conditionReport , "conditionReport-Thread" ) ;
 				crThread = new Thread( conditionReport ) ;
+				crThread.setPriority( 5 ) ;
 				crThread.start( ) ;
 				
 				//// 장치간 연산
+				// betweenDevicesCalculateExecute = new BetweenDevicesCalculateExecute( 10 ) ;
+				betweenDevicesCalculateExecute = new BetweenDevicesCalculateExecute( 10 ) ;
+				btwDvCalcuExeThread = new Thread( betweenDevicesCalculateExecute ) ;
+				btwDvCalcuExeThread.setPriority( 5 ) ;
+				btwDvCalcuExeThread.start( ) ;
 				
 				// TODO 기동 이벤트 추가 필요
 				logger.info( "connectivityRun 성공" ) ;
@@ -158,7 +168,6 @@ public class ConnectivityMainRun
 	}
 	
 	/**
-	 * 
 	 * <pre>
 	 * connectivity 중지
 	 * </pre>
@@ -169,14 +178,31 @@ public class ConnectivityMainRun
 	 */
 	public void connectivityStop( String strEventID ) {
 		logger.info( "strEventID :: " + strEventID ) ;
+		
+		ConnectivityProperties connectivityProperties = new ConnectivityProperties( ) ;
+		
 		try {
-			// 중지 이벤트
+			// TODO 중지 이벤트
 			
-			// rabbitmq connection 종료
-			this.rabbitmqConnectionClose( ) ;
+			// 장치간 연산 중지
+			betweenDevicesCalculateExecute.setStopExeThread( ) ;
+			btwDvCalcuExeThread.interrupt( ) ;
 			
-			//// 장치간 연산 중지
+			// rabbitmq Sub connection 종료
+			this.rabbitmqSubConnectionClose( ) ;
+			
 			// 중간에 다른 처리 넣기
+			
+			// 실행 스레드 수 체크
+			while( 0 > connectivityProperties.getProcessThreadCnt( ) ) {
+				logger.info( "connectivityProperties.getProcessThreadCnt( ) :: " + connectivityProperties.getProcessThreadCnt( ) ) ;
+				
+				Thread.sleep( 100 ) ;
+			}
+			logger.info( "connectivityProperties.getProcessThreadCnt( ) :: " + connectivityProperties.getProcessThreadCnt( ) ) ;
+			
+			// rabbitmq Pub connection 종료
+			this.rabbitmqPubConnectionClose( ) ;
 			
 			// 상태 보고 중지
 			conditionReport.setStopReport( ) ;
@@ -198,7 +224,6 @@ public class ConnectivityMainRun
 	}
 	
 	/**
-	 * 
 	 * <pre>
 	 * connectivity reset
 	 * </pre>
@@ -210,9 +235,20 @@ public class ConnectivityMainRun
 	public void connectivityReset( String strEventID ) {
 		
 		logger.info( "strEventID :: " + strEventID ) ;
+		
+		ConnectivityProperties connectivityProperties = new ConnectivityProperties( ) ;
+		
 		try {
 			// 처리 정지 처리
-			this.rabbitmqConnectionClose( ) ;
+			
+			// rabbitmq sub connectino 연결 종료
+			this.rabbitmqSubConnectionClose( ) ;
+			
+			// 설정 재설정
+			connectivityProperties.setConnectivityProperties( ) ;
+			
+			// rabbitmq sub connectino 연결 종료
+			this.rabbitmqSubConnectionClose( ) ;
 			
 			// 처리 시작 처리
 			this.rabbitmqConnectionOpen( ConnectivityProperties.STDV_INF ) ;
@@ -224,11 +260,10 @@ public class ConnectivityMainRun
 		catch( Exception e ) {
 			logger.error( "connectivityReset 실패" ) ;
 			logger.error( e.getMessage( ) , e ) ;
-			
 		}
 		finally {
 			strEventID = null ;
-			
+			connectivityProperties = null ;
 		}
 		
 		return ;
@@ -253,7 +288,6 @@ public class ConnectivityMainRun
 	}
 	
 	/**
-	 * 
 	 * <pre>
 	 * connectivity의 모든
 	 * rabbitMQ connection 연결
@@ -337,7 +371,6 @@ public class ConnectivityMainRun
 	}
 	
 	/**
-	 * 
 	 * <pre>
 	 * connectivity의 모든
 	 * rabbitMQ connection 종료
@@ -347,11 +380,10 @@ public class ConnectivityMainRun
 	 * @date 2020-06-18
 	 * @throws Exception
 	 */
-	public void rabbitmqConnectionClose( ) throws Exception {
+	public void rabbitmqSubConnectionClose( ) throws Exception {
 		
-		logger.info( "================rabbitmqConnectionClose================" ) ;
+		logger.info( "================rabbitmqSubConnectionClose================" ) ;
 		
-		RabbitmqConnection rabbitmqConnection = new RabbitmqConnection( ) ;
 		int i = 0 ;
 		try {
 			
@@ -375,11 +407,25 @@ public class ConnectivityMainRun
 			ConnectivityMainRun.control2ConnectivityReceiver = null ;
 			ConnectivityMainRun.data2ConnectivityReceiverArr = null ;
 			
+		}
+		finally {
+			i = 0 ;
+		}
+		
+		return ;
+	}
+	
+	public void rabbitmqPubConnectionClose( ) throws Exception {
+		
+		logger.info( "================rabbitmqPubConnectionClose================" ) ;
+		
+		RabbitmqConnection rabbitmqConnection = new RabbitmqConnection( ) ;
+		try {
+			
 			// rabbitmq PUB connection 종료
 			rabbitmqConnection.closePubConnection( ) ;
 		}
 		finally {
-			i = 0 ;
 			rabbitmqConnection = null ;
 		}
 		

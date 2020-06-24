@@ -9,6 +9,7 @@ import java.util.concurrent.TimeoutException ;
 import org.apache.logging.log4j.LogManager ;
 import org.apache.logging.log4j.Logger ;
 
+import com.connectivity.common.ConnectivityProperties ;
 import com.rabbitmq.client.AMQP ;
 import com.rabbitmq.client.Channel ;
 import com.rabbitmq.client.Connection ;
@@ -17,12 +18,10 @@ import com.rabbitmq.client.Consumer ;
 import com.rabbitmq.client.DefaultConsumer ;
 import com.rabbitmq.client.Envelope ;
 
-
 /**
- *
  * <pre>
  * rabbitMQ Receiver
- * Control2Connectivity queue 
+ * Control2Connectivity queue
  * </pre>
  *
  * @author cyr
@@ -69,10 +68,15 @@ public class Control2ConnectivityReceiver implements Runnable
 				@Override
 				public void handleDelivery( String consumerTag , Envelope envelope , AMQP.BasicProperties properties , byte[ ] body ) throws IOException {
 					
-					String message = new String( body , "UTF-8" ) ;
+					String message = "" ;
+					ConnectivityProperties connectivityProperties = new ConnectivityProperties( ) ;
 					
-					logger.info( " [x] Received '" + message + "'" ) ;
 					try {
+						logger.info( "Control2ConnectivityReceiver handleDelivery" ) ;
+						connectivityProperties.addOneProcessThreadCnt( ) ;
+						
+						message = new String( body , "UTF-8" ) ;
+						logger.info( " [x] Received '" + message + "'" ) ;
 						
 						doWork( message ) ;
 						
@@ -83,8 +87,14 @@ public class Control2ConnectivityReceiver implements Runnable
 					finally {
 						// ack 날리기, channel 이 끊어 진 후에는 기존 채널이 아니게 되므로 수신 되면 ack를 날리고 실패시 이벤트 처리(성공/실패시) 이벤트 처리해야함.
 						channel.basicAck( envelope.getDeliveryTag( ) , false ) ;
-						logger.info( " [x] Done" ) ;
+						connectivityProperties.subtractOneProcessThreadCnt( ) ;
 						message = null ;
+						connectivityProperties = null ;
+						consumerTag = null ;
+						envelope = null ;
+						properties = null ;
+						body = null ;
+						logger.info( "Control2ConnectivityReceiver handleDelivery finally" ) ;
 					}
 				}
 			} ;
@@ -105,14 +115,14 @@ public class Control2ConnectivityReceiver implements Runnable
 	}
 	
 	// private static void doWork( String strSubMessage , Channel channel , Envelope envelope ) throws Exception {
-	public Boolean doWork( String strSubMessage  ) {
+	public Boolean doWork( String strSubMessage ) {
 		
 		Boolean resultBool = true ;
 		try {
 			
 			logger.info( "doWork :: strSubMessage :: " + strSubMessage ) ;
 			
-			Thread.sleep( 5*1000 );
+			Thread.sleep( 5 * 1000 ) ;
 		}
 		catch( Exception e ) {
 			resultBool = false ;
@@ -126,7 +136,6 @@ public class Control2ConnectivityReceiver implements Runnable
 	}
 	
 	/**
-	 * 
 	 * <pre>
 	 * 해당 Receiver의 connection 종료
 	 * </pre>

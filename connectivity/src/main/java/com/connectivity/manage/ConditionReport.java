@@ -53,7 +53,7 @@ public class ConditionReport implements Runnable
 			
 			logger.info( "ConditionReport run 시작" ) ;
 			
-			while( isDemonLive ) {
+			while( this.isDemonLive ) {
 				
 				this.runConditionSet( ) ;
 				
@@ -92,9 +92,9 @@ public class ConditionReport implements Runnable
 		try {
 			logger.debug( "runConditionSet :: " ) ;
 			
-			redisSetKey = "MGP_PSST" + "^" + strProcessID ;
+			redisSetKey = "MGP_PSST" + "^" + this.strProcessID ;
 			
-			redisSetDataMap.put( "PID" , strPID ) ;
+			redisSetDataMap.put( "PID" , this.strPID ) ;
 			redisSetDataMap.put( "STAT" , "RUN" ) ;
 			
 			ConditionReportDao.hmSetCondition( redisSetKey , redisSetDataMap ) ;
@@ -112,9 +112,9 @@ public class ConditionReport implements Runnable
 		String redisSetKey = "" ;
 		HashMap< String , String > redisSetDataMap = new HashMap< String , String >( ) ;
 		try {
-			redisSetKey = "MGP_PSST" + "^" + strProcessID ;
+			redisSetKey = "MGP_PSST" + "^" + this.strProcessID ;
 			
-			redisSetDataMap.put( "PID" , strPID ) ;
+			redisSetDataMap.put( "PID" , this.strPID ) ;
 			redisSetDataMap.put( "STAT" , "STOP" ) ;
 			
 			ConditionReportDao.hmSetCondition( redisSetKey , redisSetDataMap ) ;
@@ -131,7 +131,7 @@ public class ConditionReport implements Runnable
 	 * @return the strState
 	 */
 	public String getStrState( ) {
-		return strState ;
+		return this.strState ;
 	}
 	
 	public void setStopReport( ) throws Exception {

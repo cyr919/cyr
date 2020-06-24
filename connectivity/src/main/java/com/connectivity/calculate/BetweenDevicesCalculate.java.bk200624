@@ -14,8 +14,11 @@ import org.apache.logging.log4j.LogManager ;
 import org.apache.logging.log4j.Logger ;
 
 import com.connectivity.calculate.dao.BetweenDevicesCalculateDao ;
+import com.connectivity.common.CommonProperties ;
 import com.connectivity.common.ConnectivityProperties ;
 import com.connectivity.common.dao.CommonDao ;
+import com.connectivity.config.JedisConnection ;
+import com.connectivity.config.MongodbConnection ;
 import com.connectivity.quality.QualityCode ;
 import com.connectivity.utils.CommUtil ;
 import com.connectivity.utils.ExtndEgovStringUtil ;
@@ -33,6 +36,10 @@ public class BetweenDevicesCalculate extends QualityCode implements Runnable
 	
 	private Logger logger = LogManager.getLogger( this.getClass( ) ) ;
 	
+	private boolean isDemonLive = true ;
+	private int intExeInterval = 0 ;
+	private BetweenDevicesCalculateDao betweenDevicesCalculateDao = new BetweenDevicesCalculateDao( ) ;
+	
 	/**
 	 * <pre>
 	 * </pre>
@@ -41,67 +48,91 @@ public class BetweenDevicesCalculate extends QualityCode implements Runnable
 	 * @date 2020-06-10
 	 * @param args
 	 */
-	// public static void main( String[ ] args ) {
-	// // TODO Auto-generated method stub
-	//
-	// CommonProperties commonProperties = new CommonProperties( ) ;
-	// JedisConnection jedisConnection = new JedisConnection( ) ;
-	// MongodbConnection mongodbConnection = new MongodbConnection( ) ;
-	// ConnectivityProperties connectivityProperties = new ConnectivityProperties( ) ;
-	//
-	// try {
-	// commonProperties.setProperties( ) ;
-	// jedisConnection.getJedisPool( ) ;
-	// mongodbConnection.getMongoClient( ) ;
-	//
-	// connectivityProperties.setConnectivityProperties( ) ;
-	// }
-	// catch( Exception e ) {
-	// // TODO Auto-generated catch block
-	// e.printStackTrace( ) ;
-	// }
-	//
-	// try {
-	// BetweenDevicesCalculate exe = new BetweenDevicesCalculate( ) ;
-	// // exe.calculateBetweenDevicesData( ) ;
-	//
-	// // Thread btwDvCalcuThread = new Thread( exe ) ;
-	// // btwDvCalcuThread.start( ) ;
-	//
-	// }
-	// // catch( InterruptedException e ) {
-	// // // TODO Auto-generated catch block
-	// // e.printStackTrace( ) ;
-	// // }
-	// catch( Exception e ) {
-	// e.printStackTrace( ) ;
-	// }
-	//
-	// }
-
+	public static void main( String[ ] args ) {
+		// TODO Auto-generated method stub
+		
+		CommonProperties commonProperties = new CommonProperties( ) ;
+		JedisConnection jedisConnection = new JedisConnection( ) ;
+		MongodbConnection mongodbConnection = new MongodbConnection( ) ;
+		ConnectivityProperties connectivityProperties = new ConnectivityProperties( ) ;
+		
+		try {
+			commonProperties.setProperties( ) ;
+			jedisConnection.getJedisPool( ) ;
+			mongodbConnection.getMongoClient( ) ;
+			
+			connectivityProperties.setConnectivityProperties( ) ;
+		}
+		catch( Exception e ) {
+			// TODO Auto-generated catch block
+			e.printStackTrace( ) ;
+		}
+		
+		try {
+			BetweenDevicesCalculate exe = new BetweenDevicesCalculate( 10 ) ;
+			exe.calculateBetweenDevicesData( ) ;
+			
+			// // Thread btwDvCalcuThread = new Thread( exe , "BetweenDevicesCalculate" ) ;
+			// Thread btwDvCalcuThread = new Thread( exe ) ;
+			// btwDvCalcuThread.start( ) ;
+			//
+			// Thread.sleep( 1 * 1000 ) ;
+			// exe.setStopExeThread( ) ;
+		}
+		// catch( InterruptedException e ) {
+		// // TODO Auto-generated catch block
+		// e.printStackTrace( ) ;
+		// }
+		catch( Exception e ) {
+			e.printStackTrace( ) ;
+		}
+		
+	}
+	
+	public BetweenDevicesCalculate( int intExeInterval ) {
+		this.isDemonLive = true ;
+		// this.intExeInterval = ( intExeInterval * 1000 ) ;
+		this.intExeInterval = intExeInterval ;
+		return ;
+	}
 	
 	@Override
 	public void run( ) {
 		
-		ConnectivityProperties connectivityProperties = new ConnectivityProperties( ) ;
 		try {
+			
 			logger.info( "BetweenDevicesCalculate run 시작" ) ;
-			connectivityProperties.addOneProcessThreadCnt( ) ;
 			
-			// 장치간 연산 처리
-			this.calculateBetweenDevicesData( ) ;
+			while( isDemonLive ) {
+				
+				calculateBetweenDevicesData( ) ;
+				
+				Thread.sleep( intExeInterval ) ;
+			}
 			
+			logger.info( "while 종료 :: isDemonLive :: " + isDemonLive ) ;
 		}
+		// catch( InterruptedException e ) {
+		// logger.info( "ConditionReport run 종료 요청 :: interrupt" ) ;
+		//
+		// logger.error( e.getMessage( ) , e ) ;
+		// }
 		catch( Exception e ) {
 			logger.error( e.getMessage( ) , e ) ;
 		}
 		finally {
-			connectivityProperties.subtractOneProcessThreadCnt( ) ;
-			connectivityProperties = null ;
 			logger.info( "BetweenDevicesCalculate run 종료" ) ;
+			
 		}
 	}
-
+	
+	public void setStopExeThread( ) throws Exception {
+		
+		logger.info( "BetweenDevicesCalculate run 종료 요청" ) ;
+		this.isDemonLive = false ;
+		
+		return ;
+	}
 	
 	/**
 	 * <pre>
@@ -112,12 +143,10 @@ public class BetweenDevicesCalculate extends QualityCode implements Runnable
 	 * @date 2020-06-22
 	 * @return
 	 */
-	public void calculateBetweenDevicesData( ) {
+	public Boolean calculateBetweenDevicesData( ) {
 		
-		logger.debug( "calculateBetweenDevicesData :: " ) ;
 		Boolean resultBool = true ;
 		
-		BetweenDevicesCalculateDao betweenDevicesCalculateDao = new BetweenDevicesCalculateDao( ) ;
 		Map< String , Map< String , Object > > stdvInfMap = new HashMap< String , Map< String , Object > >( ) ;
 		// 장치 간 연산 정보
 		List< Map< String , Object > > calculInfoList = new ArrayList< Map< String , Object > >( ) ;
@@ -170,24 +199,16 @@ public class BetweenDevicesCalculate extends QualityCode implements Runnable
 		ExtndEgovStringUtil extndEgovStringUtil = new ExtndEgovStringUtil( ) ;
 		
 		try {
-			logger.debug( "calculateBetweenDevicesData :: try " ) ;
-			
-			// 장치간 연산 생성 시작 시간
-			strFirstDmt = commUtil.getFormatingNowDateTime( "yyyyMMddHHmmssSSS" ) ;
-			logger.debug( "strFirstDmt :: " + strFirstDmt ) ;
-			
+			logger.debug( "calculateBetweenDevicesData :: " ) ;
 			delimitersStr = "," ;
+			
+			// 배치 시작 시간
+			strFirstDmt = commUtil.getFormatingNowDateTime( "yyyyMMddHHmmssSSS" ) ;
 			
 			// 전체 설치 디바이스 정보 조회(redis)
 			stdvInfMap = ConnectivityProperties.STDV_INF ;
 			
-			// app io 맵 정보
 			appioMapperList = ConnectivityProperties.APPIO_MAPPER_CRHS ;
-			
-			// 장치간 연산 정보
-			calculInfoList = ConnectivityProperties.BTWN_DV_CAL_INFO ;
-			
-			
 			
 			allDvGthrDt = betweenDevicesCalculateDao.getAllDevicesGatherData( stdvInfMap ) ;
 			
@@ -199,6 +220,7 @@ public class BetweenDevicesCalculate extends QualityCode implements Runnable
 			// TODO 시뮬레이션 여부 확인 및 변수 할당
 			
 			// 장치간 연산 데이터 생성
+			calculInfoList = ConnectivityProperties.BTWN_DV_CAL_INFO ;
 			for( i = 0 ; i < calculInfoList.size( ) ; i++ ) {
 				logger.debug( "btwnDvCalInfoList.get( " + i + " ) :: " + calculInfoList.get( i ) ) ;
 				
@@ -402,6 +424,7 @@ public class BetweenDevicesCalculate extends QualityCode implements Runnable
 			} // for( i = 0 ; i < btwnDvCalInfoList.size( ) ; i++ )
 			
 			// logger.debug( "resultRstDataMap :: " + resultRstDataMap ) ;
+			logger.debug( "strFirstDmt :: " + strFirstDmt ) ;
 			
 			// redis 저장 - AppIO 모델
 			// AppIO 모델 데이터 생성
@@ -428,15 +451,14 @@ public class BetweenDevicesCalculate extends QualityCode implements Runnable
 			//// redis 저장 - 표준모델
 			resultBool = betweenDevicesCalculateDao.hmSetBtwnDvCalculData( resultRedisDataList ) ;
 			
-			logger.debug( "strSiteSmlt :: " + this.strSiteSmlt ) ;
-			logger.debug( "strSiteSmltUsr :: " + this.strSiteSmltUsr ) ;
+			logger.debug( "strSiteSmlt :: " + strSiteSmlt ) ;
+			logger.debug( "strSiteSmltUsr :: " + strSiteSmltUsr ) ;
 			
 			// history 저장 및 이벤트 데이터 처리 thread 생성
 			// BetweenDevicesCalculateHistoryAndEvent historyAndEvent = new BetweenDevicesCalculateHistoryAndEvent( strFirstDmt , resultRstDataMap ) ;
-			historyAndEvent = new BetweenDevicesCalculateHistoryAndEvent( strFirstDmt , resultRstDataMap , this.strSiteSmlt , this.strSiteSmltUsr ) ;
+			historyAndEvent = new BetweenDevicesCalculateHistoryAndEvent( strFirstDmt , resultRstDataMap , strSiteSmlt , strSiteSmltUsr ) ;
 			// historyAndEventThread = new Thread( historyAndEvent , "BetweenDevicesCalculateHistoryAndEvent" ) ;
 			historyAndEventThread = new Thread( historyAndEvent ) ;
-			historyAndEventThread.setPriority( 3 );
 			historyAndEventThread.start( ) ;
 			
 		}
@@ -458,38 +480,26 @@ public class BetweenDevicesCalculate extends QualityCode implements Runnable
 			paramBigDecimal = null ;
 			scFctBigDecimal = null ;
 			avgBigDecimal = null ;
-			resultRedisDataList = null ;
-			resultRedisDataMap = null ;
 			resultRstDataMap = null ;
 			resultRstMgpKeyDataMap = null ;
-			resultAppioDataMap = null ;
 			optrArr = null ;
 			strFuncOptr = null ;
 			intPLen = 0 ;
 			boolNullCheckPLen = null ;
 			resultQcStr = null ;
 			strGatherFieldQc = null ;
-			resultValStr = null ;
 			resultKsStr = null ;
 			resultVsStr = null ;
 			paramValue = null ;
 			paramKey = null ;
 			delimitersStr = null ;
 			resultMgpKey = null ;
-			strMgpKey = null ;
-			strPointIdx = null ;
-			appioMapperList = null ;
-			historyAndEvent = null ;
-			historyAndEventThread = null ;
-			commonDao = null ;
-			extndEgovStringUtil = null ;
-			stdvInfMap = null ;
-			betweenDevicesCalculateDao = null ;
 			
+			historyAndEvent = null ;
 			logger.debug( "calculateBetweenDevicesData finally :: " ) ;
 		}
 		
-		return ;
+		return resultBool ;
 	}
 	
 }

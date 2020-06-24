@@ -74,7 +74,6 @@ public class DevicesControl
 	}
 	
 	public Boolean devicesControlExe( String strJsonData ) {
-		
 		Boolean resultBool = true ;
 		
 		JsonUtil jsonUtil = new JsonUtil( ) ;

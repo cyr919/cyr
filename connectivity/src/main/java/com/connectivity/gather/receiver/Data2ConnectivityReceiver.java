@@ -6,6 +6,7 @@ import java.util.concurrent.TimeoutException ;
 import org.apache.logging.log4j.LogManager ;
 import org.apache.logging.log4j.Logger ;
 
+import com.connectivity.common.ConnectivityProperties ;
 import com.connectivity.gather.DataGather ;
 import com.rabbitmq.client.AMQP ;
 import com.rabbitmq.client.Channel ;
@@ -80,21 +81,32 @@ public class Data2ConnectivityReceiver implements Runnable
 				@Override
 				public void handleDelivery( String consumerTag , Envelope envelope , AMQP.BasicProperties properties , byte[ ] body ) throws IOException {
 					
-					String message = new String( body , "UTF-8" ) ;
-					
-					logger.info( " [x] Received :: " + message + "" ) ;
+					String message = "" ;
+					ConnectivityProperties connectivityProperties = new ConnectivityProperties( ) ;
 					
 					try {
+						
+						logger.info( "Data2ConnectivityReceiver handleDelivery" ) ;
+						connectivityProperties.addOneProcessThreadCnt( ) ;
+						
+						message = new String( body , "UTF-8" ) ;
+						logger.info( " [x] Received :: " + message + "" ) ;
+						
 						doWork( message ) ;
 					}
 					catch( Exception e ) {
 						logger.error( e.getMessage( ) , e ) ;
-						
 					}
 					finally {
 						channel.basicAck( envelope.getDeliveryTag( ) , false ) ;
+						connectivityProperties.subtractOneProcessThreadCnt( ) ;
 						message = null ;
-						logger.info( " [x] Done" ) ;
+						connectivityProperties = null ;
+						consumerTag = null ;
+						envelope = null ;
+						properties = null ;
+						body = null ;
+						logger.info( "Command2ModuleReceiver handleDelivery finally" ) ;
 					}
 				}
 			} ;
@@ -105,7 +117,6 @@ public class Data2ConnectivityReceiver implements Runnable
 		}
 		catch( Exception e ) {
 			logger.error( e.getMessage( ) , e ) ;
-			
 		}
 		finally {
 			logger.info( "run finally" ) ;
@@ -138,7 +149,6 @@ public class Data2ConnectivityReceiver implements Runnable
 	}
 	
 	/**
-	 * 
 	 * <pre>
 	 * 해당 Receiver의 connection 종료
 	 * </pre>

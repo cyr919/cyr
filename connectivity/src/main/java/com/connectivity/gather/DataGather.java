@@ -303,6 +303,7 @@ public class DataGather extends QualityCode
 			historyAndEvent = new DataGatherHistoryAndEvent( strDviceId , strDmt , resultRecordQc , strSiteSmlt , strSiteSmltUsr , stdvInfMap , resultHistoryDataMap , resultCalCulDataMap , gatherDataEventList ) ;
 			// historyAndEventThread = new Thread( historyAndEvent , "DataGatherHistoryAndEvent" ) ;
 			historyAndEventThread = new Thread( historyAndEvent ) ;
+			historyAndEventThread.setPriority( 3 );
 			historyAndEventThread.start( ) ;
 			logger.debug( "history 저장 및 이벤트 데이터 처리 thread 생성 :: 시작 완료 " ) ;
 			

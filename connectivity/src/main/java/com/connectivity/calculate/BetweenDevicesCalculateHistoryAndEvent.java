@@ -28,7 +28,6 @@ public class BetweenDevicesCalculateHistoryAndEvent implements Runnable
 	
 	private String strFirstDmt = "" ;
 	private HashMap< String , Object > resultRstDataMap = new HashMap< String , Object >( ) ;
-	
 	private String strSiteSmlt = "" ;
 	private String strSiteSmltUsr = "" ;
 	
@@ -43,6 +42,8 @@ public class BetweenDevicesCalculateHistoryAndEvent implements Runnable
 		finally {
 			strFirstDmt = null ;
 			resultRstDataMap = null ;
+			strSiteSmlt = null ;
+			strSiteSmltUsr = null ;
 		}
 	}
 	
@@ -85,9 +86,15 @@ public class BetweenDevicesCalculateHistoryAndEvent implements Runnable
 			connectivityProperties.subtractOneProcessThreadCnt( );
 			
 			betweenDevicesCalculateDao = null ;
+			connectivityProperties = null ;
+			resultMongodbDataMap = null ;
 			
 			this.strFirstDmt = null ;
 			this.resultRstDataMap = null ;
+			this.strSiteSmlt = null ;
+			this.strSiteSmltUsr = null ;
+			
+			
 			
 			logger.debug( "BetweenDevicesCalculateHistoryAndEvent run finally" ) ;
 		}
