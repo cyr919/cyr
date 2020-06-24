@@ -31,18 +31,28 @@ public class ServicehubMainRun
 			logger.info( "strCommand :: " + strCommand ) ;
 			logger.info( "strCommandLower :: " + strCommandLower ) ;
 			
-			resultJsonObject.put( "MODUL_ID" , "connectivity" ) ;
+			resultJsonObject.put( "MFIF_ID" , "connectivity" ) ;
+			resultJsonObject.put( "EVHS_ID" , "connectivity-event-his-id" ) ;
 			
 			if( "reset".equals( strCommandLower ) ) {
 				
-				resultJsonObject.put( "COMMAND" , "reset" ) ;
+				resultJsonObject.put( "COMMAND" , "M03" ) ;
 			}
 			else if( "devicesimulationreset".equals( strCommandLower ) ) {
 				
-				resultJsonObject.put( "COMMAND" , "DeviceSimulationReset" ) ;
+				resultJsonObject.put( "COMMAND" , "S03" ) ;
+			}
+			else if( "sitesimulmodoff".equals( strCommandLower ) ) {
+				
+				resultJsonObject.put( "COMMAND" , "S01" ) ;
+			}
+			else if( "sitesimulmodon".equals( strCommandLower ) ) {
+				
+				resultJsonObject.put( "COMMAND" , "S02" ) ;
 			}
 			else {
-				resultJsonObject.put( "COMMAND" , "stop" ) ;
+				// stop
+				resultJsonObject.put( "COMMAND" , "M02" ) ;
 			}
 			
 			logger.info( "resultJsonObject :: " + resultJsonObject ) ;
