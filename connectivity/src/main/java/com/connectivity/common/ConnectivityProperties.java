@@ -83,7 +83,7 @@ public final class ConnectivityProperties
 			// ConnectivityProperties.executorService = Executors.newFixedThreadPool( 50 ) ;
 			// 직접 ThreadPoolExecutor 객체 생성하기
 			ConnectivityProperties.executorService = new ThreadPoolExecutor( 10 , 50 , 10L , TimeUnit.SECONDS , new LinkedBlockingQueue< Runnable >( ) ) ;
-
+			
 		}
 		catch( Exception e ) {
 			logger.error( e.getMessage( ) , e ) ;
@@ -93,8 +93,8 @@ public final class ConnectivityProperties
 	public void threadPoolShutdown( ) {
 		try {
 			// 남아있는 작업을 마무리하고 스레드풀 종료
-			ConnectivityProperties.executorService.shutdown( );
-
+			ConnectivityProperties.executorService.shutdown( ) ;
+			
 		}
 		catch( Exception e ) {
 			logger.error( e.getMessage( ) , e ) ;
@@ -151,6 +151,103 @@ public final class ConnectivityProperties
 		logger.debug( "STDV_DT_MDL :: " + STDV_DT_MDL ) ;
 		logger.debug( "STDV_CAL_INF :: " + STDV_CAL_INF ) ;
 		logger.debug( "STDV_INF :: " + STDV_INF ) ;
+		
+		return resultBool ;
+	}
+	
+	public Boolean setConnectivityPropertiesSimulModeOn( ) {
+		Boolean resultBool = true ;
+		
+		SettingManage settingManage = new SettingManage( ) ;
+		
+		try {
+			logger.debug( "setConnectivityPropertiesSimulModeOn :: " ) ;
+			logger.debug( "SITE_SMLT :: " + SITE_SMLT ) ;
+			
+			resultBool = false ;
+			
+			if( settingManage.siteInfoSetting( ) ) {
+				if( settingManage.devicePropertiesSetting( ) ) {
+					
+					resultBool = true ;
+				}
+			}
+		}
+		catch( Exception e ) {
+			resultBool = false ;
+			logger.error( e.getMessage( ) , e ) ;
+		}
+		finally {
+			settingManage = null ;
+			logger.debug( "resultBool :: " + resultBool ) ;
+			logger.debug( "SITE_SMLT :: " + SITE_SMLT ) ;
+			logger.debug( "setConnectivityPropertiesSimulModeOn finally :: " ) ;
+			
+		}
+		
+		return resultBool ;
+	}
+	
+	public Boolean setConnectivityPropertiesSimulModeOff( ) {
+		Boolean resultBool = true ;
+		
+		SettingManage settingManage = new SettingManage( ) ;
+		
+		try {
+			logger.debug( "setConnectivityPropertiesSimulModeOff :: " ) ;
+			logger.debug( "SITE_SMLT :: " + SITE_SMLT ) ;
+			
+			resultBool = false ;
+			
+			// if( settingManage.siteInfoSetting( ) ) {
+			// resultBool = true ;
+			// }
+			
+			synchronized( ConnectivityProperties.SITE_SMLT ) {
+				ConnectivityProperties.SITE_SMLT = "N" ;
+			}
+			
+		}
+		catch( Exception e ) {
+			resultBool = false ;
+			logger.error( e.getMessage( ) , e ) ;
+		}
+		finally {
+			settingManage = null ;
+			logger.debug( "resultBool :: " + resultBool ) ;
+			logger.debug( "SITE_SMLT :: " + SITE_SMLT ) ;
+			logger.debug( "setConnectivityPropertiesSimulModeOff finally:: " ) ;
+		}
+		
+		return resultBool ;
+	}
+	
+	public Boolean setConnectivityPropertiesDeviceSimulDataReset( List< ? > deviceIdList ) {
+		Boolean resultBool = true ;
+		
+		SettingManage settingManage = new SettingManage( ) ;
+		
+		try {
+			logger.debug( "setConnectivityPropertiesSimulModeOff :: " ) ;
+			logger.debug( "SITE_SMLT :: " + SITE_SMLT ) ;
+			
+			resultBool = false ;
+			
+			if( settingManage.devicePropertiesSetting( deviceIdList ) ) {
+				resultBool = true ;
+			}
+		}
+		catch( Exception e ) {
+			resultBool = false ;
+			logger.error( e.getMessage( ) , e ) ;
+		}
+		finally {
+			settingManage = null ;
+			deviceIdList = null ;
+			logger.debug( "resultBool :: " + resultBool ) ;
+			logger.debug( "SITE_SMLT :: " + SITE_SMLT ) ;
+			logger.debug( "setConnectivityPropertiesSimulModeOff finally:: " ) ;
+		}
 		
 		return resultBool ;
 	}

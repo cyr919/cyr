@@ -54,10 +54,10 @@ public class BetweenDevicesCalculateHistoryAndEvent implements Runnable
 		
 		HashMap< String , Object > resultMongodbDataMap = new HashMap< String , Object >( ) ;
 		ConnectivityProperties connectivityProperties = new ConnectivityProperties( ) ;
-
+		
 		try {
 			logger.debug( "BetweenDevicesCalculateHistoryAndEvent run" ) ;
-			connectivityProperties.addOneProcessThreadCnt( );
+			connectivityProperties.addOneProcessThreadCnt( ) ;
 			
 			// mongodb 저장 - 표준 모델
 			logger.debug( "strFirstDmt :: " + strFirstDmt ) ;
@@ -83,7 +83,7 @@ public class BetweenDevicesCalculateHistoryAndEvent implements Runnable
 			logger.error( e.getMessage( ) , e ) ;
 		}
 		finally {
-			connectivityProperties.subtractOneProcessThreadCnt( );
+			connectivityProperties.subtractOneProcessThreadCnt( ) ;
 			
 			betweenDevicesCalculateDao = null ;
 			connectivityProperties = null ;
@@ -93,8 +93,6 @@ public class BetweenDevicesCalculateHistoryAndEvent implements Runnable
 			this.resultRstDataMap = null ;
 			this.strSiteSmlt = null ;
 			this.strSiteSmltUsr = null ;
-			
-			
 			
 			logger.debug( "BetweenDevicesCalculateHistoryAndEvent run finally" ) ;
 		}

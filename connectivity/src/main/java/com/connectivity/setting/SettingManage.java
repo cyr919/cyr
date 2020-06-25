@@ -54,6 +54,13 @@ public class SettingManage
 		// exe.appioMappingInfoDeviceDataSetting( ) ;
 		// exe.deviceCheckPropertiesSetting( ) ;
 		
+		List< String > deviceIdList = new ArrayList< String >( ) ;
+		deviceIdList.add( "stdv0001" ) ;
+		deviceIdList.add( "stdv0002" ) ;
+		deviceIdList.add( "stdv0006" ) ;
+		
+		exe.devicePropertiesSetting( deviceIdList ) ;
+		
 	}
 	
 	/**
@@ -105,20 +112,12 @@ public class SettingManage
 					logger.info( "resultList.get( " + i + " ).get( \"DT_MDL\" ) :: " + resultList.get( i ).get( "DT_MDL" ) ) ;
 					logger.info( "resultList.get( " + i + " ).get( \"CAL_INF\" ) :: " + resultList.get( i ).get( "CAL_INF" ) ) ;
 					
+					// 디바이스 아이디 처리
 					deviceId = resultList.get( i ).get( "_id" ) + "" ;
 					
-					tempTrmMap = ( HashMap< String , Object > ) resultList.get( i ).get( "TRM" ) ;
-					
 					// 디바이스 기본정보 처리
-					tempMap = new HashMap< String , Object >( ) ;
+					tempMap = getDeviceInfoMap( resultList.get( i ) ) ;
 					tempMap.put( "_id" , deviceId ) ;
-					tempMap.put( "TP" , resultList.get( i ).get( "TP" ) ) ;
-					tempMap.put( "SMLT" , resultList.get( i ).get( "SMLT" ) ) ;
-					tempMap.put( "SKIP" , resultList.get( i ).get( "SKIP" ) ) ;
-					tempMap.put( "SCR" , resultList.get( i ).get( "SCR" ) ) ;
-					tempMap.put( "DVIF_ID" , resultList.get( i ).get( "DVIF_ID" ) ) ;
-					tempMap.put( "ADPT_ID" , resultList.get( i ).get( "ADPT_ID" ) ) ;
-					tempMap.put( "TRM_SV" , tempTrmMap.get( "SV" ) ) ;
 					
 					deviceInfo.put( deviceId , tempMap ) ;
 					
@@ -178,6 +177,121 @@ public class SettingManage
 		}
 		
 		return resultBool ;
+	}
+	
+	public Boolean devicePropertiesSetting( List< ? > deviceIdList ) {
+		
+		Boolean resultBool = true ;
+		
+		SettingManageDao settingManageDao = new SettingManageDao( ) ;
+		
+		List< HashMap > resultList = new ArrayList< HashMap >( ) ;
+		HashMap< String , Object > deviceInfoMap = new HashMap< String , Object >( ) ;
+		List< Map< String , Object > > dataModelList = new ArrayList< Map< String , Object > >( ) ;
+		List< Map< String , Object > > calInfoList = new ArrayList< Map< String , Object > >( ) ;
+		
+		String deviceId = "" ;
+		int i = 0 ;
+		try {
+			logger.info( "devicePropertiesSetting" ) ;
+			
+			// 데이터 조회
+			resultList = settingManageDao.selectInstallDeviceList( deviceIdList ) ;
+			logger.info( "resultList :: " + resultList ) ;
+			
+			// 조회한 데이터를 변수에 저장한다.
+			// 기본 정보
+			// 저장(공통) 데이터 모델
+			// 장치내 연산정보
+			
+			if( resultList != null ) {
+				for( i = 0 ; i < resultList.size( ) ; i++ ) {
+					
+					logger.info( "resultList.get( " + i + " ) :: " + resultList.get( i ) ) ;
+					logger.info( "resultList.get( " + i + " ).get( \"_id\" ) :: " + resultList.get( i ).get( "_id" ) ) ;
+					logger.info( "resultList.get( " + i + " ).get( \"DT_MDL\" ) :: " + resultList.get( i ).get( "DT_MDL" ) ) ;
+					logger.info( "resultList.get( " + i + " ).get( \"CAL_INF\" ) :: " + resultList.get( i ).get( "CAL_INF" ) ) ;
+					
+					// 디바이스 아이디 처리
+					deviceId = resultList.get( i ).get( "_id" ) + "" ;
+					
+					// 디바이스 기본정보 처리
+					deviceInfoMap = getDeviceInfoMap( resultList.get( i ) ) ;
+					deviceInfoMap.put( "_id" , deviceId ) ;
+					logger.debug( "deviceInfoMap" + deviceInfoMap ) ;
+					
+					// 데이터 모델 처리
+					// TODO unit converter facter 추가 기능 개발
+					dataModelList = new ArrayList< Map< String , Object > >( ) ;
+					dataModelList.addAll( ( ArrayList< HashMap< String , Object > > ) resultList.get( i ).get( "DT_MDL" ) ) ;
+					
+					// // 데이터 모델 list -> map
+					// tempMapFromList = commUtil.getHashMapFromListHashMap( tempList , "MGP_KEY" ) ;
+					// deviceDataModelMap.put( deviceId , tempMapFromList ) ;
+					
+					// 장치 내 연산 처리
+					calInfoList = new ArrayList< Map< String , Object > >( ) ;
+					calInfoList.addAll( ( ArrayList< HashMap< String , Object > > ) resultList.get( i ).get( "CAL_INF" ) ) ;
+					
+					ConnectivityProperties.STDV_DT_MDL.put( deviceId , dataModelList ) ;
+					ConnectivityProperties.STDV_CAL_INF.put( deviceId , calInfoList ) ;
+					ConnectivityProperties.STDV_INF.put( deviceId , deviceInfoMap ) ;
+				}
+			}
+			
+		}
+		catch( Exception e ) {
+			resultBool = false ;
+			logger.error( e.getMessage( ) , e ) ;
+		}
+		finally {
+			settingManageDao = null ;
+			resultList = null ;
+			deviceId = null ;
+			i = 0 ;
+			logger.info( "devicePropertiesSetting finally" ) ;
+		}
+		
+		return resultBool ;
+	}
+	
+	/**
+	 * <pre>
+	 * _id 외 다른 필요 정보를 map으로 리턴한다.
+	 * </pre>
+	 * 
+	 * @author cyr
+	 * @date 2020-06-25
+	 * @param resultDeviceDataMap
+	 * @return
+	 */
+	public HashMap< String , Object > getDeviceInfoMap( HashMap< ? , ? > resultDeviceDataMap ) {
+		
+		HashMap< String , Object > resultMap = new HashMap< String , Object >( ) ;
+		HashMap< String , Object > tempTrmMap = new HashMap< String , Object >( ) ;
+		
+		try {
+			tempTrmMap = ( HashMap< String , Object > ) resultDeviceDataMap.get( "TRM" ) ;
+			
+			resultMap.put( "TP" , resultDeviceDataMap.get( "TP" ) ) ;
+			resultMap.put( "SMLT" , resultDeviceDataMap.get( "SMLT" ) ) ;
+			resultMap.put( "SKIP" , resultDeviceDataMap.get( "SKIP" ) ) ;
+			resultMap.put( "SCR" , resultDeviceDataMap.get( "SCR" ) ) ;
+			resultMap.put( "DVIF_ID" , resultDeviceDataMap.get( "DVIF_ID" ) ) ;
+			resultMap.put( "ADPT_ID" , resultDeviceDataMap.get( "ADPT_ID" ) ) ;
+			resultMap.put( "TRM_SV" , tempTrmMap.get( "SV" ) ) ;
+			
+		}
+		catch( Exception e ) {
+			logger.error( e.getMessage( ) , e ) ;
+		}
+		finally {
+			resultDeviceDataMap = null ;
+			tempTrmMap = null ;
+			
+		}
+		
+		return resultMap ;
 	}
 	
 	public Boolean qualityCodeInfoSetting( ) {

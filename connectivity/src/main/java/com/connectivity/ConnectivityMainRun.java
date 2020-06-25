@@ -1,9 +1,7 @@
 package com.connectivity ;
 
+import java.util.List ;
 import java.util.Map ;
-import java.util.concurrent.LinkedBlockingQueue ;
-import java.util.concurrent.ThreadPoolExecutor ;
-import java.util.concurrent.TimeUnit ;
 
 import org.apache.logging.log4j.LogManager ;
 import org.apache.logging.log4j.Logger ;
@@ -127,7 +125,9 @@ public class ConnectivityMainRun
 				
 				//// rabbitmqConnection 연결
 				// 설치 디바이스 수 많큼 queue connection이 실행된다.
-				this.rabbitmqConnectionOpen( ConnectivityProperties.STDV_INF ) ;
+				this.rabbitmqSubConnectionOpen( ConnectivityProperties.STDV_INF ) ;
+				this.rabbitmqCommandModuleSubConnectionOpen( ) ;
+				this.rabbitmqPubConnectionOpen( ) ;
 				
 				logger.info( "ConnectivityProperties.STDV_INF :: " + ConnectivityProperties.STDV_INF ) ;
 				
@@ -143,12 +143,8 @@ public class ConnectivityMainRun
 				crThread.setPriority( 5 ) ;
 				crThread.start( ) ;
 				
-				//// 장치간 연산 10ms 단위는 안됨. 
-				// betweenDevicesCalculateExecute = new BetweenDevicesCalculateExecute( 10 ) ;
-				betweenDevicesCalculateExecute = new BetweenDevicesCalculateExecute( 100 ) ;
-				btwDvCalcuExeThread = new Thread( betweenDevicesCalculateExecute ) ;
-				btwDvCalcuExeThread.setPriority( 5 ) ;
-				btwDvCalcuExeThread.start( ) ;
+				// 장치간 연산 시작
+				this.betweenDevicesCalculateStart( ) ;
 				
 				// TODO 기동 이벤트 추가 필요
 				logger.info( "connectivityRun 성공" ) ;
@@ -190,12 +186,11 @@ public class ConnectivityMainRun
 			// TODO 중지 이벤트
 			
 			// 장치간 연산 중지
-			betweenDevicesCalculateExecute.setStopExeThread( ) ;
-			btwDvCalcuExeThread.interrupt( ) ;
+			this.betweenDevicesCalculateStop( ) ;
 			
 			// rabbitmq Sub connection 종료
 			this.rabbitmqSubConnectionClose( ) ;
-			
+			this.rabbitmqCommandModuleSubConnectionClose( ) ;
 			// 중간에 다른 처리 넣기
 			
 			// 실행 스레드 수 체크
@@ -215,10 +210,6 @@ public class ConnectivityMainRun
 			// rabbitmq Pub connection 종료
 			this.rabbitmqPubConnectionClose( ) ;
 			
-			// 상태 보고 중지
-			conditionReport.setStopReport( ) ;
-			crThread.interrupt( ) ;
-			
 			logger.info( "connectivityStop 성공" ) ;
 		}
 		catch( Exception e ) {
@@ -226,6 +217,16 @@ public class ConnectivityMainRun
 			logger.error( e.getMessage( ) , e ) ;
 		}
 		finally {
+			
+			try {
+				// 상태 보고 중지
+				conditionReport.setStopReport( ) ;
+				crThread.interrupt( ) ;
+			}
+			catch( Exception e ) {
+				logger.error( e.getMessage( ) , e ) ;
+			}
+			
 			strEventID = null ;
 			
 		}
@@ -252,17 +253,31 @@ public class ConnectivityMainRun
 		try {
 			// 처리 정지 처리
 			
+			// 장치간 연산 중지
+			this.betweenDevicesCalculateStop( ) ;
+			
 			// rabbitmq sub connectino 연결 종료
 			this.rabbitmqSubConnectionClose( ) ;
+			
+			// 실행 스레드 수 체크
+			logger.info( "connectivityProperties.getProcessThreadCnt( ) :: " + connectivityProperties.getProcessThreadCnt( ) ) ;
+			// 1은 Command2ModuleReceiver 의 처리 중인 thread이다. 정지 처리가 종료된 후 삭제된다.
+			while( 1 < connectivityProperties.getProcessThreadCnt( ) ) {
+				logger.info( "connectivityProperties.getProcessThreadCnt( ) :while: " + connectivityProperties.getProcessThreadCnt( ) ) ;
+				
+				Thread.sleep( 100 ) ;
+			}
+			
+			logger.info( "connectivityProperties.getProcessThreadCnt( ) :end: " + connectivityProperties.getProcessThreadCnt( ) ) ;
 			
 			// 설정 재설정
 			connectivityProperties.setConnectivityProperties( ) ;
 			
-			// rabbitmq sub connectino 연결 종료
-			this.rabbitmqSubConnectionClose( ) ;
+			// rabbitmq sub connectino 연결
+			this.rabbitmqSubConnectionOpen( ConnectivityProperties.STDV_INF ) ;
 			
-			// 처리 시작 처리
-			this.rabbitmqConnectionOpen( ConnectivityProperties.STDV_INF ) ;
+			// 장치간 연산 시작
+			this.betweenDevicesCalculateStart( ) ;
 			
 			// 리셋 완료 이벤트
 			
@@ -280,10 +295,41 @@ public class ConnectivityMainRun
 		return ;
 	}
 	
-	public void connectivityDeviceSimulDataReset( String strEventID ) {
+	public void connectivityDeviceSimulDataReset( String strEventID , List< ? > deviceIdList ) {
 		
 		logger.info( "strEventID :: " + strEventID ) ;
+		ConnectivityProperties connectivityProperties = new ConnectivityProperties( ) ;
+		
 		try {
+			// 처리 정지 처리
+			
+			// 장치간 연산 중지
+			this.betweenDevicesCalculateStop( ) ;
+			
+			// rabbitmq sub connectino 연결 종료
+			this.rabbitmqSubConnectionClose( ) ;
+			
+			// 실행 스레드 수 체크
+			logger.info( "connectivityProperties.getProcessThreadCnt( ) :: " + connectivityProperties.getProcessThreadCnt( ) ) ;
+			// 1은 Command2ModuleReceiver 의 처리 중인 thread이다. 정지 처리가 종료된 후 삭제된다.
+			while( 1 < connectivityProperties.getProcessThreadCnt( ) ) {
+				logger.info( "connectivityProperties.getProcessThreadCnt( ) :while: " + connectivityProperties.getProcessThreadCnt( ) ) ;
+				
+				Thread.sleep( 100 ) ;
+			}
+			
+			logger.info( "connectivityProperties.getProcessThreadCnt( ) :end: " + connectivityProperties.getProcessThreadCnt( ) ) ;
+			
+			// 설정 재설정
+			connectivityProperties.setConnectivityPropertiesDeviceSimulDataReset( deviceIdList ) ;
+			
+			// rabbitmq sub connectino 연결
+			this.rabbitmqSubConnectionOpen( ConnectivityProperties.STDV_INF ) ;
+			
+			// 장치간 연산 시작
+			this.betweenDevicesCalculateStart( ) ;
+			
+			// 리셋 완료 이벤트
 			
 			logger.info( "connectivityDeviceSimulDataReset 성공" ) ;
 		}
@@ -293,6 +339,110 @@ public class ConnectivityMainRun
 		}
 		finally {
 			strEventID = null ;
+			deviceIdList = null ;
+			connectivityProperties = null ;
+		}
+		return ;
+		
+	}
+	
+	public void connectivitySiteSimulModeOn( String strEventID ) {
+		
+		logger.info( "strEventID :: " + strEventID ) ;
+		ConnectivityProperties connectivityProperties = new ConnectivityProperties( ) ;
+		
+		try {
+			// 처리 정지 처리
+			
+			// 장치간 연산 중지
+			this.betweenDevicesCalculateStop( ) ;
+			
+			// rabbitmq sub connectino 연결 종료
+			this.rabbitmqSubConnectionClose( ) ;
+			
+			// 실행 스레드 수 체크
+			logger.info( "connectivityProperties.getProcessThreadCnt( ) :: " + connectivityProperties.getProcessThreadCnt( ) ) ;
+			// 1은 Command2ModuleReceiver 의 처리 중인 thread이다. 정지 처리가 종료된 후 삭제된다.
+			while( 1 < connectivityProperties.getProcessThreadCnt( ) ) {
+				logger.info( "connectivityProperties.getProcessThreadCnt( ) :while: " + connectivityProperties.getProcessThreadCnt( ) ) ;
+				
+				Thread.sleep( 100 ) ;
+			}
+			
+			logger.info( "connectivityProperties.getProcessThreadCnt( ) :end: " + connectivityProperties.getProcessThreadCnt( ) ) ;
+			
+			// 설정 재설정
+			connectivityProperties.setConnectivityPropertiesSimulModeOn( ) ;
+			
+			// rabbitmq sub connectino 연결
+			this.rabbitmqSubConnectionOpen( ConnectivityProperties.STDV_INF ) ;
+			
+			// 장치간 연산 시작
+			this.betweenDevicesCalculateStart( ) ;
+			
+			// 리셋 완료 이벤트
+			
+			logger.info( "connectivitySiteSimulModeOn 성공" ) ;
+		}
+		catch( Exception e ) {
+			logger.error( "connectivitySiteSimulModeOn 실패" ) ;
+			logger.error( e.getMessage( ) , e ) ;
+		}
+		finally {
+			strEventID = null ;
+			connectivityProperties = null ;
+			
+		}
+		return ;
+		
+	}
+	
+	public void connectivitySiteSimulModeOff( String strEventID ) {
+		
+		logger.info( "strEventID :: " + strEventID ) ;
+		ConnectivityProperties connectivityProperties = new ConnectivityProperties( ) ;
+		
+		try {
+			// 처리 정지 처리
+			
+			// 장치간 연산 중지
+			this.betweenDevicesCalculateStop( ) ;
+			
+			// rabbitmq sub connectino 연결 종료
+			this.rabbitmqSubConnectionClose( ) ;
+			
+			// 실행 스레드 수 체크
+			logger.info( "connectivityProperties.getProcessThreadCnt( ) :: " + connectivityProperties.getProcessThreadCnt( ) ) ;
+			// 1은 Command2ModuleReceiver 의 처리 중인 thread이다. 정지 처리가 종료된 후 삭제된다.
+			while( 1 < connectivityProperties.getProcessThreadCnt( ) ) {
+				logger.info( "connectivityProperties.getProcessThreadCnt( ) :while: " + connectivityProperties.getProcessThreadCnt( ) ) ;
+				
+				Thread.sleep( 100 ) ;
+			}
+			
+			logger.info( "connectivityProperties.getProcessThreadCnt( ) :end: " + connectivityProperties.getProcessThreadCnt( ) ) ;
+			
+			// 설정 재설정
+			connectivityProperties.setConnectivityPropertiesSimulModeOff( ) ;
+			
+			// rabbitmq sub connectino 연결
+			this.rabbitmqSubConnectionOpen( ConnectivityProperties.STDV_INF ) ;
+			
+			// 장치간 연산 시작
+			this.betweenDevicesCalculateStart( ) ;
+			
+			// 리셋 완료 이벤트
+			
+			logger.info( "connectivitySiteSimulModeOff 성공" ) ;
+		}
+		catch( Exception e ) {
+			logger.error( "connectivitySiteSimulModeOff 실패" ) ;
+			logger.error( e.getMessage( ) , e ) ;
+		}
+		finally {
+			strEventID = null ;
+			connectivityProperties = null ;
+			
 		}
 		return ;
 		
@@ -309,31 +459,24 @@ public class ConnectivityMainRun
 	 * @param staticDiviceInfo 설치 디바이스 정보
 	 * @throws Exception
 	 */
-	public void rabbitmqConnectionOpen( Map< String , Map< String , Object > > staticDiviceInfo ) throws Exception {
+	public void rabbitmqSubConnectionOpen( Map< String , Map< String , Object > > staticDiviceInfo ) throws Exception {
 		
 		RabbitmqConnection rabbitmqConnection = new RabbitmqConnection( ) ;
 		
-		Thread c2mThread = null ;
 		Thread c2cThread = null ;
 		Thread[ ] d2cThread = null ;
 		
 		ConnectionFactory factory = null ;
 		int threadCnt = 0 ;
-		int i = 0 ;
+		
 		try {
 			
 			// rabbitmq 수신 connection
-			logger.info( "================rabbitmqConnectionOpen================" ) ;
+			logger.info( "================rabbitmqSubConnectionOpen================" ) ;
 			
 			logger.info( "staticDiviceInfo :: " + staticDiviceInfo ) ;
 			
 			factory = rabbitmqConnection.getConnectionFactory( ) ;
-			
-			// service hub 모듈 제어
-			command2ModuleReceiver = new Command2ModuleReceiver( factory ) ;
-			// cmThread = new Thread( command2ModuleReceiver , "command2ModuleReceiver-Thread" ) ;
-			c2mThread = new Thread( command2ModuleReceiver ) ;
-			c2mThread.start( ) ;
 			
 			// 디바이스 제어
 			control2ConnectivityReceiver = new Control2ConnectivityReceiver( factory ) ;
@@ -363,20 +506,60 @@ public class ConnectivityMainRun
 			
 			logger.info( "staticDiviceInfo :: " + staticDiviceInfo ) ;
 			
-			// rabbitmq PUB connection
-			rabbitmqConnection.getDeviceControlConnection( ) ;
-			rabbitmqConnection.getEventConnection( ) ;
+		}
+		finally {
+			staticDiviceInfo = null ;
+			rabbitmqConnection = null ;
+			factory = null ;
+			threadCnt = 0 ;
+			
+			// c2mThread = null ;
+			// c2cThread = null ;
+			// d2cThread = null ;
+		}
+		
+	}
+	
+	public void rabbitmqCommandModuleSubConnectionOpen( ) throws Exception {
+		
+		RabbitmqConnection rabbitmqConnection = new RabbitmqConnection( ) ;
+		ConnectionFactory factory = null ;
+		
+		Thread c2mThread = null ;
+		try {
+			// rabbitmq 수신 connection
+			logger.info( "================rabbitmqSubConnectionOpen================" ) ;
+			factory = rabbitmqConnection.getConnectionFactory( ) ;
+			
+			// service hub 모듈 제어
+			command2ModuleReceiver = new Command2ModuleReceiver( factory ) ;
+			// cmThread = new Thread( command2ModuleReceiver , "command2ModuleReceiver-Thread" ) ;
+			c2mThread = new Thread( command2ModuleReceiver ) ;
+			c2mThread.start( ) ;
 			
 		}
 		finally {
 			rabbitmqConnection = null ;
 			factory = null ;
-			threadCnt = 0 ;
-			i = 0 ;
 			
 			// c2mThread = null ;
-			// c2cThread = null ;
-			// d2cThread = null ;
+		}
+	}
+	
+	public void rabbitmqPubConnectionOpen( ) throws Exception {
+		
+		RabbitmqConnection rabbitmqConnection = new RabbitmqConnection( ) ;
+		
+		try {
+			logger.info( "================rabbitmqPubConnectionOpen================" ) ;
+			
+			// rabbitmq PUB connection
+			rabbitmqConnection.getDeviceControlConnection( ) ;
+			rabbitmqConnection.getEventConnection( ) ;
+		}
+		finally {
+			rabbitmqConnection = null ;
+			
 		}
 		
 	}
@@ -397,10 +580,6 @@ public class ConnectivityMainRun
 		
 		int i = 0 ;
 		try {
-			
-			// 모듈 제어 rabbitmq connection 종료
-			command2ModuleReceiver.connectionClose( ) ;
-			
 			// 디바이스 제어 rabbitmq connection 종료
 			control2ConnectivityReceiver.connectionClose( ) ;
 			
@@ -414,13 +593,26 @@ public class ConnectivityMainRun
 					data2ConnectivityReceiverArr[ i ].connectionClose( ) ;
 				}
 			}
-			ConnectivityMainRun.command2ModuleReceiver = null ;
 			ConnectivityMainRun.control2ConnectivityReceiver = null ;
 			ConnectivityMainRun.data2ConnectivityReceiverArr = null ;
 			
 		}
 		finally {
 			i = 0 ;
+		}
+		
+		return ;
+	}
+	
+	public void rabbitmqCommandModuleSubConnectionClose( ) throws Exception {
+		
+		logger.info( "================rabbitmqCommandModuleSubConnectionClose================" ) ;
+		try {
+			// 모듈 제어 rabbitmq connection 종료
+			command2ModuleReceiver.connectionClose( ) ;
+			ConnectivityMainRun.command2ModuleReceiver = null ;
+		}
+		finally {
 		}
 		
 		return ;
@@ -441,6 +633,23 @@ public class ConnectivityMainRun
 		}
 		
 		return ;
+	}
+	
+	public void betweenDevicesCalculateStart( ) throws Exception {
+		//// 장치간 연산 10ms 단위는 안됨.
+		// betweenDevicesCalculateExecute = new BetweenDevicesCalculateExecute( 10 ) ;
+		betweenDevicesCalculateExecute = new BetweenDevicesCalculateExecute( 20 * 1000 ) ;
+		btwDvCalcuExeThread = new Thread( betweenDevicesCalculateExecute ) ;
+		btwDvCalcuExeThread.setPriority( 5 ) ;
+		btwDvCalcuExeThread.start( ) ;
+		
+	}
+	
+	public void betweenDevicesCalculateStop( ) throws Exception {
+		
+		betweenDevicesCalculateExecute.setStopExeThread( ) ;
+		btwDvCalcuExeThread.interrupt( ) ;
+		
 	}
 	
 }

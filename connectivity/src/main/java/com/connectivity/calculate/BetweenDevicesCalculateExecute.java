@@ -6,7 +6,6 @@ package com.connectivity.calculate ;
 import org.apache.logging.log4j.LogManager ;
 import org.apache.logging.log4j.Logger ;
 
-import com.connectivity.ConnectivityMainRun ;
 import com.connectivity.common.ConnectivityProperties ;
 
 /**
@@ -97,22 +96,22 @@ public class BetweenDevicesCalculateExecute implements Runnable
 		BetweenDevicesCalculate betweenDevicesCalculate = null ;
 		// Thread btwDvCalcuThread = null ;
 		
-//		int checkInt = 0 ;
+		// int checkInt = 0 ;
 		
 		try {
 			
 			logger.info( "BetweenDevicesCalculateExecute run 시작" ) ;
 			
 			while( this.isDemonLive ) {
-//				checkInt ++ ;
-				logger.info( "BetweenDevicesCalculateExecute BetweenDevicesCalculate run 시작 :: "  ) ;
+				// checkInt ++ ;
+				logger.info( "BetweenDevicesCalculateExecute BetweenDevicesCalculate run 시작 :: " ) ;
 				
 				betweenDevicesCalculate = new BetweenDevicesCalculate( ) ;
-//				Thread btwDvCalcuThread = new Thread( betweenDevicesCalculate  ) ;
-//				btwDvCalcuThread.setPriority( 6 );
-//				btwDvCalcuThread.start( ) ;
+				// Thread btwDvCalcuThread = new Thread( betweenDevicesCalculate ) ;
+				// btwDvCalcuThread.setPriority( 6 );
+				// btwDvCalcuThread.start( ) ;
 				
-				ConnectivityProperties.executorService.execute( betweenDevicesCalculate );
+				ConnectivityProperties.executorService.execute( betweenDevicesCalculate ) ;
 				
 				// betweenDevicesCalculate = null ;
 				
