@@ -7,6 +7,10 @@ import java.util.ArrayList ;
 import java.util.List ;
 import java.util.Map ;
 import java.util.concurrent.ConcurrentHashMap ;
+import java.util.concurrent.ExecutorService ;
+import java.util.concurrent.LinkedBlockingQueue ;
+import java.util.concurrent.ThreadPoolExecutor ;
+import java.util.concurrent.TimeUnit ;
 
 import org.apache.logging.log4j.LogManager ;
 import org.apache.logging.log4j.Logger ;
@@ -26,6 +30,8 @@ public final class ConnectivityProperties
 	
 	// 처리중인 쓰레드 수(계측, 장치간 연산, 이벤트 등)
 	public static int PROCESS_THREAD_CNT = 0 ;
+	
+	public static ExecutorService executorService = null ;
 	
 	//// 사이트 정보
 	// 장치간 연산 주기
@@ -70,6 +76,39 @@ public final class ConnectivityProperties
 	// APPIO - 장치간 연산 데이터(MGP_KEY, APPIO point index)
 	public static List< Map< String , Object > > APPIO_MAPPER_CRHS = new ArrayList< Map< String , Object > >( ) ;
 	// public static HashMap< String , String > APPIO_MAPPER_CRHS = new HashMap< String , String >( ) ;
+	
+	public void threadPoolExecute( ) {
+		try {
+			// ExecutorService 인터페이스 구현객체 Executors 정적메서드를 통해 코어 스레드와 최대 스레드 개수가 50인 스레드 풀 생성
+			// ConnectivityProperties.executorService = Executors.newFixedThreadPool( 50 ) ;
+			// 직접 ThreadPoolExecutor 객체 생성하기
+			ConnectivityProperties.executorService = new ThreadPoolExecutor( 10 , 50 , 10L , TimeUnit.SECONDS , new LinkedBlockingQueue< Runnable >( ) ) ;
+
+		}
+		catch( Exception e ) {
+			logger.error( e.getMessage( ) , e ) ;
+		}
+	}
+	
+	public void threadPoolShutdown( ) {
+		try {
+			// 남아있는 작업을 마무리하고 스레드풀 종료
+			ConnectivityProperties.executorService.shutdown( );
+
+		}
+		catch( Exception e ) {
+			logger.error( e.getMessage( ) , e ) ;
+		}
+	}
+	
+	public void threadPoolShutdownNow( ) {
+		try {
+			
+		}
+		catch( Exception e ) {
+			logger.error( e.getMessage( ) , e ) ;
+		}
+	}
 	
 	public Boolean setConnectivityProperties( ) {
 		Boolean resultBool = true ;
@@ -137,7 +176,7 @@ public final class ConnectivityProperties
 		return ;
 	}
 	
-	public Integer getProcessThreadCnt( ) {
+	public synchronized Integer getProcessThreadCnt( ) {
 		Integer resultInt = 0 ;
 		
 		try {

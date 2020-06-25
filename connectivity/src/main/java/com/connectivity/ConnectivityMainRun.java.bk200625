@@ -1,9 +1,8 @@
 package com.connectivity ;
 
 import java.util.Map ;
-import java.util.concurrent.LinkedBlockingQueue ;
-import java.util.concurrent.ThreadPoolExecutor ;
-import java.util.concurrent.TimeUnit ;
+import java.util.concurrent.ExecutorService ;
+import java.util.concurrent.Executors ;
 
 import org.apache.logging.log4j.LogManager ;
 import org.apache.logging.log4j.Logger ;
@@ -50,6 +49,8 @@ public class ConnectivityMainRun
 	// 장치간 연산
 	public static BetweenDevicesCalculateExecute betweenDevicesCalculateExecute = null ;
 	public static Thread btwDvCalcuExeThread = null ;
+	
+	public static ExecutorService executorService = null ;
 	
 	public static void main( String[ ] args ) {
 		
@@ -109,7 +110,7 @@ public class ConnectivityMainRun
 				jedisConnection.getJedisPool( ) ;
 				mongodbConnection.getMongoClient( ) ;
 				
-				connectivityProperties.threadPoolExecute( ) ;
+				executorService = Executors.newFixedThreadPool( 50 ) ;
 				
 				// connectivity 프로퍼티(db에 있는 mgp 설정) 읽어서 static 변수에 저장
 				if( connectivityProperties.setConnectivityProperties( ) ) {
@@ -143,9 +144,9 @@ public class ConnectivityMainRun
 				crThread.setPriority( 5 ) ;
 				crThread.start( ) ;
 				
-				//// 장치간 연산 10ms 단위는 안됨. 
+				//// 장치간 연산
 				// betweenDevicesCalculateExecute = new BetweenDevicesCalculateExecute( 10 ) ;
-				betweenDevicesCalculateExecute = new BetweenDevicesCalculateExecute( 100 ) ;
+				betweenDevicesCalculateExecute = new BetweenDevicesCalculateExecute( 10 ) ;
 				btwDvCalcuExeThread = new Thread( betweenDevicesCalculateExecute ) ;
 				btwDvCalcuExeThread.setPriority( 5 ) ;
 				btwDvCalcuExeThread.start( ) ;
@@ -199,18 +200,12 @@ public class ConnectivityMainRun
 			// 중간에 다른 처리 넣기
 			
 			// 실행 스레드 수 체크
-			logger.info( "connectivityProperties.getProcessThreadCnt( ) :: " + connectivityProperties.getProcessThreadCnt( ) ) ;
-			// 1은 Command2ModuleReceiver 의 처리 중인 thread이다. 정지 처리가 종료된 후 삭제된다.
-			while( 1 < connectivityProperties.getProcessThreadCnt( ) ) {
-				logger.info( "connectivityProperties.getProcessThreadCnt( ) :while: " + connectivityProperties.getProcessThreadCnt( ) ) ;
+			while( 0 > connectivityProperties.getProcessThreadCnt( ) ) {
+				logger.info( "connectivityProperties.getProcessThreadCnt( ) :: " + connectivityProperties.getProcessThreadCnt( ) ) ;
 				
 				Thread.sleep( 100 ) ;
 			}
-			
-			logger.info( "connectivityProperties.getProcessThreadCnt( ) :end: " + connectivityProperties.getProcessThreadCnt( ) ) ;
-			
-			// Thread pool 종료
-			connectivityProperties.threadPoolShutdown( ) ;
+			logger.info( "connectivityProperties.getProcessThreadCnt( ) :: " + connectivityProperties.getProcessThreadCnt( ) ) ;
 			
 			// rabbitmq Pub connection 종료
 			this.rabbitmqPubConnectionClose( ) ;

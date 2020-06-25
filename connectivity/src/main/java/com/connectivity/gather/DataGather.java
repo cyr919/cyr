@@ -44,9 +44,10 @@ public class DataGather extends QualityCode
 		
 		try {
 			commonProperties.setProperties( ) ;
-			connectivityProperties.setConnectivityProperties( ) ;
 			jedisConnection.getJedisPool( ) ;
 			mongodbConnection.getMongoClient( ) ;
+			connectivityProperties.threadPoolExecute( ) ;
+			connectivityProperties.setConnectivityProperties( ) ;
 		}
 		catch( Exception e ) {
 			// TODO Auto-generated catch block
@@ -76,6 +77,9 @@ public class DataGather extends QualityCode
 		//
 		// testData = "{\"STDV_ID\":\"stdv0004\",\"DATA\":{\"MGP040\":16,\"MGP041\":10,\"MGP044\":105,\"MGP023\":70,\"MGP045\":34,\"MGP042\":47,\"MGP043\":38,\"MGP026\":19,\"MGP048\":48,\"MGP027\":17,\"MGP049\":67,\"MGP024\":69,\"MGP046\":45,\"MGP025\":80,\"MGP047\":28,\"MGP039\":90,\"MGP051\":24,\"MGP030\":82,\"MGP052\":73,\"MGP050\":42,\"MGP033\":88,\"MGP055\":28,\"MGP034\":66,\"MGP056\":57,\"MGP031\":86,\"MGP053\":87,\"MGP032\":25,\"MGP054\":38,\"MGP037\":22,\"MGP038\":70,\"MGP035\":23,\"MGP057\":109,\"MGP036\":99,\"MGP028\":88,\"MGP029\":52},\"DMT\":\"2020-05-21 09:12:57.396\"}" ;
 		// exe.dataGathering( testData ) ;
+		
+		connectivityProperties.threadPoolShutdown( ) ;
+		
 	}
 	
 	/**
@@ -301,10 +305,12 @@ public class DataGather extends QualityCode
 			logger.debug( "history 저장 및 이벤트 데이터 처리 thread 생성 :: " ) ;
 			
 			historyAndEvent = new DataGatherHistoryAndEvent( strDviceId , strDmt , resultRecordQc , strSiteSmlt , strSiteSmltUsr , stdvInfMap , resultHistoryDataMap , resultCalCulDataMap , gatherDataEventList ) ;
-			// historyAndEventThread = new Thread( historyAndEvent , "DataGatherHistoryAndEvent" ) ;
-			historyAndEventThread = new Thread( historyAndEvent ) ;
-			historyAndEventThread.setPriority( 3 );
-			historyAndEventThread.start( ) ;
+			// // historyAndEventThread = new Thread( historyAndEvent , "DataGatherHistoryAndEvent" ) ;
+			// historyAndEventThread = new Thread( historyAndEvent ) ;
+			// historyAndEventThread.setPriority( 3 );
+			// historyAndEventThread.start( ) ;
+			ConnectivityProperties.executorService.execute( historyAndEvent ) ;
+			
 			logger.debug( "history 저장 및 이벤트 데이터 처리 thread 생성 :: 시작 완료 " ) ;
 			
 		}

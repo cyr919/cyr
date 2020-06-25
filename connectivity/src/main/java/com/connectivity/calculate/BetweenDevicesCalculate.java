@@ -13,6 +13,7 @@ import java.util.Map ;
 import org.apache.logging.log4j.LogManager ;
 import org.apache.logging.log4j.Logger ;
 
+import com.connectivity.ConnectivityMainRun ;
 import com.connectivity.calculate.dao.BetweenDevicesCalculateDao ;
 import com.connectivity.common.ConnectivityProperties ;
 import com.connectivity.common.dao.CommonDao ;
@@ -435,10 +436,11 @@ public class BetweenDevicesCalculate extends QualityCode implements Runnable
 			// BetweenDevicesCalculateHistoryAndEvent historyAndEvent = new BetweenDevicesCalculateHistoryAndEvent( strFirstDmt , resultRstDataMap ) ;
 			historyAndEvent = new BetweenDevicesCalculateHistoryAndEvent( strFirstDmt , resultRstDataMap , this.strSiteSmlt , this.strSiteSmltUsr ) ;
 			// historyAndEventThread = new Thread( historyAndEvent , "BetweenDevicesCalculateHistoryAndEvent" ) ;
-			historyAndEventThread = new Thread( historyAndEvent ) ;
-			historyAndEventThread.setPriority( 3 );
-			historyAndEventThread.start( ) ;
-			
+//			historyAndEventThread = new Thread( historyAndEvent ) ;
+//			historyAndEventThread.setPriority( 3 );
+//			historyAndEventThread.start( ) ;
+			ConnectivityProperties.executorService.execute( historyAndEvent );
+
 		}
 		catch( Exception e ) {
 			resultBool = false ;

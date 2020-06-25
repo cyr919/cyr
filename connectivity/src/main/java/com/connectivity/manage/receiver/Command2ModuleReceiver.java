@@ -5,9 +5,11 @@ import java.util.concurrent.TimeoutException ;
 
 import org.apache.logging.log4j.LogManager ;
 import org.apache.logging.log4j.Logger ;
+import org.json.simple.JSONObject ;
 
 import com.connectivity.common.ConnectivityProperties ;
 import com.connectivity.manage.ModuleCommand ;
+import com.connectivity.utils.JsonUtil ;
 import com.rabbitmq.client.AMQP ;
 import com.rabbitmq.client.Channel ;
 import com.rabbitmq.client.Connection ;
@@ -82,8 +84,7 @@ public class Command2ModuleReceiver implements Runnable
 						message = new String( body , "UTF-8" ) ;
 						logger.info( " [x] Received '" + message + "'" ) ;
 						
-						channel.basicAck( envelope.getDeliveryTag( ) , false ) ;
-						doWork( message ) ;
+						doWork( message , channel , envelope ) ;
 						
 					}
 					catch( Exception e ) {
@@ -119,23 +120,81 @@ public class Command2ModuleReceiver implements Runnable
 	}
 	
 	// private static void doWork( String strSubMessage , Channel channel , Envelope envelope ) throws Exception {
-	public void doWork( String strSubMessage ) {
+	public void doWork( String strSubMessage , Channel channel , Envelope envelope ) {
 		
 		ModuleCommand moduleCommand = new ModuleCommand( ) ;
 		
+		JsonUtil jsonUtil = new JsonUtil( ) ;
+		JSONObject jsonObject = new JSONObject( ) ;
+		
+		String strModuleId = "" ;
+		String strCommand = "" ;
+		
 		try {
-			moduleCommand.exeModuleCommand( strSubMessage ) ;
+			// 수집된 json data 파싱
+			jsonObject = jsonUtil.getJSONObjectFromString( ( strSubMessage + "" ) ) ;
+			
+			// 제어 명령 확인
+			strCommand = jsonObject.get( "COMMAND" ) + "" ;
+			logger.debug( "strCommand :: " + strCommand ) ;
+			
+			// 모듈 아이디 확인
+			strModuleId = jsonObject.get( "MFIF_ID" ) + "" ;
+			logger.debug( "strModuleId :: " + strModuleId ) ;
+			
+			if( strModuleId.equals( "connectivity" ) ) {
+				// 모듈 아이디가 connectivity 인것만 처리한다. 그 외는 무시한다.
+				if( "M02".equals( strCommand ) ) {
+					// 정지
+					// connectivity 정지 명령은 ack 처리 후 정지 처리한다. 안그러면 mq에 계속 남아있음.
+					channel.basicAck( envelope.getDeliveryTag( ) , false ) ;
+					moduleCommand.exeModuleCommandStop( strSubMessage ) ;
+				}
+				else {
+					moduleCommand.exeModuleCommand( strSubMessage ) ;
+					// connectivity 정지 외 설정 변경 명령 처리 후 ack 처리
+					channel.basicAck( envelope.getDeliveryTag( ) , false ) ;
+				}
+			}
+			else {
+				// connectivity 대상 명령이 아니면 처리하지 않고 ack 처리
+				channel.basicAck( envelope.getDeliveryTag( ) , false ) ;
+			}
 		}
 		catch( Exception e ) {
 			logger.error( e.getMessage( ) , e ) ;
 		}
 		finally {
 			strSubMessage = null ;
+			channel = null ;
+			envelope = null ;
 			moduleCommand = null ;
+			jsonUtil = null ;
+			jsonObject = null ;
+			strModuleId = null ;
+			strCommand = null ;
 		}
 		
 		return ;
 	}
+	
+	// public void doWork( String strSubMessage ) {
+	//
+	// ModuleCommand moduleCommand = new ModuleCommand( ) ;
+	//
+	// try {
+	// moduleCommand.exeModuleCommand( strSubMessage ) ;
+	// }
+	// catch( Exception e ) {
+	// logger.error( e.getMessage( ) , e ) ;
+	// }
+	// finally {
+	// strSubMessage = null ;
+	// moduleCommand = null ;
+	// }
+	//
+	// return ;
+	// }
 	
 	/**
 	 * <pre>

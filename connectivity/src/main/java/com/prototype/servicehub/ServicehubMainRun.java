@@ -15,6 +15,7 @@ public class ServicehubMainRun
 		
 		ServicehubMainRun exe = new ServicehubMainRun( ) ;
 		exe.commandSend( "stop" ) ;
+//		exe.commandSend( "stop" ) ;
 	}
 	
 	public void commandSend( String strCommand ) {
