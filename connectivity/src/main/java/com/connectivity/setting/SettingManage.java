@@ -14,6 +14,7 @@ import org.apache.logging.log4j.Logger ;
 import com.connectivity.common.CommonProperties ;
 import com.connectivity.common.ConnectivityProperties ;
 import com.connectivity.setting.dao.SettingManageDao ;
+import com.connectivity.utils.CommUtil ;
 
 /**
  * <pre>
@@ -25,6 +26,11 @@ import com.connectivity.setting.dao.SettingManageDao ;
 public class SettingManage
 {
 	private Logger logger = LogManager.getLogger( this.getClass( ) ) ;
+	
+	private HashMap< String , HashMap< String , Object > > stndrdDtMdlMap = new HashMap< String , HashMap< String , Object > >( ) ;
+	private HashMap< String , String > unitInfoMap = new HashMap< String , String >( ) ;
+	private final String[ ] upUnitScFctArr = { "1" , "0.001" , "0.000001" , "0.000000001" , "0.000000000001" } ;
+	private final String[ ] downUnitScFctArr = { "1" , "1000" , "1000000" , "1000000000" , "1000000000000" } ;
 	
 	/**
 	 * <pre>
@@ -46,7 +52,7 @@ public class SettingManage
 		
 		SettingManage exe = new SettingManage( ) ;
 		
-		exe.devicePropertiesSetting( ) ;
+		// exe.devicePropertiesSetting( ) ;
 		// exe.qualityCodeInfoSetting( ) ;
 		// exe.betweenDevicesCalculateInfoSetting( ) ;
 		// exe.siteInfoSetting( ) ;
@@ -54,13 +60,99 @@ public class SettingManage
 		// exe.appioMappingInfoDeviceDataSetting( ) ;
 		// exe.deviceCheckPropertiesSetting( ) ;
 		
-		List< String > deviceIdList = new ArrayList< String >( ) ;
-		deviceIdList.add( "stdv0001" ) ;
-		deviceIdList.add( "stdv0002" ) ;
-		deviceIdList.add( "stdv0006" ) ;
+		// List< String > deviceIdList = new ArrayList< String >( ) ;
+		// deviceIdList.add( "stdv0001" ) ;
+		// deviceIdList.add( "stdv0002" ) ;
+		// deviceIdList.add( "stdv0006" ) ;
+		//
+		// exe.devicePropertiesSetting( deviceIdList ) ;
 		
-		exe.devicePropertiesSetting( deviceIdList ) ;
+		// HashMap< String , HashMap< String , Object > > stndrdDtMdlMap = exe.getStndrdDtMdlInfo( ) ;
+		// exe.setStndrdDtMdlInfo( ) ;
 		
+	}
+	
+	public Boolean setUnitInfo( ) {
+		Boolean resultBool = true ;
+		
+		HashMap< String , String > resultMap = new HashMap< String , String >( ) ;
+		
+		try {
+			resultMap = new HashMap< String , String >( ) ;
+			resultMap.put( "Z" , "0" ) ;
+			resultMap.put( "K" , "1" ) ;
+			resultMap.put( "M" , "2" ) ;
+			resultMap.put( "G" , "3" ) ;
+			resultMap.put( "T" , "4" ) ;
+			
+			resultMap = unitInfoMap ;
+		}
+		catch( Exception e ) {
+			logger.error( e.getMessage( ) , e ) ;
+			resultMap = null ;
+		}
+		
+		return resultBool ;
+	}
+	
+	public Boolean setStndrdDtMdlInfo( ) {
+		Boolean resultBool = true ;
+		
+		SettingManageDao settingManageDao = new SettingManageDao( ) ;
+		List< HashMap > resultStandardDataModelList = new ArrayList< HashMap >( ) ;
+		CommUtil commUtil = new CommUtil( ) ;
+		
+		try {
+			logger.info( "setStndrdDtMdlInfo" ) ;
+			logger.info( "stndrdDtMdlMap :: " + stndrdDtMdlMap ) ;
+			
+			resultStandardDataModelList = settingManageDao.selectStandardDataModelList( ) ;
+			
+			stndrdDtMdlMap = commUtil.getHashMapFromMongodbListHashMap( resultStandardDataModelList , "_id" ) ;
+			logger.info( "stndrdDtMdlMap :: " + stndrdDtMdlMap ) ;
+		}
+		catch( Exception e ) {
+			resultBool = false ;
+			logger.error( e.getMessage( ) , e ) ;
+		}
+		finally {
+			settingManageDao = null ;
+			resultStandardDataModelList = null ;
+			commUtil = null ;
+			
+			logger.info( "setStndrdDtMdlInfo finally" ) ;
+		}
+		
+		return resultBool ;
+	}
+	
+	public HashMap< String , HashMap< String , Object > > getStndrdDtMdlInfo( ) {
+		HashMap< String , HashMap< String , Object > > resultMap = new HashMap< String , HashMap< String , Object > >( ) ;
+		
+		SettingManageDao settingManageDao = new SettingManageDao( ) ;
+		List< HashMap > resultStandardDataModelList = new ArrayList< HashMap >( ) ;
+		CommUtil commUtil = new CommUtil( ) ;
+		
+		try {
+			logger.info( "getStndrdDtMdlInfo" ) ;
+			
+			resultStandardDataModelList = settingManageDao.selectStandardDataModelList( ) ;
+			
+			resultMap = commUtil.getHashMapFromMongodbListHashMap( resultStandardDataModelList , "_id" ) ;
+			logger.info( "resultMap :: " + resultMap ) ;
+		}
+		catch( Exception e ) {
+			logger.error( e.getMessage( ) , e ) ;
+		}
+		finally {
+			settingManageDao = null ;
+			resultStandardDataModelList = null ;
+			commUtil = null ;
+			
+			logger.info( "getStndrdDtMdlInfo finally" ) ;
+		}
+		
+		return resultMap ;
 	}
 	
 	/**
@@ -80,7 +172,7 @@ public class SettingManage
 		
 		List< HashMap > resultList = new ArrayList< HashMap >( ) ;
 		HashMap< String , Object > tempMap = new HashMap< String , Object >( ) ;
-		HashMap< String , Object > tempTrmMap = new HashMap< String , Object >( ) ;
+		// HashMap< String , Object > tempTrmMap = new HashMap< String , Object >( ) ;
 		List< Map< String , Object > > tempList = new ArrayList< Map< String , Object > >( ) ;
 		Map< String , Map< String , Object > > deviceInfo = new HashMap< String , Map< String , Object > >( ) ;
 		Map< String , List< Map< String , Object > > > deviceDataModel = new HashMap< String , List< Map< String , Object > > >( ) ;
@@ -116,7 +208,7 @@ public class SettingManage
 					deviceId = resultList.get( i ).get( "_id" ) + "" ;
 					
 					// 디바이스 기본정보 처리
-					tempMap = getDeviceInfoMap( resultList.get( i ) ) ;
+					tempMap = setDeviceInfoMap( resultList.get( i ) ) ;
 					tempMap.put( "_id" , deviceId ) ;
 					
 					deviceInfo.put( deviceId , tempMap ) ;
@@ -171,7 +263,7 @@ public class SettingManage
 			deviceDataModel = null ;
 			deviceCalInfo = null ;
 			deviceId = null ;
-			tempTrmMap = null ;
+			// tempTrmMap = null ;
 			i = 0 ;
 			logger.info( "devicePropertiesSetting finally" ) ;
 		}
@@ -216,15 +308,14 @@ public class SettingManage
 					deviceId = resultList.get( i ).get( "_id" ) + "" ;
 					
 					// 디바이스 기본정보 처리
-					deviceInfoMap = getDeviceInfoMap( resultList.get( i ) ) ;
+					deviceInfoMap = setDeviceInfoMap( resultList.get( i ) ) ;
 					deviceInfoMap.put( "_id" , deviceId ) ;
 					logger.debug( "deviceInfoMap" + deviceInfoMap ) ;
 					
 					// 데이터 모델 처리
 					// TODO unit converter facter 추가 기능 개발
 					dataModelList = new ArrayList< Map< String , Object > >( ) ;
-					dataModelList.addAll( ( ArrayList< HashMap< String , Object > > ) resultList.get( i ).get( "DT_MDL" ) ) ;
-					
+					dataModelList = setDataModelList( ( ArrayList< HashMap< String , Object > > ) resultList.get( i ).get( "DT_MDL" ) ) ;
 					// // 데이터 모델 list -> map
 					// tempMapFromList = commUtil.getHashMapFromListHashMap( tempList , "MGP_KEY" ) ;
 					// deviceDataModelMap.put( deviceId , tempMapFromList ) ;
@@ -265,7 +356,7 @@ public class SettingManage
 	 * @param resultDeviceDataMap
 	 * @return
 	 */
-	public HashMap< String , Object > getDeviceInfoMap( HashMap< ? , ? > resultDeviceDataMap ) {
+	public HashMap< String , Object > setDeviceInfoMap( HashMap< ? , ? > resultDeviceDataMap ) {
 		
 		HashMap< String , Object > resultMap = new HashMap< String , Object >( ) ;
 		HashMap< String , Object > tempTrmMap = new HashMap< String , Object >( ) ;
@@ -292,6 +383,98 @@ public class SettingManage
 		}
 		
 		return resultMap ;
+	}
+	
+	public ArrayList< Map< String , Object > > setDataModelList( ArrayList< HashMap< String , Object > > paramDtMdlList ) {
+		ArrayList< Map< String , Object > > resultList = new ArrayList< Map< String , Object > >( ) ;
+		
+		CommUtil commUtil = new CommUtil( ) ;
+		int i = 0 ;
+		
+		HashMap< String , Object > listSubMap = new HashMap<>( ) ;
+		String strMgpKey = "" ;
+		String strOrgUnit = "" ;
+		String strChangeUnit = "" ;
+		
+		String strUnitScFct = "" ;
+		
+		Integer intOrgUnit = 0 ;
+		Integer intChangeUnit = 0 ;
+		Integer intUnitScFct = 0 ;
+		
+		try {
+			if( !commUtil.checkNull( paramDtMdlList ) ) {
+				
+				if( commUtil.checkNull( stndrdDtMdlMap ) ) {
+					setStndrdDtMdlInfo( ) ;
+					setUnitInfo( ) ;
+				}
+				
+				for( i = 0 ; i < paramDtMdlList.size( ) ; i++ ) {
+					
+					logger.debug( "paramDtMdlList.get( " + i + " ) :: " + paramDtMdlList.get( i ) ) ;
+					logger.debug( "paramDtMdlList.get( " + i + " ).get( \"UNIT\" ) :: " + paramDtMdlList.get( i ).get( "UNIT" ) ) ;
+					
+					listSubMap = new HashMap< String , Object >( ) ;
+					listSubMap = paramDtMdlList.get( i ) ;
+					
+					strMgpKey = listSubMap.get( "MGP_KEY" ) + "" ;
+					strOrgUnit = listSubMap.get( "UNIT" ) + "" ;
+					strChangeUnit = stndrdDtMdlMap.get( strMgpKey ).get( "UNIT" ) + "" ;
+					
+					logger.info( "strMgpKey :: " + strMgpKey ) ;
+					logger.info( "strOrgUnit :: " + strOrgUnit ) ;
+					logger.info( "strChangeUnit :: " + strChangeUnit ) ;
+					
+					if( commUtil.checkNull( strOrgUnit ) || commUtil.checkNull( strChangeUnit ) || "-".equals( strOrgUnit ) || "-".equals( strChangeUnit ) ) {
+						strUnitScFct = "1" ;
+					}
+					else {
+						strOrgUnit = strOrgUnit.substring( 0 , 1 ).toUpperCase( ) ;
+						strChangeUnit = strChangeUnit.substring( 0 , 1 ).toUpperCase( ) ;
+						logger.info( "strOrgUnit :: " + strOrgUnit ) ;
+						logger.info( "strChangeUnit :: " + strChangeUnit ) ;
+						
+						intOrgUnit = Integer.parseInt( unitInfoMap.get( strOrgUnit ) ) ;
+						intChangeUnit = Integer.parseInt( unitInfoMap.get( strChangeUnit ) ) ;
+						intUnitScFct = intOrgUnit - intChangeUnit ;
+						logger.info( "intOrgUnit :: " + intOrgUnit ) ;
+						logger.info( "intChangeUnit :: " + intChangeUnit ) ;
+						logger.info( "intUnitScFct :: " + intUnitScFct ) ;
+						
+						if( 0 > intUnitScFct ) {
+							// ex) W -> kW => 0 - 1 = -1
+							intUnitScFct = intUnitScFct * -1 ;
+							logger.info( "intUnitScFct :: " + intUnitScFct ) ;
+							
+							strUnitScFct = upUnitScFctArr[ intUnitScFct ] ;
+						}
+						else if( 0 < intUnitScFct ) {
+							// ex) kW -> W => 1 - 0 = 1
+							
+							strUnitScFct = downUnitScFctArr[ intUnitScFct ] ;
+						}
+						else {
+							strUnitScFct = "1" ;
+						}
+						
+					}
+					
+					listSubMap.put( "MGP_UNIT" , strChangeUnit ) ;
+					listSubMap.put( "UNIT_SC_FCT" , strUnitScFct ) ;
+					resultList.add( listSubMap ) ;
+				}
+			}
+		}
+		catch( Exception e ) {
+			logger.error( e.getMessage( ) , e ) ;
+		}
+		finally {
+			paramDtMdlList = null ;
+			commUtil = null ;
+			i = 0 ;
+		}
+		return resultList ;
 	}
 	
 	public Boolean qualityCodeInfoSetting( ) {

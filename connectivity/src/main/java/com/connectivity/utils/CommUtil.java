@@ -217,7 +217,7 @@ public class CommUtil
 	 * @param strKey hashmap의 key
 	 * @return
 	 */
-	public HashMap< String , HashMap< String , Object > > getHashMapFromListHashMap( List< HashMap< String , Object > > listHashMap , String strKey ) {
+	public HashMap< String , HashMap< String , Object > > getHashMapFromListHashMap( List< HashMap< ? , ? > > listHashMap , String strKey ) {
 		HashMap< String , HashMap< String , Object > > resultHashMap = new HashMap<>( ) ;
 		
 		HashMap< String , Object > tempHashMap = new HashMap<>( ) ;
@@ -230,7 +230,39 @@ public class CommUtil
 					logger.info( "listHashMap.get( " + i + " ) :: " + listHashMap.get( i ) ) ;
 					
 					tempHashMap = new HashMap< String , Object >( ) ;
-					tempHashMap = listHashMap.get( i ) ;
+					tempHashMap = ( HashMap< String , Object > ) listHashMap.get( i ) ;
+					
+					resultHashMap.put( ( listHashMap.get( i ).get( strKey ) + "" ) , tempHashMap ) ;
+				}
+			}
+		}
+		catch( Exception e ) {
+			logger.error( e.getMessage( ) , e ) ;
+		}
+		finally {
+			tempHashMap = null ;
+			listHashMap = null ;
+			strKey = null ;
+			i = 0 ;
+		}
+		
+		return resultHashMap ;
+	}
+	
+	public HashMap< String , HashMap< String , Object > > getHashMapFromMongodbListHashMap( List< HashMap > listHashMap , String strKey ) {
+		HashMap< String , HashMap< String , Object > > resultHashMap = new HashMap<>( ) ;
+		
+		HashMap< String , Object > tempHashMap = new HashMap<>( ) ;
+		int i = 0 ;
+		
+		try {
+			if( !checkNull( listHashMap ) ) {
+				for( i = 0 ; i < listHashMap.size( ) ; i++ ) {
+					logger.info( "listHashMap.get( " + i + " ).get( " + strKey + " ) :: " + listHashMap.get( i ).get( strKey ) ) ;
+					logger.info( "listHashMap.get( " + i + " ) :: " + listHashMap.get( i ) ) ;
+					
+					tempHashMap = new HashMap< String , Object >( ) ;
+					tempHashMap = ( HashMap< String , Object > ) listHashMap.get( i ) ;
 					
 					resultHashMap.put( ( listHashMap.get( i ).get( strKey ) + "" ) , tempHashMap ) ;
 				}
