@@ -381,11 +381,11 @@ public final class ConnectivityProperties
 		
 		try {
 			
-			logger.debug( "strGatherDmt :: " + strGatherDmt ) ;
-			logger.debug( "deviceId :: " + strDviceId ) ;
+			// logger.debug( "strGatherDmt :: " + strGatherDmt ) ;
+			// logger.debug( "deviceId :: " + strDviceId ) ;
 			
 			strLastGatherDmt = LAST_GATHER_DTM.get( strDviceId ) ;
-			logger.debug( "strLastGatherDmt :: " + strLastGatherDmt ) ;
+			// logger.debug( "strLastGatherDmt :: " + strLastGatherDmt ) ;
 			
 			if( strGatherDmt.equals( strLastGatherDmt ) ) {
 				// 현재 계측 시간과 이전 계측 시간이 같을 경우
@@ -397,8 +397,8 @@ public final class ConnectivityProperties
 				LAST_GATHER_DTM.put( strDviceId , strGatherDmt ) ;
 			}
 			
-			logger.debug( "LAST_GATHER_DTM :: " + LAST_GATHER_DTM ) ;
-			logger.debug( "OLD_DATA_QC_CHECK :: " + OLD_DATA_QC_CHECK ) ;
+			// logger.debug( "LAST_GATHER_DTM :: " + LAST_GATHER_DTM ) ;
+			// logger.debug( "OLD_DATA_QC_CHECK :: " + OLD_DATA_QC_CHECK ) ;
 		}
 		catch( Exception e ) {
 			logger.error( e.getMessage( ) , e ) ;

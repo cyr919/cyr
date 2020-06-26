@@ -226,8 +226,8 @@ public class CommUtil
 		try {
 			if( !checkNull( listHashMap ) ) {
 				for( i = 0 ; i < listHashMap.size( ) ; i++ ) {
-					logger.info( "listHashMap.get( " + i + " ).get( " + strKey + " ) :: " + listHashMap.get( i ).get( strKey ) ) ;
-					logger.info( "listHashMap.get( " + i + " ) :: " + listHashMap.get( i ) ) ;
+					// logger.info( "listHashMap.get( " + i + " ).get( " + strKey + " ) :: " + listHashMap.get( i ).get( strKey ) ) ;
+					// logger.info( "listHashMap.get( " + i + " ) :: " + listHashMap.get( i ) ) ;
 					
 					tempHashMap = new HashMap< String , Object >( ) ;
 					tempHashMap = ( HashMap< String , Object > ) listHashMap.get( i ) ;
@@ -258,8 +258,8 @@ public class CommUtil
 		try {
 			if( !checkNull( listHashMap ) ) {
 				for( i = 0 ; i < listHashMap.size( ) ; i++ ) {
-					logger.info( "listHashMap.get( " + i + " ).get( " + strKey + " ) :: " + listHashMap.get( i ).get( strKey ) ) ;
-					logger.info( "listHashMap.get( " + i + " ) :: " + listHashMap.get( i ) ) ;
+					// logger.info( "listHashMap.get( " + i + " ).get( " + strKey + " ) :: " + listHashMap.get( i ).get( strKey ) ) ;
+					// logger.info( "listHashMap.get( " + i + " ) :: " + listHashMap.get( i ) ) ;
 					
 					tempHashMap = new HashMap< String , Object >( ) ;
 					tempHashMap = ( HashMap< String , Object > ) listHashMap.get( i ) ;
