@@ -16,6 +16,7 @@ import com.connectivity.control.receiver.Control2ConnectivityReceiver ;
 import com.connectivity.gather.receiver.Data2ConnectivityReceiver ;
 import com.connectivity.manage.ConditionReport ;
 import com.connectivity.manage.receiver.Command2ModuleReceiver ;
+import com.connectivity.setting.SettingManage ;
 import com.rabbitmq.client.ConnectionFactory ;
 
 /**
@@ -111,6 +112,8 @@ public class ConnectivityMainRun
 				
 				// connectivity 프로퍼티(db에 있는 mgp 설정) 읽어서 static 변수에 저장
 				if( connectivityProperties.setConnectivityProperties( ) ) {
+					// loggerSetting
+					connectivityLoggerSetting( );
 					
 					resultBool01 = true ;
 					resultBool02 = true ;
@@ -448,6 +451,22 @@ public class ConnectivityMainRun
 		}
 		return ;
 		
+	}
+	
+	public void connectivityLoggerSetting( ) {
+		SettingManage settingManage = new SettingManage( ) ;
+		
+		try {
+			settingManage.loggerChange( ) ;
+		}
+		catch( Exception e ) {
+			logger.error( e.getMessage( ) , e ) ;
+		}
+		finally {
+			settingManage = null ;
+		}
+		
+		return ;
 	}
 	
 	/**

@@ -31,7 +31,6 @@ public class SettingManageDao
 {
 	private Logger logger = LogManager.getLogger( this.getClass( ) ) ;
 	
-	
 	public ArrayList< HashMap > selectStandardDataModelList( ) {
 		
 		ArrayList< HashMap > resultList = new ArrayList< HashMap >( ) ;
@@ -457,4 +456,43 @@ public class SettingManageDao
 		
 		return resultList ;
 	}
+	
+	public HashMap< String , Object > selectLogConfigInfo( ) {
+		
+		HashMap< String , Object > resultMap = new HashMap< String , Object >( ) ;
+		
+		MongodbConnection mongodbConnection = new MongodbConnection( ) ;
+		MongoOperations mongoOps = null ;
+		Query query = new Query( ) ;
+		
+		try {
+			
+			logger.debug( "selectLogConfigInfo" ) ;
+			
+			mongoOps = mongodbConnection.getMongoTemplate( ) ;
+			
+			// sql where
+			query.addCriteria( Criteria.where( "TP" ).is( "CNT" ) ) ;
+			
+			// 추후 변경
+			query.addCriteria( Criteria.where( "_id" ).is( "connectivity" ) ) ;
+			
+			resultMap = mongoOps.findOne( query , HashMap.class , "MGP_LGCF" ) ;
+			
+			logger.trace( "mongoOps :: " + mongoOps ) ;
+			logger.trace( "resultMap :: " + resultMap ) ;
+		}
+		catch( Exception e ) {
+			logger.error( e.getMessage( ) , e ) ;
+		}
+		finally {
+			mongodbConnection = null ;
+			mongoOps = null ;
+			query = null ;
+			logger.debug( "selectLogConfigInfo finally" ) ;
+		}
+		
+		return resultMap ;
+	}
+	
 }

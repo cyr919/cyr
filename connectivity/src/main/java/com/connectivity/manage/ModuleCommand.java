@@ -100,6 +100,14 @@ public class ModuleCommand
 					exe.connectivitySiteSimulModeOn( strEventHisId ) ;
 					
 				}
+				else if( "M08".equals( strCommand ) ) {
+					// log 설정 변경
+					logger.info( "::::::::::::::::::connectivity logConfig ::::::::::::::::" ) ;
+					logger.info( "::::::::::::::::::connectivity logConfig ::::::::::::::::" ) ;
+					logger.info( "::::::::::::::::::connectivity logConfig ::::::::::::::::" ) ;
+					
+					exe.connectivityLoggerSetting( );
+				}
 				else if( "M03".equals( strCommand ) ) {
 					// reset
 					

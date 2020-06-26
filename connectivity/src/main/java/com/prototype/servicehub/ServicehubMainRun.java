@@ -14,10 +14,14 @@ public class ServicehubMainRun
 	public static void main( String[ ] args ) {
 		
 		ServicehubMainRun exe = new ServicehubMainRun( ) ;
-		exe.commandSend( "stop" ) ;
+		
+		// exe.commandSend( "stop" ) ;
 		// exe.commandSend( "reset" ) ;
 		// exe.commandSend( "SiteSimulModOn" ) ;
 		// exe.commandSend( "SiteSimulModOff" ) ;
+		
+		exe.commandSend( "logConf" ) ;
+		
 	}
 	
 	public void commandSend( String strCommand ) {
@@ -52,6 +56,10 @@ public class ServicehubMainRun
 			else if( "sitesimulmodoff".equals( strCommandLower ) ) {
 				
 				resultJsonObject.put( "COMMAND" , "S02" ) ;
+			}
+			else if( "logconf".equals( strCommandLower ) ) {
+				
+				resultJsonObject.put( "COMMAND" , "M08" ) ;
 			}
 			else {
 				// stop

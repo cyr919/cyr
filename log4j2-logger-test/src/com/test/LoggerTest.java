@@ -50,9 +50,6 @@ public class LoggerTest
 		
 		exe.testLog( ) ;
 		main.testLog( ) ;
-		
-		
-		
 
 	}
 	

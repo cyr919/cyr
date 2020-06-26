@@ -8,6 +8,7 @@ import java.util.HashMap ;
 import java.util.List ;
 import java.util.Map ;
 
+import org.apache.logging.log4j.Level ;
 import org.apache.logging.log4j.LogManager ;
 import org.apache.logging.log4j.Logger ;
 
@@ -15,6 +16,7 @@ import com.connectivity.common.CommonProperties ;
 import com.connectivity.common.ConnectivityProperties ;
 import com.connectivity.setting.dao.SettingManageDao ;
 import com.connectivity.utils.CommUtil ;
+import com.connectivity.utils.LoggerUtil ;
 
 /**
  * <pre>
@@ -62,15 +64,17 @@ public class SettingManage
 		// exe.appioMappingInfoDeviceDataSetting( ) ;
 		// exe.deviceCheckPropertiesSetting( ) ;
 		
-		List< String > deviceIdList = new ArrayList< String >( ) ;
-		deviceIdList.add( "stdv0001" ) ;
-		deviceIdList.add( "stdv0002" ) ;
-		deviceIdList.add( "stdv0006" ) ;
-		
-		exe.devicePropertiesSetting( deviceIdList ) ;
+		// List< String > deviceIdList = new ArrayList< String >( ) ;
+		// deviceIdList.add( "stdv0001" ) ;
+		// deviceIdList.add( "stdv0002" ) ;
+		// deviceIdList.add( "stdv0006" ) ;
+		//
+		// exe.devicePropertiesSetting( deviceIdList ) ;
 		
 		// HashMap< String , HashMap< String , Object > > stndrdDtMdlMap = exe.getStndrdDtMdlInfo( ) ;
 		// exe.setStndrdDtMdlInfo( ) ;
+		
+		exe.loggerChange( ) ;
 		
 	}
 	
@@ -873,6 +877,48 @@ public class SettingManage
 			i = 0 ;
 		}
 		return resultBool ;
+	}
+	
+	public Boolean loggerChange( ) {
+		Boolean resultBool = true ;
+		
+		SettingManageDao settingManageDao = new SettingManageDao( ) ;
+		LoggerUtil LoggerUtil = new LoggerUtil( ) ;
+		CommUtil commUtil = new CommUtil( ) ;
+		HashMap< String , Object > resultMap = new HashMap< String , Object >( ) ;
+		Level level = null ;
+		
+		try {
+			resultMap = settingManageDao.selectLogConfigInfo( ) ;
+			logger.debug( "resultMap :: " + resultMap ) ;
+			
+			if( !commUtil.checkNull( resultMap ) ) {
+				
+				level = Level.getLevel( ( resultMap.get( "LVL" ) + "" ).toUpperCase( ) ) ;
+				logger.debug( "level :: " + level ) ;
+				
+				if( level == null ) {
+					level = Level.DEBUG ;
+					logger.debug( "level :: " + level ) ;
+				}
+				
+				LoggerUtil.changeLoggerSetting( "com.connectivity" , level , ( resultMap.get( "SIZE" ) + "" ) ) ;
+			}
+		}
+		catch( Exception e ) {
+			resultBool = false ;
+			logger.error( e.getMessage( ) , e ) ;
+		}
+		finally {
+			settingManageDao = null ;
+			LoggerUtil = null ;
+			commUtil = null ;
+			resultMap = null ;
+			level = null ;
+		}
+		
+		return resultBool ;
+		
 	}
 	
 }
