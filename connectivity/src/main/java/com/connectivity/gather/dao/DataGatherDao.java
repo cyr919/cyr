@@ -46,7 +46,7 @@ public class DataGatherDao
 		CommUtil commUtil = new CommUtil( ) ;
 		
 		try {
-			logger.debug( "hmSetGatherData" ) ;
+//			logger.debug( "hmSetGatherData" ) ;
 			
 			if( !commUtil.checkNull( redisSetDataMap ) ) {
 				strKey = "MGP_SVDT" + "^" + dviceId ;
@@ -72,7 +72,7 @@ public class DataGatherDao
 			resultStr = null ;
 			commUtil = null ;
 			redisCommon = null ;
-			logger.debug( "hmSetGatherData finally" ) ;
+//			logger.debug( "hmSetGatherData finally" ) ;
 			
 		}
 		
