@@ -90,8 +90,8 @@ public class DevicesControl
 		try {
 			logger.debug( "devicesControlExe" ) ;
 			
-			strSiteSmlt = ConnectivityProperties.SITE_SMLT ;
-			strSiteSmltUsr = ConnectivityProperties.SITE_SMLT_USR ;
+			strSiteSmlt = ConnectivityProperties.getSiteSmlt( );
+			strSiteSmlt = ConnectivityProperties.getSiteSmltUsr( ) ;
 			
 			logger.debug( "strJsonData :: " + strJsonData ) ;
 			// 수집된 json data 파싱
@@ -192,7 +192,7 @@ public class DevicesControl
 			logger.debug( "transmissionDevicesControl" ) ;
 			
 			strStdvId = deviceCtrlInfo.get( "STDV_ID" ) + "" ;
-			deviceInfoMap = ConnectivityProperties.STDV_INF.get( strStdvId ) ;
+			deviceInfoMap = ConnectivityProperties.getStdvInf( strStdvId );
 			
 			strAdptId = deviceInfoMap.get( "ADPT_ID" ) + "" ;
 			

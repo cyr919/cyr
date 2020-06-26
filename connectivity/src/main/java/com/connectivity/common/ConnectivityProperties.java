@@ -47,7 +47,7 @@ public final class ConnectivityProperties
 	// 저장(공통)데이터모델(디바이스 아이디, 저장(공통)데이터모델 리스트)
 	public static Map< String , List< Map< String , Object > > > STDV_DT_MDL = new ConcurrentHashMap< String , List< Map< String , Object > > >( ) ;
 	// 저장(공통)데이터모델 list -> map(디바이스 아이디, < mgp_key, 저장(공통)데이터모델 맵 >)
-	// public static HashMap< String , HashMap< String , HashMap< String , Object > > > STDV_DT_MDL_MAP = new HashMap< String , HashMap< String , HashMap< String , Object > > >( ) ;
+	public static Map< String , Map< String , Map< String , Object > > > STDV_DT_MDL_MAP = new ConcurrentHashMap< String , Map< String , Map< String , Object > > >( ) ;
 	// 장치내 연산정보(디바이스 아이디, 장치내 연산정보)
 	public static Map< String , List< Map< String , Object > > > STDV_CAL_INF = new ConcurrentHashMap< String , List< Map< String , Object > > >( ) ;
 	// 저장 주기 체크 설정(디바이스 아이디 , 저장주기 체크 횟수 )
@@ -77,13 +77,72 @@ public final class ConnectivityProperties
 	public static List< Map< String , Object > > APPIO_MAPPER_CRHS = new ArrayList< Map< String , Object > >( ) ;
 	// public static HashMap< String , String > APPIO_MAPPER_CRHS = new HashMap< String , String >( ) ;
 	
+	public static synchronized String getSiteTrmCal( ) {
+		return SITE_TRM_CAL ;
+	}
+	
+	public static synchronized String getSiteSmlt( ) {
+		return SITE_SMLT ;
+	}
+	
+	public static synchronized String getSiteSmltUsr( ) {
+		return SITE_SMLT ;
+	}
+	
+	public static Map< String , Object > getStdvInf( String deviceId ) {
+		return STDV_INF.get( deviceId ) ;
+	}
+	
+	public static synchronized Map< String , Map< String , Object > > getStdvInf( ) {
+		return STDV_INF ;
+	}
+	
+	public static List< Map< String , Object > > getStdvDtMdl( String deviceId ) {
+		return STDV_DT_MDL.get( deviceId ) ;
+	}
+	
+	public static Map< String , Map< String , Object > > getStdvDtMdlMap( String deviceId ) {
+		return STDV_DT_MDL_MAP.get( deviceId ) ;
+	}
+	
+	public static List< Map< String , Object > > getStdvCalInf( String deviceId ) {
+		return STDV_CAL_INF.get( deviceId ) ;
+	}
+	
+	public static synchronized Map< String , Map< String , Object > > getRecordQcInf( ) {
+		return RECORD_QC_INF ;
+	}
+	
+	public static synchronized Map< String , Map< String , Object > > getFieldQcInf( ) {
+		return FIELD_QC_INF ;
+	}
+	
+	public static synchronized Map< String , Map< String , Integer > > getRecordQcIdx( ) {
+		return RECORD_QC_IDX ;
+	}
+	
+	public static synchronized Map< String , Map< String , Integer > > getFieldQcIdx( ) {
+		return FIELD_QC_IDX ;
+	}
+	
+	public static synchronized List< Map< String , Object > > getBtwnDvCalInfo( ) {
+		return BTWN_DV_CAL_INFO ;
+	}
+	
+	public static List< Map< String , Object > > getAppioMapperSdhs( String deviceId ) {
+		return APPIO_MAPPER_SDHS.get( deviceId ) ;
+	}
+	
+	public static synchronized List< Map< String , Object > > getAppioMapperCrhs( ) {
+		return APPIO_MAPPER_CRHS ;
+	}
+	
 	public void threadPoolExecute( ) {
 		try {
 			// ExecutorService 인터페이스 구현객체 Executors 정적메서드를 통해 코어 스레드와 최대 스레드 개수가 50인 스레드 풀 생성
 			// ConnectivityProperties.executorService = Executors.newFixedThreadPool( 50 ) ;
 			// 직접 ThreadPoolExecutor 객체 생성하기
 			ConnectivityProperties.executorService = new ThreadPoolExecutor( 10 , 50 , 10L , TimeUnit.SECONDS , new LinkedBlockingQueue< Runnable >( ) ) ;
-			
 		}
 		catch( Exception e ) {
 			logger.error( e.getMessage( ) , e ) ;

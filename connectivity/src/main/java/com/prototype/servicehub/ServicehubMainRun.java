@@ -15,12 +15,12 @@ public class ServicehubMainRun
 		
 		ServicehubMainRun exe = new ServicehubMainRun( ) ;
 		
-		// exe.commandSend( "stop" ) ;
+		 exe.commandSend( "stop" ) ;
 		// exe.commandSend( "reset" ) ;
 		// exe.commandSend( "SiteSimulModOn" ) ;
 		// exe.commandSend( "SiteSimulModOff" ) ;
 		
-		exe.commandSend( "logConf" ) ;
+//		exe.commandSend( "logConf" ) ;
 		
 	}
 	

@@ -113,7 +113,7 @@ public class ConnectivityMainRun
 				// connectivity 프로퍼티(db에 있는 mgp 설정) 읽어서 static 변수에 저장
 				if( connectivityProperties.setConnectivityProperties( ) ) {
 					// loggerSetting
-					connectivityLoggerSetting( );
+					connectivityLoggerSetting( ) ;
 					
 					resultBool01 = true ;
 					resultBool02 = true ;
@@ -124,15 +124,11 @@ public class ConnectivityMainRun
 			
 			if( resultBool01 && resultBool02 ) {
 				
-				logger.info( "ConnectivityProperties.STDV_INF :: " + ConnectivityProperties.STDV_INF ) ;
-				
 				//// rabbitmqConnection 연결
 				// 설치 디바이스 수 많큼 queue connection이 실행된다.
-				this.rabbitmqSubConnectionOpen( ConnectivityProperties.STDV_INF ) ;
+				this.rabbitmqSubConnectionOpen( ConnectivityProperties.getStdvInf( ) ) ;
 				this.rabbitmqCommandModuleSubConnectionOpen( ) ;
 				this.rabbitmqPubConnectionOpen( ) ;
-				
-				logger.info( "ConnectivityProperties.STDV_INF :: " + ConnectivityProperties.STDV_INF ) ;
 				
 				//// 상태 보고 실행
 				// PID 가져오기
@@ -279,7 +275,7 @@ public class ConnectivityMainRun
 			connectivityProperties.setConnectivityProperties( ) ;
 			
 			// rabbitmq sub connectino 연결
-			this.rabbitmqSubConnectionOpen( ConnectivityProperties.STDV_INF ) ;
+			this.rabbitmqSubConnectionOpen( ConnectivityProperties.getStdvInf( ) ) ;
 			
 			// 장치간 연산 시작
 			this.betweenDevicesCalculateStart( ) ;
@@ -329,7 +325,7 @@ public class ConnectivityMainRun
 			connectivityProperties.setConnectivityPropertiesDeviceSimulDataReset( deviceIdList ) ;
 			
 			// rabbitmq sub connectino 연결
-			this.rabbitmqSubConnectionOpen( ConnectivityProperties.STDV_INF ) ;
+			this.rabbitmqSubConnectionOpen( ConnectivityProperties.getStdvInf( ) ) ;
 			
 			// 장치간 연산 시작
 			this.betweenDevicesCalculateStart( ) ;
@@ -380,7 +376,7 @@ public class ConnectivityMainRun
 			connectivityProperties.setConnectivityPropertiesSimulModeOn( ) ;
 			
 			// rabbitmq sub connectino 연결
-			this.rabbitmqSubConnectionOpen( ConnectivityProperties.STDV_INF ) ;
+			this.rabbitmqSubConnectionOpen( ConnectivityProperties.getStdvInf( ) ) ;
 			
 			// 장치간 연산 시작
 			this.betweenDevicesCalculateStart( ) ;
@@ -431,7 +427,7 @@ public class ConnectivityMainRun
 			connectivityProperties.setConnectivityPropertiesSimulModeOff( ) ;
 			
 			// rabbitmq sub connectino 연결
-			this.rabbitmqSubConnectionOpen( ConnectivityProperties.STDV_INF ) ;
+			this.rabbitmqSubConnectionOpen( ConnectivityProperties.getStdvInf( ) ) ;
 			
 			// 장치간 연산 시작
 			this.betweenDevicesCalculateStart( ) ;

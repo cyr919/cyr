@@ -113,8 +113,7 @@ public class DataGather extends QualityCode
 		// 장치내 연산 정보
 		List< Map< String , Object > > stdvCalInfList = new ArrayList< Map< String , Object > >( ) ;
 		List< Map< String , Object > > stdvDtMdlList = new ArrayList< Map< String , Object > >( ) ;
-		
-		Map< String , Map< String , Object > > stdvDtMdlMap = new HashMap< String , Map< String , Object > >( ) ;
+		// HashMap< String , HashMap< String , Object > > stdvDtMdlMap = new HashMap< String , HashMap< String , Object > >( ) ;
 		List< Map< String , Object > > appioMapperList = new ArrayList< Map< String , Object > >( ) ;
 		Map< String , Object > stdvInfMap = new HashMap< String , Object >( ) ;
 		int i = 0 ;
@@ -155,16 +154,17 @@ public class DataGather extends QualityCode
 			// logger.debug( "subDataJSONObject :: " + subDataJSONObject ) ;
 			
 			// 데이터 맵 정보 map static 변수에서 가지고 오기
-			stdvDtMdlList = ConnectivityProperties.getStdvDtMdl( strDviceId ) ;
-			stdvDtMdlMap = ConnectivityProperties.getStdvDtMdlMap( strDviceId ) ;
+			stdvDtMdlList = ConnectivityProperties.STDV_DT_MDL.get( strDviceId ) ;
+			// stdvDtMdlMap = ConnectivityProperties.STDV_DT_MDL_MAP.get( strDviceId ) ;
 			// 디바이스 기본 정보 map static 변수에서 가지고 오기
-			stdvInfMap = ConnectivityProperties.getStdvInf( strDviceId ) ;
+			stdvInfMap = ConnectivityProperties.STDV_INF.get( strDviceId ) ;
 			// 계측 Appio 정보
-			appioMapperList = ConnectivityProperties.getAppioMapperSdhs( strDviceId ) ;
-			stdvCalInfList = ConnectivityProperties.getStdvCalInf( strDviceId ) ;
-			
+			appioMapperList = ConnectivityProperties.APPIO_MAPPER_SDHS.get( strDviceId ) ;
+			// logger.debug( "stdvDtMdlMap :: " + stdvDtMdlMap ) ;
 			logger.debug( "stdvInfMap :: " + stdvInfMap ) ;
-
+			// logger.debug( "ConnectivityProperties.STDV_DT_MDL.get( " + strDviceId + " ) :: " + ConnectivityProperties.STDV_DT_MDL.get( strDviceId ) ) ;
+			
+			stdvCalInfList = ConnectivityProperties.STDV_CAL_INF.get( strDviceId ) ;
 			strDviceSkip = stdvInfMap.get( "SKIP" ) + "" ;
 			
 			// logger.debug( "strDviceSkip :: " + strDviceSkip ) ;
@@ -253,7 +253,7 @@ public class DataGather extends QualityCode
 			
 			logger.debug( "계측 처리 후 :: resultDataMap :: " + resultDataMap ) ;
 			logger.debug( "계측 처리 후 :: resultHistoryDataMap :: " + resultHistoryDataMap ) ;
-			// logger.debug( "계측 이벤트 처리 gatherDataEventList :: " + gatherDataEventList ) ;
+//			logger.debug( "계측 이벤트 처리 gatherDataEventList :: " + gatherDataEventList ) ;
 			
 			// 계측 레코드 데이터 QC 확인
 			logger.debug( "계측 레코드 데이터 QC :: resultRecordQc :: " + resultRecordQc ) ;

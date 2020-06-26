@@ -213,26 +213,26 @@ public class CommUtil
 	 * 
 	 * @author cyr
 	 * @date 2020-05-21
-	 * @param listHashMap
+	 * @param tempList
 	 * @param strKey hashmap의 key
 	 * @return
 	 */
-	public HashMap< String , HashMap< String , Object > > getHashMapFromListHashMap( List< HashMap< ? , ? > > listHashMap , String strKey ) {
-		HashMap< String , HashMap< String , Object > > resultHashMap = new HashMap<>( ) ;
+	public Map< String , Map< String , Object > > getHashMapFromListHashMap( List< Map< String , Object > > tempList , String strKey ) {
+		Map< String , Map< String , Object > > resultHashMap = new HashMap< String , Map<String,Object> >( );
 		
 		HashMap< String , Object > tempHashMap = new HashMap<>( ) ;
 		int i = 0 ;
 		
 		try {
-			if( !checkNull( listHashMap ) ) {
-				for( i = 0 ; i < listHashMap.size( ) ; i++ ) {
+			if( !checkNull( tempList ) ) {
+				for( i = 0 ; i < tempList.size( ) ; i++ ) {
 					// logger.info( "listHashMap.get( " + i + " ).get( " + strKey + " ) :: " + listHashMap.get( i ).get( strKey ) ) ;
 					// logger.info( "listHashMap.get( " + i + " ) :: " + listHashMap.get( i ) ) ;
 					
 					tempHashMap = new HashMap< String , Object >( ) ;
-					tempHashMap = ( HashMap< String , Object > ) listHashMap.get( i ) ;
+					tempHashMap = ( HashMap< String , Object > ) tempList.get( i ) ;
 					
-					resultHashMap.put( ( listHashMap.get( i ).get( strKey ) + "" ) , tempHashMap ) ;
+					resultHashMap.put( ( tempList.get( i ).get( strKey ) + "" ) , tempHashMap ) ;
 				}
 			}
 		}
@@ -241,7 +241,7 @@ public class CommUtil
 		}
 		finally {
 			tempHashMap = null ;
-			listHashMap = null ;
+			tempList = null ;
 			strKey = null ;
 			i = 0 ;
 		}

@@ -41,29 +41,18 @@ public class QualityCode
 	
 	public QualityCode( ) {
 		
-		synchronized( ConnectivityProperties.RECORD_QC_INF ) {
-			this.recordQcInf = ConnectivityProperties.RECORD_QC_INF ;
-		}
-		synchronized( ConnectivityProperties.RECORD_QC_IDX ) {
-			this.recordQcIdx = ConnectivityProperties.RECORD_QC_IDX ;
-		}
-		synchronized( ConnectivityProperties.FIELD_QC_INF ) {
-			this.fieldQcInf = ConnectivityProperties.FIELD_QC_INF ;
-		}
-		synchronized( ConnectivityProperties.FIELD_QC_IDX ) {
-			this.fieldQcIdx = ConnectivityProperties.FIELD_QC_IDX ;
-		}
-		synchronized( ConnectivityProperties.SITE_SMLT ) {
-			this.strSiteSmlt = ConnectivityProperties.SITE_SMLT ;
-		}
-		synchronized( ConnectivityProperties.SITE_SMLT_USR ) {
-			this.strSiteSmltUsr = ConnectivityProperties.SITE_SMLT_USR ;
-		}
+		this.recordQcInf = ConnectivityProperties.getRecordQcInf( ) ;
+		this.recordQcIdx = ConnectivityProperties.getRecordQcIdx( ) ;
+		this.fieldQcInf = ConnectivityProperties.getFieldQcInf( ) ;
+		this.fieldQcIdx = ConnectivityProperties.getFieldQcIdx( ) ;
+		this.strSiteSmlt = ConnectivityProperties.getSiteSmlt( ) ;
+		this.strSiteSmltUsr = ConnectivityProperties.getSiteSmltUsr( ) ;
 		
 		// logger.debug( "recordQcInf :: " + System.identityHashCode( recordQcInf ) ) ;
 		// logger.debug( "fieldQcInf :: " + System.identityHashCode( fieldQcInf ) ) ;
 		// logger.debug( "this.recordQcInf :: " + System.identityHashCode( this.recordQcInf ) ) ;
 		// logger.debug( "this.fieldQcInf :: " + System.identityHashCode( this.fieldQcInf ) ) ;
+		
 	}
 	
 	// public QualityCode( HashMap< String , HashMap< String , Object > > recordQcInf , HashMap< String , HashMap< String , Integer > > recordQcIdx , HashMap< String , HashMap< String , Object > > fieldQcInf , HashMap< String , HashMap< String , Integer > > fieldQcIdx ) {

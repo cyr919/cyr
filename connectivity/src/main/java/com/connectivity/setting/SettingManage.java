@@ -7,6 +7,7 @@ import java.util.ArrayList ;
 import java.util.HashMap ;
 import java.util.List ;
 import java.util.Map ;
+import java.util.concurrent.ConcurrentHashMap ;
 
 import org.apache.logging.log4j.Level ;
 import org.apache.logging.log4j.LogManager ;
@@ -35,6 +36,7 @@ public class SettingManage
 	private final String[ ] upUnitScFctArr = { "1" , "0.001" , "0.000001" , "0.000000001" , "0.000000000001" } ;
 	// 단위 변환사용 계수, 낮은 단위로 변환 - 1kW = 1000W
 	private final String[ ] downUnitScFctArr = { "1" , "1000" , "1000000" , "1000000000" , "1000000000000" } ;
+	private CommUtil commUtil = new CommUtil( ) ;
 	
 	/**
 	 * <pre>
@@ -56,7 +58,7 @@ public class SettingManage
 		
 		SettingManage exe = new SettingManage( ) ;
 		
-		// exe.devicePropertiesSetting( ) ;
+//		 exe.devicePropertiesSetting( ) ;
 		// exe.qualityCodeInfoSetting( ) ;
 		// exe.betweenDevicesCalculateInfoSetting( ) ;
 		// exe.siteInfoSetting( ) ;
@@ -64,17 +66,16 @@ public class SettingManage
 		// exe.appioMappingInfoDeviceDataSetting( ) ;
 		// exe.deviceCheckPropertiesSetting( ) ;
 		
-		// List< String > deviceIdList = new ArrayList< String >( ) ;
-		// deviceIdList.add( "stdv0001" ) ;
-		// deviceIdList.add( "stdv0002" ) ;
-		// deviceIdList.add( "stdv0006" ) ;
-		//
-		// exe.devicePropertiesSetting( deviceIdList ) ;
+//		 List< String > deviceIdList = new ArrayList< String >( ) ;
+//		 deviceIdList.add( "stdv0001" ) ;
+//		 deviceIdList.add( "stdv0002" ) ;
+//		 deviceIdList.add( "stdv0006" ) ;
+//		 exe.devicePropertiesSetting( deviceIdList ) ;
 		
 		// HashMap< String , HashMap< String , Object > > stndrdDtMdlMap = exe.getStndrdDtMdlInfo( ) ;
 		// exe.setStndrdDtMdlInfo( ) ;
 		
-		exe.loggerChange( ) ;
+//		exe.loggerChange( ) ;
 		
 	}
 	
@@ -106,7 +107,6 @@ public class SettingManage
 		
 		SettingManageDao settingManageDao = new SettingManageDao( ) ;
 		List< HashMap > resultStandardDataModelList = new ArrayList< HashMap >( ) ;
-		CommUtil commUtil = new CommUtil( ) ;
 		
 		try {
 			logger.info( "setStndrdDtMdlInfo" ) ;
@@ -124,7 +124,6 @@ public class SettingManage
 		finally {
 			settingManageDao = null ;
 			resultStandardDataModelList = null ;
-			commUtil = null ;
 			
 			logger.info( "setStndrdDtMdlInfo finally" ) ;
 		}
@@ -137,7 +136,6 @@ public class SettingManage
 		
 		SettingManageDao settingManageDao = new SettingManageDao( ) ;
 		List< HashMap > resultStandardDataModelList = new ArrayList< HashMap >( ) ;
-		CommUtil commUtil = new CommUtil( ) ;
 		
 		try {
 			logger.info( "getStndrdDtMdlInfo" ) ;
@@ -153,7 +151,6 @@ public class SettingManage
 		finally {
 			settingManageDao = null ;
 			resultStandardDataModelList = null ;
-			commUtil = null ;
 			
 			logger.info( "getStndrdDtMdlInfo finally" ) ;
 		}
@@ -180,13 +177,12 @@ public class SettingManage
 		HashMap< String , Object > tempMap = new HashMap< String , Object >( ) ;
 		// HashMap< String , Object > tempTrmMap = new HashMap< String , Object >( ) ;
 		List< Map< String , Object > > tempList = new ArrayList< Map< String , Object > >( ) ;
-		Map< String , Map< String , Object > > deviceInfo = new HashMap< String , Map< String , Object > >( ) ;
-		Map< String , List< Map< String , Object > > > deviceDataModel = new HashMap< String , List< Map< String , Object > > >( ) ;
-		Map< String , List< Map< String , Object > > > deviceCalInfo = new HashMap< String , List< Map< String , Object > > >( ) ;
+		Map< String , Map< String , Object > > deviceInfo = new ConcurrentHashMap< String , Map< String , Object > >( ) ;
+		Map< String , List< Map< String , Object > > > deviceDataModel = new ConcurrentHashMap< String , List< Map< String , Object > > >( ) ;
+		Map< String , List< Map< String , Object > > > deviceCalInfo = new ConcurrentHashMap< String , List< Map< String , Object > > >( ) ;
 		
-		// HashMap< String , HashMap< String , Object > > tempMapFromList = new HashMap< String , HashMap< String , Object > >( ) ;
-		
-		// HashMap< String , HashMap< String , HashMap< String , Object > > > deviceDataModelMap = new HashMap< String , HashMap< String , HashMap< String , Object > > >( ) ;
+		Map< String , Map< String , Object > > dataModelMapFromList = new HashMap< String , Map< String , Object > >( ) ;
+		Map< String , Map< String , Map< String , Object > > > deviceDataModelMap = new ConcurrentHashMap< String , Map< String , Map< String , Object > > >( ) ;
 		
 		String deviceId = "" ;
 		int i = 0 ;
@@ -221,15 +217,16 @@ public class SettingManage
 					
 					// 데이터 모델 처리
 					// TODO unit converter facter 추가 기능 개발
-					tempList = new ArrayList< Map< String , Object > >( ) ;
+					// tempList = new ArrayList< Map< String , Object > >( ) ;
 					// tempList.addAll( ( ArrayList< HashMap< String , Object > > ) resultList.get( i ).get( "DT_MDL" ) ) ;
 					tempList = setDataModelList( ( ArrayList< HashMap< String , Object > > ) resultList.get( i ).get( "DT_MDL" ) ) ;
 					
 					deviceDataModel.put( deviceId , tempList ) ;
 					
 					// // 데이터 모델 list -> map
-					// tempMapFromList = commUtil.getHashMapFromListHashMap( tempList , "MGP_KEY" ) ;
-					// deviceDataModelMap.put( deviceId , tempMapFromList ) ;
+					dataModelMapFromList = commUtil.getHashMapFromListHashMap( tempList , "MGP_KEY" ) ;
+					// deviceDataModelMap.put( deviceId , dataModelMapFromList ) ;
+					deviceDataModelMap.put( deviceId , dataModelMapFromList ) ;
 					
 					// 장치 내 연산 처리
 					tempList = new ArrayList< Map< String , Object > >( ) ;
@@ -253,7 +250,10 @@ public class SettingManage
 				synchronized( ConnectivityProperties.STDV_INF ) {
 					ConnectivityProperties.STDV_INF = deviceInfo ;
 				}
-				// ConnectivityProperties.STDV_DT_MDL_MAP = deviceDataModelMap ;
+				synchronized( ConnectivityProperties.STDV_DT_MDL_MAP ) {
+					ConnectivityProperties.STDV_DT_MDL_MAP = deviceDataModelMap ;
+				}
+				
 			}
 			
 		}
@@ -288,6 +288,7 @@ public class SettingManage
 		HashMap< String , Object > deviceInfoMap = new HashMap< String , Object >( ) ;
 		List< Map< String , Object > > dataModelList = new ArrayList< Map< String , Object > >( ) ;
 		List< Map< String , Object > > calInfoList = new ArrayList< Map< String , Object > >( ) ;
+		Map< String , Map< String , Object > > dataModelMapFromList = new HashMap< String , Map< String , Object > >( ) ;
 		
 		String deviceId = "" ;
 		int i = 0 ;
@@ -324,18 +325,17 @@ public class SettingManage
 					dataModelList = new ArrayList< Map< String , Object > >( ) ;
 					dataModelList = setDataModelList( ( ArrayList< HashMap< String , Object > > ) resultList.get( i ).get( "DT_MDL" ) ) ;
 					
-					// // 데이터 모델 list -> map
-					// tempMapFromList = commUtil.getHashMapFromListHashMap( tempList , "MGP_KEY" ) ;
-					// deviceDataModelMap.put( deviceId , tempMapFromList ) ;
+					// 데이터 모델 list -> map
+					dataModelMapFromList = commUtil.getHashMapFromListHashMap( dataModelList , "MGP_KEY" ) ;
 					
 					// 장치 내 연산 처리
 					calInfoList = new ArrayList< Map< String , Object > >( ) ;
 					calInfoList.addAll( ( ArrayList< HashMap< String , Object > > ) resultList.get( i ).get( "CAL_INF" ) ) ;
 					
+					ConnectivityProperties.STDV_DT_MDL_MAP.put( deviceId , dataModelMapFromList ) ;
 					ConnectivityProperties.STDV_DT_MDL.put( deviceId , dataModelList ) ;
 					ConnectivityProperties.STDV_CAL_INF.put( deviceId , calInfoList ) ;
 					ConnectivityProperties.STDV_INF.put( deviceId , deviceInfoMap ) ;
-					
 				}
 			}
 			
@@ -366,8 +366,8 @@ public class SettingManage
 	 * @return
 	 */
 	public HashMap< String , Object > setDeviceInfoMap( HashMap< ? , ? > resultDeviceDataMap ) {
-		
 		HashMap< String , Object > resultMap = new HashMap< String , Object >( ) ;
+		
 		HashMap< String , Object > tempTrmMap = new HashMap< String , Object >( ) ;
 		
 		try {
@@ -397,7 +397,6 @@ public class SettingManage
 	public ArrayList< Map< String , Object > > setDataModelList( ArrayList< HashMap< String , Object > > paramDtMdlList ) {
 		ArrayList< Map< String , Object > > resultList = new ArrayList< Map< String , Object > >( ) ;
 		
-		CommUtil commUtil = new CommUtil( ) ;
 		int i = 0 ;
 		
 		HashMap< String , Object > listSubMap = new HashMap<>( ) ;
@@ -483,7 +482,6 @@ public class SettingManage
 		}
 		finally {
 			paramDtMdlList = null ;
-			commUtil = null ;
 			i = 0 ;
 		}
 		return resultList ;
@@ -497,10 +495,10 @@ public class SettingManage
 		SettingManageDao settingManageDao = new SettingManageDao( ) ;
 		
 		ArrayList< HashMap > resultList = new ArrayList< HashMap >( ) ;
-		Map< String , Map< String , Object > > fieldQcInf = new HashMap< String , Map< String , Object > >( ) ;
-		Map< String , Map< String , Object > > recordQcInf = new HashMap< String , Map< String , Object > >( ) ;
-		Map< String , Map< String , Integer > > fieldQcIdx = new HashMap< String , Map< String , Integer > >( ) ;
-		Map< String , Map< String , Integer > > recordQcIdx = new HashMap< String , Map< String , Integer > >( ) ;
+		Map< String , Map< String , Object > > fieldQcInf = new ConcurrentHashMap< String , Map< String , Object > >( ) ;
+		Map< String , Map< String , Object > > recordQcInf = new ConcurrentHashMap< String , Map< String , Object > >( ) ;
+		Map< String , Map< String , Integer > > fieldQcIdx = new ConcurrentHashMap< String , Map< String , Integer > >( ) ;
+		Map< String , Map< String , Integer > > recordQcIdx = new ConcurrentHashMap< String , Map< String , Integer > >( ) ;
 		
 		int i = 0 ;
 		
@@ -674,7 +672,7 @@ public class SettingManage
 		SettingManageDao settingManageDao = new SettingManageDao( ) ;
 		ArrayList< HashMap > resultList = new ArrayList< HashMap >( ) ;
 		
-		Map< String , List< Map< String , Object > > > appioMapperSdhsMap = new HashMap< String , List< Map< String , Object > > >( ) ;
+		Map< String , List< Map< String , Object > > > appioMapperSdhsMap = new ConcurrentHashMap< String , List< Map< String , Object > > >( ) ;
 		List< Map< String , Object > > appioMapperList = new ArrayList< Map< String , Object > >( ) ;
 		HashMap< String , Object > appioMapperSubMap = new HashMap< String , Object >( ) ;
 		int i = 0 ;
@@ -826,9 +824,9 @@ public class SettingManage
 		
 		SettingManageDao settingManageDao = new SettingManageDao( ) ;
 		List< HashMap > resultList = new ArrayList< HashMap >( ) ;
-		HashMap< String , Integer > dataSaveCycleCheckMap = new HashMap< String , Integer >( ) ;
-		HashMap< String , String > lastGatherDtm = new HashMap< String , String >( ) ;
-		HashMap< String , Integer > oldDataQcCheck = new HashMap< String , Integer >( ) ;
+		Map< String , Integer > dataSaveCycleCheckMap = new ConcurrentHashMap< String , Integer >( ) ;
+		Map< String , String > lastGatherDtm = new ConcurrentHashMap< String , String >( ) ;
+		Map< String , Integer > oldDataQcCheck = new ConcurrentHashMap< String , Integer >( ) ;
 		String deviceId = "" ;
 		int i = 0 ;
 		try {
@@ -884,7 +882,6 @@ public class SettingManage
 		
 		SettingManageDao settingManageDao = new SettingManageDao( ) ;
 		LoggerUtil LoggerUtil = new LoggerUtil( ) ;
-		CommUtil commUtil = new CommUtil( ) ;
 		HashMap< String , Object > resultMap = new HashMap< String , Object >( ) ;
 		Level level = null ;
 		
@@ -912,7 +909,6 @@ public class SettingManage
 		finally {
 			settingManageDao = null ;
 			LoggerUtil = null ;
-			commUtil = null ;
 			resultMap = null ;
 			level = null ;
 		}

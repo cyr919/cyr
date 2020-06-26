@@ -159,11 +159,9 @@ public class BetweenDevicesCalculate extends QualityCode implements Runnable
 		String strMgpKey = "" ;
 		String strPointIdx = "" ;
 		
-		// HashMap< String , String > appioMapperMap = new HashMap< String , String >( ) ;
 		List< Map< String , Object > > appioMapperList = new ArrayList< Map< String , Object > >( ) ;
 		
 		BetweenDevicesCalculateHistoryAndEvent historyAndEvent = null ;
-		Thread historyAndEventThread = null ;
 		CommonDao commonDao = new CommonDao( ) ;
 		ExtndEgovStringUtil extndEgovStringUtil = new ExtndEgovStringUtil( ) ;
 		
@@ -177,13 +175,13 @@ public class BetweenDevicesCalculate extends QualityCode implements Runnable
 			delimitersStr = "," ;
 			
 			// 전체 설치 디바이스 정보 조회(redis)
-			stdvInfMap = ConnectivityProperties.STDV_INF ;
+			stdvInfMap = ConnectivityProperties.getStdvInf( ) ;
 			
 			// app io 맵 정보
-			appioMapperList = ConnectivityProperties.APPIO_MAPPER_CRHS ;
+			appioMapperList = ConnectivityProperties.getAppioMapperCrhs( ) ;
 			
 			// 장치간 연산 정보
-			calculInfoList = ConnectivityProperties.BTWN_DV_CAL_INFO ;
+			calculInfoList = ConnectivityProperties.getBtwnDvCalInfo( );
 			
 			allDvGthrDt = betweenDevicesCalculateDao.getAllDevicesGatherData( stdvInfMap ) ;
 			
@@ -477,7 +475,6 @@ public class BetweenDevicesCalculate extends QualityCode implements Runnable
 			strPointIdx = null ;
 			appioMapperList = null ;
 			historyAndEvent = null ;
-			historyAndEventThread = null ;
 			commonDao = null ;
 			extndEgovStringUtil = null ;
 			stdvInfMap = null ;
