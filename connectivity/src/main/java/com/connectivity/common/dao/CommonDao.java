@@ -42,10 +42,10 @@ public class CommonDao
 		CommUtil commUtil = new CommUtil( ) ;
 		
 		try {
-			logger.debug( "hmSetAppioData" ) ;
+			// logger.debug( "hmSetAppioData" ) ;
 			
 			if( !commUtil.checkNull( redisSetAppioDataMap ) ) {
-				logger.debug( "hmSetAppioData 저장" ) ;
+				// logger.debug( "hmSetAppioData 저장" ) ;
 				strKey = "MGP_APMD" ;
 				
 				// TODO redis now 같은거 있는지, db 저장되는 시간으로 처리
@@ -66,7 +66,7 @@ public class CommonDao
 			resultStr = null ;
 			commUtil = null ;
 			redisCommon = null ;
-			logger.debug( "hmSetAppioData finally" ) ;
+			// logger.debug( "hmSetAppioData finally" ) ;
 			
 		}
 		

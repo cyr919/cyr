@@ -331,7 +331,7 @@ public class SettingManage
 					ConnectivityProperties.STDV_DT_MDL.put( deviceId , dataModelList ) ;
 					ConnectivityProperties.STDV_CAL_INF.put( deviceId , calInfoList ) ;
 					ConnectivityProperties.STDV_INF.put( deviceId , deviceInfoMap ) ;
-
+					
 				}
 			}
 			
@@ -415,11 +415,11 @@ public class SettingManage
 					setUnitInfo( ) ;
 				}
 				
-				logger.debug( "unitInfoMap :: " + unitInfoMap ) ;
+				// logger.debug( "unitInfoMap :: " + unitInfoMap ) ;
 				for( i = 0 ; i < paramDtMdlList.size( ) ; i++ ) {
 					
-					logger.debug( "paramDtMdlList.get( " + i + " ) :: " + paramDtMdlList.get( i ) ) ;
-					logger.debug( "paramDtMdlList.get( " + i + " ).get( \"UNIT\" ) :: " + paramDtMdlList.get( i ).get( "UNIT" ) ) ;
+					// logger.debug( "paramDtMdlList.get( " + i + " ) :: " + paramDtMdlList.get( i ) ) ;
+					// logger.debug( "paramDtMdlList.get( " + i + " ).get( \"UNIT\" ) :: " + paramDtMdlList.get( i ).get( "UNIT" ) ) ;
 					
 					listSubMap = new HashMap< String , Object >( ) ;
 					listSubMap = paramDtMdlList.get( i ) ;
@@ -429,9 +429,9 @@ public class SettingManage
 					strChangeUnit = stndrdDtMdlMap.get( strMgpKey ).get( "UNIT" ) + "" ;
 					listSubMap.put( "MGP_UNIT" , strChangeUnit ) ;
 					
-					logger.info( "strMgpKey :: " + strMgpKey ) ;
-					logger.info( "strOrgUnit :: " + strOrgUnit ) ;
-					logger.info( "strChangeUnit :: " + strChangeUnit ) ;
+					// logger.debug( "strMgpKey :: " + strMgpKey ) ;
+					// logger.debug( "strOrgUnit :: " + strOrgUnit ) ;
+					// logger.debug( "strChangeUnit :: " + strChangeUnit ) ;
 					
 					if( commUtil.checkNull( strOrgUnit ) || commUtil.checkNull( strChangeUnit ) || "-".equals( strOrgUnit ) || "-".equals( strChangeUnit ) ) {
 						strUnitScFct = "1" ;
@@ -439,20 +439,20 @@ public class SettingManage
 					else {
 						strOrgUnit = strOrgUnit.substring( 0 , 1 ).toUpperCase( ) ;
 						strChangeUnit = strChangeUnit.substring( 0 , 1 ).toUpperCase( ) ;
-						logger.info( "strOrgUnit :: " + strOrgUnit ) ;
-						logger.info( "strChangeUnit :: " + strChangeUnit ) ;
+						// logger.debug( "strOrgUnit :: " + strOrgUnit ) ;
+						// logger.debug( "strChangeUnit :: " + strChangeUnit ) ;
 						
 						intOrgUnit = Integer.parseInt( unitInfoMap.get( strOrgUnit ) ) ;
 						intChangeUnit = Integer.parseInt( unitInfoMap.get( strChangeUnit ) ) ;
 						intUnitScFct = intOrgUnit - intChangeUnit ;
-						logger.info( "intOrgUnit :: " + intOrgUnit ) ;
-						logger.info( "intChangeUnit :: " + intChangeUnit ) ;
-						logger.info( "intUnitScFct :: " + intUnitScFct ) ;
+						// logger.debug( "intOrgUnit :: " + intOrgUnit ) ;
+						// logger.debug( "intChangeUnit :: " + intChangeUnit ) ;
+						// logger.debug( "intUnitScFct :: " + intUnitScFct ) ;
 						
 						if( 0 > intUnitScFct ) {
 							// ex) W -> kW => 0 - 1 = -1
 							intUnitScFct = intUnitScFct * -1 ;
-							logger.info( "intUnitScFct :: " + intUnitScFct ) ;
+							// logger.debug( "intUnitScFct :: " + intUnitScFct ) ;
 							
 							strUnitScFct = upUnitScFctArr[ intUnitScFct ] ;
 						}
@@ -469,7 +469,7 @@ public class SettingManage
 					
 					listSubMap.put( "UNIT_SC_FCT" , strUnitScFct ) ;
 					
-					logger.debug( "listSubMap :: " + listSubMap ) ;
+					// logger.debug( "listSubMap :: " + listSubMap ) ;
 					resultList.add( listSubMap ) ;
 				}
 			}
