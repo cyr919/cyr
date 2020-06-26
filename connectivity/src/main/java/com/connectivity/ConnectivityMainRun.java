@@ -146,7 +146,7 @@ public class ConnectivityMainRun
 				// 장치간 연산 시작
 				this.betweenDevicesCalculateStart( ) ;
 				
-				// TODO 기동 이벤트 추가 필요
+				// TODO 기동 이벤트 추가 필요.
 				logger.info( "connectivityRun 성공" ) ;
 			}
 		}
@@ -165,6 +165,7 @@ public class ConnectivityMainRun
 			currentPid = 0L ;
 		}
 		
+		logger.info( "connectivityRun finally" ) ;
 		return ;
 	}
 	

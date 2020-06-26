@@ -29,7 +29,9 @@ public class SettingManage
 	
 	private HashMap< String , HashMap< String , Object > > stndrdDtMdlMap = new HashMap< String , HashMap< String , Object > >( ) ;
 	private HashMap< String , String > unitInfoMap = new HashMap< String , String >( ) ;
+	// 단위 변환사용 계수, 높은 단위로 변환 - 1W = 0.001kW
 	private final String[ ] upUnitScFctArr = { "1" , "0.001" , "0.000001" , "0.000000001" , "0.000000000001" } ;
+	// 단위 변환사용 계수, 낮은 단위로 변환 - 1kW = 1000W
 	private final String[ ] downUnitScFctArr = { "1" , "1000" , "1000000" , "1000000000" , "1000000000000" } ;
 	
 	/**
@@ -60,12 +62,12 @@ public class SettingManage
 		// exe.appioMappingInfoDeviceDataSetting( ) ;
 		// exe.deviceCheckPropertiesSetting( ) ;
 		
-		// List< String > deviceIdList = new ArrayList< String >( ) ;
-		// deviceIdList.add( "stdv0001" ) ;
-		// deviceIdList.add( "stdv0002" ) ;
-		// deviceIdList.add( "stdv0006" ) ;
-		//
-		// exe.devicePropertiesSetting( deviceIdList ) ;
+		List< String > deviceIdList = new ArrayList< String >( ) ;
+		deviceIdList.add( "stdv0001" ) ;
+		deviceIdList.add( "stdv0002" ) ;
+		deviceIdList.add( "stdv0006" ) ;
+		
+		exe.devicePropertiesSetting( deviceIdList ) ;
 		
 		// HashMap< String , HashMap< String , Object > > stndrdDtMdlMap = exe.getStndrdDtMdlInfo( ) ;
 		// exe.setStndrdDtMdlInfo( ) ;
@@ -85,7 +87,7 @@ public class SettingManage
 			resultMap.put( "G" , "3" ) ;
 			resultMap.put( "T" , "4" ) ;
 			
-			resultMap = unitInfoMap ;
+			unitInfoMap = resultMap ;
 		}
 		catch( Exception e ) {
 			logger.error( e.getMessage( ) , e ) ;
@@ -216,7 +218,8 @@ public class SettingManage
 					// 데이터 모델 처리
 					// TODO unit converter facter 추가 기능 개발
 					tempList = new ArrayList< Map< String , Object > >( ) ;
-					tempList.addAll( ( ArrayList< HashMap< String , Object > > ) resultList.get( i ).get( "DT_MDL" ) ) ;
+					// tempList.addAll( ( ArrayList< HashMap< String , Object > > ) resultList.get( i ).get( "DT_MDL" ) ) ;
+					tempList = setDataModelList( ( ArrayList< HashMap< String , Object > > ) resultList.get( i ).get( "DT_MDL" ) ) ;
 					
 					deviceDataModel.put( deviceId , tempList ) ;
 					
@@ -316,6 +319,7 @@ public class SettingManage
 					// TODO unit converter facter 추가 기능 개발
 					dataModelList = new ArrayList< Map< String , Object > >( ) ;
 					dataModelList = setDataModelList( ( ArrayList< HashMap< String , Object > > ) resultList.get( i ).get( "DT_MDL" ) ) ;
+					
 					// // 데이터 모델 list -> map
 					// tempMapFromList = commUtil.getHashMapFromListHashMap( tempList , "MGP_KEY" ) ;
 					// deviceDataModelMap.put( deviceId , tempMapFromList ) ;
@@ -327,6 +331,7 @@ public class SettingManage
 					ConnectivityProperties.STDV_DT_MDL.put( deviceId , dataModelList ) ;
 					ConnectivityProperties.STDV_CAL_INF.put( deviceId , calInfoList ) ;
 					ConnectivityProperties.STDV_INF.put( deviceId , deviceInfoMap ) ;
+
 				}
 			}
 			
@@ -410,6 +415,7 @@ public class SettingManage
 					setUnitInfo( ) ;
 				}
 				
+				logger.debug( "unitInfoMap :: " + unitInfoMap ) ;
 				for( i = 0 ; i < paramDtMdlList.size( ) ; i++ ) {
 					
 					logger.debug( "paramDtMdlList.get( " + i + " ) :: " + paramDtMdlList.get( i ) ) ;
@@ -421,6 +427,7 @@ public class SettingManage
 					strMgpKey = listSubMap.get( "MGP_KEY" ) + "" ;
 					strOrgUnit = listSubMap.get( "UNIT" ) + "" ;
 					strChangeUnit = stndrdDtMdlMap.get( strMgpKey ).get( "UNIT" ) + "" ;
+					listSubMap.put( "MGP_UNIT" , strChangeUnit ) ;
 					
 					logger.info( "strMgpKey :: " + strMgpKey ) ;
 					logger.info( "strOrgUnit :: " + strOrgUnit ) ;
@@ -460,8 +467,9 @@ public class SettingManage
 						
 					}
 					
-					listSubMap.put( "MGP_UNIT" , strChangeUnit ) ;
 					listSubMap.put( "UNIT_SC_FCT" , strUnitScFct ) ;
+					
+					logger.debug( "listSubMap :: " + listSubMap ) ;
 					resultList.add( listSubMap ) ;
 				}
 			}
