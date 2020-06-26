@@ -14,10 +14,10 @@ public class ServicehubMainRun
 	public static void main( String[ ] args ) {
 		
 		ServicehubMainRun exe = new ServicehubMainRun( ) ;
-		// exe.commandSend( "stop" ) ;
-//		exe.commandSend( "reset" ) ;
-//		exe.commandSend( "SiteSimulModOn" ) ;
-		exe.commandSend( "SiteSimulModOff" ) ;
+		exe.commandSend( "stop" ) ;
+		// exe.commandSend( "reset" ) ;
+		// exe.commandSend( "SiteSimulModOn" ) ;
+		// exe.commandSend( "SiteSimulModOff" ) ;
 	}
 	
 	public void commandSend( String strCommand ) {

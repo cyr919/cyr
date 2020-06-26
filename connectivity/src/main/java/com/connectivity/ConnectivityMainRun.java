@@ -196,7 +196,7 @@ public class ConnectivityMainRun
 			
 			// 실행 스레드 수 체크
 			logger.info( "connectivityProperties.getProcessThreadCnt( ) :: " + connectivityProperties.getProcessThreadCnt( ) ) ;
-			// 1은 Command2ModuleReceiver 의 처리 중인 thread이다. 정지 처리가 종료된 후 삭제된다.
+			// 1은 Command2ModuleReceiver 의 처리 중인 thread이다. 정지 처리가 종료된 후 종료된다.
 			while( 1 < connectivityProperties.getProcessThreadCnt( ) ) {
 				logger.info( "connectivityProperties.getProcessThreadCnt( ) :while: " + connectivityProperties.getProcessThreadCnt( ) ) ;
 				
@@ -205,19 +205,11 @@ public class ConnectivityMainRun
 			
 			logger.info( "connectivityProperties.getProcessThreadCnt( ) :end: " + connectivityProperties.getProcessThreadCnt( ) ) ;
 			
-			// Thread pool 종료
-			connectivityProperties.threadPoolShutdown( ) ;
-			
 			// rabbitmq Pub connection 종료
 			this.rabbitmqPubConnectionClose( ) ;
 			
-			logger.info( "connectivityStop 성공" ) ;
-		}
-		catch( Exception e ) {
-			logger.error( "connectivityStop 실패" ) ;
-			logger.error( e.getMessage( ) , e ) ;
-		}
-		finally {
+			// Thread pool 종료
+			connectivityProperties.threadPoolShutdown( ) ;
 			
 			try {
 				// 상태 보고 중지
@@ -228,8 +220,17 @@ public class ConnectivityMainRun
 				logger.error( e.getMessage( ) , e ) ;
 			}
 			
-			strEventID = null ;
+			logger.info( "connectivityStop 성공" ) ;
+		}
+		catch( Exception e ) {
+			logger.error( "connectivityStop 실패" ) ;
+			// Thread pool 종료
+			connectivityProperties.threadPoolShutdownNow( ) ;
 			
+			logger.error( e.getMessage( ) , e ) ;
+		}
+		finally {
+			strEventID = null ;
 		}
 		
 		return ;
