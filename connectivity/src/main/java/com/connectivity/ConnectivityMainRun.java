@@ -1,5 +1,6 @@
 package com.connectivity ;
 
+import java.util.Arrays ;
 import java.util.List ;
 import java.util.Map ;
 
@@ -52,6 +53,10 @@ public class ConnectivityMainRun
 	
 	public static void main( String[ ] args ) {
 		
+		logger.info( "================================" ) ;
+		logger.info( "args :: " + Arrays.toString( args ) ) ;
+		logger.info( "================================" ) ;
+		
 		ConnectivityMainRun exe = new ConnectivityMainRun( ) ;
 		exe.connectivityRun( "eventId01" ) ;
 		
@@ -59,6 +64,10 @@ public class ConnectivityMainRun
 		logger.info( Thread.currentThread( ) ) ;
 		logger.info( "================================" ) ;
 		
+		logger.info( "================================" ) ;
+		logger.info( "args :: " + Arrays.toString( args ) ) ;
+		logger.info( "================================" ) ;
+
 		// try {
 		// Thread.sleep( 10 * 1000 ) ;
 		// } catch( InterruptedException e ) {

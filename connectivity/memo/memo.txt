@@ -1,4 +1,6 @@
 
+1q2w3e4r5t%$#@!
+
 
 // 실행 권한 부여
 chmod +x connectivity_run.sh
@@ -22,3 +24,24 @@ cp -p connectivity-0.0.1-SNAPSHOT.jar ./bk/connectivity-0.0.1-SNAPSHOT.jar
 
 ls -al
 ls -al ./bk
+=============================================================
+
+1q2w3e4r5t%$#@!
+cd /hs/mgp/apps/
+
+
+nohup java -Xmx512m -Dfile.encoding=UTF-8 -Dname=hs_msp_connectivity -cp ./:./lib/*:./connectivity-0.0.1-SNAPSHOT.jar com.prototype.MainRun > /dev/null 2>&1&
+
+
+java -Xmx512m -Dfile.encoding=UTF-8 -Dname=hs_msp_connectivity -cp ./:./lib/*:./connectivity-0.0.1-SNAPSHOT.jar com.connectivity.ConnectivityMainRun
+
+// 기본 메인 클래스
+java -Xmx512m -Dfile.encoding=UTF-8 -Dname=hs_msp_connectivity -jar ./connectivity-0.0.1-SNAPSHOT.jar
+
+
+// 다른 메인 클래스 실행
+java -cp connectivity-0.0.1-SNAPSHOT.jar -Dloader.main=com.prototype.servicehub.ServicehubMainRun org.springframework.boot.loader.PropertiesLauncher
+
+
+java -Xmx512m -Dfile.encoding=UTF-8 -Dname=hs_msp_connectivity -jar ./connectivity-0.0.1-SNAPSHOT.jar
+

@@ -49,6 +49,7 @@ public class PropertyLoader
 			logger.info( "strPropFile :: [" + strPropFile + "]" ) ;
 			
 			propIs = this.getClass( ).getClassLoader( ).getResourceAsStream( strPropFile ) ;
+			logger.info( "propIs :: [" + propIs + "]" ) ;
 			
 			if( propIs != null ) {
 				
