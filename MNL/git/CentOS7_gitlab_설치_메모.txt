@@ -35,9 +35,116 @@ https://about.gitlab.com/install/#centos-7?version=ce
 
 ----------------------------------------------------------------------------------------
 
+centos 7 gitlab 설치
+
+----------------------------------------------------------------------------------------
+-----------------------------------------------
+os 추가 업데이트
+-----------------------------------------------
+
+https://blogger.pe.kr/847
+
+1q2w3e4r5t!@#$%
+
+- yum update 또는 upgrade 진행
+sudo yum upgrade -y
+# sudo yum update -y
+# yum update"는 현재 설치된 모든 패키지를 저장소에서 사용할 수있는 최신 버전으로 업데이트하고 "yum upgrade"는 "yum update"와 동일한 작업을 수행하지만 완료되면 시스템에서 사용되지 않는 모든 패키지도 제거합니다.
+
+- 재시작
+sudo reboot
+
+
+- epel-release 설치
+sudo yum install -y epel-release
+
+- 재시작
+sudo reboot
+
+-----------------------------------------------
+관련된 사전작업
+-----------------------------------------------
+
+
+- openssh 설치하기
+
+sudo yum install -y curl policycoreutils-python openssh-server openssh-clients
+
+- 재시작
+sudo reboot
+
+
+- 서버 부팅 시 sshd 실행
+매번 서버를 부팅/재부팅할때 마다 설치된 openssh 데몬(sshd)이 실행되게 합니다.
+
+sudo systemctl enable sshd
+sudo systemctl start sshd
+
+- sshd 기동 확인
+ps -ef | grep sshd
+
+
+- 시스템(CentOS) firewall 상태 확인
+현재 firewall이 구동되고 있는지 죽어있는지 먼저 확인해봐야 합니다.
+
+- 방화벽 상태 확인
+sudo firewall-cmd --state
+
+[chois@cyr-vm01 ~]$ firewall-cmd --state
+not running
+
+
+- 방화벽 실행
+sudo systemctl start firewalld
+sudo systemctl enable firewalld
+
+
+- 방화벽 실행 확인
+sudo firewall-cmd --state
+
+[chois@cyr-vm01 ~]$ sudo firewall-cmd --state
+running
+
+- 방화벽 해제 및 재 실행
+http, https에 대한 방화벽을 해제하고 다시 실행합니다.
+
+sudo firewall-cmd --permanent --add-service=http
+sudo firewall-cmd --permanent --add-service=https
+sudo systemctl reload firewalld
+
+방화벽이 설치되어 있지 않아 해당 명령어가 오류가 나는 경우가 있습니다.
+아래 내용 중에 방화벽 설치에 대한 자세한 내용이 있으니 참고하세요.
+
+출처: https://uxgjs.tistory.com/161 [UX 공작소]
+
+- 재시작
+sudo reboot
 
 
 
+- 메일서버 설치
+gitlab에서 사용자 가입 인증이나 관리자에게 Alerts이나 기타 이유로 메일을 보내야 하므로 메일 서버를 설치합니다.
+
+sudo yum install -y postfix
+
+
+- 메일 서버 실행 확인
+sudo systemctl status postfix
+
+
+- 서버 부팅 시 메일서버 실행
+매번 서버를 부팅/재부팅할때 마다 설치된 postfix를 실행되게 합니다.
+
+sudo systemctl enable postfix
+sudo systemctl start postfix
+
+
+
+
+
+-----------------------------------------------
+gitlab 패키지 설치하기
+-----------------------------------------------
 
 
 
