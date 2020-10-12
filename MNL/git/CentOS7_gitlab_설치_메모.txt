@@ -1,0 +1,44 @@
+참고
+
+----------------------------------------------------------------------------------------
+
+https://www.clien.net/service/board/cm_app/13675464
+http://www.itworld.co.kr/t/62086/%EC%98%A4%ED%94%88%EC%86%8C%EC%8A%A4/109976
+https://uxgjs.tistory.com/192
+
+----------------------------------------------------------------------------------------
+
+- gitlab 데이터 저장 위치 변경(설치 직후)
+https://uxgjs.tistory.com/191?category=832417
+
+- gitlab 가격 정책
+https://uxgjs.tistory.com/192
+
+- gitlab 설치
+https://uxgjs.tistory.com/161
+
+https://uxgjs.tistory.com/161
+https://wikidocs.net/16279
+https://jhgan.tistory.com/12
+https://ychcom.tistory.com/entry/GitLab-%EC%84%A4%EC%B9%98-Centos7
+chrome-extension://klbibkeccnjlkjkiokjodocebajanakg/suspended.html#ttl=%5Blinux-centos7%5D%20gitlab%20%EC%84%A4%EC%B9%98%ED%95%98%EA%B8%B0&pos=0&uri=https://lemontia.tistory.com/718
+
+
+- gitlab 한국어 설정
+https://uxgjs.tistory.com/163?category=832417
+
+- gitlab 도메인 변경
+https://dejavuqa.tistory.com/8
+
+- gitlab 설치 파일 다운로드 및 설치 가이트
+https://about.gitlab.com/install/#centos-7?version=ce
+
+----------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
