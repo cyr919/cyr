@@ -2,8 +2,11 @@ package com.adtcaps.tsopconnectivityexternal.service.base.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired ;
 import org.springframework.web.bind.annotation.GetMapping ;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.adtcaps.tsopconnectivityexternal.service.base.service.BaseService ;
 
 /**
  * 
@@ -20,7 +23,10 @@ public class BaseController {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
-	
+	 
+    @Autowired    
+    private BaseService baseService;
+    
     
 	@SuppressWarnings("rawtypes")
 	@GetMapping( "/" )
@@ -35,6 +41,26 @@ public class BaseController {
 			logger.error( "{}", e ) ;
 		}
 		return "helloworld!";
+		
+	}
+	
+	@SuppressWarnings("rawtypes")
+	@GetMapping( "/base/findCurrentDate" )
+	public String findCurrentDate( ) {
+		// 화면에 모니터링 로그 남기기
+		logger.info( "findCurrentDate" ) ;
+		
+		String returnString = "";		
+		try {
+			returnString = baseService.findCurrentDate( ) ;
+		}
+		catch( Exception e ) {
+			// 화면에 모니터링 로그 남기기
+			returnString = e.getMessage( ) ;
+			logger.error( e.getMessage( ) ) ;
+			logger.error( "{}", e ) ;
+		}
+		return returnString ;
 		
 	}
 	
