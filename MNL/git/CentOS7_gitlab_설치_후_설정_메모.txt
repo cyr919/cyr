@@ -1,0 +1,258 @@
+--------------------------------------------------------------------------------
+gitlab 설정하기
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+참고
+--------------------------------------------------------------------------------
+https://uxgjs.tistory.com/161
+
+
+--------------------------------------------------------------------------------
+
+참고 - 리눅스의 기본 에디터인 vi 또는 vim의 기초적인 명령어
+/문자열 # --> 원하는 문자열 찾기
+i # --> 현재 커서 위치에서 입력모드로 전환
+x # --> 현재 커서 위치에서 한 글자 삭제
+dw # --> 현재 커서 위치에서 한 단어 삭제
+dd # --> 현재 커서 위치에서 한 행 삭제
+:q # --> esc버튼을 누른 후 -> 에디터 빠져나오기
+:q! # --> esc버튼을 누른 후 -> 강제 에디터 빠져나오기
+:wq! # --> esc버튼을 누른 후 -> 저장하고 강제 에디터 빠져나오기
+
+출처: https://uxgjs.tistory.com/161 [UX 공작소]
+
+--------------------------------------------------------------------------------
+
+
+# gitlab의 설정은 설치된 폴더에서 gitlab.rb을 변경하면 됩니다.
+# 보통 설치 위치는 /etc/gitlab/gitlab.rb 입니다.
+# 많은 부분의 gitlab 설정은 여기서 변경할 수 있습니다.
+# 보통 아래와 같이 vi편집기를 활용하여 설정을 변경합니다.
+
+sudo vi /etc/gitlab/gitlab.rb
+
+#  vi 로 수정전 백업파일 생성
+ls -al /etc/gitlab/gitlab.rb
+
+sudo cp -p /etc/gitlab/gitlab.rb /etc/gitlab/gitlab.rb.bk
+
+ls -al /etc/gitlab/
+
+
+--------------------------------------------------------------------------------
+port 변경하기
+----------------------------------------
+
+vi편집기에서 /external_url로 검색해서 아래와 같이 URL뒤에 Port 부분을 수정해 주면됩니다.
+위의 설치 명령중에 sudo EXTERNAL_URL="192.168.0.102:8001"를 실행했다면 이미 등록되어 있을 것입니다.
+주석(#)을 제거해야 반영됩니다.
+
+--------------------
+sudo vi /etc/gitlab/gitlab.rb
+--------------------
+
+## GitLab URL
+##! URL on which GitLab will be reachable.
+##! For more details on configuring external_url see:
+##! https://docs.gitlab.com/omnibus/settings/configuration.html#configuring-the-external-url-for-gitlab
+##!
+##! Note: During installation/upgrades, the value of the environment variable
+##! EXTERNAL_URL will be used to populate/replace this value.
+##! On AWS EC2 instances, we also attempt to fetch the public hostname/IP
+##! address from AWS. For more details, see:
+##! https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instancedata-data-retrieval.html
+external_url 'http://192.168.0.102:8001'
+
+--------------------
+
+
+--------------------------------------------------------------------------------
+업로드 파일 용량 변경
+----------------------------------------
+
+한번에 업로드해야 할 파일의 용량이 큰 경우 아래와 같이 사이즈를 크게 설정하면 됩니다.
+앞에 주석(#)을 제거해야 반영됩니다.
+
+
+--------------------
+sudo vi /etc/gitlab/gitlab.rb
+--------------------
+nginx[‘enable’] = true
+nginx[‘client_max_body_size’] = ‘2G’ # 2Gbyte로 변경함
+--------------------
+
+출처: https://uxgjs.tistory.com/161 [UX 공작소]
+
+--------------------------------------------------------------------------------
+변경된 설정 적용
+----------------------------------------
+변경 후에는 아래의 명령어로 새로운 설정을 반영하여 실행해 줘야 합니다.
+
+sudo gitlab-ctl reconfigure
+
+
+출처: https://uxgjs.tistory.com/161 [UX 공작소]
+
+#####
+Recipe: letsencrypt::disable
+  * crond_job[letsencrypt-renew] action delete
+    * file[/var/opt/gitlab/crond/letsencrypt-renew] action delete (up to date)
+     (up to date)
+Recipe: crond::disable
+  * service[crond] action nothing (skipped due to action :nothing)
+  * runit_service[crond] action disable
+    * ruby_block[disable crond] action run (skipped due to only_if)
+     (up to date)
+Recipe: gitlab::puma
+  * runit_service[puma] action restart (up to date)
+  * runit_service[puma] action restart (up to date)
+Recipe: gitlab::sidekiq-cluster
+  * sidekiq_service[sidekiq] action restart
+  Recipe: <Dynamically Defined Resource>
+    * service[sidekiq] action nothing (skipped due to action :nothing)
+    * runit_service[sidekiq] action restart (up to date)
+     (up to date)
+Recipe: gitlab::gitlab-rails
+  * execute[clear the gitlab-rails cache] action run
+    - execute /opt/gitlab/bin/gitlab-rake cache:clear
+Recipe: monitoring::grafana
+  * runit_service[grafana] action restart (up to date)
+
+Running handlers:
+Running handlers complete
+Chef Infra Client finished, 11/779 resources updated in 01 minutes 08 seconds
+
+#####
+
+--------------------------------------------------------------------------------
+port 설정후 방화벽 설정하기
+--------------------------------------------------------------------------------
+
+
+port설정은 위에서 설치할때 설정을 하긴 한 상태입니다. 혹시 등록이 되어 있지 않다면 gitlab.rb에서 설정 및 수정을 할 수 있습니다. (윗 내용 참조)
+
+그리고 port는 gitlab에서만 설정했다고 되는 것은 아니고 시스템(CentOS)에서 실제로 해당 port를 방화벽에서 열어줘야 합니다.
+
+----------------------------------------
+시스템(CentOS) firewall 상태 확인
+----------------------------------------
+# 현재 firewall이 구동되고 있는지 죽어있는지 먼저 확인해봐야 합니다.
+# 현재 실행 중이면 running, 실행 중이 아니면 not running을 출력합니다.
+
+sudo firewall-cmd --state
+
+----------------------------------------
+시스템(CentOS) firewall 설치
+----------------------------------------
+# 간혹 시스템에 firewall이 설치되어 있지 않은 경우가 있습니다. 이때는 먼저 Firewall을 아래와 같이 설치 해 줘야 합니다.
+
+#  설치 확인
+sudo systemctl status firewalld
+
+#  설치
+sudo yum install firewalld
+sudo systemctl enable firewalld
+sudo systemctl start firewalld
+
+
+
+----------------------------------------
+port 추가하기
+----------------------------------------
+
+#만약 8001번 포트를 열어 주려면 아래와 같이 명령어를 실행하면 됩니다.
+#firewall-cmd --permanent --add-port=8001/tcp
+
+sudo firewall-cmd --permanent --add-port=9888/tcp
+
+
+----------------------------------------
+port 제거하기
+----------------------------------------
+#만약 8001번 포트를 제거하려면 아래와 같은 명령어를 실행하면 됩니다.
+#firewall-cmd --permanent --add-remove=8001/tcp
+
+----------------------------------------
+port 설정 후 reload
+----------------------------------------
+
+
+sudo systemctl reload firewalld
+
+----------------------------------------
+현재 열려있는 포트 확인하기
+----------------------------------------
+# 사용 가능한 모든 서비스와 포트의 목록을 보여 줍니다. 등록한 8001/tcp이 목록에 있는지 확인 합니다.
+sudo firewall-cmd --list-all
+
+
+출처: https://uxgjs.tistory.com/161 [UX 공작소]
+
+
+
+--------------------------------------------------------------------------------
+레파지토리 저장 폴더 위치 변경
+--------------------------------------------------------------------------------
+
+----------------------------------------
+gitlab.rb 설정 수정
+----------------------------------------
+
+기본은 지정된 레파지토리 저장위치가 있으나 드라이브를 별도로 추가하여 운영하는 경우는 다른 드라이브로 저장 위치를 변경해야 합니다.
+저장 디렉토리를 변경하려면 gitlab.rb을 수정해야 합니다.
+
+git_data_dirs로 검색하여 위치를 찾은 후 주석을 제거하고 원하는 폴더로 지정합니다.
+
+
+
+
+--------------------
+sudo vi /etc/gitlab/gitlab.rb
+--------------------
+git_data_dirs({
+"default" => { "path" => "/data/git-data"}
+})
+
+--------------------
+
+만약 새로운 하드디스크를 추가하고 지정해야 한다면 리눅스의 경우 아래의 파티션 설정, 마운트 추가 작업을 해야 합니다.
+
+출처: https://uxgjs.tistory.com/161 [UX 공작소]
+
+
+# 연결할 폴더 만들기
+mkdir -p data/git-data
+
+/mnt/cyrsa01/cyr-file-storage02/data/git-data
+
+
+# gitlab 설정 변경사항 적용
+sudo gitlab-ctl reconfigure
+
+
+
+--------------------------------------------------------------------------------
+----------------------------------------
+--------------------
+--------------------
+--------------------
+--------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
