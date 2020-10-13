@@ -5,6 +5,13 @@
 https://www.clien.net/service/board/cm_app/13675464
 http://www.itworld.co.kr/t/62086/%EC%98%A4%ED%94%88%EC%86%8C%EC%8A%A4/109976
 https://uxgjs.tistory.com/192
+https://about.gitlab.com/install/#centos-7?version=ce
+https://wikidocs.net/16279
+https://jhgan.tistory.com/12
+
+
+https://ychcom.tistory.com/entry/GitLab-%EC%84%A4%EC%B9%98-Centos7
+https://lemontia.tistory.com/718
 
 ----------------------------------------------------------------------------------------
 
@@ -259,7 +266,12 @@ http://52.231.38.80:98888
 
 
 
+로그인 하기
+최초 접속 시 로그인 아이디는 root이며 비밀번호는 새로 설정하게 되어 있습니다.
 
+
+
+출처: https://uxgjs.tistory.com/161 [UX 공작소]
 
 
 
