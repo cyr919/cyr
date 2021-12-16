@@ -56,19 +56,20 @@
 	</build>
 
 	<dependencies>
+		<!-- Apache Log4j 1.2는 2015년 8월에 수명이 종료되었습니다. 사용자는 Log4j 2로 업그레이드해야 이전 버전의 수많은 다른 문제를 해결할 수 있습니다. -->
 		<!-- https://mvnrepository.com/artifact/log4j/log4j -->
-		<dependency>
+		<!-- <dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
 			<version>1.2.17</version>
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/log4j/apache-log4j-extras -->
-		<dependency>
+		<!-- <dependency>
 			<groupId>log4j</groupId>
 			<artifactId>apache-log4j-extras</artifactId>
 			<version>1.2.17</version>
-		</dependency>
+		</dependency> -->
 
 
 	</dependencies>
