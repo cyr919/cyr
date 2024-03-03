@@ -77,7 +77,7 @@ db.createUser( { user: "<username>",
 
 use admin
 db.createUser( { user: "hsmgpadmin",
-          pwd: "1q2w3e4r5t!@#$%",
+          pwd: "000000000000000",
           roles: [ "dbAdminAnyDatabase",
                    "userAdminAnyDatabase",
                    "readWriteAnyDatabase",

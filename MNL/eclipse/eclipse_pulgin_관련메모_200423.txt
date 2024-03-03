@@ -5,7 +5,7 @@
 
 PropertiesEditor
 http://propedit.sourceforge.jp/eclipse/updates/
-
+http://propedit.sourceforge.jp/eclipse/updates
 설치 항목이 나타나면
 PropertiesEditor 항목을 체크하고 설치를 진행합니다.
 (PropertiesEditor 만 체크 나머진 체크 해제)
@@ -18,7 +18,8 @@ open with > propertiesEditor가 나타나는지 확인한다.
 
 출처: https://civan.tistory.com/112 [행복만땅 개발자]
 
-
+http://propedit.sourceforge.jp/eclipse/updates
+출처: https://leeyongjin.tistory.com/entry/이클립스-플러그인-properties-editor-수동설치 [마이스토리:티스토리]
 
 ## AmaterasModeler
 
@@ -50,12 +51,12 @@ https://m.blog.naver.com/pure137/220353623490
 
 
 
+## java Decompiler
+
+https://marketplace.eclipse.org/content/enhanced-class-decompiler
 
 
-
-
-
-
+https://coding-factory.tistory.com/832
 
 
 

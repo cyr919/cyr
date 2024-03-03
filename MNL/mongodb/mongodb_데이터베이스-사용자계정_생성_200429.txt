@@ -60,7 +60,7 @@ db.createUser({ user: "<username>",
 
 use hsmgp
 db.createUser({ user: "hsmgp",
-          pwd: "1q2w3e4r5t!@#$%",
+          pwd: "000000000000000",
           roles: [
                    "userAdmin",
                    "dbAdmin",

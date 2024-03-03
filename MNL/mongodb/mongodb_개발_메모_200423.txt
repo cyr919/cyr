@@ -39,7 +39,7 @@ db.createUser( { user: "<username>",
 - 예시
 use admin
 db.createUser( { user: "hsmgpadmin",
-          pwd: "1q2w3e4r5t!@#$%",
+          pwd: "000000000000000",
           roles: [ "dbAdminAnyDatabase",
                    "userAdminAnyDatabase",
                    "readWriteAnyDatabase",
@@ -94,7 +94,7 @@ db.createUser({ user: "<username>",
 - 예시
 use hsmgp
 db.createUser({ user: "hsmgp",
-          pwd: "1q2w3e4r5t!@#$%",
+          pwd: "000000000000000",
           roles: [
 					"userAdmin",
 					"dbAdmin",
@@ -134,7 +134,7 @@ db.stats() : 데이터베이스 상태확인
 switched to db admin
 > db
 admin
-> db.auth( "hsmgpadmin" , "1q2w3e4r5t!@#$%" )
+> db.auth( "hsmgpadmin" , "000000000000000" )
 1
 > show dbs
 admin   0.000GB

@@ -55,7 +55,7 @@ os 추가 업데이트
 
 https://blogger.pe.kr/847
 
-1q2w3e4r5t!@#$%
+000000000000000
 
 - yum update 또는 upgrade 진행
 sudo yum upgrade -y
