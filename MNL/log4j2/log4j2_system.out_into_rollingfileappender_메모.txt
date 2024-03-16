@@ -1,7 +1,0 @@
-
-
-
-https://stackoverflow.com/questions/1200175/log4j-redirect-stdout-to-dailyrollingfileappender
-https://stackoverflow.com/questions/1200175/log4j-redirect-stdout-to-dailyrollingfileappender
-
-https://examples.javacodegeeks.com/core-java/lang/system/out/logging-system-println-results-log-file-example/

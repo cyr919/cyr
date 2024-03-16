@@ -1,5 +1,0 @@
-https://kingbbode.tistory.com/28
-
-
-<input type="text" name="title"/> <input type="text" name="statudents[0][name]"/> <input type="text" name="statudents[0][age]"/> <input type="text" name="statudents[1][name]"/> <input type="text" name="statudents[1][age]"/> <input type="text" name="statudents[2][name]"/> <input type="text" name="statudents[2][age]"/>
-출처: https://kingbbode.tistory.com/28 [개발노트 - kingbbode]
